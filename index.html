@@ -51,6 +51,7 @@
     --pad:clamp(16px,3.4vw,48px);
     --inset:clamp(10px,1.4vw,20px);
     --card-pad:clamp(20px,2.2vw,28px);
+    --nav-h:79px;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
@@ -164,6 +165,7 @@
   .nav-drawer a::after{content:'↗';color:var(--brand-lift);font-family:'IBM Plex Mono',monospace}
   .nav-drawer a:hover{background:rgba(255,255,255,.09);color:#fff}
   .nav-links a,.nav-cta{white-space:nowrap}
+  @media (min-width:761px){:root{--nav-h:66px}}
   @media (max-width:1100px){
     .nav-links{display:none}
     .nav-menu{display:inline-flex}
@@ -388,7 +390,8 @@
     border-radius:var(--r-l);
     margin-inline:calc((var(--pad) - var(--inset)) * -1);
     padding-inline:calc(var(--pad) - var(--inset));
-    position:relative;overflow:hidden;
+    /* clip, а не hidden: hidden делает секцию скролл-контейнером и гасит sticky внутри */
+    position:relative;overflow:clip;
   }
   #prices::before{
     content:"";position:absolute;inset:0;pointer-events:none;
@@ -429,7 +432,8 @@
   .mscroll{
     display:flex;gap:8px;overflow-x:auto;padding-bottom:10px;
     scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.25) transparent;
-    scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;
+    -webkit-overflow-scrolling:touch;
+    /* без scroll-snap: он притягивал первый чип к краю и прятал подпись группы */
   }
   .calc-pick{position:relative}
   .calc-pick::after{
@@ -439,13 +443,26 @@
   .mscroll::-webkit-scrollbar{height:6px}
   .mscroll::-webkit-scrollbar-thumb{background:rgba(255,255,255,.22);border-radius:99px}
   .mchip{
-    flex:none;scroll-snap-align:start;text-align:left;min-width:132px;
+    flex:none;text-align:left;min-width:132px;
     border:1px solid rgba(255,255,255,.14);border-radius:var(--r-m);
     padding:12px 15px;background:rgba(255,255,255,.03);color:rgba(255,255,255,.72);
     touch-action:manipulation;transition:background .18s ease,border-color .18s ease,color .18s ease;
   }
+  .mgroup{
+    flex:none;align-self:center;display:flex;align-items:center;
+    padding:6px 12px 6px 14px;margin-left:2px;
+    border-left:1px solid rgba(255,255,255,.16);
+    font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
+    color:rgba(255,255,255,.56);white-space:nowrap;
+  }
+  .mgroup:first-child{border-left:0;padding-left:0;margin-left:0}
+  .mdot{
+    width:8px;height:8px;border-radius:50%;flex:none;
+    box-shadow:0 0 0 1px rgba(255,255,255,.35);
+  }
   .mchip b{
-    display:block;font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:800;
+    display:flex;align-items:center;gap:7px;
+    font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:800;
     font-size:14px;letter-spacing:.04em;color:#fff;margin-bottom:4px;
   }
   .mchip span{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase}
@@ -484,6 +501,39 @@
   .qty input:focus{outline:2px solid var(--brand-lift);outline-offset:1px}
   #calc-range{width:100%;accent-color:var(--brand-lift);height:44px}
   .qhint{color:rgba(255,255,255,.5);margin-top:4px;min-height:2.4em}
+  /* сцена товара: на телефоне работает витриной, на десктопе не нужна - фото в характеристиках */
+  .stage{display:none}
+  @media (max-width:640px){
+    .stage{
+      display:block;position:relative;margin:0;
+      border-radius:var(--r-m);background:#0d1211;overflow:hidden;
+    }
+    .stage::before{
+      content:"";position:absolute;inset:0;
+      background:radial-gradient(ellipse 62% 54% at 50% 44%,rgba(78,158,120,.26),transparent 68%);
+    }
+    .stage img{
+      position:relative;z-index:1;display:block;margin:0 auto;
+      /* высота, а не ширина: кадры разной пропорции должны выглядеть одинаково крупно */
+      height:152px;width:100%;object-fit:contain;
+      filter:drop-shadow(0 16px 22px rgba(0,0,0,.55));
+      padding:14px 0 0;
+      transition:opacity .2s ease;
+    }
+    .stage figcaption{
+      position:relative;z-index:2;display:flex;align-items:baseline;justify-content:space-between;
+      gap:12px;padding:4px 13px 9px;
+    }
+    .stage b{
+      font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;
+      font-size:17px;letter-spacing:.04em;color:#fff;
+    }
+    .stage span{
+      font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.08em;
+      text-transform:uppercase;color:rgba(255,255,255,.6);white-space:nowrap;
+    }
+  }
+
   /* коробки: сколько их получается на введённый объём */
   .boxes{
     display:flex;flex-wrap:wrap;gap:6px;align-items:flex-end;
@@ -530,6 +580,13 @@
   }
   .mspec dd{margin:0;font-size:13.5px;color:rgba(255,255,255,.86)}
   .mspec-lead{grid-column:2;color:rgba(255,255,255,.6);font-size:13.5px;max-width:52ch}
+  .shot-note{
+    grid-column:2;display:flex;align-items:center;gap:7px;
+    font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.06em;
+    color:rgba(255,255,255,.5);
+  }
+  .shot-note::before{content:"";width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.35);flex:none}
+  .shot-note:empty{display:none}
 
   /* сравнение исполнений: разница видна сразу */
   .gcmp{margin-top:16px;border-top:1px solid rgba(255,255,255,.1);padding-top:14px}
@@ -562,7 +619,7 @@
     background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);
     border-radius:var(--r-m);padding:clamp(20px,2.4vw,30px);
     display:flex;flex-direction:column;align-self:start;
-    position:sticky;top:84px;
+    position:sticky;top:calc(var(--nav-h) + 18px);
   }
   .calc-tier{color:var(--brand-lift);letter-spacing:.14em;margin-bottom:10px}
   .calc-sum{
@@ -594,6 +651,50 @@
   @media (max-width:900px){
     .calc-body{grid-template-columns:1fr;gap:24px}
     .calc-right{position:static}
+  }
+  /* Один экран на телефоне: сцена с товаром, под ней объём и итог.
+     Характеристики и сравнение исполнений уходят за сгиб - там их и ищут. */
+  @media (max-width:640px){
+    .calc{padding:14px}
+    /* лента компактнее: класс и ПДК читаются, лишний воздух убран */
+    .calc-lab{margin-bottom:8px}
+    .mscroll{padding-bottom:8px;gap:6px}
+    .mchip{min-width:112px;padding:9px 12px}
+    .mchip b{font-size:13px;margin-bottom:2px}
+    .mchip span{font-size:9.5px}
+    .mgroup{padding:6px 9px 6px 10px;font-size:9px}
+    /* подпись поля не нужна: есть плейсхолдер и строка-подсказка под ползунком */
+    .calc-qty-wrap > .calc-lab{display:none}
+    /* количество и коробки уже показаны выше - в блоке итога это дубль */
+    .crow{display:none}
+    .crow--save{display:flex;padding-top:0}
+    .calc-rows{margin-top:8px;border-top:0}
+    .calc-per{margin-top:6px;font-size:10.5px}
+    .calc-tier{margin-bottom:6px}
+    .calc-body{display:flex;flex-direction:column;gap:8px}
+    .calc-left{display:contents}
+    .calc-grade{order:1;margin-bottom:0}
+    .stage{order:2}
+    .calc-qty-wrap{order:3}
+    .calc-right{order:4}
+    .mspec{order:5;margin-top:4px}
+    .qty{margin-bottom:8px}
+    .qty input{font-size:1.4rem;padding:10px 12px}
+    .qbtn{width:46px}
+    #calc-range{height:44px;margin-block:-4px}
+    .boxes{min-height:44px;margin:8px 0 2px;gap:5px}
+    .bx{width:19px;height:24px}
+    .bx::before{top:7px}
+    /* строка-подсказка дублирует то, что показывают коробки - на телефоне лишняя */
+    .qhint{display:none}
+    .boxes{min-height:34px;margin:5px 0 0}
+    .calc-right{padding:13px 15px}
+    .calc-sum{font-size:clamp(1.8rem,7.6vw,2.2rem)}
+    .calc-rows{margin-top:12px}
+    .crow{padding:7px 0}
+    .calc-next{margin-top:10px;padding:9px 11px;font-size:11.5px;line-height:1.4}
+    .calc-cta{margin-top:12px;width:100%;justify-content:center;padding:14px 22px}
+  }
     .calc-cta{width:100%;justify-content:center;margin-top:20px}
   }
   @media (max-width:560px){
@@ -1105,7 +1206,7 @@
 
     <!-- SKU:DATA -->
 <script id="calc-data" type="application/json">
-{"thresholds":{"small":110000,"bulk":1100000},"models":[{"model":"FR 4100","ffp":1,"pdk":4,"marking":"чёрная","form":"Складная без клапана","series":"FR 4000","valve":false,"lead":"Складывается плоско: коробка занимает меньше места на складе, а маска в кармане спецовки не мнётся. Каждая в своём пакете.","image":"assets/cutout/fr4100.webp","unit":10,"box":400,"grades":{"STANDART":{"retail":267,"small":240,"bulk":208},"PREMIUM":{"retail":319,"small":287,"bulk":248}}},{"model":"FR 4200","ffp":2,"pdk":12,"marking":"синяя","form":"Складная без клапана","series":"FR 4000","valve":false,"lead":"Складывается плоско: коробка занимает меньше места на складе, а маска в кармане спецовки не мнётся. Каждая в своём пакете.","image":"assets/cutout/fr4100.webp","unit":10,"box":400,"grades":{"STANDART":{"retail":364,"small":328,"bulk":284},"PREMIUM":{"retail":423,"small":380,"bulk":330}}},{"model":"FR 4110W","ffp":1,"pdk":4,"marking":"чёрная","form":"Складная с клапаном","series":"FR 4000","valve":true,"lead":"Клапан сбрасывает тёплый выдох наружу. Обтюратор не пускает выдох в глаза, поэтому линзы очков не запотевают - на длинной смене это решает.","image":"assets/cutout/fr4310.webp","unit":10,"box":400,"grades":{"STANDART":{"retail":358,"small":322,"bulk":279},"PREMIUM":{"retail":416,"small":374,"bulk":324}}},{"model":"FR 4210W","ffp":2,"pdk":12,"marking":"синяя","form":"Складная с клапаном","series":"FR 4000","valve":true,"lead":"Клапан сбрасывает тёплый выдох наружу. Обтюратор не пускает выдох в глаза, поэтому линзы очков не запотевают - на длинной смене это решает.","image":"assets/cutout/fr4310.webp","unit":10,"box":400,"grades":{"STANDART":{"retail":455,"small":410,"bulk":355},"PREMIUM":{"retail":520,"small":468,"bulk":406}}},{"model":"FR 4310W","ffp":3,"pdk":50,"marking":"красная","form":"Складная с клапаном","series":"FR 4000","valve":true,"lead":"Клапан сбрасывает тёплый выдох наружу. Обтюратор не пускает выдох в глаза, поэтому линзы очков не запотевают - на длинной смене это решает.","image":"assets/cutout/fr4310.webp","unit":10,"box":400,"grades":{"STANDART":{"retail":540,"small":486,"bulk":421},"PREMIUM":{"retail":605,"small":544,"bulk":472}}},{"model":"FR 3100","ffp":1,"pdk":4,"marking":"чёрная","form":"Чашеобразная без клапана","series":"FR 3000","valve":false,"lead":"Жёсткая чашка держит форму и надевается одним движением. Обычно берут на массовую выдачу: выдал на смену - забыл.","image":"assets/cutout/cup-nv.webp","unit":10,"box":300,"grades":{"STANDART":{"retail":267,"small":240,"bulk":208},"PREMIUM":{"retail":319,"small":287,"bulk":248}}},{"model":"FR 3200","ffp":2,"pdk":12,"marking":"синяя","form":"Чашеобразная без клапана","series":"FR 3000","valve":false,"lead":"Жёсткая чашка держит форму и надевается одним движением. Обычно берут на массовую выдачу: выдал на смену - забыл.","image":"assets/cutout/cup-nv.webp","unit":10,"box":300,"grades":{"STANDART":{"retail":364,"small":328,"bulk":284},"PREMIUM":{"retail":423,"small":380,"bulk":330}}},{"model":"FR 3110","ffp":1,"pdk":4,"marking":"чёрная","form":"Чашеобразная с клапаном","series":"FR 3000","valve":true,"lead":"Резинки с силиконовым фиксатором регулируются под голову и не путают волосы. Зажим на переносице держит маску, когда человек двигается.","image":"assets/cutout/cup-v.webp","unit":10,"box":300,"grades":{"STANDART":{"retail":358,"small":322,"bulk":279},"PREMIUM":{"retail":416,"small":374,"bulk":324}}},{"model":"FR 3210","ffp":2,"pdk":12,"marking":"синяя","form":"Чашеобразная с клапаном","series":"FR 3000","valve":true,"lead":"Резинки с силиконовым фиксатором регулируются под голову и не путают волосы. Зажим на переносице держит маску, когда человек двигается.","image":"assets/cutout/cup-v.webp","unit":10,"box":300,"grades":{"STANDART":{"retail":455,"small":410,"bulk":355},"PREMIUM":{"retail":520,"small":468,"bulk":406}}},{"model":"FR 3310","ffp":3,"pdk":50,"marking":"красная","form":"Чашеобразная с клапаном","series":"FR 3000","valve":true,"lead":"Резинки с силиконовым фиксатором регулируются под голову и не путают волосы. Зажим на переносице держит маску, когда человек двигается.","image":"assets/cutout/cup-v.webp","unit":10,"box":300,"grades":{"STANDART":{"retail":540,"small":486,"bulk":421},"PREMIUM":{"retail":605,"small":544,"bulk":472}}},{"model":"FR 3220","ffp":2,"pdk":12,"marking":"белая","form":"FR 3220 - сварочные дымы","series":"FR 3000","valve":true,"lead":"Угольный слой снимает озон, органику и запах гари. Берут туда, где варят каждый день.","image":"assets/cutout/fr3220.webp","unit":10,"box":300,"grades":{"PREMIUM":{"retail":1160,"small":1070,"bulk":1020}}},{"model":"FR 3230","ffp":2,"pdk":12,"marking":"синяя","form":"FR 3230 - кислые газы","series":"FR 3000","valve":true,"lead":"Против паров кислот: фтороводород, сероводород, сернистый ангидрид. По паспорту - металлургия, химия, литейные и электролитные цеха, судостроение.","image":"assets/cutout/fr3230.webp","unit":10,"box":300,"grades":{"PREMIUM":{"retail":1300,"small":1125,"bulk":1070}}}]}
+{"thresholds":{"small":110000,"bulk":1100000},"models":[{"model":"FR 4100","ffp":1,"pdk":4,"marking":"чёрная","markingHex":"#111315","group":"Складные","form":"Складная без клапана","series":"FR 4000","valve":false,"lead":"Складывается плоско: коробка занимает меньше места на складе, а маска в кармане спецовки не мнётся. Каждая в своём пакете.","image":"assets/cutout/fr4100.webp","shotExact":true,"shotNote":"","unit":10,"box":400,"grades":{"STANDART":{"retail":267,"small":240,"bulk":208},"PREMIUM":{"retail":319,"small":287,"bulk":248}}},{"model":"FR 4110W","ffp":1,"pdk":4,"marking":"чёрная","markingHex":"#111315","group":"Складные","form":"Складная с клапаном","series":"FR 4000","valve":true,"lead":"Клапан сбрасывает тёплый выдох наружу. Обтюратор не пускает выдох в глаза, поэтому линзы очков не запотевают - на длинной смене это решает.","image":"assets/cutout/fr4110.webp","shotExact":true,"shotNote":"","unit":10,"box":400,"grades":{"STANDART":{"retail":358,"small":322,"bulk":279},"PREMIUM":{"retail":416,"small":374,"bulk":324}}},{"model":"FR 4200","ffp":2,"pdk":12,"marking":"синяя","markingHex":"#2E6BD8","group":"Складные","form":"Складная без клапана","series":"FR 4000","valve":false,"lead":"Складывается плоско: коробка занимает меньше места на складе, а маска в кармане спецовки не мнётся. Каждая в своём пакете.","image":"assets/cutout/fr4100.webp","shotExact":false,"shotNote":"в кадре FR 4100 - форма и упаковка те же, отличается класс","unit":10,"box":400,"grades":{"STANDART":{"retail":364,"small":328,"bulk":284},"PREMIUM":{"retail":423,"small":380,"bulk":330}}},{"model":"FR 4210W","ffp":2,"pdk":12,"marking":"синяя","markingHex":"#2E6BD8","group":"Складные","form":"Складная с клапаном","series":"FR 4000","valve":true,"lead":"Клапан сбрасывает тёплый выдох наружу. Обтюратор не пускает выдох в глаза, поэтому линзы очков не запотевают - на длинной смене это решает.","image":"assets/cutout/fr4210.webp","shotExact":true,"shotNote":"","unit":10,"box":400,"grades":{"STANDART":{"retail":455,"small":410,"bulk":355},"PREMIUM":{"retail":520,"small":468,"bulk":406}}},{"model":"FR 4310W","ffp":3,"pdk":50,"marking":"красная","markingHex":"#D33A2C","group":"Складные","form":"Складная с клапаном","series":"FR 4000","valve":true,"lead":"Клапан сбрасывает тёплый выдох наружу. Обтюратор не пускает выдох в глаза, поэтому линзы очков не запотевают - на длинной смене это решает.","image":"assets/cutout/fr4310.webp","shotExact":true,"shotNote":"","unit":10,"box":400,"grades":{"STANDART":{"retail":540,"small":486,"bulk":421},"PREMIUM":{"retail":605,"small":544,"bulk":472}}},{"model":"FR 3100","ffp":1,"pdk":4,"marking":"чёрная","markingHex":"#111315","group":"Чашеобразные","form":"Чашеобразная без клапана","series":"FR 3000","valve":false,"lead":"Жёсткая чашка держит форму и надевается одним движением. Обычно берут на массовую выдачу: выдал на смену - забыл.","image":"assets/cutout/cup-nv.webp","shotExact":false,"shotNote":"кадр формы: маркировка на изделии не читается","unit":10,"box":300,"grades":{"STANDART":{"retail":267,"small":240,"bulk":208},"PREMIUM":{"retail":319,"small":287,"bulk":248}}},{"model":"FR 3110","ffp":1,"pdk":4,"marking":"чёрная","markingHex":"#111315","group":"Чашеобразные","form":"Чашеобразная с клапаном","series":"FR 3000","valve":true,"lead":"Резинки с силиконовым фиксатором регулируются под голову и не путают волосы. Зажим на переносице держит маску, когда человек двигается.","image":"assets/cutout/cup-v.webp","shotExact":false,"shotNote":"кадр формы: маркировка на изделии не читается","unit":10,"box":300,"grades":{"STANDART":{"retail":358,"small":322,"bulk":279},"PREMIUM":{"retail":416,"small":374,"bulk":324}}},{"model":"FR 3200","ffp":2,"pdk":12,"marking":"синяя","markingHex":"#2E6BD8","group":"Чашеобразные","form":"Чашеобразная без клапана","series":"FR 3000","valve":false,"lead":"Жёсткая чашка держит форму и надевается одним движением. Обычно берут на массовую выдачу: выдал на смену - забыл.","image":"assets/cutout/cup-nv.webp","shotExact":false,"shotNote":"кадр формы: маркировка на изделии не читается","unit":10,"box":300,"grades":{"STANDART":{"retail":364,"small":328,"bulk":284},"PREMIUM":{"retail":423,"small":380,"bulk":330}}},{"model":"FR 3210","ffp":2,"pdk":12,"marking":"синяя","markingHex":"#2E6BD8","group":"Чашеобразные","form":"Чашеобразная с клапаном","series":"FR 3000","valve":true,"lead":"Резинки с силиконовым фиксатором регулируются под голову и не путают волосы. Зажим на переносице держит маску, когда человек двигается.","image":"assets/cutout/cup-v.webp","shotExact":false,"shotNote":"кадр формы: маркировка на изделии не читается","unit":10,"box":300,"grades":{"STANDART":{"retail":455,"small":410,"bulk":355},"PREMIUM":{"retail":520,"small":468,"bulk":406}}},{"model":"FR 3310","ffp":3,"pdk":50,"marking":"красная","markingHex":"#D33A2C","group":"Чашеобразные","form":"Чашеобразная с клапаном","series":"FR 3000","valve":true,"lead":"Резинки с силиконовым фиксатором регулируются под голову и не путают волосы. Зажим на переносице держит маску, когда человек двигается.","image":"assets/cutout/cup-v.webp","shotExact":false,"shotNote":"кадр формы: маркировка на изделии не читается","unit":10,"box":300,"grades":{"STANDART":{"retail":540,"small":486,"bulk":421},"PREMIUM":{"retail":605,"small":544,"bulk":472}}},{"model":"FR 3220","ffp":2,"pdk":12,"marking":"белая","markingHex":"#E8ECEF","group":"С угольным фильтром","form":"FR 3220 - сварочные дымы","series":"FR 3000","valve":true,"lead":"Угольный слой снимает озон, органику и запах гари. Берут туда, где варят каждый день.","image":"assets/cutout/fr3220.webp","shotExact":true,"shotNote":"","unit":10,"box":300,"grades":{"PREMIUM":{"retail":1160,"small":1070,"bulk":1020}}},{"model":"FR 3230","ffp":2,"pdk":12,"marking":"синяя","markingHex":"#2E6BD8","group":"С угольным фильтром","form":"FR 3230 - кислые газы","series":"FR 3000","valve":true,"lead":"Против паров кислот: фтороводород, сероводород, сернистый ангидрид. По паспорту - металлургия, химия, литейные и электролитные цеха, судостроение.","image":"assets/cutout/fr3230.webp","shotExact":true,"shotNote":"","unit":10,"box":300,"grades":{"PREMIUM":{"retail":1300,"small":1125,"bulk":1070}}}]}
 </script>
 <!-- /SKU:DATA -->
 
@@ -1117,11 +1218,17 @@
 
       <div class="calc-body">
         <div class="calc-left">
+          <figure class="stage">
+            <img id="stage-img" src="" alt="" decoding="async">
+            <figcaption><b id="stage-name"></b><span id="stage-spec"></span></figcaption>
+          </figure>
+
           <div class="calc-grade" role="radiogroup" aria-label="Исполнение">
             <button type="button" class="gbtn" data-grade="STANDART" aria-pressed="true">STANDART</button>
             <button type="button" class="gbtn" data-grade="PREMIUM" aria-pressed="false">PREMIUM</button>
           </div>
 
+          <div class="calc-qty-wrap">
           <label class="calc-lab" for="calc-qty">Сколько штук нужно</label>
           <div class="qty">
             <button type="button" class="qbtn" data-step="-1" aria-label="Уменьшить количество">−</button>
@@ -1133,11 +1240,13 @@
                  aria-label="Количество штук">
           <div class="boxes" id="calc-boxes" aria-hidden="true"></div>
           <p class="qhint mono" id="calc-qty-hint"></p>
+          </div>
 
           <div class="mspec">
             <div class="mspec-in">
-              <img id="calc-img" src="" alt="" decoding="async" width="240" height="200">
+              <img id="calc-img" src="" alt="" role="presentation" decoding="async" width="240" height="200">
               <dl id="calc-specs"></dl>
+              <p class="shot-note" id="calc-shot"></p>
               <p class="mspec-lead" id="calc-lead"></p>
             </div>
             <div class="gcmp" id="calc-compare"></div>
@@ -1868,6 +1977,10 @@
       rows: document.getElementById('calc-rows'),
       next: document.getElementById('calc-next'),
       specs: document.getElementById('calc-specs'),
+      shot: document.getElementById('calc-shot'),
+      stageImg: document.getElementById('stage-img'),
+      stageName: document.getElementById('stage-name'),
+      stageSpec: document.getElementById('stage-spec'),
       boxes: document.getElementById('calc-boxes'),
       compare: document.getElementById('calc-compare'),
       lead: document.getElementById('calc-lead'),
@@ -1905,13 +2018,23 @@
       };
     };
 
+    /* Лента сгруппирована по форме, внутри - по классу защиты. Точка на чипе повторяет
+       цвет маркировки, напечатанной на самой полумаске: чёрная FFP1, синяя FFP2, красная FFP3. */
     var renderModels = function () {
-      el.models.innerHTML = CALC.models.map(function (m, i) {
-        return '<button type="button" class="mchip" role="radio" data-i="' + i + '" ' +
-          'aria-checked="' + (m.model === state.model.model ? 'true' : 'false') + '" ' +
-          'tabindex="' + (m.model === state.model.model ? '0' : '-1') + '">' +
-          '<b>' + m.model + '</b><span>FFP' + m.ffp + ' · ' + (m.valve ? 'клапан' : 'без клапана') + '</span></button>';
-      }).join('');
+      var html = '', lastGroup = null;
+      CALC.models.forEach(function (m, i) {
+        if (m.group !== lastGroup) {
+          html += '<span class="mgroup" aria-hidden="true">' + m.group + '</span>';
+          lastGroup = m.group;
+        }
+        var on = m.model === state.model.model;
+        html += '<button type="button" class="mchip" role="radio" data-i="' + i + '" ' +
+          'aria-checked="' + (on ? 'true' : 'false') + '" tabindex="' + (on ? '0' : '-1') + '" ' +
+          'aria-label="' + m.model + ', класс FFP' + m.ffp + ', до ' + m.pdk + ' ПДК">' +
+          '<b><i class="mdot" style="background:' + m.markingHex + '"></i>' + m.model + '</b>' +
+          '<span>FFP' + m.ffp + ' · до ' + m.pdk + ' ПДК</span></button>';
+      });
+      el.models.innerHTML = html;
     };
 
     /* Ряд коробок. Элементы не пересоздаются на каждое движение ползунка:
@@ -1998,8 +2121,15 @@
         '<dt>Маркировка</dt><dd>' + m.marking + '</dd>' +
         '<dt>Упаковка</dt><dd>' + m.unit + '&nbsp;шт, коробка ' + m.box + '&nbsp;шт</dd>';
       el.lead.textContent = m.lead;
+      el.shot.textContent = m.shotNote || '';
+      if (el.stageImg) {
+        el.stageImg.src = m.image;
+        el.stageImg.alt = 'Респиратор FAROS ' + m.model + ', класс FFP' + m.ffp;
+        el.stageName.textContent = m.model;
+        el.stageSpec.textContent = 'FFP' + m.ffp + ' · до ' + m.pdk + ' ПДК';
+      }
       el.img.src = m.image;
-      el.img.alt = 'Респиратор FAROS ' + m.model;
+      el.img.alt = '';
     };
 
     var render = function () {
