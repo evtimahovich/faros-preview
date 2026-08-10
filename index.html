@@ -91,6 +91,7 @@
   /* ---------- buttons ---------- */
   .pill{
     display:inline-flex;align-items:center;gap:10px;
+    touch-action:manipulation;
     background:var(--ink);color:#fff;
     border-radius:999px;
     padding:16px 28px;
@@ -116,7 +117,7 @@
     -webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);
     box-shadow:0 12px 34px rgba(8,10,9,.35);
   }
-  .nav-logo{display:inline-flex;align-items:center;gap:11px;flex:none}
+  .nav-logo{display:inline-flex;align-items:center;gap:11px;flex:none;min-height:44px;touch-action:manipulation}
   .nav-logo svg{width:26px;height:26px;color:#fff;flex:none}
   .nav-logo b{
     color:#fff;
@@ -144,7 +145,7 @@
   .nav-cta:hover{background:var(--brand-lift);border-color:var(--brand-lift);transform:translateY(-1px);box-shadow:0 8px 22px rgba(50,100,80,.4)}
   .nav-menu{
     display:none;align-items:center;justify-content:center;
-    width:42px;height:42px;color:#fff;border:1px solid rgba(255,255,255,.35);
+    width:44px;height:44px;color:#fff;border:1px solid rgba(255,255,255,.35);
     border-radius:50%;transition:background .2s ease,color .2s ease;
   }
   .nav-menu:hover,.nav-menu[aria-expanded="true"]{background:#fff;color:var(--ink)}
@@ -169,10 +170,10 @@
   }
   @media (max-width:760px){
     .nav{padding-block:16px}
-    .nav-cta{padding:9px 12px;font-size:10px}
+    .nav-cta{padding:14px 16px;font-size:10px;min-height:44px}
     .nav-logo i{display:none}
   }
-  @media (max-width:640px){.nav{gap:10px}.nav-cta{padding:9px 12px;font-size:10px;letter-spacing:.06em}}
+  @media (max-width:640px){.nav{gap:10px}.nav-cta{padding:14px 14px;font-size:10px;letter-spacing:.06em}}
 
   /* ---------- hero: тёмная сцена + реальный респиратор ---------- */
   .hero{
@@ -299,6 +300,7 @@
   .pills{display:flex;flex-direction:column;gap:12px}
   .spill{
     display:flex;justify-content:space-between;align-items:center;gap:16px;
+    -webkit-tap-highlight-color:transparent;touch-action:manipulation;
     width:100%;text-align:left;
     border:1px solid var(--line);border-radius:999px;
     padding:clamp(14px,1.6vw,19px) clamp(20px,2.2vw,30px);
@@ -548,6 +550,8 @@
   .field--gap{margin-bottom:12px}
   .field label{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;
     text-transform:uppercase;color:var(--ink-soft)}
+  .field label .req{color:var(--brand);font-weight:700}
+  .field label .opt{color:var(--mute);text-transform:none;letter-spacing:.02em;font-size:10.5px}
   .field input,.field textarea,.field select{
     font-family:'Manrope',sans-serif;font-size:16px;color:var(--ink);
     background:#fff;border:1px solid var(--line);border-radius:var(--r-s);
@@ -555,7 +559,13 @@
   .field input:focus,.field textarea:focus,.field select:focus{outline:2px solid var(--brand);outline-offset:1px;border-color:var(--brand)}
   .field textarea{resize:vertical;min-height:96px}
   .f-consent{display:flex;gap:11px;align-items:flex-start;margin-top:16px}
-  .f-consent input{width:20px;height:20px;flex:none;margin-top:2px;accent-color:var(--brand)}
+  .f-consent .cbox{
+    flex:none;display:flex;align-items:center;justify-content:center;
+    width:44px;height:44px;margin-left:-10px;   /* зона касания 44px, квадрат остаётся 24px */
+    cursor:pointer;
+  }
+  .f-consent input{width:24px;height:24px;accent-color:var(--brand);cursor:pointer}
+  .f-consent label{padding-block:11px;cursor:pointer}
   .f-consent label{font-size:13px;color:var(--ink-soft);line-height:1.45;font-family:'Manrope',sans-serif;letter-spacing:0;text-transform:none}
   .f-consent a{color:var(--brand);text-decoration:underline}
   .f-consent.is-bad label{color:var(--ink);font-weight:600}
@@ -600,15 +610,16 @@
     color:#fff;font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:800;
     font-size:clamp(1.4rem,2.4vw,2.2rem);letter-spacing:.02em;line-height:1.1;
   }
+  .foot-phone{display:inline-flex;align-items:center;min-height:44px}
   .foot-phone:hover{color:var(--brand-lift)}
-  .foot-email{color:rgba(255,255,255,.8);font-size:15px}
+  .foot-email{color:rgba(255,255,255,.8);font-size:15px;display:inline-flex;align-items:center;min-height:44px}
   .foot-email:hover{color:#fff;text-decoration:underline}
   .foot-contact .pill{margin-top:12px}
   .foot-bottom{
     display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
     border-top:1px solid rgba(255,255,255,.18);padding-top:20px;color:rgba(255,255,255,.65);
   }
-  .foot-bottom a{color:#fff}
+  .foot-bottom a{color:#fff;display:inline-flex;align-items:center;min-height:44px}
   .foot :focus-visible{outline-color:var(--brand-lift)}
   @media (max-width:900px){.foot-top{flex-direction:column;align-items:flex-start}}
   @media (max-width:760px){
@@ -631,7 +642,7 @@
 
   /* Появление блоков при скролле. Анимируется только сдвиг: полупрозрачный
      текст в момент перехода занижает контраст и режет доступность. */
-  .rv{transform:translateY(18px);transition:transform .55s cubic-bezier(.2,.6,.2,1)}
+  .rv{transform:translateY(16px);transition:transform .38s cubic-bezier(.2,.6,.2,1)}
   .rv.is-in{transform:none}
 
   /* большие мониторы: острова во всю ширину, контент по центральной сетке */
@@ -1229,37 +1240,37 @@
       <form class="ct-form" id="lead-form" novalidate>
         <div class="f-row">
           <div class="field">
-            <label for="f-name">Имя</label>
+            <label for="f-name">Имя <span class="req" aria-hidden="true">*</span><span class="vh">, обязательное поле</span></label>
             <input id="f-name" name="name" type="text" autocomplete="name" placeholder="Как к вам обращаться" required>
-            <span class="f-err">Укажите имя</span>
+            <span class="f-err" role="alert">Укажите имя</span>
           </div>
           <div class="field">
-            <label for="f-phone">Телефон</label>
+            <label for="f-phone">Телефон <span class="req" aria-hidden="true">*</span><span class="vh">, обязательное поле</span></label>
             <input id="f-phone" name="phone" type="tel" inputmode="tel" maxlength="18" autocomplete="tel" placeholder="+7 777 000 00 00" required>
-            <span class="f-err">Укажите телефон</span>
+            <span class="f-err" role="alert">Укажите телефон</span>
           </div>
         </div>
         <div class="f-row">
           <div class="field">
-            <label for="f-company">Компания</label>
+            <label for="f-company">Компания <span class="req" aria-hidden="true">*</span><span class="vh">, обязательное поле</span></label>
             <input id="f-company" name="company" type="text" autocomplete="organization" placeholder="Название предприятия" required>
-            <span class="f-err">Укажите компанию</span>
+            <span class="f-err" role="alert">Укажите компанию</span>
           </div>
           <div class="field">
-            <label for="f-volume">Объём</label>
-            <input id="f-volume" name="volume" type="text" inputmode="numeric" placeholder="5000 шт в месяц">
-            <span class="f-err">Укажите объём</span>
+            <label for="f-volume">Объём <span class="opt">не обязательно</span></label>
+            <input id="f-volume" name="volume" type="text" placeholder="5000 шт в месяц">
+            <span class="f-err" role="alert">Укажите объём</span>
           </div>
         </div>
         <div class="field field--gap">
-          <label for="f-task">Задача</label>
+          <label for="f-task">Задача <span class="opt">не обязательно</span></label>
           <textarea id="f-task" name="task" placeholder="Чем дышат люди на участке: пыль, сварочный дым, кислые газы. Какие модели интересуют."></textarea>
         </div>
         <div class="f-consent" id="consent-wrap">
-          <input id="f-consent" name="consent" type="checkbox">
+          <label class="cbox"><input id="f-consent" name="consent" type="checkbox"></label>
           <label for="f-consent">
             Согласен на&nbsp;обработку персональных данных и&nbsp;ознакомлен с&nbsp;<a href="privacy.html" target="_blank" rel="noopener">политикой конфиденциальности</a>.
-            <span class="f-err">Нужно согласие на&nbsp;обработку данных</span>
+            <span class="f-err" role="alert">Нужно согласие на&nbsp;обработку данных</span>
           </label>
         </div>
         <div class="f-submit">
@@ -1625,25 +1636,40 @@
       var d = v.replace(/\D/g, '');
       return d.length === 10 || d.length === 11;
     };
+    /* Одно поле: проверка и разметка ошибки. Используется и по blur, и при отправке. */
+    var checkField = function (id) {
+      var input = document.getElementById(id);
+      var field = input.closest('.field');
+      var err = field.querySelector('.f-err');
+      if (err && !err.id) err.id = id + '-err';
+      var v = input.value.trim();
+      var bad = !v || (id === 'f-phone' && !phoneOk(v));
+      if (id === 'f-phone' && err) err.textContent = !v ? 'Укажите телефон' : 'Введите корректный номер телефона';
+      if (bad) {
+        field.classList.add('is-bad');
+        input.setAttribute('aria-invalid', 'true');
+        if (err) input.setAttribute('aria-describedby', err.id);
+      } else {
+        field.classList.remove('is-bad');
+        input.removeAttribute('aria-invalid');
+        input.removeAttribute('aria-describedby');
+      }
+      return !bad;
+    };
+
+    /* Проверка по уходу из поля: ошибка видна сразу, а не после отправки.
+       Пустое нетронутое поле не ругаем - иначе клик мимо формы красит её целиком. */
+    ['f-name', 'f-phone', 'f-company'].forEach(function (id) {
+      var input = document.getElementById(id);
+      input.addEventListener('blur', function () {
+        if (input.value.trim()) checkField(id);
+      });
+    });
+
     var validateLead = function () {
       var valid = true;
       ['f-name', 'f-phone', 'f-company'].forEach(function (id) {
-        var input = document.getElementById(id);
-        var field = input.closest('.field');
-        var err = field.querySelector('.f-err');
-        if (err && !err.id) err.id = id + '-err';
-        var v = input.value.trim();
-        var bad = !v || (id === 'f-phone' && !phoneOk(v));
-        if (id === 'f-phone' && err) err.textContent = !v ? 'Укажите телефон' : 'Введите корректный номер телефона';
-        if (bad) {
-          field.classList.add('is-bad'); valid = false;
-          input.setAttribute('aria-invalid', 'true');
-          if (err) input.setAttribute('aria-describedby', err.id);
-        } else {
-          field.classList.remove('is-bad');
-          input.removeAttribute('aria-invalid');
-          input.removeAttribute('aria-describedby');
-        }
+        if (!checkField(id)) valid = false;
       });
       if (consent && !consent.checked) {
         consentWrap.classList.add('is-bad');
