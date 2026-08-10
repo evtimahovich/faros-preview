@@ -484,34 +484,85 @@
   .qty input:focus{outline:2px solid var(--brand-lift);outline-offset:1px}
   #calc-range{width:100%;accent-color:var(--brand-lift);height:44px}
   .qhint{color:rgba(255,255,255,.5);margin-top:4px;min-height:2.4em}
-  /* характеристики */
-  .mspec{margin-top:20px;border-top:1px solid rgba(255,255,255,.1);padding-top:16px}
-  .mspec summary{
-    cursor:pointer;list-style:none;display:flex;align-items:center;gap:10px;min-height:44px;
-    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;
-    color:rgba(255,255,255,.65);touch-action:manipulation;
+  /* коробки: сколько их получается на введённый объём */
+  .boxes{
+    display:flex;flex-wrap:wrap;gap:6px;align-items:flex-end;
+    min-height:64px;margin:14px 0 4px;
   }
-  .mspec summary::-webkit-details-marker{display:none}
-  .mspec summary::after{content:'+';font-size:16px;color:var(--brand-lift);margin-left:auto}
-  .mspec[open] summary::after{content:'−'}
-  .mspec summary:hover{color:#fff}
-  .mspec-in{display:grid;grid-template-columns:auto 1fr;gap:18px 22px;padding:14px 0 4px;align-items:start}
+  .bx{
+    position:relative;width:26px;height:34px;flex:none;
+    border:1px solid rgba(255,255,255,.22);border-radius:3px;
+    background:rgba(255,255,255,.05);overflow:hidden;
+    transform-origin:bottom center;
+    animation:bxIn .26s cubic-bezier(.2,.8,.3,1) both;
+  }
+  .bx::before{ /* полоса скотча по крышке */
+    content:"";position:absolute;left:0;right:0;top:9px;height:1px;
+    background:rgba(255,255,255,.22);z-index:2;
+  }
+  .bx i{
+    position:absolute;left:0;right:0;bottom:0;display:block;
+    background:linear-gradient(180deg,var(--brand-lift),var(--brand));
+    transition:height .22s cubic-bezier(.2,.8,.3,1);
+  }
+  .bx--part{border-color:rgba(78,158,120,.45)}
+  .bx--part i{background:linear-gradient(180deg,rgba(78,158,120,.9),var(--brand))}
+  .bx--more{
+    width:auto;min-width:44px;padding:0 10px;border-style:dashed;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'IBM Plex Mono',monospace;font-size:11px;color:rgba(255,255,255,.65);
+    background:transparent;
+  }
+  @keyframes bxIn{from{opacity:0;transform:translateY(6px) scaleY(.6)}to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){.bx{animation:none}}
+
+  /* характеристики - карточка открыта всегда */
+  .mspec{margin-top:18px;border-top:1px solid rgba(255,255,255,.1);padding-top:18px}
+  .mspec-in{display:grid;grid-template-columns:auto 1fr;gap:16px 22px;align-items:start}
   .mspec-in img{
-    width:120px;height:auto;grid-row:span 2;border-radius:var(--r-s);
+    width:110px;height:150px;object-fit:contain;grid-row:span 2;border-radius:var(--r-s);
     background:radial-gradient(ellipse 70% 60% at 50% 45%,rgba(78,158,120,.22),transparent 68%);
   }
-  .mspec dl{display:grid;grid-template-columns:auto 1fr;gap:7px 16px;margin:0}
+  .mspec dl{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin:0}
   .mspec dt{
     font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
     color:rgba(255,255,255,.45);white-space:nowrap;
   }
   .mspec dd{margin:0;font-size:13.5px;color:rgba(255,255,255,.86)}
   .mspec-lead{grid-column:2;color:rgba(255,255,255,.6);font-size:13.5px;max-width:52ch}
+
+  /* сравнение исполнений: разница видна сразу */
+  .gcmp{margin-top:16px;border-top:1px solid rgba(255,255,255,.1);padding-top:14px}
+  .gcmp-row{
+    display:grid;grid-template-columns:minmax(84px,auto) 1fr auto;gap:10px 14px;align-items:baseline;
+    padding:8px 10px;border-radius:var(--r-s);
+  }
+  .gcmp-row.is-on{background:rgba(78,158,120,.14);box-shadow:inset 0 0 0 1px rgba(78,158,120,.3)}
+  .gcmp-name{
+    font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:800;font-size:11px;
+    letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.86);
+  }
+  .gcmp-row.is-on .gcmp-name{color:var(--brand-lift)}
+  .gcmp-prices{
+    font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.04em;
+    color:rgba(255,255,255,.62);font-variant-numeric:tabular-nums;
+  }
+  .gcmp-delta{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.04em;
+    color:rgba(255,255,255,.5);white-space:nowrap;
+  }
+  .gcmp-note{color:rgba(255,255,255,.42);font-size:12px;margin-top:8px;padding-inline:10px}
+  @media (max-width:520px){
+    .gcmp-row{grid-template-columns:1fr auto;gap:4px 12px}
+    .gcmp-prices{grid-column:1 / -1}
+  }
+
   /* результат */
   .calc-right{
     background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);
     border-radius:var(--r-m);padding:clamp(20px,2.4vw,30px);
-    display:flex;flex-direction:column;
+    display:flex;flex-direction:column;align-self:start;
+    position:sticky;top:84px;
   }
   .calc-tier{color:var(--brand-lift);letter-spacing:.14em;margin-bottom:10px}
   .calc-sum{
@@ -538,15 +589,16 @@
   }
   .calc-next b{color:var(--brand-lift)}
   .calc-next.is-top{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.12)}
-  .calc-cta{margin-top:auto;align-self:flex-start;background:#fff;color:var(--ink)}
+  .calc-cta{margin-top:20px;align-self:flex-start;background:#fff;color:var(--ink)}
   .calc-cta:hover{background:var(--brand-lift);color:#fff}
   @media (max-width:900px){
     .calc-body{grid-template-columns:1fr;gap:24px}
+    .calc-right{position:static}
     .calc-cta{width:100%;justify-content:center;margin-top:20px}
   }
   @media (max-width:560px){
     .mspec-in{grid-template-columns:1fr}
-    .mspec-in img{grid-row:auto;width:100px}
+    .mspec-in img{grid-row:auto;width:96px;height:120px}
     .mspec-lead{grid-column:auto}
   }
   /* прайс целиком - по требованию */
@@ -1079,16 +1131,17 @@
           </div>
           <input id="calc-range" type="range" min="10" max="30000" step="10" value="3000"
                  aria-label="Количество штук">
+          <div class="boxes" id="calc-boxes" aria-hidden="true"></div>
           <p class="qhint mono" id="calc-qty-hint"></p>
 
-          <details class="mspec">
-            <summary>Характеристики модели</summary>
+          <div class="mspec">
             <div class="mspec-in">
               <img id="calc-img" src="" alt="" decoding="async" width="240" height="200">
               <dl id="calc-specs"></dl>
               <p class="mspec-lead" id="calc-lead"></p>
             </div>
-          </details>
+            <div class="gcmp" id="calc-compare"></div>
+          </div>
         </div>
 
         <div class="calc-right" aria-live="polite">
@@ -1815,6 +1868,8 @@
       rows: document.getElementById('calc-rows'),
       next: document.getElementById('calc-next'),
       specs: document.getElementById('calc-specs'),
+      boxes: document.getElementById('calc-boxes'),
+      compare: document.getElementById('calc-compare'),
       lead: document.getElementById('calc-lead'),
       img: document.getElementById('calc-img')
     };
@@ -1857,6 +1912,71 @@
           'tabindex="' + (m.model === state.model.model ? '0' : '-1') + '">' +
           '<b>' + m.model + '</b><span>FFP' + m.ffp + ' · ' + (m.valve ? 'клапан' : 'без клапана') + '</span></button>';
       }).join('');
+    };
+
+    /* Ряд коробок. Элементы не пересоздаются на каждое движение ползунка:
+       лишние убираются, недостающие добавляются - иначе анимация дёргается. */
+    var MAX_BOXES = 24;
+    var renderBoxes = function () {
+      var m = state.model, qty = state.qty;
+      var full = Math.floor(qty / m.box);
+      var rest = qty % m.box;
+      var want = Math.min(full + (rest > 0 ? 1 : 0), MAX_BOXES);
+      var hidden = full + (rest > 0 ? 1 : 0) - want;
+
+      var kids = Array.prototype.filter.call(el.boxes.children, function (c) { return !c.classList.contains('bx--more'); });
+      while (kids.length > want) { el.boxes.removeChild(kids.pop()); }
+      while (kids.length < want) {
+        var b = document.createElement('span');
+        b.className = 'bx';
+        b.appendChild(document.createElement('i'));
+        el.boxes.insertBefore(b, el.boxes.querySelector('.bx--more'));
+        kids.push(b);
+      }
+      kids.forEach(function (b, i) {
+        var isLast = (i === want - 1) && hidden === 0 && rest > 0;
+        var pct = isLast ? Math.max(8, Math.round(rest / m.box * 100)) : 100;
+        b.classList.toggle('bx--part', isLast);
+        b.firstChild.style.height = pct + '%';
+        b.title = isLast ? rest + ' шт из ' + m.box : m.box + ' шт';
+      });
+
+      var more = el.boxes.querySelector('.bx--more');
+      if (hidden > 0) {
+        if (!more) {
+          more = document.createElement('span');
+          more.className = 'bx bx--more';
+          el.boxes.appendChild(more);
+        }
+        more.textContent = '+' + hidden;
+        more.title = 'ещё ' + hidden + ' коробок';
+      } else if (more) {
+        el.boxes.removeChild(more);
+      }
+    };
+
+    /* Сравнение исполнений: чем отличается PREMIUM, знает только поставщик
+       (вопрос 10 в CLIENT-BLOCKERS), поэтому показываем то, что подтверждено, - цену. */
+    var renderCompare = function () {
+      var m = state.model;
+      var names = Object.keys(m.grades);
+      if (names.length < 2) {
+        el.compare.innerHTML = '<p class="gcmp-note">' + m.model + ' выпускается только в исполнении ' +
+          names[0] + '.</p>';
+        return;
+      }
+      var base = m.grades['STANDART'];
+      el.compare.innerHTML = names.map(function (g) {
+        var p = m.grades[g];
+        var delta = base && g !== 'STANDART'
+          ? '+' + (p.retail - base.retail) + ' ₸ · +' + Math.round((p.retail / base.retail - 1) * 100) + '%'
+          : 'базовая цена';
+        return '<div class="gcmp-row' + (g === state.grade ? ' is-on' : '') + '">' +
+          '<span class="gcmp-name">' + g + '</span>' +
+          '<span class="gcmp-prices">' + p.retail + ' / ' + p.small + ' / ' + p.bulk + ' ₸</span>' +
+          '<span class="gcmp-delta">' + delta + '</span></div>';
+      }).join('') + '<p class="gcmp-note">Розница / малый опт / опт за штуку. Разница между исполнениями ' +
+        'по документам производителя не описана - уточняем у поставщика.</p>';
     };
 
     var renderGrades = function () {
@@ -1921,6 +2041,8 @@
       }
       renderSpecs();
       renderGrades();
+      renderBoxes();
+      renderCompare();
     };
 
     var setQty = function (v, from) {
@@ -1928,7 +2050,10 @@
       state.qty = v;
       if (from !== 'input') el.qty.value = nf.format(v).replace(/\s/g, ' ');
       if (from !== 'range') el.range.value = v;
-      el.hint.textContent = 'Упаковками по ' + state.model.unit + ' шт. Ползунок до 30 000, больше - впишите руками.';
+      var mm = state.model;
+      var full = Math.floor(v / mm.box), rest = v % mm.box;
+      el.hint.textContent = (full ? full + ' коробок по ' + mm.box + ' шт' : 'Меньше коробки') +
+        (rest ? ' и ещё ' + rest + ' шт' : '') + '. Шаг - упаковка ' + mm.unit + ' шт.';
       render();
     };
 
