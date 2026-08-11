@@ -1883,28 +1883,41 @@
 
     var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var dpr = Math.min(window.devicePixelRatio || 1, 1.6);
+    /* Ближний слой гуще дальнего: перед глазами пыли всегда видно больше. */
     var layers = [
-      { c: far,  ctx: far.getContext('2d'),  n: 0, rMin: 0.6, rMax: 1.8, aMin: 0.16, aMax: 0.46, sp: 0.10, share: 0.6 },
-      { c: near, ctx: near.getContext('2d'), n: 0, rMin: 1.3, rMax: 3.4, aMin: 0.20, aMax: 0.62, sp: 0.2,  share: 0.4 }
+      { c: far,  ctx: far.getContext('2d'),  rMin: 0.5, rMax: 1.7, aMin: 0.12, aMax: 0.38, sp: 0.030, share: 0.42 },
+      { c: near, ctx: near.getContext('2d'), rMin: 1.1, rMax: 3.6, aMin: 0.18, aMax: 0.60, sp: 0.055, share: 0.58 }
     ];
-    var W = 0, H = 0, t0 = performance.now();
+    var W = 0, H = 0, t0 = performance.now(), prev = t0;
 
     var rnd = function (a, b) { return a + Math.random() * (b - a); };
 
     var seed = function (L, count) {
       L.p = [];
       for (var i = 0; i < count; i++) {
-        /* смещаем облако вправо-вверх, в полосу луча, но не жёстко - иначе выглядит сеткой */
+        /* Скорости разбросаны намеренно: часть пылинок почти висит в воздухе,
+           часть заметно плывёт. Ровное движение всем сразу читается как анимация, а не как пыль. */
+        var lazy = Math.random();
+        var speed = lazy < 0.34 ? rnd(0.04, 0.22)      /* висит, почти застой */
+                  : lazy < 0.78 ? rnd(0.3, 0.75)       /* медленный дрейф */
+                                : rnd(0.9, 1.6);       /* редкие быстрые */
+        var kind = Math.random();
         var bx = Math.random(), by = Math.random();
         L.p.push({
           x: Math.min(1, bx * 0.72 + 0.3 * Math.random() + 0.06),
           y: Math.min(1, by * 0.86 + 0.1 * Math.random()),
           r: rnd(L.rMin, L.rMax),
           a: rnd(L.aMin, L.aMax),
-          vy: -rnd(0.6, 1.5) * L.sp,          /* пыль медленно поднимается в луче */
-          vx: rnd(-0.5, 0.9) * L.sp,
+          /* волокно, чешуйка или пылинка - в луче видно все три */
+          kind: kind < 0.44 ? 'fiber' : (kind < 0.72 ? 'flake' : 'mote'),
+          el: rnd(1.8, 4.2),                 /* вытянутость волокна */
+          rot: Math.random() * 6.283,
+          vrot: rnd(-0.12, 0.12),
+          vy: -rnd(0.5, 1.2) * L.sp * speed,
+          vx: rnd(-0.5, 0.9) * L.sp * speed,
           ph: Math.random() * 6.283,
-          sw: rnd(0.4, 1.4)                    /* амплитуда покачивания */
+          sw: rnd(0.25, 1.1),                /* амплитуда покачивания */
+          br: rnd(0.35, 1)                   /* броуновское дрожание */
         });
       }
     };
@@ -1912,8 +1925,7 @@
     var resize = function () {
       var r = hero.getBoundingClientRect();
       W = Math.max(1, Math.round(r.width)); H = Math.max(1, Math.round(r.height));
-      /* число частиц от площади: на телефоне их меньше без правок кода */
-      var base = Math.round(Math.min(280, Math.max(56, (W * H) / (W < 760 ? 6400 : 4600))));
+      var base = Math.round(Math.min(300, Math.max(64, (W * H) / (W < 760 ? 5200 : 3900))));
       layers.forEach(function (L) {
         L.c.width = Math.round(W * dpr); L.c.height = Math.round(H * dpr);
         L.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -1921,34 +1933,76 @@
       });
     };
 
+    /* Форма пылинки. Круг с ореолом выглядит как боке, поэтому основная масса -
+       вытянутые волокна и угловатые чешуйки, и только часть - точки. */
+    var shape = function (ctx, p, x, y, alpha, edge) {
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(p.rot);
+      if (edge) {
+        /* тонкая тёмная подложка: пылинка читается и на светлом изделии, и на тёмном фоне */
+        ctx.strokeStyle = 'rgba(18,26,22,' + (alpha * 0.5).toFixed(3) + ')';
+        ctx.lineWidth = Math.max(0.6, p.r * 0.5);
+        ctx.lineJoin = 'round';
+      }
+      ctx.fillStyle = 'rgba(232,250,241,' + alpha.toFixed(3) + ')';
+      if (p.kind === 'fiber') {
+        ctx.beginPath();
+        ctx.ellipse(0, 0, p.r * p.el, p.r * 0.42, 0, 0, 6.2832);
+        if (edge) ctx.stroke();
+        ctx.fill();
+      } else if (p.kind === 'flake') {
+        var n = 5, step = 6.2832 / n;
+        ctx.beginPath();
+        for (var k = 0; k < n; k++) {
+          var rr = p.r * (k % 2 ? 0.62 : 1.15);
+          var ax = Math.cos(k * step) * rr, ay = Math.sin(k * step) * rr * 0.8;
+          if (k === 0) ctx.moveTo(ax, ay); else ctx.lineTo(ax, ay);
+        }
+        ctx.closePath();
+        if (edge) ctx.stroke();
+        ctx.fill();
+      } else {
+        ctx.beginPath(); ctx.arc(0, 0, p.r * 0.8, 0, 6.2832);
+        if (edge) ctx.stroke();
+        ctx.fill();
+      }
+      /* мягкий ореол только у крупных и ярких - у остальных он съедает форму */
+      if (p.r > 1.9 && alpha > 0.26) {
+        var g = ctx.createRadialGradient(0, 0, p.r * 0.6, 0, 0, p.r * 3.6);
+        g.addColorStop(0, 'rgba(198,238,218,' + (alpha * 0.34).toFixed(3) + ')');
+        g.addColorStop(1, 'rgba(120,190,160,0)');
+        ctx.fillStyle = g;
+        ctx.beginPath(); ctx.arc(0, 0, p.r * 3.6, 0, 6.2832); ctx.fill();
+      }
+      ctx.restore();
+    };
+
     var draw = function (now) {
       var t = (now - t0) / 1000;
+      var dt = Math.min(3, (now - prev) / 16.67);   /* шаг в кадрах, чтобы скорость не зависела от частоты */
+      prev = now;
       for (var i = 0; i < layers.length; i++) {
         var L = layers[i], ctx = L.ctx;
         if (!L.p) continue;
         ctx.clearRect(0, 0, W, H);
         for (var j = 0; j < L.p.length; j++) {
           var p = L.p[j];
-          var x = (p.x * W) + Math.sin(t * 0.5 + p.ph) * p.sw * 14;
-          var y = p.y * H;
-          /* свет падает справа сверху: там частицы ярче, у левого края почти гаснут */
+          var x = (p.x * W) + Math.sin(t * 0.32 + p.ph) * p.sw * 12;
+          var y = (p.y * H) + Math.cos(t * 0.21 + p.ph * 1.7) * p.sw * 7;
           var nx = x / W, ny = y / H;
-          /* яркость по близости к оси луча (правый верх), с мягким затуханием вниз-влево */
           var lit = 0.18 + 0.9 * Math.min(1, Math.max(0, nx * 1.15 - 0.12)) * (1 - ny * 0.45);
           var alpha = p.a * lit;
-          if (alpha > 0.012) {
-            var g = ctx.createRadialGradient(x, y, 0, x, y, p.r * 3.8);
-            g.addColorStop(0, 'rgba(236,252,244,' + Math.min(0.9, alpha * 1.25).toFixed(3) + ')');
-            g.addColorStop(0.3, 'rgba(198,238,218,' + (alpha * 0.5).toFixed(3) + ')');
-            g.addColorStop(0.6, 'rgba(150,214,182,' + (alpha * 0.18).toFixed(3) + ')');
-            g.addColorStop(1, 'rgba(120,190,160,0)');
-            ctx.fillStyle = g;
-            ctx.beginPath(); ctx.arc(x, y, p.r * 3.8, 0, 6.2832); ctx.fill();
-          }
+          if (alpha > 0.012) shape(ctx, p, x, y, alpha, i === 1);
           if (reduce) continue;
-          p.y += p.vy / H * 16;
-          p.x += p.vx / W * 16;
-          if (p.y < -0.03) { p.y = 1.03; p.x = Math.random(); }
+          p.y += p.vy / H * 16 * dt;
+          p.x += p.vx / W * 16 * dt;
+          p.rot += p.vrot * 0.01 * dt;
+          /* лёгкое дрожание: в реальности пылинку колотит воздухом */
+          p.x += (Math.random() - 0.5) * 0.00028 * p.br * dt;
+          p.y += (Math.random() - 0.5) * 0.00028 * p.br * dt;
+          if (p.y < -0.04) { p.y = 1.04; p.x = Math.random(); }
+          else if (p.y > 1.06) { p.y = -0.04; }
           if (p.x > 1.05) p.x = -0.05; else if (p.x < -0.05) p.x = 1.05;
         }
       }
