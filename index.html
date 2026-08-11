@@ -566,6 +566,7 @@
   .stage b{
     font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;
     font-size:clamp(17px,2vw,22px);letter-spacing:.04em;color:#fff;
+    white-space:nowrap;flex:none;
   }
   .stage figcaption span{
     font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.08em;
@@ -820,10 +821,10 @@
     .stage-classes{right:7px;top:9px;gap:5px}
     .cbtn{min-height:34px;padding:0 9px;font-size:10px;gap:5px}
     .cbtn i{width:7px;height:7px}
-    .card-open{left:8px;bottom:8px;min-height:32px;padding:0 10px;font-size:9px}
+    .card-open{left:8px;bottom:auto;top:8px;left:50%;transform:translateX(-50%);min-height:30px;padding:0 10px;font-size:9px}
     .fbtn{min-height:46px;padding:6px 4px;gap:3px;flex-direction:row;justify-content:center}
     .fbtn svg{width:17px;height:15px}
-    .fbtn span{font-size:8.5px;text-align:left}
+    .fbtn span{font-size:7.8px;text-align:left;white-space:nowrap;letter-spacing:.01em}
     .pickbar{margin:8px 0}
     .forms{gap:5px}
     .calc-grade{margin-bottom:10px}
@@ -2572,12 +2573,11 @@
 
       var spec = boxSpec(m);
       if (el.packSum) {
-        var txt = '<b>' + m.series + '</b>: по&nbsp;<b>' + m.box + '&nbsp;шт</b> в&nbsp;коробке' +
-          (rest ? ', последняя набрана на&nbsp;' + rest + '&nbsp;шт' : '');
+        var txt = '<b>' + m.series + '</b> · по&nbsp;<b>' + m.box + '&nbsp;шт</b>';
         if (spec) {
           var m3 = total * spec.m3;
           txt += ' · <em>' + (m3 < 10 ? m3.toFixed(2).replace('.', ',') : Math.round(m3)) + '&nbsp;м³</em>' +
-            ' · войдёт в&nbsp;<b>' + vehicleFor(m3) + '</b>' +
+            ' · <b>' + vehicleFor(m3) + '</b>' +
             '<s>короб ' + spec.cm.join('×') + '&nbsp;см, объём предварительный</s>';
         }
         el.packSum.innerHTML = txt;
@@ -2633,7 +2633,9 @@
         el.stageImg.src = m.image;
         el.stageImg.alt = 'Респиратор FAROS ' + m.model + ', класс FFP' + m.ffp;
         el.stageName.textContent = m.model;
-        el.stageSpec.innerHTML = 'FFP' + m.ffp + ' · до&nbsp;' + m.pdk + ' ПДК · короб ' + m.box + '&nbsp;шт';
+        var narrow = window.matchMedia('(max-width:640px)').matches;
+        el.stageSpec.innerHTML = 'FFP' + m.ffp + ' · до&nbsp;' + m.pdk + '&nbsp;ПДК' +
+          (narrow ? '' : ' · короб ' + m.box + '&nbsp;шт');
       }
       el.img.src = m.image;
       el.img.alt = '';
@@ -2664,11 +2666,11 @@
       if (step) {
         el.next.classList.remove('is-top');
         /* коротко: сколько добавить, какая станет цена и что будет с суммой */
-        el.next.innerHTML = 'Ещё <b>' + nf.format(step.need).replace(/\s/g, ' ') + '&nbsp;шт</b> - и цена ' +
-          step.label.toLowerCase() + ' <b>' + step.price + '&nbsp;₸</b>, на&nbsp;' + step.cheaperPerUnit + '&nbsp;₸ дешевле. ' +
+        el.next.innerHTML = '+<b>' + nf.format(step.need).replace(/\s/g, ' ') + '&nbsp;шт</b> до&nbsp;' +
+          step.label.toLowerCase() + ': <b>' + step.price + '&nbsp;₸</b> (−' + step.cheaperPerUnit + '&nbsp;₸/шт), ' +
           (step.extraCost < 0
-            ? 'Заказ выйдет <b>дешевле</b> на&nbsp;' + nf.format(-step.extraCost).replace(/\s/g, ' ') + '&nbsp;₸.'
-            : 'Заказ +' + nf.format(step.extraCost).replace(/\s/g, ' ') + '&nbsp;₸.');
+            ? 'заказ <b>дешевле</b> на&nbsp;' + nf.format(-step.extraCost).replace(/\s/g, ' ') + '&nbsp;₸'
+            : 'заказ +' + nf.format(step.extraCost).replace(/\s/g, ' ') + '&nbsp;₸');
       } else {
         el.next.classList.add('is-top');
         el.next.innerHTML = cur.tier === 'bulk'
