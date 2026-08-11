@@ -558,7 +558,7 @@
     position:relative;z-index:1;display:block;margin:0 auto;
     height:clamp(126px,26vw,264px);width:100%;object-fit:contain;
     filter:drop-shadow(0 16px 24px rgba(0,0,0,.55));
-    padding:clamp(14px,2vw,22px) clamp(74px,9vw,104px) 0 clamp(14px,2vw,22px);
+    padding:clamp(14px,2vw,22px) clamp(74px,9vw,104px) 0 clamp(86px,10vw,118px);
     transition:opacity .18s ease;
   }
   .stage figcaption{
@@ -590,6 +590,20 @@
   .cbtn:hover{border-color:rgba(255,255,255,.45);color:#fff}
   .cbtn[aria-checked="true"]{background:var(--brand);border-color:var(--brand);color:#fff}
   .cbtn:disabled{opacity:.3;cursor:not-allowed}
+
+  /* исполнение - на самом кадре, слева, напротив классов защиты */
+  .stage-grade{
+    position:absolute;z-index:3;left:10px;top:12px;
+    display:flex;flex-direction:column;gap:6px;margin:0;
+  }
+  .stage-grade .gbtn{
+    flex:0 0 auto;min-height:38px;padding:0 13px;
+    border-color:rgba(255,255,255,.18);
+    background:rgba(10,13,12,.66);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+    font-size:10px;letter-spacing:.1em;
+  }
+  .stage-grade .gbtn[aria-pressed="true"]{background:#fff;border-color:#fff;color:var(--ink)}
+  .stage-grade .gbtn:disabled{opacity:.32}
 
   /* количество: поле, шаг кнопками и ползунок */
   .qty{display:flex;align-items:stretch;gap:8px;margin-bottom:10px}
@@ -801,6 +815,14 @@
      Характеристики и сравнение исполнений уходят за сгиб - там их и ищут. */
   @media (max-width:640px){
     .calc{padding:12px}
+    /* на узком кадре кнопки по бокам съедали товар - делаем их компактнее */
+    .stage img{padding:10px 22px 0 26px;height:clamp(150px,42vw,210px)}
+    .stage-grade{left:7px;top:9px;gap:5px}
+    .stage-grade .gbtn{min-height:34px;padding:0 9px;font-size:9px;letter-spacing:.06em}
+    .stage-classes{right:7px;top:9px;gap:5px}
+    .cbtn{min-height:34px;padding:0 9px;font-size:10px;gap:5px}
+    .cbtn i{width:7px;height:7px}
+    .card-open{left:8px;bottom:8px;min-height:32px;padding:0 10px;font-size:9px}
     .fbtn{min-height:46px;padding:6px 4px;gap:3px;flex-direction:row;justify-content:center}
     .fbtn svg{width:17px;height:15px}
     .fbtn span{font-size:8.5px;text-align:left}
@@ -1383,6 +1405,10 @@
               <span id="stage-spec"></span>
             </figcaption>
             <div class="stage-classes" role="radiogroup" aria-label="Класс защиты" id="calc-classes"></div>
+            <div class="stage-grade calc-grade" role="radiogroup" aria-label="Исполнение">
+              <button type="button" class="gbtn" data-grade="STANDART" aria-pressed="true">STANDART</button>
+              <button type="button" class="gbtn" data-grade="PREMIUM" aria-pressed="false">PREMIUM</button>
+            </div>
             <button type="button" class="card-open" id="card-open" aria-haspopup="dialog">
               Полная карточка<i aria-hidden="true">+</i>
             </button>
@@ -1392,10 +1418,6 @@
             <div class="forms" role="radiogroup" aria-label="Форма полумаски" id="calc-forms"></div>
           </div>
 
-          <div class="calc-grade" role="radiogroup" aria-label="Исполнение">
-            <button type="button" class="gbtn" data-grade="STANDART" aria-pressed="true">STANDART</button>
-            <button type="button" class="gbtn" data-grade="PREMIUM" aria-pressed="false">PREMIUM</button>
-          </div>
           </div>
 
           <div class="col-calc">
