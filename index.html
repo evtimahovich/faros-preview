@@ -2560,7 +2560,8 @@
 
       var spec = boxSpec(m);
       if (el.packSum) {
-        var txt = 'По ' + m.box + ' шт в коробке' + (rest ? ', последняя набрана на ' + rest + ' шт' : '');
+        var txt = '<b>' + m.series + '</b>: по&nbsp;<b>' + m.box + '&nbsp;шт</b> в&nbsp;коробке' +
+          (rest ? ', последняя набрана на&nbsp;' + rest + '&nbsp;шт' : '');
         if (spec) {
           var m3 = total * spec.m3;
           txt += ' · <em>' + (m3 < 10 ? m3.toFixed(2).replace('.', ',') : Math.round(m3)) + '&nbsp;м³</em>' +
@@ -2620,7 +2621,7 @@
         el.stageImg.src = m.image;
         el.stageImg.alt = 'Респиратор FAROS ' + m.model + ', класс FFP' + m.ffp;
         el.stageName.textContent = m.model;
-        el.stageSpec.textContent = 'FFP' + m.ffp + ' · до ' + m.pdk + ' ПДК';
+        el.stageSpec.innerHTML = 'FFP' + m.ffp + ' · до&nbsp;' + m.pdk + ' ПДК · короб ' + m.box + '&nbsp;шт';
       }
       el.img.src = m.image;
       el.img.alt = '';
