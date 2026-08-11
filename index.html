@@ -843,7 +843,7 @@
     /* количество и коробки уже показаны выше - в блоке итога это дубль */
     .crow{display:none}
     .crow--save{display:flex;padding-top:0}
-    .calc-rows{margin-top:8px;border-top:0}
+    .calc-rows{margin-top:6px;border-top:0}
     .calc-per{margin-top:6px;font-size:10.5px}
     .calc-tier{margin-bottom:6px}
     .qty{margin-bottom:8px}
@@ -856,8 +856,16 @@
     /* строка-подсказка дублирует то, что показывают коробки - на телефоне лишняя */
     .qhint{display:none}
     .boxes{min-height:34px;margin:5px 0 0}
-    .calc-right{padding:11px 13px}
-    .calc-sum{font-size:clamp(1.6rem,6.8vw,2rem)}
+    .calc-right{padding:10px 12px;margin-bottom:8px}
+    /* блок итога на телефоне: цифра остаётся главной, но перестаёт занимать треть экрана */
+    .calc-sum{font-size:clamp(1.45rem,5.8vw,1.75rem)}
+    .calc-sum i{font-size:.3em}
+    .sum-row{gap:8px}
+    .calc-tier{font-size:9.5px;letter-spacing:.08em}
+    .calc-per{font-size:9.5px;margin-top:4px;letter-spacing:.06em}
+    .crow{padding:5px 0}
+    .crow span{font-size:9.5px}
+    .crow b{font-size:13px}
     .calc-rows{margin-top:12px}
     .crow{padding:7px 0}
     .calc-next{margin-top:10px;padding:9px 11px;font-size:11.5px;line-height:1.4}
