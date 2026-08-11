@@ -54,7 +54,7 @@
     --nav-h:79px;
   }
   *{margin:0;padding:0;box-sizing:border-box}
-  html{scroll-behavior:smooth}
+  html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-h) + 22px)}
   @media (max-width:760px){html{background:#0B0E0D}}
   p,li,figcaption,.mono{text-wrap:pretty}
   html,body{overflow-x:clip}
@@ -112,12 +112,20 @@
     margin-block:10px;
     margin-inline:calc((var(--pad) - var(--inset)) * -1);
     padding:10px calc(var(--pad) - var(--inset));
-    background:rgba(11,14,13,.95);
-    border:1px solid rgba(255,255,255,.09);
+    background:rgba(23,28,26,.94);
+    border:1px solid rgba(255,255,255,.16);
     border-radius:999px;
     -webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);
     box-shadow:0 12px 34px rgba(8,10,9,.35);
   }
+  /* На узких экранах шапка уезжает при прокрутке вниз и возвращается при движении вверх:
+     вместе с плавающей кнопкой WhatsApp она съедала пятую часть экрана. */
+  @media (max-width:1100px){
+    .nav{transition:transform .26s cubic-bezier(.2,.6,.2,1)}
+    .nav.is-away{transform:translateY(calc(-100% - 18px))}
+  }
+  @media (prefers-reduced-motion:reduce){.nav{transition:none}}
+  @media (max-width:760px){.nav{padding-block:11px}}
   .nav-logo{display:inline-flex;align-items:center;gap:11px;flex:none;min-height:44px;touch-action:manipulation}
   .nav-logo svg{width:26px;height:26px;color:#fff;flex:none}
   .nav-logo b{
@@ -276,7 +284,7 @@
 
   /* ---------- section head ---------- */
   section{padding-block:clamp(40px,6vw,96px)}
-  section[id]{scroll-margin-top:84px}
+  section[id]{scroll-margin-top:0}
   .sec-head{
     display:flex;justify-content:space-between;align-items:flex-end;gap:32px;
     margin-bottom:clamp(24px,3.4vw,48px);
@@ -384,6 +392,43 @@
     .price-cta{align-self:flex-start}
   }
 
+  /* ---------- модельный ряд: сравнение двух серий ---------- */
+  .forms2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .form2{
+    display:grid;grid-template-columns:auto 1fr;gap:clamp(14px,2vw,24px);align-items:start;
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--r-l);
+    padding:clamp(18px,2vw,26px);
+  }
+  .form2 img{
+    width:clamp(84px,9vw,116px);height:clamp(120px,13vw,164px);object-fit:contain;
+    background:radial-gradient(ellipse 70% 60% at 50% 48%,rgba(50,100,80,.1),transparent 68%);
+    border-radius:var(--r-s);
+  }
+  .form2-txt .mono{color:var(--brand);display:block;margin-bottom:6px}
+  .form2 h3{
+    font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;text-transform:uppercase;
+    font-size:clamp(1.15rem,2vw,1.6rem);letter-spacing:.01em;line-height:1;margin-bottom:10px;
+  }
+  .form2 p{color:var(--ink-soft);font-size:14.5px;line-height:1.45}
+  .form2 ul{list-style:none;margin-top:12px;display:flex;flex-direction:column;gap:6px}
+  .form2 li{
+    position:relative;padding-left:16px;color:var(--ink-soft);
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;
+  }
+  .form2 li::before{
+    content:"";position:absolute;left:0;top:.5em;width:6px;height:6px;border-radius:50%;
+    background:var(--brand);opacity:.75;
+  }
+  .forms2-common{
+    margin-top:14px;background:var(--ink);color:rgba(255,255,255,.78);border-radius:var(--r-m);
+    padding:clamp(16px,2vw,22px) clamp(18px,2.2vw,26px);font-size:14px;line-height:1.55;max-width:none;
+  }
+  @media (max-width:900px){.forms2{grid-template-columns:1fr}}
+  @media (max-width:420px){
+    .form2{grid-template-columns:1fr}
+    .form2 img{width:96px;height:130px}
+  }
+
   /* ---------- цены: тёмный остров ---------- */
   #prices{
     background:#0B0E0D;color:#fff;
@@ -421,6 +466,7 @@
   .tier--accent p{color:rgba(255,255,255,.9)}
   /* ---------- калькулятор ---------- */
   .calc{
+    scroll-margin-top:calc(var(--nav-h) + 20px);
     background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
     border-radius:var(--r-l);padding:clamp(18px,2.4vw,32px);margin-bottom:14px;
     max-width:840px;margin-inline:auto;
@@ -750,6 +796,27 @@
   .ptable-fold .ptable-wrap{margin-top:12px}
   .ptable-wrap{overflow-x:auto;border-radius:var(--r-m);border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.04)}
   .ptable{width:100%;border-collapse:collapse;min-width:640px}
+  @media (max-width:760px){
+    /* таблица на 390px показывала только колонку «Модель» - цены уезжали за край */
+    .ptable-wrap{overflow:visible;border:0;background:transparent}
+    .ptable,.ptable thead{display:block;min-width:0}
+    .ptable thead{display:none}
+    .ptable tbody{display:grid;gap:8px}
+    .ptable tbody tr{
+      display:grid;grid-template-columns:1fr auto;gap:6px 12px;
+      background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);
+      border-radius:var(--r-m);padding:12px 14px;
+    }
+    .ptable tbody th{grid-column:1 / -1;border:0;padding:0;text-align:left}
+    .ptable tbody td{
+      border:0;padding:0;text-align:right;
+      font-family:'IBM Plex Mono',monospace;font-size:12px;
+    }
+    .ptable tbody td::before{
+      content:attr(data-l);float:left;color:rgba(255,255,255,.45);
+      font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;
+    }
+  }
   .ptable caption{text-align:left;padding:18px var(--card-pad) 0;color:rgba(255,255,255,.6);font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase}
   .ptable th,.ptable td{padding:13px clamp(12px,1.4vw,20px);text-align:right;border-bottom:1px solid rgba(255,255,255,.07)}
   .ptable th:first-child,.ptable td:first-child{text-align:left}
@@ -812,6 +879,12 @@
     .dir:hover .num{color:var(--brand)}
   }
   .dir:focus-visible{outline:2px solid var(--brand);outline-offset:2px;border-color:var(--brand)}
+  .dir[aria-checked="true"]{
+    border-color:var(--brand);background:color-mix(in srgb,var(--brand) 6%,var(--panel));
+    box-shadow:inset 0 0 0 1px var(--brand);
+  }
+  .dir[aria-checked="true"] .num{color:var(--brand)}
+  .dir[aria-checked="true"] .dir-pick::after{content:" ✓";color:var(--brand)}
   .dir:active{
     transform:translateY(-1px);box-shadow:0 4px 12px rgba(17,19,21,.08);border-color:var(--brand);
     background:color-mix(in srgb,var(--brand) 7%,var(--panel));transition-duration:.05s;
@@ -1105,8 +1178,8 @@
         <p class="mono">Выберите участок&nbsp;- подставим подходящую модель в&nbsp;расчёт. Класс защиты зависит не&nbsp;от&nbsp;отрасли, а&nbsp;от&nbsp;кратности превышения ПДК, поэтому дальше модель можно поменять.</p>
       </div>
     </div>
-    <div class="dirs">
-      <button class="dir dir--hero" type="button" data-ind="welding" data-model="FR 3220">
+    <div class="dirs" role="radiogroup" aria-label="Участок">
+      <button class="dir dir--hero" type="button" role="radio" aria-checked="false" data-ind="welding" data-model="FR 3220">
         <span class="dir-top"><span class="num">01</span><span class="dir-pick">FR 3220</span></span>
         <span class="dir-t">
           <b>Сварка и&nbsp;металлообработка</b>
@@ -1114,7 +1187,7 @@
           <span class="dir-why">Нужен угольный слой, обычная FFP2 запах не&nbsp;держит</span>
         </span>
       </button>
-      <button class="dir" type="button" data-ind="mining" data-model="FR 4310W">
+      <button class="dir" type="button" role="radio" aria-checked="false" data-ind="mining" data-model="FR 4310W">
         <span class="dir-top"><span class="num">02</span><span class="dir-pick">FR 4310W</span></span>
         <span class="dir-t">
           <b>Горная добыча</b>
@@ -1122,7 +1195,7 @@
           <span class="dir-why">Максимальный класс, до&nbsp;50&nbsp;ПДК</span>
         </span>
       </button>
-      <button class="dir" type="button" data-ind="petrochem" data-model="FR 3230">
+      <button class="dir" type="button" role="radio" aria-checked="false" data-ind="petrochem" data-model="FR 3230">
         <span class="dir-top"><span class="num">03</span><span class="dir-pick">FR 3230</span></span>
         <span class="dir-t">
           <b>Нефтехимия</b>
@@ -1130,7 +1203,7 @@
           <span class="dir-why">Единственная модель в&nbsp;прайсе под кислые газы</span>
         </span>
       </button>
-      <button class="dir" type="button" data-ind="glass" data-model="FR 4210W">
+      <button class="dir" type="button" role="radio" aria-checked="false" data-ind="glass" data-model="FR 4210W">
         <span class="dir-top"><span class="num">04</span><span class="dir-pick">FR 4210W</span></span>
         <span class="dir-t">
           <b>Стекловолокно и&nbsp;стройматериалы</b>
@@ -1138,7 +1211,7 @@
           <span class="dir-why">Складная сидит под каску, очки не&nbsp;запотевают</span>
         </span>
       </button>
-      <button class="dir" type="button" data-ind="textile" data-model="FR 3100">
+      <button class="dir" type="button" role="radio" aria-checked="false" data-ind="textile" data-model="FR 3100">
         <span class="dir-top"><span class="num">05</span><span class="dir-pick">FR 3100</span></span>
         <span class="dir-t">
           <b>Текстиль и&nbsp;деревообработка</b>
@@ -1161,105 +1234,37 @@
       </div>
     </div>
 
-    <div class="series-grid">
-      <div class="series-left">
-        <div class="pills" role="group" aria-label="Формы респираторов">
-          <!-- SKU:CARDS -->
-          <button class="spill" type="button" aria-pressed="true"
-            data-img="assets/cutout/fr4100.webp"
-            data-alt="Респиратор FAROS FR 4100 FFP1, трёхпанельная складная полумаска без клапана"
-            data-title="Складная без клапана"
-            data-spec="FR 4100 · FR 4200 · FFP1 · FFP2"
-            data-lead-text="Складывается плоско: коробка занимает меньше места на складе, а маска в кармане спецовки не мнётся. Каждая в своём пакете."
-            data-classes="FFP1 · FFP2"
-            data-series="FR 4000"
-            data-unit="10"
-            data-box="400">
-            <span>Складная без клапана</span><span class="mono">01</span>
-          </button>
-          <button class="spill" type="button" aria-pressed="false"
-            data-img="assets/cutout/fr4310.webp"
-            data-alt="Респиратор FAROS FR 4310 FFP3 с клапаном выдоха, трёхпанельная складная полумаска"
-            data-title="Складная с клапаном"
-            data-spec="FR 4110W · FR 4210W · FR 4310W · FFP1 · FFP2 · FFP3"
-            data-lead-text="Клапан сбрасывает тёплый выдох наружу. Обтюратор не пускает выдох в глаза, поэтому линзы очков не запотевают - на длинной смене это решает."
-            data-classes="FFP1 · FFP2 · FFP3"
-            data-series="FR 4000"
-            data-unit="10"
-            data-box="400">
-            <span>Складная с клапаном</span><span class="mono">02</span>
-          </button>
-          <button class="spill" type="button" aria-pressed="false"
-            data-img="assets/cutout/cup-nv.webp"
-            data-alt="Респиратор FAROS серии FR 3000, чашеобразная формованная полумаска без клапана"
-            data-title="Чашеобразная без клапана"
-            data-spec="FR 3100 · FR 3200 · FFP1 · FFP2"
-            data-lead-text="Жёсткая чашка держит форму и надевается одним движением. Обычно берут на массовую выдачу: выдал на смену - забыл."
-            data-classes="FFP1 · FFP2"
-            data-series="FR 3000"
-            data-unit="10"
-            data-box="300">
-            <span>Чашеобразная без клапана</span><span class="mono">03</span>
-          </button>
-          <button class="spill" type="button" aria-pressed="false"
-            data-img="assets/cutout/cup-v.webp"
-            data-alt="Респиратор FAROS серии FR 3000 с клапаном выдоха, чашеобразная формованная полумаска"
-            data-title="Чашеобразная с клапаном"
-            data-spec="FR 3110 · FR 3210 · FR 3310 · FFP1 · FFP2 · FFP3"
-            data-lead-text="Резинки с силиконовым фиксатором регулируются под голову и не путают волосы. Зажим на переносице держит маску, когда человек двигается."
-            data-classes="FFP1 · FFP2 · FFP3"
-            data-series="FR 3000"
-            data-unit="10"
-            data-box="300">
-            <span>Чашеобразная с клапаном</span><span class="mono">04</span>
-          </button>
-          <button class="spill" type="button" aria-pressed="false"
-            data-img="assets/cutout/fr3220.webp"
-            data-alt="Респиратор FAROS FR 3220 FFP2 с угольным фильтром для защиты от сварочных дымов и органических паров"
-            data-title="FR 3220 - сварочные дымы"
-            data-spec="FR 3220 · FFP2"
-            data-lead-text="Угольный слой снимает озон, органику и запах гари. Берут туда, где варят каждый день."
-            data-classes="FFP2"
-            data-series="FR 3000"
-            data-unit="10"
-            data-box="300">
-            <span>FR 3220 - сварочные дымы</span><span class="mono">05</span>
-          </button>
-          <button class="spill" type="button" aria-pressed="false"
-            data-img="assets/cutout/fr3230.webp"
-            data-alt="Респиратор FAROS FR 3230 FFP2 с угольным фильтром для защиты от кислых газов"
-            data-title="FR 3230 - кислые газы"
-            data-spec="FR 3230 · FFP2"
-            data-lead-text="Против паров кислот: фтороводород, сероводород, сернистый ангидрид. По паспорту - металлургия, химия, литейные и электролитные цеха, судостроение."
-            data-classes="FFP2"
-            data-series="FR 3000"
-            data-unit="10"
-            data-box="300">
-            <span>FR 3230 - кислые газы</span><span class="mono">06</span>
-          </button>
-<!-- /SKU:CARDS -->
+    <div class="forms2">
+      <article class="form2">
+        <img src="assets/cutout/fr4100.webp" alt="Складная трёхпанельная полумаска FAROS серии FR 4000" loading="lazy" decoding="async" width="361" height="750">
+        <div class="form2-txt">
+          <span class="mono">Серия FR&nbsp;4000</span>
+          <h3>Складная</h3>
+          <p>Три панели, складывается плоско. Форму можно подстроить под любой тип лица, в&nbsp;кармане спецовки не&nbsp;мнётся, коробка занимает меньше места на&nbsp;складе.</p>
+          <ul>
+            <li>Коробка 400&nbsp;штук</li>
+            <li>Каждая маска в&nbsp;своём пакете</li>
+            <li>FFP1, FFP2, FFP3&nbsp;- с&nbsp;клапаном и&nbsp;без</li>
+          </ul>
         </div>
-        <a class="pill pill--brand price-cta" id="price-cta" href="#contact">Запросить прайс на&nbsp;модель</a>
-      </div>
-      <div class="series-right">
-        <figure class="portrait">
-          <img id="cat-img" src="assets/cutout/fr4100.webp" alt="Респиратор FAROS FR 4100 FFP1, трёхпанельная складная полумаска без клапана" loading="lazy" decoding="async">
-          <figcaption class="cat-cap" aria-live="polite">
-            <span class="cat-cap-txt">
-              <b id="cat-title">Складная без клапана</b>
-              <span class="mono" id="cat-spec">FR 4100 · FR 4200 · FFP1 · FFP2</span>
-            </span>
-            <span class="mono cat-idx" id="cat-idx">01&nbsp;/&nbsp;06</span>
-          </figcaption>
-        </figure>
-        <p class="cat-lead" id="cat-lead">Компактная в&nbsp;хранении и&nbsp;переноске, подстраивается под любой тип лица. Индивидуальная упаковка.</p>
-        <div class="cat-tags" id="cat-tags">
-          <span class="tag tag--brand">FFP1 · FFP2</span>
-          <span class="tag">Упаковка 10&nbsp;шт</span>
-          <span class="tag">Коробка 400&nbsp;шт</span>
+      </article>
+      <article class="form2">
+        <img src="assets/cutout/cup-nv.webp" alt="Чашеобразная формованная полумаска FAROS серии FR 3000" loading="lazy" decoding="async" width="621" height="700">
+        <div class="form2-txt">
+          <span class="mono">Серия FR&nbsp;3000</span>
+          <h3>Чашеобразная</h3>
+          <p>Жёсткая формованная чашка держит объём под маской и&nbsp;надевается одним движением. Берут на&nbsp;массовую выдачу: выдал на&nbsp;смену&nbsp;- забыл.</p>
+          <ul>
+            <li>Коробка 300&nbsp;штук</li>
+            <li>Две модели с&nbsp;угольным фильтром</li>
+            <li>FFP1, FFP2, FFP3&nbsp;- с&nbsp;клапаном и&nbsp;без</li>
+          </ul>
         </div>
-      </div>
+      </article>
     </div>
+
+    <p class="forms2-common">Общее у&nbsp;обеих серий: до&nbsp;5&nbsp;слоёв фильтрации, носовой обтюратор из&nbsp;ПВХ, гибкий алюминиевый зажим на&nbsp;переносицу и&nbsp;ленты оголовья с&nbsp;силиконовым фиксатором. Маркировка NR&nbsp;D&nbsp;- одна рабочая смена, устойчивость к&nbsp;запылению.</p>
+
   </section>
 
   <!-- ============ 03 · ЦЕНЫ ============ -->
@@ -1362,7 +1367,7 @@
     </div>
 
     <details class="ptable-fold open-only">
-      <summary>Показать прайс целиком: 22&nbsp;позиции</summary>
+      <summary>Показать прайс целиком</summary>
       <div class="ptable-wrap">
         <table class="ptable">
           <caption>Тенге с&nbsp;НДС за&nbsp;штуку</caption>
@@ -1379,157 +1384,157 @@
           <tbody>
             <tr>
               <th scope="row">FR&nbsp;4100<small>STANDART · FFP1 · до&nbsp;4&nbsp;ПДК · чёрная маркировка</small></th>
-              <td>267</td>
-              <td>240</td>
-              <td class="best">208</td>
-              <td>10&nbsp;/&nbsp;400</td>
+              <td data-l="Розница">267</td>
+              <td data-l="Малый опт">240</td>
+              <td class="best" data-l="Опт">208</td>
+              <td data-l="Упаковка / коробка">10&nbsp;/&nbsp;400</td>
             </tr>
             <tr>
               <th scope="row">FR&nbsp;4100<small>PREMIUM · FFP1 · до&nbsp;4&nbsp;ПДК · чёрная маркировка</small></th>
-              <td>319</td>
-              <td>287</td>
-              <td class="best">248</td>
-              <td>10&nbsp;/&nbsp;400</td>
+              <td data-l="Розница">319</td>
+              <td data-l="Малый опт">287</td>
+              <td class="best" data-l="Опт">248</td>
+              <td data-l="Упаковка / коробка">10&nbsp;/&nbsp;400</td>
             </tr>
             <tr>
               <th scope="row">FR&nbsp;4200<small>STANDART · FFP2 · до&nbsp;12&nbsp;ПДК · синяя маркировка</small></th>
-              <td>364</td>
-              <td>328</td>
-              <td class="best">284</td>
-              <td>10&nbsp;/&nbsp;400</td>
+              <td data-l="Розница">364</td>
+              <td data-l="Малый опт">328</td>
+              <td class="best" data-l="Опт">284</td>
+              <td data-l="Упаковка / коробка">10&nbsp;/&nbsp;400</td>
             </tr>
             <tr>
               <th scope="row">FR&nbsp;4200<small>PREMIUM · FFP2 · до&nbsp;12&nbsp;ПДК · синяя маркировка</small></th>
-              <td>423</td>
-              <td>380</td>
-              <td class="best">330</td>
-              <td>10&nbsp;/&nbsp;400</td>
+              <td data-l="Розница">423</td>
+              <td data-l="Малый опт">380</td>
+              <td class="best" data-l="Опт">330</td>
+              <td data-l="Упаковка / коробка">10&nbsp;/&nbsp;400</td>
             </tr>
             <tr>
               <th scope="row">FR&nbsp;4110W<small>STANDART · FFP1 · до&nbsp;4&nbsp;ПДК · чёрная маркировка</small></th>
-              <td>358</td>
-              <td>322</td>
-              <td class="best">279</td>
-              <td>10&nbsp;/&nbsp;400</td>
+              <td data-l="Розница">358</td>
+              <td data-l="Малый опт">322</td>
+              <td class="best" data-l="Опт">279</td>
+              <td data-l="Упаковка / коробка">10&nbsp;/&nbsp;400</td>
             </tr>
             <tr>
               <th scope="row">FR&nbsp;4110W<small>PREMIUM · FFP1 · до&nbsp;4&nbsp;ПДК · чёрная маркировка</small></th>
-              <td>416</td>
-              <td>374</td>
-              <td class="best">324</td>
-              <td>10&nbsp;/&nbsp;400</td>
+              <td data-l="Розница">416</td>
+              <td data-l="Малый опт">374</td>
+              <td class="best" data-l="Опт">324</td>
+              <td data-l="Упаковка / коробка">10&nbsp;/&nbsp;400</td>
             </tr>
             <tr>
               <th scope="row">FR&nbsp;4210W<small>STANDART · FFP2 · до&nbsp;12&nbsp;ПДК · синяя маркировка</small></th>
-              <td>455</td>
-              <td>410</td>
-              <td class="best">355</td>
-              <td>10&nbsp;/&nbsp;400</td>
+              <td data-l="Розница">455</td>
+              <td data-l="Малый опт">410</td>
+              <td class="best" data-l="Опт">355</td>
+              <td data-l="Упаковка / коробка">10&nbsp;/&nbsp;400</td>
             </tr>
             <tr>
               <th scope="row">FR&nbsp;4210W<small>PREMIUM · FFP2 · до&nbsp;12&nbsp;ПДК · синяя маркировка</small></th>
-              <td>520</td>
-              <td>468</td>
-              <td class="best">406</td>
-              <td>10&nbsp;/&nbsp;400</td>
+              <td data-l="Розница">520</td>
+              <td data-l="Малый опт">468</td>
+              <td class="best" data-l="Опт">406</td>
+              <td data-l="Упаковка / коробка">10&nbsp;/&nbsp;400</td>
             </tr>
             <tr>
               <th scope="row">FR&nbsp;4310W<small>STANDART · FFP3 · до&nbsp;50&nbsp;ПДК · красная маркировка</small></th>
-              <td>540</td>
-              <td>486</td>
-              <td class="best">421</td>
-              <td>10&nbsp;/&nbsp;400</td>
+              <td data-l="Розница">540</td>
+              <td data-l="Малый опт">486</td>
+              <td class="best" data-l="Опт">421</td>
+              <td data-l="Упаковка / коробка">10&nbsp;/&nbsp;400</td>
             </tr>
             <tr>
               <th scope="row">FR&nbsp;4310W<small>PREMIUM · FFP3 · до&nbsp;50&nbsp;ПДК · красная маркировка</small></th>
-              <td>605</td>
-              <td>544</td>
-              <td class="best">472</td>
-              <td>10&nbsp;/&nbsp;400</td>
+              <td data-l="Розница">605</td>
+              <td data-l="Малый опт">544</td>
+              <td class="best" data-l="Опт">472</td>
+              <td data-l="Упаковка / коробка">10&nbsp;/&nbsp;400</td>
             </tr>
             <tr>
               <th scope="row">FR&nbsp;3100<small>STANDART · FFP1 · до&nbsp;4&nbsp;ПДК · чёрная маркировка</small></th>
-              <td>267</td>
-              <td>240</td>
-              <td class="best">208</td>
-              <td>10&nbsp;/&nbsp;300</td>
+              <td data-l="Розница">267</td>
+              <td data-l="Малый опт">240</td>
+              <td class="best" data-l="Опт">208</td>
+              <td data-l="Упаковка / коробка">10&nbsp;/&nbsp;300</td>
             </tr>
             <tr>
               <th scope="row">FR&nbsp;3100<small>PREMIUM · FFP1 · до&nbsp;4&nbsp;ПДК · чёрная маркировка</small></th>
-              <td>319</td>
-              <td>287</td>
-              <td class="best">248</td>
-              <td>10&nbsp;/&nbsp;300</td>
+              <td data-l="Розница">319</td>
+              <td data-l="Малый опт">287</td>
+              <td class="best" data-l="Опт">248</td>
+              <td data-l="Упаковка / коробка">10&nbsp;/&nbsp;300</td>
             </tr>
             <tr>
               <th scope="row">FR&nbsp;3200<small>STANDART · FFP2 · до&nbsp;12&nbsp;ПДК · синяя маркировка</small></th>
-              <td>364</td>
-              <td>328</td>
-              <td class="best">284</td>
-              <td>10&nbsp;/&nbsp;300</td>
+              <td data-l="Розница">364</td>
+              <td data-l="Малый опт">328</td>
+              <td class="best" data-l="Опт">284</td>
+              <td data-l="Упаковка / коробка">10&nbsp;/&nbsp;300</td>
             </tr>
             <tr>
               <th scope="row">FR&nbsp;3200<small>PREMIUM · FFP2 · до&nbsp;12&nbsp;ПДК · синяя маркировка</small></th>
-              <td>423</td>
-              <td>380</td>
-              <td class="best">330</td>
-              <td>10&nbsp;/&nbsp;300</td>
+              <td data-l="Розница">423</td>
+              <td data-l="Малый опт">380</td>
+              <td class="best" data-l="Опт">330</td>
+              <td data-l="Упаковка / коробка">10&nbsp;/&nbsp;300</td>
             </tr>
             <tr>
               <th scope="row">FR&nbsp;3110<small>STANDART · FFP1 · до&nbsp;4&nbsp;ПДК · чёрная маркировка</small></th>
-              <td>358</td>
-              <td>322</td>
-              <td class="best">279</td>
-              <td>10&nbsp;/&nbsp;300</td>
+              <td data-l="Розница">358</td>
+              <td data-l="Малый опт">322</td>
+              <td class="best" data-l="Опт">279</td>
+              <td data-l="Упаковка / коробка">10&nbsp;/&nbsp;300</td>
             </tr>
             <tr>
               <th scope="row">FR&nbsp;3110<small>PREMIUM · FFP1 · до&nbsp;4&nbsp;ПДК · чёрная маркировка</small></th>
-              <td>416</td>
-              <td>374</td>
-              <td class="best">324</td>
-              <td>10&nbsp;/&nbsp;300</td>
+              <td data-l="Розница">416</td>
+              <td data-l="Малый опт">374</td>
+              <td class="best" data-l="Опт">324</td>
+              <td data-l="Упаковка / коробка">10&nbsp;/&nbsp;300</td>
             </tr>
             <tr>
               <th scope="row">FR&nbsp;3210<small>STANDART · FFP2 · до&nbsp;12&nbsp;ПДК · синяя маркировка</small></th>
-              <td>455</td>
-              <td>410</td>
-              <td class="best">355</td>
-              <td>10&nbsp;/&nbsp;300</td>
+              <td data-l="Розница">455</td>
+              <td data-l="Малый опт">410</td>
+              <td class="best" data-l="Опт">355</td>
+              <td data-l="Упаковка / коробка">10&nbsp;/&nbsp;300</td>
             </tr>
             <tr>
               <th scope="row">FR&nbsp;3210<small>PREMIUM · FFP2 · до&nbsp;12&nbsp;ПДК · синяя маркировка</small></th>
-              <td>520</td>
-              <td>468</td>
-              <td class="best">406</td>
-              <td>10&nbsp;/&nbsp;300</td>
+              <td data-l="Розница">520</td>
+              <td data-l="Малый опт">468</td>
+              <td class="best" data-l="Опт">406</td>
+              <td data-l="Упаковка / коробка">10&nbsp;/&nbsp;300</td>
             </tr>
             <tr>
               <th scope="row">FR&nbsp;3310<small>STANDART · FFP3 · до&nbsp;50&nbsp;ПДК · красная маркировка</small></th>
-              <td>540</td>
-              <td>486</td>
-              <td class="best">421</td>
-              <td>10&nbsp;/&nbsp;300</td>
+              <td data-l="Розница">540</td>
+              <td data-l="Малый опт">486</td>
+              <td class="best" data-l="Опт">421</td>
+              <td data-l="Упаковка / коробка">10&nbsp;/&nbsp;300</td>
             </tr>
             <tr>
               <th scope="row">FR&nbsp;3310<small>PREMIUM · FFP3 · до&nbsp;50&nbsp;ПДК · красная маркировка</small></th>
-              <td>605</td>
-              <td>544</td>
-              <td class="best">472</td>
-              <td>10&nbsp;/&nbsp;300</td>
+              <td data-l="Розница">605</td>
+              <td data-l="Малый опт">544</td>
+              <td class="best" data-l="Опт">472</td>
+              <td data-l="Упаковка / коробка">10&nbsp;/&nbsp;300</td>
             </tr>
             <tr>
               <th scope="row">FR&nbsp;3220<small>PREMIUM · FFP2 · до&nbsp;12&nbsp;ПДК · белая маркировка</small></th>
-              <td>1&nbsp;160</td>
-              <td>1&nbsp;070</td>
-              <td class="best">1&nbsp;020</td>
-              <td>10&nbsp;/&nbsp;300</td>
+              <td data-l="Розница">1&nbsp;160</td>
+              <td data-l="Малый опт">1&nbsp;070</td>
+              <td class="best" data-l="Опт">1&nbsp;020</td>
+              <td data-l="Упаковка / коробка">10&nbsp;/&nbsp;300</td>
             </tr>
             <tr>
               <th scope="row">FR&nbsp;3230<small>PREMIUM · FFP2 · до&nbsp;12&nbsp;ПДК · синяя маркировка</small></th>
-              <td>1&nbsp;300</td>
-              <td>1&nbsp;125</td>
-              <td class="best">1&nbsp;070</td>
-              <td>10&nbsp;/&nbsp;300</td>
+              <td data-l="Розница">1&nbsp;300</td>
+              <td data-l="Малый опт">1&nbsp;125</td>
+              <td class="best" data-l="Опт">1&nbsp;070</td>
+              <td data-l="Упаковка / коробка">10&nbsp;/&nbsp;300</td>
             </tr>
           </tbody>
 <!-- /SKU:PRICES -->
@@ -1540,7 +1545,7 @@
     <p class="ptable-note req-only">Прайс на&nbsp;все 22&nbsp;позиции высылаем в&nbsp;ответ на&nbsp;заявку&nbsp;- с&nbsp;печатью и&nbsp;сроком действия.</p>
 
     <div class="prices-act">
-      <a class="pill" href="#contact" data-lead="prices">Получить прайс на&nbsp;все 22&nbsp;позиции</a>
+      <a class="pill" href="#contact" data-lead="prices">Получить прайс с&nbsp;печатью</a>
       <span class="mono">Скидка считается от&nbsp;суммы заказа, а&nbsp;не&nbsp;от&nbsp;числа коробок</span>
     </div>
   </section>
@@ -1595,17 +1600,9 @@
       </div>
     </div>
     <div class="stats-grid">
-      <div class="stat st5">
+      <div class="stat st6">
         <span class="n" id="stat-years">7<i>лет</i></span>
         <span class="l">поставляем средства защиты предприятиям Казахстана</span>
-      </div>
-      <div class="stat st5">
-        <span class="n">22<i>позиции</i></span>
-        <span class="l">в&nbsp;прайсе: две формы полумаски, три класса защиты и&nbsp;две модели с&nbsp;углём</span>
-      </div>
-      <div class="stat st4 stat--brand">
-        <span class="n">208<i>₸ от</i></span>
-        <span class="l">столько стоит штука, если заказ переваливает за&nbsp;1&nbsp;100&nbsp;000&nbsp;₸</span>
       </div>
       <div class="stat st6">
         <span class="n" style="font-size:clamp(1.3rem,2.2vw,1.9rem)">Договор и&nbsp;отгрузка<br>на&nbsp;юридическое лицо</span>
@@ -1912,12 +1909,14 @@
       menuButton.setAttribute('aria-expanded', 'false');
       menuButton.setAttribute('aria-label', 'Открыть меню');
       menuDrawer.classList.remove('is-open');
+      scrollLock.off();
     };
     menuButton.addEventListener('click', function () {
       if (menuButton.getAttribute('aria-expanded') === 'true') { closeMenu(); return; }
       menuButton.setAttribute('aria-expanded', 'true');
       menuButton.setAttribute('aria-label', 'Закрыть меню');
       menuDrawer.classList.add('is-open');
+      if (window.matchMedia('(max-width:760px)').matches) scrollLock.on();
     });
     menuDrawer.querySelectorAll('a').forEach(function (link) { link.addEventListener('click', closeMenu); });
     document.addEventListener('keydown', function (event) {
@@ -1926,6 +1925,33 @@
     document.addEventListener('click', function (event) {
       if (menuButton.getAttribute('aria-expanded') === 'true' && !navEl.contains(event.target)) closeMenu();
     });
+  }
+
+  /* Прячем шапку только вниз по прокрутке и только на узких экранах.
+     Возвращаем сразу, если пользователь двинулся вверх, открыл меню или ушёл в фокус
+     клавиатурой - иначе шапка исчезнет для тех, кто ходит табом. */
+  if (navEl) {
+    var hideMq = window.matchMedia('(max-width:1100px)');
+    var lastY = window.scrollY, ticking = false;
+    var showNav = function () { navEl.classList.remove('is-away'); };
+    var navTick = function () {
+      var y = window.scrollY;
+      if (!hideMq.matches || y < 260 || menuDrawer.classList.contains('is-open')) {
+        showNav();
+      } else if (y > lastY + 6) {
+        navEl.classList.add('is-away');
+      } else if (y < lastY - 6) {
+        showNav();
+      }
+      lastY = y; ticking = false;
+    };
+    window.addEventListener('scroll', function () {
+      if (ticking) return;
+      ticking = true; requestAnimationFrame(navTick);
+    }, { passive: true });
+    navEl.addEventListener('focusin', showNav);
+    document.addEventListener('keydown', function (e) { if (e.key === 'Tab') showNav(); });
+    hideMq.addEventListener('change', showNav);
   }
 
   var waFab = document.querySelector('.wa-fab');
@@ -2018,6 +2044,35 @@
   /* ============================================================
      Калькулятор: модель, исполнение, объём -> цена и порог
      ============================================================ */
+  /* Блокировка прокрутки под модальным слоем. body{overflow:hidden} на мобильных
+     браузерах не держит, поэтому фиксируем документ и возвращаем позицию при закрытии. */
+  var scrollLock = (function () {
+    var y = 0, on = false;
+    return {
+      on: function () {
+        if (on) return;
+        y = window.scrollY; on = true;
+        document.documentElement.style.scrollBehavior = 'auto';
+        document.body.style.position = 'fixed';
+        document.body.style.top = -y + 'px';
+        document.body.style.left = '0';
+        document.body.style.right = '0';
+        document.body.style.width = '100%';
+      },
+      off: function () {
+        if (!on) return;
+        on = false;
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.left = '';
+        document.body.style.right = '';
+        document.body.style.width = '';
+        window.scrollTo(0, y);
+        document.documentElement.style.scrollBehavior = '';
+      }
+    };
+  })();
+
   var calcRoot = document.getElementById('calc');
   var calcDataEl = document.getElementById('calc-data');
   var calcState = null;
@@ -2292,10 +2347,9 @@
 
       var retailTotal = qty * m.grades[state.grade].retail;
       var saved = retailTotal - total;
-      var rows = [
-        ['Количество', nf.format(qty).replace(/\s/g, ' ') + ' шт'],
-        ['Коробок по ' + m.box, (Math.round(boxes * 10) / 10).toString().replace('.', ',')]
-      ];
+      /* Количество видно в поле и на ползунке, число коробок - под самими коробками.
+         В итоге оставляем только то, чего больше нигде нет. */
+      var rows = [];
       if (saved > 0) rows.push(['Дешевле розницы на', '−' + nf.format(saved).replace(/\s/g, ' ') + ' ₸', 'save']);
       el.rows.innerHTML = rows.map(function (r) {
         return '<div class="crow' + (r[2] ? ' crow--' + r[2] : '') + '"><span>' + r[0] + '</span><b>' + r[1] + '</b></div>';
@@ -2328,10 +2382,7 @@
       state.qty = v;
       if (from !== 'input') el.qty.value = nf.format(v).replace(/\s/g, ' ');
       if (from !== 'range') el.range.value = v;
-      var mm = state.model;
-      var full = Math.floor(v / mm.box), rest = v % mm.box;
-      el.hint.textContent = (full ? full + ' коробок по ' + mm.box + ' шт' : 'Меньше коробки') +
-        (rest ? ' и ещё ' + rest + ' шт' : '') + '. Шаг - упаковка ' + mm.unit + ' шт.';
+      el.hint.textContent = 'Шаг - упаковка ' + state.model.unit + ' шт';
       render();
     };
 
@@ -2398,13 +2449,13 @@
       var openCard = function () {
         lastFocus = document.activeElement;
         cardModal.hidden = false;
-        document.body.style.overflow = 'hidden';
+        scrollLock.on();
         cardClose.focus();
         track('open_card', { model: state.model.model });
       };
       var closeCard = function () {
         cardModal.hidden = true;
-        document.body.style.overflow = '';
+        scrollLock.off();
         if (lastFocus) lastFocus.focus();
       };
       cardOpen.addEventListener('click', openCard);
@@ -2442,7 +2493,12 @@
       track('select_industry', { industry: card.getAttribute('data-ind'), model: model });
       /* подставляем модель в расчёт - это следующий шаг пути, а не сразу заявка */
       if (window.__calcPick) window.__calcPick(model);
-      var target = document.getElementById('prices');
+      document.querySelectorAll('.dir').forEach(function (d) {
+        d.setAttribute('aria-checked', d === card ? 'true' : 'false');
+      });
+      /* ведём к самому калькулятору, а не к заголовку секции: иначе результат
+         выбора остаётся ниже экрана, а сверху висят цены прошлой модели */
+      var target = document.getElementById('calc');
       if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
