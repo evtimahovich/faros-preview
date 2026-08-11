@@ -133,7 +133,7 @@
   }
   .nav-logo i{
     font-style:normal;color:rgba(255,255,255,.5);
-    font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+    font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;
   }
   .nav-links{display:flex;gap:clamp(16px,3vw,44px);list-style:none}
   .nav-links a{
@@ -275,7 +275,7 @@
   .hero-desc{
     max-width:38ch;margin-top:clamp(16px,2.2vw,28px);
     font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:500;
-    font-size:clamp(14.5px,1.2vw,17px);line-height:1.6;letter-spacing:.015em;color:rgba(255,255,255,.82);
+    font-size:15px;line-height:1.6;letter-spacing:.015em;color:rgba(255,255,255,.82);
   }
   .hero-act{display:flex;flex-wrap:wrap;gap:12px;margin-top:clamp(18px,2.6vw,34px)}
   .hero-act .pill--ghost{
@@ -432,7 +432,7 @@
   .form2{
     display:grid;grid-template-columns:auto 1fr;gap:clamp(14px,2vw,24px);align-items:start;
     background:var(--panel);border:1px solid var(--line);border-radius:var(--r-l);
-    padding:clamp(18px,2vw,26px);
+    padding:var(--card-pad);
   }
   .form2 img{
     width:clamp(84px,9vw,116px);height:clamp(120px,13vw,164px);object-fit:contain;
@@ -442,7 +442,7 @@
   .form2-txt .mono{color:var(--brand);display:block;margin-bottom:6px}
   .form2 h3{
     font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;text-transform:uppercase;
-    font-size:clamp(1.15rem,2vw,1.6rem);letter-spacing:.01em;line-height:1;margin-bottom:10px;
+    font-size:clamp(1.15rem,1.9vw,1.55rem);letter-spacing:.01em;line-height:1;margin-bottom:10px;
   }
   .form2 p{color:var(--ink-soft);font-size:14.5px;line-height:1.45}
   .form2 ul{list-style:none;margin-top:12px;display:flex;flex-direction:column;gap:6px}
@@ -456,7 +456,7 @@
   }
   .forms2-common{
     margin-top:14px;background:var(--ink);color:rgba(255,255,255,.78);border-radius:var(--r-m);
-    padding:clamp(16px,2vw,22px) clamp(18px,2.2vw,26px);font-size:14px;line-height:1.55;max-width:none;
+    padding:clamp(16px,2vw,22px) clamp(18px,2.2vw,26px);font-size:14.5px;line-height:1.55;max-width:68ch;
   }
   @media (max-width:900px){.forms2{grid-template-columns:1fr}}
   @media (max-width:420px){
@@ -497,7 +497,7 @@
   }
   .tier .v i{font-style:normal;font-size:.36em;letter-spacing:.03em;margin-left:.24em;color:rgba(255,255,255,.5);white-space:nowrap}
   .tier--accent .v i{color:rgba(255,255,255,.72)}
-  .tier p{color:rgba(255,255,255,.66);font-size:13.5px}
+  .tier p{color:rgba(255,255,255,.66);font-size:13px}
   .tier--accent p{color:rgba(255,255,255,.9)}
   /* ---------- калькулятор ---------- */
   .calc{
@@ -524,7 +524,7 @@
   }
   .fbtn svg{width:24px;height:20px;flex:none}
   .fbtn span{
-    font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.05em;
+    font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.09em;
     text-transform:uppercase;line-height:1.25;text-align:center;
   }
   .fbtn:hover{border-color:rgba(255,255,255,.4);color:#fff}
@@ -535,7 +535,7 @@
   .gbtn{
     flex:0 1 auto;border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:0 16px;
     font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:800;font-size:10.5px;
-    letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.7);
+    letter-spacing:.11em;text-transform:uppercase;color:rgba(255,255,255,.7);
     min-height:44px;touch-action:manipulation;transition:background .18s ease,color .18s ease,border-color .18s ease;
   }
   .gbtn:hover{border-color:rgba(255,255,255,.42);color:#fff}
@@ -599,7 +599,7 @@
     flex:0 0 auto;min-height:38px;padding:0 13px;
     border-color:rgba(255,255,255,.18);
     background:rgba(10,13,12,.66);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
-    font-size:10px;letter-spacing:.1em;
+    font-size:10.5px;letter-spacing:.11em;
   }
   .stage-grade .gbtn[aria-pressed="true"]{background:#fff;border-color:#fff;color:var(--ink)}
   .stage-grade .gbtn:disabled{opacity:.32}
@@ -677,7 +677,7 @@
   }
   .bx-count span{
     font-family:'IBM Plex Mono',monospace;font-weight:400;font-size:10.5px;
-    letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-left:6px;
+    letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-left:6px;
   }
   @keyframes bxIn{from{opacity:0;transform:translateY(5px) scaleY(.7)}to{opacity:1;transform:none}}
   @media (prefers-reduced-motion:reduce){.bx{animation:none}}
@@ -686,8 +686,8 @@
   .pack-sum b{color:#fff;font-weight:400}
   .pack-sum em{font-style:normal;color:var(--brand-lift)}
   .pack-sum s{
-    display:block;text-decoration:none;color:rgba(255,255,255,.38);
-    font-size:9.5px;letter-spacing:.06em;margin-top:3px;text-transform:none;
+    display:block;text-decoration:none;color:rgba(255,255,255,.58);
+    font-size:10.5px;letter-spacing:.06em;margin-top:3px;text-transform:none;
   }
 
   /* вкладка карточки прямо на кадре товара */
@@ -696,7 +696,7 @@
     display:inline-flex;align-items:center;gap:8px;min-height:36px;padding:0 12px;
     border-radius:999px;border:1px solid rgba(255,255,255,.2);
     background:rgba(10,13,12,.7);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
-    font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+    font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;
     color:rgba(255,255,255,.8);touch-action:manipulation;
     transition:background .18s ease,color .18s ease,border-color .18s ease;
   }
@@ -734,8 +734,8 @@
     font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
     color:rgba(255,255,255,.45);white-space:nowrap;
   }
-  .cardbox dd{margin:0;font-size:13.5px;color:rgba(255,255,255,.86)}
-  .mspec-lead{grid-column:2;color:rgba(255,255,255,.62);font-size:13.5px;max-width:52ch}
+  .cardbox dd{margin:0;font-size:13px;color:rgba(255,255,255,.86)}
+  .mspec-lead{grid-column:2;color:rgba(255,255,255,.62);font-size:13px;max-width:52ch}
   .shot-note{
     display:flex;align-items:center;gap:7px;
     font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.06em;
@@ -762,7 +762,7 @@
   }
   .gcmp-row.is-on .gcmp-name{color:var(--brand-lift)}
   .gcmp-prices{
-    font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.04em;
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.04em;
     color:rgba(255,255,255,.62);font-variant-numeric:tabular-nums;
   }
   .gcmp-delta{
@@ -798,10 +798,10 @@
     font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
     color:rgba(255,255,255,.5);
   }
-  .crow b{font-size:14px;color:rgba(255,255,255,.9);font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
+  .crow b{font-size:14.5px;color:rgba(255,255,255,.9);font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
   .crow--save b{color:var(--brand-lift)}
   .calc-next{
-    margin-top:16px;font-size:13.5px;line-height:1.5;color:rgba(255,255,255,.72);
+    margin-top:16px;font-size:13px;line-height:1.5;color:rgba(255,255,255,.72);
     background:rgba(78,158,120,.12);border:1px solid rgba(78,158,120,.28);
     border-radius:var(--r-s);padding:12px 14px;
   }
@@ -822,9 +822,9 @@
     .cbtn{min-height:34px;padding:0 9px;font-size:10px;gap:5px}
     .cbtn i{width:7px;height:7px}
     .card-open{left:8px;bottom:auto;top:8px;left:50%;transform:translateX(-50%);min-height:30px;padding:0 10px;font-size:9px}
-    .fbtn{min-height:46px;padding:6px 4px;gap:3px;flex-direction:row;justify-content:center}
+    .fbtn{min-height:48px;padding:6px 6px;gap:5px;flex-direction:row;justify-content:center}
     .fbtn svg{width:17px;height:15px}
-    .fbtn span{font-size:7.8px;text-align:left;white-space:nowrap;letter-spacing:.01em}
+    .fbtn span{font-size:9px;text-align:center;letter-spacing:.07em;line-height:1.15;text-wrap:balance}
     .pickbar{margin:8px 0}
     .forms{gap:5px}
     .calc-grade{margin-bottom:10px}
@@ -835,7 +835,7 @@
     .mscroll{padding-bottom:8px;gap:6px}
     .mchip{min-width:112px;padding:9px 12px}
     .mchip b{font-size:13px;margin-bottom:2px}
-    .mchip span{font-size:9.5px}
+    .mchip span{font-size:10px}
     .mgroup{padding:6px 9px 6px 10px;font-size:9px}
     /* подпись поля не нужна: есть плейсхолдер и строка-подсказка под ползунком */
     .calc-qty-wrap > .calc-lab{display:none}
@@ -860,17 +860,15 @@
     .calc-sum{font-size:clamp(1.45rem,5.8vw,1.75rem)}
     .calc-sum i{font-size:.3em}
     .sum-row{gap:8px}
-    .calc-tier{font-size:9.5px;letter-spacing:.08em}
-    .calc-per{font-size:9.5px;margin-top:4px;letter-spacing:.06em}
+    .calc-tier{font-size:10px;letter-spacing:.08em}
+    .calc-per{font-size:10px;margin-top:4px;letter-spacing:.06em}
     .crow{padding:5px 0}
-    .crow span{font-size:9.5px}
+    .crow span{font-size:10px}
     .crow b{font-size:13px}
     .calc-rows{margin-top:12px}
     .crow{padding:7px 0}
-    .calc-next{margin-top:10px;padding:9px 11px;font-size:11.5px;line-height:1.4}
+    .calc-next{margin-top:10px;padding:9px 11px;font-size:11px;line-height:1.4}
     .calc-cta{margin-top:12px;width:100%;justify-content:center;padding:14px 22px}
-  }
-    .calc-cta{width:100%;justify-content:center;margin-top:20px}
   }
   @media (max-width:560px){
     .mspec-in{grid-template-columns:1fr}
@@ -890,7 +888,7 @@
   .ptable-fold summary:hover{color:#fff}
   .ptable-fold .ptable-wrap{margin-top:12px}
   .tiers-note{
-    color:rgba(255,255,255,.6);font-size:13.5px;line-height:1.55;max-width:78ch;
+    color:rgba(255,255,255,.6);font-size:13px;line-height:1.55;max-width:78ch;
     margin:2px 0 16px;
   }
   .ptable-wrap{overflow-x:auto;border-radius:var(--r-m);border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.04)}
@@ -925,10 +923,10 @@
     position:sticky;top:0;background:#131817;
   }
   .ptable tbody th{
-    font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:800;font-size:12.5px;
+    font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:800;font-size:12px;
     letter-spacing:.05em;text-transform:uppercase;color:#fff;white-space:nowrap;
   }
-  .ptable tbody th small{display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;color:rgba(255,255,255,.45);font-weight:400;margin-top:3px}
+  .ptable tbody th small{display:block;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.08em;color:rgba(255,255,255,.58);font-weight:400;margin-top:3px}
   .ptable td{color:rgba(255,255,255,.78);font-variant-numeric:tabular-nums;white-space:nowrap}
   .ptable td.best{color:var(--brand-lift);font-weight:700}
   .ptable tbody tr:hover td,.ptable tbody tr:hover th{background:rgba(255,255,255,.04)}
@@ -947,12 +945,12 @@
   @media (max-width:760px){#prices{margin-inline:calc(var(--pad) * -1);padding-inline:var(--pad);border-radius:0}}
 
   /* ---------- сферы применения ---------- */
-  .dirs{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(12px,1.4vw,18px)}
+  .dirs{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
   .dir--hero{grid-column:span 2}
   .dir{
     display:flex;flex-direction:column;
     min-height:clamp(150px,14vw,196px);
-    padding:clamp(18px,1.9vw,28px);
+    padding:var(--card-pad);
     background:var(--panel);border:1px solid var(--line);border-radius:var(--r-l);
     color:inherit;cursor:pointer;text-align:left;width:100%;
     -webkit-tap-highlight-color:transparent;touch-action:manipulation;
@@ -970,7 +968,7 @@
   .dir--hero .dir-t{margin-top:auto;padding-top:24px}
   .dir-t b{font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;font-size:clamp(1.1rem,1.6vw,1.5rem);line-height:1.04;text-transform:uppercase;display:block;margin-bottom:8px;color:var(--ink)}
   .dir-t p{color:var(--ink-soft);font-size:14.5px;line-height:1.4;max-width:48ch}
-  .dir-why{display:block;margin-top:10px;color:var(--brand);font-size:13.5px}
+  .dir-why{display:block;margin-top:10px;color:var(--brand);font-size:13px}
   .dir--hero .dir-t b{font-size:clamp(1.4rem,2.4vw,2.2rem)}
   .dir--hero .dir-t p{font-size:15px;max-width:54ch}
   @media (hover:hover){
@@ -1163,6 +1161,9 @@
   .foot{padding-inline:calc(max(var(--pad), 50vw - 720px + var(--pad)) - var(--inset))}
   @media (max-width:760px){
     .hero{margin-inline:calc(var(--pad) * -1);padding-inline:var(--pad);border-radius:0;margin-top:-86px;padding-top:112px}
+    /* остров цен и подвал должны доходить до края экрана так же, как первый экран */
+    #prices{margin-inline:calc(var(--pad) * -1);padding-inline:var(--pad);border-radius:0}
+    .foot{margin-inline:0;padding-inline:var(--pad);border-radius:0}
     .nav{margin-inline:0}
   }
 
@@ -1234,7 +1235,7 @@
         <span class="l2">FAROS</span>
         <span class="l3">оптом</span>
       </h1>
-      <p class="hero-desc" id="hero-desc">Двенадцать моделей: складные и&nbsp;чашеобразные, от&nbsp;FFP1 до&nbsp;FFP3, плюс две с&nbsp;угольным фильтром&nbsp;- под сварку и&nbsp;под кислые газы. На&nbsp;оптовой партии выходит от&nbsp;208&nbsp;₸ за&nbsp;штуку.</p>
+      <p class="hero-desc" id="hero-desc">Двенадцать моделей: складные и&nbsp;чашеобразные, от&nbsp;FFP1 до&nbsp;FFP3, плюс две с&nbsp;угольным фильтром&nbsp;- под&nbsp;сварку и&nbsp;под&nbsp;кислые газы. На&nbsp;оптовой партии выходит от&nbsp;208&nbsp;₸ за&nbsp;штуку.</p>
       <div class="hero-act">
         <a class="pill pill--brand" href="#contact" data-lead="hero">Запросить оптовый прайс</a>
         <a class="pill pill--ghost" href="#models">Модельный ряд</a>
@@ -1340,7 +1341,7 @@
         <div class="form2-txt">
           <span class="mono">Серия FR&nbsp;4000</span>
           <h3>Складная</h3>
-          <p>Три панели, складывается плоско. Форму можно подстроить под любой тип лица, в&nbsp;кармане спецовки не&nbsp;мнётся, коробка занимает меньше места на&nbsp;складе.</p>
+          <p>Три панели, складывается плоско. Форму можно подстроить под&nbsp;любой тип лица, в&nbsp;кармане спецовки не&nbsp;мнётся, коробка занимает меньше места на&nbsp;складе.</p>
           <ul>
             <li>Коробка 400&nbsp;штук</li>
             <li>Каждая маска в&nbsp;своём пакете</li>
@@ -1702,7 +1703,7 @@
     <div class="sec-head">
       <div>
         <span class="svc-kicker">Поставщик</span>
-        <h2 class="display" id="why-h2">Кто отгружает</h2>
+        <h2 class="display" id="why-h2">Кто&nbsp;отгружает</h2>
       </div>
       <div class="sec-side">
         <p class="mono">Респираторы FAROS&nbsp;- одна из&nbsp;линий поставки СИЗ для промышленных предприятий Казахстана.</p>
@@ -1826,7 +1827,7 @@
     </div>
     <div class="foot-contact">
       <span class="mono">Поставщик</span>
-      <p style="max-width:34ch;color:rgba(255,255,255,.72);font-size:14.5px">ТОО «ALLTRADE-LTD»&nbsp;- поставка средств индивидуальной защиты для промышленных предприятий Казахстана.</p>
+      <p style="max-width:34ch;color:rgba(255,255,255,.72);font-size:14.5px">ТОО «ALLTRADE-LTD»&nbsp;- поставка средств индивидуальной защиты для&nbsp;промышленных предприятий Казахстана.</p>
     </div>
   </div>
   <div class="foot-bottom mono">
