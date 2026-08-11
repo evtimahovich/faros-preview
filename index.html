@@ -218,6 +218,43 @@
     content:"";position:absolute;inset:0;z-index:3;pointer-events:none;
     background:linear-gradient(90deg,rgba(8,10,9,.94) 0%,rgba(8,10,9,.72) 34%,rgba(8,10,9,.24) 58%,rgba(8,10,9,0) 76%);
   }
+  /* Пыль в луче света: дальний слой под респиратором, ближний - над ним.
+     Смысл прямой: это те самые частицы, от которых защищает маска. */
+  .hero-beam{
+    position:absolute;z-index:1;pointer-events:none;
+    right:-6%;top:-32%;width:74%;height:150%;
+    background:linear-gradient(198deg,rgba(190,232,212,.16) 0%,rgba(120,190,160,.07) 34%,transparent 62%);
+    transform:rotate(9deg);
+    -webkit-mask-image:radial-gradient(ellipse 62% 72% at 62% 34%,#000 12%,transparent 78%);
+    mask-image:radial-gradient(ellipse 62% 72% at 62% 34%,#000 12%,transparent 78%);
+  }
+  .haze{
+    position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden;
+    opacity:0;transition:opacity 1.2s ease;
+  }
+  .hero.fx-on .haze{opacity:1}
+  .dust{opacity:0;transition:opacity 1.4s ease}
+  .hero.fx-on .dust{opacity:1}
+  .haze i{
+    position:absolute;display:block;border-radius:50%;
+    background:radial-gradient(circle,rgba(168,222,196,.13),rgba(120,190,160,.05) 42%,transparent 68%);
+    filter:blur(22px);will-change:transform;
+  }
+  .haze i:nth-child(1){width:56%;height:70%;right:2%;top:-12%;animation:haze1 34s ease-in-out infinite}
+  .haze i:nth-child(2){width:44%;height:56%;right:26%;top:26%;opacity:.8;animation:haze2 46s ease-in-out infinite}
+  .haze i:nth-child(3){width:34%;height:44%;right:-4%;bottom:-6%;opacity:.6;animation:haze3 40s ease-in-out infinite}
+  @keyframes haze1{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(-4%,5%,0) scale(1.12)}}
+  @keyframes haze2{0%,100%{transform:translate3d(0,0,0) scale(1.05)}50%{transform:translate3d(5%,-6%,0) scale(.94)}}
+  @keyframes haze3{0%,100%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(-6%,-4%,0) scale(1.16)}}
+  @media (prefers-reduced-motion:reduce){.haze i{animation:none}}
+  @media (max-width:760px){
+    .haze i{filter:blur(16px)}
+    .haze i:nth-child(3){display:none}
+  }
+  .dust{position:absolute;inset:0;pointer-events:none;width:100%;height:100%}
+  .dust--far{will-change:opacity}
+  .dust--far{z-index:1}
+  .dust--near{z-index:3}
   .hero-copy{position:relative;z-index:4;max-width:920px}
   .hero-stats{
     display:flex;flex-wrap:wrap;gap:clamp(14px,2.2vw,34px);
@@ -1142,6 +1179,7 @@
   <!-- ============ 01 · ХИРО ============ -->
   <section class="hero" aria-labelledby="hero-h1">
     <div class="hero-grid" aria-hidden="true"></div>
+    <div class="hero-beam" aria-hidden="true"></div>
     <img class="hero-shot" id="hero-shot"
          src="assets/cutout/fr4310.webp"
          alt="Респиратор FAROS FR 4310 FFP3 NR D с клапаном выдоха"
@@ -1816,6 +1854,139 @@
     })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js', 'ym');
     window.ym(CONFIG.YM_ID, 'init', { clickmap: true, trackLinks: true, accurateTrackBounce: true });
   }
+
+  /* ============================================================
+     Пыль в луче света. Два слоя: дальний рисуется под респиратором,
+     ближний - поверх, поэтому частицы проходят за изделием и выходят перед ним.
+     Canvas, а не WebGL: нужен объект между двумя слоями, и на телефоне
+     две лёгкие 2D-сцены дешевле одного шейдера с текстурой.
+     ============================================================ */
+  (function () {
+    var hero = document.querySelector('.hero');
+    if (!hero) return;
+    var shot = document.getElementById('hero-shot');
+
+    /* Слои создаём скриптом после загрузки: в разметке они удерживали отрисовку
+       главного кадра (LCP 2,1 -> 3,2 с при двух полноэкранных canvas). */
+    var mk = function (tag, cls, before) {
+      var el = document.createElement(tag);
+      el.className = cls;
+      el.setAttribute('aria-hidden', 'true');
+      hero.insertBefore(el, before || null);
+      return el;
+    };
+    var haze = mk('div', 'haze', shot);
+    haze.innerHTML = '<i></i><i></i><i></i>';
+    var far = mk('canvas', 'dust dust--far', shot);
+    var near = mk('canvas', 'dust dust--near', document.querySelector('.hero-copy'));
+    if (!far.getContext) return;
+
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var dpr = Math.min(window.devicePixelRatio || 1, 1.6);
+    var layers = [
+      { c: far,  ctx: far.getContext('2d'),  n: 0, rMin: 0.6, rMax: 1.8, aMin: 0.16, aMax: 0.46, sp: 0.10, share: 0.6 },
+      { c: near, ctx: near.getContext('2d'), n: 0, rMin: 1.3, rMax: 3.4, aMin: 0.20, aMax: 0.62, sp: 0.2,  share: 0.4 }
+    ];
+    var W = 0, H = 0, t0 = performance.now();
+
+    var rnd = function (a, b) { return a + Math.random() * (b - a); };
+
+    var seed = function (L, count) {
+      L.p = [];
+      for (var i = 0; i < count; i++) {
+        /* смещаем облако вправо-вверх, в полосу луча, но не жёстко - иначе выглядит сеткой */
+        var bx = Math.random(), by = Math.random();
+        L.p.push({
+          x: Math.min(1, bx * 0.72 + 0.3 * Math.random() + 0.06),
+          y: Math.min(1, by * 0.86 + 0.1 * Math.random()),
+          r: rnd(L.rMin, L.rMax),
+          a: rnd(L.aMin, L.aMax),
+          vy: -rnd(0.6, 1.5) * L.sp,          /* пыль медленно поднимается в луче */
+          vx: rnd(-0.5, 0.9) * L.sp,
+          ph: Math.random() * 6.283,
+          sw: rnd(0.4, 1.4)                    /* амплитуда покачивания */
+        });
+      }
+    };
+
+    var resize = function () {
+      var r = hero.getBoundingClientRect();
+      W = Math.max(1, Math.round(r.width)); H = Math.max(1, Math.round(r.height));
+      /* число частиц от площади: на телефоне их меньше без правок кода */
+      var base = Math.round(Math.min(280, Math.max(56, (W * H) / (W < 760 ? 6400 : 4600))));
+      layers.forEach(function (L) {
+        L.c.width = Math.round(W * dpr); L.c.height = Math.round(H * dpr);
+        L.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        seed(L, Math.round(base * L.share));
+      });
+    };
+
+    var draw = function (now) {
+      var t = (now - t0) / 1000;
+      for (var i = 0; i < layers.length; i++) {
+        var L = layers[i], ctx = L.ctx;
+        if (!L.p) continue;
+        ctx.clearRect(0, 0, W, H);
+        for (var j = 0; j < L.p.length; j++) {
+          var p = L.p[j];
+          var x = (p.x * W) + Math.sin(t * 0.5 + p.ph) * p.sw * 14;
+          var y = p.y * H;
+          /* свет падает справа сверху: там частицы ярче, у левого края почти гаснут */
+          var nx = x / W, ny = y / H;
+          /* яркость по близости к оси луча (правый верх), с мягким затуханием вниз-влево */
+          var lit = 0.18 + 0.9 * Math.min(1, Math.max(0, nx * 1.15 - 0.12)) * (1 - ny * 0.45);
+          var alpha = p.a * lit;
+          if (alpha > 0.012) {
+            var g = ctx.createRadialGradient(x, y, 0, x, y, p.r * 3.8);
+            g.addColorStop(0, 'rgba(236,252,244,' + Math.min(0.9, alpha * 1.25).toFixed(3) + ')');
+            g.addColorStop(0.3, 'rgba(198,238,218,' + (alpha * 0.5).toFixed(3) + ')');
+            g.addColorStop(0.6, 'rgba(150,214,182,' + (alpha * 0.18).toFixed(3) + ')');
+            g.addColorStop(1, 'rgba(120,190,160,0)');
+            ctx.fillStyle = g;
+            ctx.beginPath(); ctx.arc(x, y, p.r * 3.8, 0, 6.2832); ctx.fill();
+          }
+          if (reduce) continue;
+          p.y += p.vy / H * 16;
+          p.x += p.vx / W * 16;
+          if (p.y < -0.03) { p.y = 1.03; p.x = Math.random(); }
+          if (p.x > 1.05) p.x = -0.05; else if (p.x < -0.05) p.x = 1.05;
+        }
+      }
+    };
+
+    var running = false, visible = true;
+    var frame = function (now) {
+      draw(now);
+      if (!visible || reduce) { running = false; return; }
+      requestAnimationFrame(frame);
+    };
+    var run = function () { if (!running) { running = true; requestAnimationFrame(frame); } };
+
+    /* Старт откладываем: до загрузки главный кадр важнее, эффект - украшение.
+       Иначе canvas отъедает время у отрисовки и роняет LCP. */
+    var ready = false;
+    var boot = function () { resize(); ready = true; run(); hero.classList.add('fx-on'); };
+    var soon = function () {
+      if (window.requestIdleCallback) window.requestIdleCallback(boot, { timeout: 900 });
+      else setTimeout(boot, 60);
+    };
+    if (document.readyState === 'complete') soon();
+    else window.addEventListener('load', soon);
+
+    var rt;
+    window.addEventListener('resize', function () {
+      clearTimeout(rt);
+      rt = setTimeout(function () { if (!ready) return; resize(); if (!running) draw(performance.now()); }, 180);
+    }, { passive: true });
+
+    /* за пределами первого экрана сцена останавливается и не жжёт батарею */
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (es) {
+        visible = es[0].isIntersecting;
+        if (visible && ready) run();
+      }, { threshold: 0 }).observe(hero);
+    }
+  })();
 
   /* ============================================================
      Атрибуция: gclid и utm живут в sessionStorage весь визит
