@@ -120,10 +120,8 @@
   }
   /* На узких экранах шапка уезжает при прокрутке вниз и возвращается при движении вверх:
      вместе с плавающей кнопкой WhatsApp она съедала пятую часть экрана. */
-  @media (max-width:1100px){
-    .nav{transition:transform .26s cubic-bezier(.2,.6,.2,1)}
-    .nav.is-away{transform:translateY(calc(-100% - 18px))}
-  }
+  .nav{transition:transform .26s cubic-bezier(.2,.6,.2,1)}
+  .nav.is-away{transform:translateY(calc(-100% - 18px))}
   @media (prefers-reduced-motion:reduce){.nav{transition:none}}
   @media (max-width:760px){.nav{padding-block:11px}}
   .nav-logo{display:inline-flex;align-items:center;gap:11px;flex:none;min-height:44px;touch-action:manipulation}
@@ -2228,12 +2226,18 @@
      Возвращаем сразу, если пользователь двинулся вверх, открыл меню или ушёл в фокус
      клавиатурой - иначе шапка исчезнет для тех, кто ходит табом. */
   if (navEl) {
-    var hideMq = window.matchMedia('(max-width:1100px)');
+    var heroEl = document.querySelector('.hero');
     var lastY = window.scrollY, ticking = false;
     var showNav = function () { navEl.classList.remove('is-away'); };
+    /* шапка живёт только на первом экране: ниже она уезжает при движении вниз
+       и возвращается, как только пользователь пошёл вверх */
+    var hideFrom = function () {
+      if (!heroEl) return 260;
+      return heroEl.offsetTop + heroEl.offsetHeight - 120;
+    };
     var navTick = function () {
       var y = window.scrollY;
-      if (!hideMq.matches || y < 260 || menuDrawer.classList.contains('is-open')) {
+      if (y < hideFrom() || menuDrawer.classList.contains('is-open')) {
         showNav();
       } else if (y > lastY + 6) {
         navEl.classList.add('is-away');
@@ -2248,7 +2252,7 @@
     }, { passive: true });
     navEl.addEventListener('focusin', showNav);
     document.addEventListener('keydown', function (e) { if (e.key === 'Tab') showNav(); });
-    hideMq.addEventListener('change', showNav);
+    window.addEventListener('resize', showNav, { passive: true });
   }
 
   var waFab = document.querySelector('.wa-fab');
