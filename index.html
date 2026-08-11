@@ -423,57 +423,32 @@
   .calc{
     background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
     border-radius:var(--r-l);padding:clamp(18px,2.4vw,32px);margin-bottom:14px;
+    max-width:840px;margin-inline:auto;
   }
   .calc-lab{
     font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;
     color:rgba(255,255,255,.55);margin-bottom:12px;display:block;
   }
-  /* лента моделей */
-  .mscroll{
-    display:flex;gap:8px;overflow-x:auto;padding-bottom:10px;
-    scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.25) transparent;
-    -webkit-overflow-scrolling:touch;
-    /* без scroll-snap: он притягивал первый чип к краю и прятал подпись группы */
+  /* Шаг 2: форма. Пять кнопок вместо ленты из двенадцати - остальное решает класс. */
+  .pickbar{margin-bottom:12px}
+  .forms{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+  .fbtn{
+    display:flex;flex-direction:column;align-items:center;gap:6px;
+    padding:10px 6px;min-height:64px;border-radius:var(--r-m);
+    border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.03);
+    color:rgba(255,255,255,.68);touch-action:manipulation;
+    transition:background .18s ease,border-color .18s ease,color .18s ease;
   }
-  .calc-pick{position:relative}
-  .calc-pick::after{
-    content:"";position:absolute;right:0;top:26px;bottom:10px;width:56px;pointer-events:none;
-    background:linear-gradient(90deg,transparent,#101413);
+  .fbtn svg{width:24px;height:20px;flex:none}
+  .fbtn span{
+    font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.05em;
+    text-transform:uppercase;line-height:1.25;text-align:center;
   }
-  .mscroll::-webkit-scrollbar{height:6px}
-  .mscroll::-webkit-scrollbar-thumb{background:rgba(255,255,255,.22);border-radius:99px}
-  .mchip{
-    flex:none;text-align:left;min-width:132px;
-    border:1px solid rgba(255,255,255,.14);border-radius:var(--r-m);
-    padding:12px 15px;background:rgba(255,255,255,.03);color:rgba(255,255,255,.72);
-    touch-action:manipulation;transition:background .18s ease,border-color .18s ease,color .18s ease;
-  }
-  .mgroup{
-    flex:none;align-self:center;display:flex;align-items:center;
-    padding:6px 12px 6px 14px;margin-left:2px;
-    border-left:1px solid rgba(255,255,255,.16);
-    font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
-    color:rgba(255,255,255,.56);white-space:nowrap;
-  }
-  .mgroup:first-child{border-left:0;padding-left:0;margin-left:0}
-  .mdot{
-    width:8px;height:8px;border-radius:50%;flex:none;
-    box-shadow:0 0 0 1px rgba(255,255,255,.35);
-  }
-  .mchip b{
-    display:flex;align-items:center;gap:7px;
-    font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:800;
-    font-size:14px;letter-spacing:.04em;color:#fff;margin-bottom:4px;
-  }
-  .mchip span{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase}
-  .mchip:hover{border-color:rgba(255,255,255,.4);background:rgba(255,255,255,.07)}
-  .mchip[aria-checked="true"]{background:var(--brand);border-color:var(--brand);color:rgba(255,255,255,.9)}
-  .calc-body{display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,3vw,44px);margin-top:clamp(20px,2.4vw,30px)}
-  /* без этого колонки распирает содержимое: у grid-элемента min-width по умолчанию auto */
-  .calc-body > *,.mspec-in > *,.mspec dl > *{min-width:0}
-  .crow span{min-width:0}
+  .fbtn:hover{border-color:rgba(255,255,255,.4);color:#fff}
+  .fbtn[aria-checked="true"]{background:var(--brand);border-color:var(--brand);color:#fff}
+
   /* исполнение */
-  .calc-grade{display:flex;gap:8px;margin-bottom:22px}
+  .calc-grade{display:flex;gap:8px;margin-bottom:12px}
   .gbtn{
     flex:1;border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:12px 16px;
     font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:800;font-size:11px;
@@ -484,8 +459,55 @@
   .gbtn[aria-pressed="true"]{background:#fff;border-color:#fff;color:var(--ink)}
   .gbtn:disabled{opacity:.34;cursor:not-allowed}
   .gbtn:disabled:hover{border-color:rgba(255,255,255,.16);color:rgba(255,255,255,.7)}
-  /* количество */
-  .qty{display:flex;align-items:stretch;gap:8px;margin-bottom:12px}
+
+  /* сцена: товар крупно, класс защиты выбирается прямо на кадре */
+  .stage{
+    position:relative;margin:0 0 10px;
+    border-radius:var(--r-m);background:#0d1211;overflow:hidden;
+  }
+  .stage::before{
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(ellipse 62% 54% at 46% 44%,rgba(78,158,120,.26),transparent 68%);
+  }
+  .stage img{
+    position:relative;z-index:1;display:block;margin:0 auto;
+    height:clamp(138px,26vw,264px);width:100%;object-fit:contain;
+    filter:drop-shadow(0 16px 24px rgba(0,0,0,.55));
+    padding:clamp(14px,2vw,22px) clamp(74px,9vw,104px) 0 clamp(14px,2vw,22px);
+    transition:opacity .18s ease;
+  }
+  .stage figcaption{
+    position:relative;z-index:2;display:flex;align-items:baseline;justify-content:space-between;
+    gap:12px;padding:6px 14px 12px;
+  }
+  .stage b{
+    font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;
+    font-size:clamp(17px,2vw,22px);letter-spacing:.04em;color:#fff;
+  }
+  .stage figcaption span{
+    font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.08em;
+    text-transform:uppercase;color:rgba(255,255,255,.62);white-space:nowrap;
+  }
+  /* класс защиты - столбиком на самом кадре, как просил владелец */
+  .stage-classes{
+    position:absolute;z-index:3;right:10px;top:12px;
+    display:flex;flex-direction:column;gap:6px;
+  }
+  .cbtn{
+    display:flex;align-items:center;gap:6px;min-height:44px;padding:0 12px;
+    border-radius:999px;border:1px solid rgba(255,255,255,.18);
+    background:rgba(10,13,12,.66);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+    font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:800;
+    font-size:11px;letter-spacing:.1em;color:rgba(255,255,255,.78);
+    touch-action:manipulation;transition:background .18s ease,color .18s ease,border-color .18s ease;
+  }
+  .cbtn i{width:8px;height:8px;border-radius:50%;flex:none;box-shadow:0 0 0 1px rgba(255,255,255,.4)}
+  .cbtn:hover{border-color:rgba(255,255,255,.45);color:#fff}
+  .cbtn[aria-checked="true"]{background:var(--brand);border-color:var(--brand);color:#fff}
+  .cbtn:disabled{opacity:.3;cursor:not-allowed}
+
+  /* количество: поле, шаг кнопками и ползунок */
+  .qty{display:flex;align-items:stretch;gap:8px;margin-bottom:10px}
   .qbtn{
     flex:none;width:52px;border:1px solid rgba(255,255,255,.16);border-radius:var(--r-s);
     color:#fff;font-size:22px;line-height:1;touch-action:manipulation;
@@ -500,39 +522,7 @@
   }
   .qty input:focus{outline:2px solid var(--brand-lift);outline-offset:1px}
   #calc-range{width:100%;accent-color:var(--brand-lift);height:44px}
-  .qhint{color:rgba(255,255,255,.5);margin-top:4px;min-height:2.4em}
-  /* сцена товара: на телефоне работает витриной, на десктопе не нужна - фото в характеристиках */
-  .stage{display:none}
-  @media (max-width:640px){
-    .stage{
-      display:block;position:relative;margin:0;
-      border-radius:var(--r-m);background:#0d1211;overflow:hidden;
-    }
-    .stage::before{
-      content:"";position:absolute;inset:0;
-      background:radial-gradient(ellipse 62% 54% at 50% 44%,rgba(78,158,120,.26),transparent 68%);
-    }
-    .stage img{
-      position:relative;z-index:1;display:block;margin:0 auto;
-      /* высота, а не ширина: кадры разной пропорции должны выглядеть одинаково крупно */
-      height:152px;width:100%;object-fit:contain;
-      filter:drop-shadow(0 16px 22px rgba(0,0,0,.55));
-      padding:14px 0 0;
-      transition:opacity .2s ease;
-    }
-    .stage figcaption{
-      position:relative;z-index:2;display:flex;align-items:baseline;justify-content:space-between;
-      gap:12px;padding:4px 13px 9px;
-    }
-    .stage b{
-      font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;
-      font-size:17px;letter-spacing:.04em;color:#fff;
-    }
-    .stage span{
-      font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.08em;
-      text-transform:uppercase;color:rgba(255,255,255,.6);white-space:nowrap;
-    }
-  }
+  .qhint{color:rgba(255,255,255,.5);margin-top:2px;min-height:1.6em}
 
   /* коробки: сколько их получается на введённый объём */
   .boxes{
@@ -567,6 +557,17 @@
   @media (prefers-reduced-motion:reduce){.bx{animation:none}}
 
   /* характеристики - карточка открыта всегда */
+  /* полная карточка товара - по раскрытию */
+  .mspec summary{
+    cursor:pointer;list-style:none;display:flex;align-items:center;gap:10px;min-height:44px;
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+    color:rgba(255,255,255,.68);touch-action:manipulation;
+  }
+  .mspec summary::-webkit-details-marker{display:none}
+  .mspec summary::after{content:'+';font-size:16px;color:var(--brand-lift);margin-left:auto}
+  .mspec[open] summary::after{content:'−'}
+  .mspec summary:hover{color:#fff}
+  .mspec[open] .mspec-in{padding-top:12px}
   .mspec{margin-top:18px;border-top:1px solid rgba(255,255,255,.1);padding-top:18px}
   .mspec-in{display:grid;grid-template-columns:auto 1fr;gap:16px 22px;align-items:start}
   .mspec-in img{
@@ -617,9 +618,8 @@
   /* результат */
   .calc-right{
     background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);
-    border-radius:var(--r-m);padding:clamp(20px,2.4vw,30px);
-    display:flex;flex-direction:column;align-self:start;
-    position:sticky;top:calc(var(--nav-h) + 18px);
+    border-radius:var(--r-m);padding:clamp(14px,1.6vw,20px) clamp(16px,1.8vw,22px);
+    display:flex;flex-direction:column;margin-bottom:12px;
   }
   .calc-tier{color:var(--brand-lift);letter-spacing:.14em;margin-bottom:10px}
   .calc-sum{
@@ -646,16 +646,19 @@
   }
   .calc-next b{color:var(--brand-lift)}
   .calc-next.is-top{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.12)}
-  .calc-cta{margin-top:20px;align-self:flex-start;background:#fff;color:var(--ink)}
+  .calc-cta{margin-top:14px;background:#fff;color:var(--ink);width:100%;justify-content:center}
   .calc-cta:hover{background:var(--brand-lift);color:#fff}
-  @media (max-width:900px){
-    .calc-body{grid-template-columns:1fr;gap:24px}
-    .calc-right{position:static}
-  }
+
   /* Один экран на телефоне: сцена с товаром, под ней объём и итог.
      Характеристики и сравнение исполнений уходят за сгиб - там их и ищут. */
   @media (max-width:640px){
-    .calc{padding:14px}
+    .calc{padding:12px}
+    .fbtn{min-height:58px;padding:8px 4px;gap:5px}
+    .fbtn svg{width:21px;height:18px}
+    .fbtn span{font-size:8.5px}
+    .calc-grade{margin-bottom:10px}
+    .gbtn{padding:11px 12px}
+    .calc-next{font-size:11.5px;padding:9px 11px;line-height:1.42}
     /* лента компактнее: класс и ПДК читаются, лишний воздух убран */
     .calc-lab{margin-bottom:8px}
     .mscroll{padding-bottom:8px;gap:6px}
@@ -671,13 +674,6 @@
     .calc-rows{margin-top:8px;border-top:0}
     .calc-per{margin-top:6px;font-size:10.5px}
     .calc-tier{margin-bottom:6px}
-    .calc-body{display:flex;flex-direction:column;gap:8px}
-    .calc-left{display:contents}
-    .calc-grade{order:1;margin-bottom:0}
-    .stage{order:2}
-    .calc-qty-wrap{order:3}
-    .calc-right{order:4}
-    .mspec{order:5;margin-top:4px}
     .qty{margin-bottom:8px}
     .qty input{font-size:1.4rem;padding:10px 12px}
     .qbtn{width:46px}
@@ -688,8 +684,8 @@
     /* строка-подсказка дублирует то, что показывают коробки - на телефоне лишняя */
     .qhint{display:none}
     .boxes{min-height:34px;margin:5px 0 0}
-    .calc-right{padding:13px 15px}
-    .calc-sum{font-size:clamp(1.8rem,7.6vw,2.2rem)}
+    .calc-right{padding:12px 14px}
+    .calc-sum{font-size:clamp(1.7rem,7.2vw,2.1rem)}
     .calc-rows{margin-top:12px}
     .crow{padding:7px 0}
     .calc-next{margin-top:10px;padding:9px 11px;font-size:11.5px;line-height:1.4}
@@ -988,9 +984,9 @@
       <i>ALLTRADE-LTD</i>
     </a>
     <ul class="nav-links">
+      <li><a href="#industries">Подбор</a></li>
       <li><a href="#models">Модельный&nbsp;ряд</a></li>
-      <li><a href="#prices">Цены</a></li>
-      <li><a href="#industries">Отрасли</a></li>
+      <li><a href="#prices">Расчёт</a></li>
       <li><a href="#certs">Документы</a></li>
       <li><a href="#why">О&nbsp;поставщике</a></li>
     </ul>
@@ -999,9 +995,9 @@
       <svg aria-hidden="true" focusable="false"><use href="#i-menu"></use></svg>
     </button>
     <nav class="nav-drawer" id="nav-drawer" aria-label="Разделы страницы">
+      <a href="#industries">Подбор</a>
       <a href="#models">Модельный ряд</a>
-      <a href="#prices">Цены</a>
-      <a href="#industries">Отрасли</a>
+      <a href="#prices">Расчёт</a>
       <a href="#certs">Документы</a>
       <a href="#why">О поставщике</a>
       <a href="#contact">Запросить прайс</a>
@@ -1060,6 +1056,60 @@
     document.title = data.h1.join(' ') + ' - FAROS оптом по Казахстану';
   })();
   </script>
+
+  <section id="industries" aria-labelledby="industries-h2">
+    <div class="sec-head">
+      <div>
+        <span class="svc-kicker">Шаг 1</span>
+        <h2 class="display" id="industries-h2">Начнём с&nbsp;того,<br>чем <em>дышат у&nbsp;вас</em></h2>
+      </div>
+      <div class="sec-side">
+        <p class="mono">Выберите участок&nbsp;- подставим подходящую модель в&nbsp;расчёт. Класс защиты зависит не&nbsp;от&nbsp;отрасли, а&nbsp;от&nbsp;кратности превышения ПДК, поэтому дальше модель можно поменять.</p>
+      </div>
+    </div>
+    <div class="dirs">
+      <button class="dir dir--hero" type="button" data-ind="welding" data-model="FR 3220">
+        <span class="dir-top"><span class="num">01</span><span class="dir-pick">FR 3220</span></span>
+        <span class="dir-t">
+          <b>Сварка и&nbsp;металлообработка</b>
+          <p>Сварочный дым несёт озон и&nbsp;мелкую металлическую пыль, плюс запах, который к&nbsp;концу смены выматывает не&nbsp;меньше самой пыли.</p>
+          <span class="dir-why">Нужен угольный слой, обычная FFP2 запах не&nbsp;держит</span>
+        </span>
+      </button>
+      <button class="dir" type="button" data-ind="mining" data-model="FR 4310W">
+        <span class="dir-top"><span class="num">02</span><span class="dir-pick">FR 4310W</span></span>
+        <span class="dir-t">
+          <b>Горная добыча</b>
+          <p>Кремнийсодержащая пыль и&nbsp;буровой аэрозоль, смена длинная.</p>
+          <span class="dir-why">Максимальный класс, до&nbsp;50&nbsp;ПДК</span>
+        </span>
+      </button>
+      <button class="dir" type="button" data-ind="petrochem" data-model="FR 3230">
+        <span class="dir-top"><span class="num">03</span><span class="dir-pick">FR 3230</span></span>
+        <span class="dir-t">
+          <b>Нефтехимия</b>
+          <p>Фтороводород, сероводород, сернистый ангидрид.</p>
+          <span class="dir-why">Единственная модель в&nbsp;прайсе под кислые газы</span>
+        </span>
+      </button>
+      <button class="dir" type="button" data-ind="glass" data-model="FR 4210W">
+        <span class="dir-top"><span class="num">04</span><span class="dir-pick">FR 4210W</span></span>
+        <span class="dir-t">
+          <b>Стекловолокно и&nbsp;стройматериалы</b>
+          <p>Стекловолокно и&nbsp;минеральная пыль раздражают дыхательные пути, а&nbsp;работают в&nbsp;каске и&nbsp;очках, так что маска не&nbsp;должна с&nbsp;ними спорить.</p>
+          <span class="dir-why">Складная сидит под каску, очки не&nbsp;запотевают</span>
+        </span>
+      </button>
+      <button class="dir" type="button" data-ind="textile" data-model="FR 3100">
+        <span class="dir-top"><span class="num">05</span><span class="dir-pick">FR 3100</span></span>
+        <span class="dir-t">
+          <b>Текстиль и&nbsp;деревообработка</b>
+          <p>Пыли много, вредность невысокая, а&nbsp;выдавать нужно всей смене каждый день.</p>
+          <span class="dir-why">Самая дешёвая позиция прайса, коробка 300&nbsp;штук</span>
+        </span>
+      </button>
+    </div>
+  </section>
 
   <!-- ============ 02 · МОДЕЛЬНЫЙ РЯД ============ -->
   <section id="models" aria-labelledby="models-h2">
@@ -1211,16 +1261,21 @@
 <!-- /SKU:DATA -->
 
     <div class="calc" id="calc">
-      <div class="calc-pick">
-        <p class="calc-lab" id="calc-model-label">Модель</p>
-        <div class="mscroll" role="radiogroup" aria-labelledby="calc-model-label" id="calc-models"></div>
+      <!-- Шаг 2: форма и класс. Двенадцать моделей = пять форм x доступные классы,
+           поэтому выбор идёт двумя короткими рядами, а не лентой из двенадцати чипов. -->
+      <div class="pickbar">
+        <div class="forms" role="radiogroup" aria-label="Форма полумаски" id="calc-forms"></div>
       </div>
 
       <div class="calc-body">
         <div class="calc-left">
           <figure class="stage">
             <img id="stage-img" src="" alt="" decoding="async">
-            <figcaption><b id="stage-name"></b><span id="stage-spec"></span></figcaption>
+            <figcaption>
+              <b id="stage-name"></b>
+              <span id="stage-spec"></span>
+            </figcaption>
+            <div class="stage-classes" role="radiogroup" aria-label="Класс защиты" id="calc-classes"></div>
           </figure>
 
           <div class="calc-grade" role="radiogroup" aria-label="Исполнение">
@@ -1228,21 +1283,34 @@
             <button type="button" class="gbtn" data-grade="PREMIUM" aria-pressed="false">PREMIUM</button>
           </div>
 
-          <div class="calc-qty-wrap">
-          <label class="calc-lab" for="calc-qty">Сколько штук нужно</label>
-          <div class="qty">
-            <button type="button" class="qbtn" data-step="-1" aria-label="Уменьшить количество">−</button>
-            <input id="calc-qty" type="text" inputmode="numeric" value="3 000" autocomplete="off"
-                   aria-describedby="calc-qty-hint">
-            <button type="button" class="qbtn" data-step="1" aria-label="Увеличить количество">+</button>
-          </div>
-          <input id="calc-range" type="range" min="10" max="30000" step="10" value="3000"
-                 aria-label="Количество штук">
-          <div class="boxes" id="calc-boxes" aria-hidden="true"></div>
-          <p class="qhint mono" id="calc-qty-hint"></p>
+          <!-- Итог стоит НАД ползунком: при перетягивании палец закрывает низ экрана,
+               и цифра должна меняться там, куда человек смотрит. -->
+          <div class="calc-right" aria-live="polite">
+            <p class="calc-tier mono" id="calc-tier"></p>
+            <p class="calc-sum"><span id="calc-total"></span><i>₸</i></p>
+            <p class="calc-per mono" id="calc-per"></p>
+            <div class="calc-rows" id="calc-rows"></div>
           </div>
 
-          <div class="mspec">
+          <div class="calc-qty-wrap">
+            <label class="calc-lab" for="calc-qty">Сколько штук нужно</label>
+            <div class="qty">
+              <button type="button" class="qbtn" data-step="-1" aria-label="Уменьшить количество">−</button>
+              <input id="calc-qty" type="text" inputmode="numeric" value="3 000" autocomplete="off"
+                     aria-describedby="calc-qty-hint">
+              <button type="button" class="qbtn" data-step="1" aria-label="Увеличить количество">+</button>
+            </div>
+            <input id="calc-range" type="range" min="10" max="30000" step="10" value="3000"
+                   aria-label="Количество штук">
+            <div class="boxes" id="calc-boxes" aria-hidden="true"></div>
+            <p class="qhint mono" id="calc-qty-hint"></p>
+          </div>
+
+          <p class="calc-next" id="calc-next"></p>
+          <a class="pill calc-cta" id="calc-cta" href="#contact">Отправить расчёт в&nbsp;заявку</a>
+
+          <details class="mspec" id="calc-card">
+            <summary>Полная карточка товара</summary>
             <div class="mspec-in">
               <img id="calc-img" src="" alt="" role="presentation" decoding="async" width="240" height="200">
               <dl id="calc-specs"></dl>
@@ -1250,16 +1318,7 @@
               <p class="mspec-lead" id="calc-lead"></p>
             </div>
             <div class="gcmp" id="calc-compare"></div>
-          </div>
-        </div>
-
-        <div class="calc-right" aria-live="polite">
-          <p class="calc-tier mono" id="calc-tier"></p>
-          <p class="calc-sum"><span id="calc-total"></span><i>₸</i></p>
-          <p class="calc-per mono" id="calc-per"></p>
-          <div class="calc-rows" id="calc-rows"></div>
-          <p class="calc-next" id="calc-next"></p>
-          <a class="pill calc-cta" id="calc-cta" href="#contact">Отправить расчёт в&nbsp;заявку</a>
+          </details>
         </div>
       </div>
     </div>
@@ -1449,59 +1508,6 @@
   </section>
 
   <!-- ============ 04 · СФЕРЫ ПРИМЕНЕНИЯ ============ -->
-  <section id="industries" aria-labelledby="industries-h2">
-    <div class="sec-head">
-      <div>
-        <span class="svc-kicker">Подбор</span>
-        <h2 class="display" id="industries-h2">Чем дышат<br>на&nbsp;<em>вашем участке</em></h2>
-      </div>
-      <div class="sec-side">
-        <p class="mono">Класс защиты выбирают не&nbsp;по&nbsp;отрасли, а&nbsp;по&nbsp;кратности превышения ПДК на&nbsp;рабочем месте. Нажмите карточку&nbsp;- отрасль подставится в&nbsp;заявку.</p>
-      </div>
-    </div>
-    <div class="dirs">
-      <button class="dir dir--hero" type="button" data-ind="welding">
-        <span class="dir-top"><span class="num">01</span><span class="dir-pick">FR 3220</span></span>
-        <span class="dir-t">
-          <b>Сварка и&nbsp;металлообработка</b>
-          <p>Сварочный дым несёт озон и&nbsp;мелкую металлическую пыль, плюс запах, который к&nbsp;концу смены выматывает не&nbsp;меньше самой пыли.</p>
-          <span class="dir-why">Нужен угольный слой, обычная FFP2 запах не&nbsp;держит</span>
-        </span>
-      </button>
-      <button class="dir" type="button" data-ind="mining">
-        <span class="dir-top"><span class="num">02</span><span class="dir-pick">FR 4310W</span></span>
-        <span class="dir-t">
-          <b>Горная добыча</b>
-          <p>Кремнийсодержащая пыль и&nbsp;буровой аэрозоль, смена длинная.</p>
-          <span class="dir-why">Максимальный класс, до&nbsp;50&nbsp;ПДК</span>
-        </span>
-      </button>
-      <button class="dir" type="button" data-ind="petrochem">
-        <span class="dir-top"><span class="num">03</span><span class="dir-pick">FR 3230</span></span>
-        <span class="dir-t">
-          <b>Нефтехимия</b>
-          <p>Фтороводород, сероводород, сернистый ангидрид.</p>
-          <span class="dir-why">Единственная модель в&nbsp;прайсе под кислые газы</span>
-        </span>
-      </button>
-      <button class="dir" type="button" data-ind="glass">
-        <span class="dir-top"><span class="num">04</span><span class="dir-pick">FR 4210W</span></span>
-        <span class="dir-t">
-          <b>Стекловолокно и&nbsp;стройматериалы</b>
-          <p>Стекловолокно и&nbsp;минеральная пыль раздражают дыхательные пути, а&nbsp;работают в&nbsp;каске и&nbsp;очках, так что маска не&nbsp;должна с&nbsp;ними спорить.</p>
-          <span class="dir-why">Складная сидит под каску, очки не&nbsp;запотевают</span>
-        </span>
-      </button>
-      <button class="dir" type="button" data-ind="textile">
-        <span class="dir-top"><span class="num">05</span><span class="dir-pick">FR 3100</span></span>
-        <span class="dir-t">
-          <b>Текстиль и&nbsp;деревообработка</b>
-          <p>Пыли много, вредность невысокая, а&nbsp;выдавать нужно всей смене каждый день.</p>
-          <span class="dir-why">Самая дешёвая позиция прайса, коробка 300&nbsp;штук</span>
-        </span>
-      </button>
-    </div>
-  </section>
 
   <!-- ============ 05 · СЕРТИФИКАЦИЯ ============ -->
   <section id="certs" aria-labelledby="certs-h2">
@@ -1967,7 +1973,8 @@
     calcState = state;
 
     var el = {
-      models: document.getElementById('calc-models'),
+      forms: document.getElementById('calc-forms'),
+      classes: document.getElementById('calc-classes'),
       qty: document.getElementById('calc-qty'),
       range: document.getElementById('calc-range'),
       hint: document.getElementById('calc-qty-hint'),
@@ -2020,23 +2027,68 @@
 
     /* Лента сгруппирована по форме, внутри - по классу защиты. Точка на чипе повторяет
        цвет маркировки, напечатанной на самой полумаске: чёрная FFP1, синяя FFP2, красная FFP3. */
-    var renderModels = function () {
-      var html = '', lastGroup = null;
-      CALC.models.forEach(function (m, i) {
-        if (m.group !== lastGroup) {
-          html += '<span class="mgroup" aria-hidden="true">' + m.group + '</span>';
-          lastGroup = m.group;
-        }
-        var on = m.model === state.model.model;
-        html += '<button type="button" class="mchip" role="radio" data-i="' + i + '" ' +
+    /* Формы в порядке ряда; у каждой свои доступные классы. */
+    var FORM_ICONS = {
+      'Складная без клапана': '<path d="M2 12 L8 5 L16 5 L22 12 L16 19 L8 19 Z"/>',
+      'Складная с клапаном':  '<path d="M2 12 L8 5 L16 5 L22 12 L16 19 L8 19 Z"/><circle cx="12" cy="12" r="3.4"/>',
+      'Чашеобразная без клапана': '<path d="M3 18 A9 9 0 0 1 21 18 Z"/>',
+      'Чашеобразная с клапаном':  '<path d="M3 18 A9 9 0 0 1 21 18 Z"/><circle cx="12" cy="14" r="3"/>',
+      'уголь': '<path d="M3 18 A9 9 0 0 1 21 18 Z"/><path d="M7 14 h10 M8 11 h8"/>'
+    };
+    var FORM_SHORT = {
+      'Складная без клапана': 'Складная',
+      'Складная с клапаном': 'Складная + клапан',
+      'Чашеобразная без клапана': 'Чашка',
+      'Чашеобразная с клапаном': 'Чашка + клапан'
+    };
+    /* группируем модели по форме, спецмодели с углём идут пятой группой */
+    var FORMS = [];
+    CALC.models.forEach(function (m) {
+      var key = m.group === 'С угольным фильтром' ? 'Уголь' : m.form;
+      var f = FORMS.filter(function (x) { return x.key === key; })[0];
+      if (!f) {
+        f = { key: key, label: key === 'Уголь' ? 'С углём' : (FORM_SHORT[m.form] || m.form),
+              icon: FORM_ICONS[key === 'Уголь' ? 'уголь' : m.form] || FORM_ICONS['Складная без клапана'],
+              models: [] };
+        FORMS.push(f);
+      }
+      f.models.push(m);
+    });
+
+    var renderForms = function () {
+      el.forms.innerHTML = FORMS.map(function (f, i) {
+        var on = f.models.indexOf(state.model) >= 0;
+        return '<button type="button" class="fbtn" role="radio" data-f="' + i + '" ' +
           'aria-checked="' + (on ? 'true' : 'false') + '" tabindex="' + (on ? '0' : '-1') + '" ' +
-          'aria-label="' + m.model + ', класс FFP' + m.ffp + ', до ' + m.pdk + ' ПДК">' +
-          '<b><i class="mdot" style="background:' + m.markingHex + '"></i>' + m.model + '</b>' +
-          '<span>FFP' + m.ffp + ' · до ' + m.pdk + ' ПДК</span></button>';
-      });
-      el.models.innerHTML = html;
+          'aria-label="' + f.label + '">' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">' +
+          f.icon + '</svg><span>' + f.label + '</span></button>';
+      }).join('');
     };
 
+    var renderClasses = function () {
+      var f = FORMS.filter(function (x) { return x.models.indexOf(state.model) >= 0; })[0];
+      el.classes.innerHTML = f.models.map(function (m) {
+        var on = m === state.model;
+        var label = f.key === 'Уголь' ? m.model.replace('FR ', '') : 'FFP' + m.ffp;
+        return '<button type="button" class="cbtn" role="radio" data-m="' + CALC.models.indexOf(m) + '" ' +
+          'aria-checked="' + (on ? 'true' : 'false') + '" tabindex="' + (on ? '0' : '-1') + '" ' +
+          'aria-label="' + m.model + ', класс FFP' + m.ffp + ', до ' + m.pdk + ' ПДК">' +
+          '<i style="background:' + m.markingHex + '"></i>' + label + '</button>';
+      }).join('');
+    };
+
+    /* выбор модели снаружи: карточка отрасли передаёт сюда свою рекомендацию */
+    var pickModel = function (model, silent) {
+      var m = CALC.models.filter(function (x) { return x.model === model; })[0];
+      if (!m) return;
+      state.model = m;
+      if (!m.grades[state.grade]) state.grade = Object.keys(m.grades)[0];
+      renderForms(); renderClasses();
+      setQty(state.qty);
+      if (!silent) track('calc_model', { model: m.model });
+    };
+    window.__calcPick = function (model) { pickModel(model); };
     /* Ряд коробок. Элементы не пересоздаются на каждое движение ползунка:
        лишние убираются, недостающие добавляются - иначе анимация дёргается. */
     var MAX_BOXES = 24;
@@ -2173,6 +2225,7 @@
       renderGrades();
       renderBoxes();
       renderCompare();
+      renderClasses();
     };
 
     var setQty = function (v, from) {
@@ -2187,28 +2240,32 @@
       render();
     };
 
-    el.models.addEventListener('click', function (e) {
-      var btn = e.target.closest('.mchip');
+    el.forms.addEventListener('click', function (e) {
+      var btn = e.target.closest('.fbtn');
       if (!btn) return;
-      state.model = CALC.models[+btn.getAttribute('data-i')];
-      Array.prototype.forEach.call(el.models.children, function (c) {
-        var on = c === btn;
-        c.setAttribute('aria-checked', on ? 'true' : 'false');
-        c.setAttribute('tabindex', on ? '0' : '-1');
-      });
-      if (!state.model.grades[state.grade]) state.grade = Object.keys(state.model.grades)[0];
-      setQty(state.qty);
-      track('calc_model', { model: state.model.model });
+      var f = FORMS[+btn.getAttribute('data-f')];
+      /* внутри формы держим тот же класс защиты, если он там есть */
+      var same = f.models.filter(function (m) { return m.ffp === state.model.ffp; })[0];
+      pickModel((same || f.models[0]).model);
     });
-    /* стрелками по ленте моделей, как в обычном радиогруппе */
-    el.models.addEventListener('keydown', function (e) {
-      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
-      var chips = Array.prototype.slice.call(el.models.children);
-      var i = chips.indexOf(document.activeElement);
-      if (i < 0) return;
-      e.preventDefault();
-      var n = chips[e.key === 'ArrowRight' ? Math.min(i + 1, chips.length - 1) : Math.max(i - 1, 0)];
-      n.focus(); n.click();
+    el.classes.addEventListener('click', function (e) {
+      var btn = e.target.closest('.cbtn');
+      if (!btn) return;
+      pickModel(CALC.models[+btn.getAttribute('data-m')].model);
+    });
+    /* стрелки внутри каждой группы кнопок */
+    [el.forms, el.classes].forEach(function (group) {
+      group.addEventListener('keydown', function (e) {
+        var horiz = group === el.forms;
+        var next = horiz ? 'ArrowRight' : 'ArrowDown', prev = horiz ? 'ArrowLeft' : 'ArrowUp';
+        if (e.key !== next && e.key !== prev) return;
+        var items = Array.prototype.slice.call(group.children);
+        var i = items.indexOf(document.activeElement);
+        if (i < 0) return;
+        e.preventDefault();
+        var t = items[e.key === next ? Math.min(i + 1, items.length - 1) : Math.max(i - 1, 0)];
+        t.focus(); t.click();
+      });
     });
 
     document.querySelectorAll('.gbtn').forEach(function (g) {
@@ -2237,7 +2294,8 @@
       });
     });
 
-    renderModels();
+    renderForms();
+    renderClasses();
     setQty(state.qty);
   }
 
@@ -2258,9 +2316,13 @@
   /* Клик по отрасли и кнопкам разделов подставляет контекст в заявку */
   document.querySelectorAll('.dir').forEach(function (card) {
     card.addEventListener('click', function () {
-      addTask('Отрасль: ' + card.querySelector('b').textContent.trim() + ' · интересует ' + card.querySelector('.dir-pick').textContent.trim());
-      track('select_industry', { industry: card.getAttribute('data-ind') });
-      document.getElementById('contact').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      var model = card.getAttribute('data-model');
+      addTask('Участок: ' + card.querySelector('b').textContent.trim() + ' · подобрали ' + model);
+      track('select_industry', { industry: card.getAttribute('data-ind'), model: model });
+      /* подставляем модель в расчёт - это следующий шаг пути, а не сразу заявка */
+      if (window.__calcPick) window.__calcPick(model);
+      var target = document.getElementById('prices');
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
   var priceCta = document.getElementById('price-cta');
