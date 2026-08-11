@@ -570,6 +570,25 @@
   #calc-range{width:100%;accent-color:var(--brand-lift);height:44px}
   .qhint{color:rgba(255,255,255,.5);margin-top:2px;min-height:1.6em}
 
+  /* На широком экране: слева товар и его выбор, справа расчёт. Смысл в том,
+     чтобы менять модель и видеть цену не прокручивая - обе части в одном экране. */
+  @media (min-width:901px){
+    .calc{max-width:1100px}
+    .calc-left{
+      display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,1fr);
+      column-gap:clamp(20px,2.4vw,36px);align-items:start;
+    }
+    .col-info{display:flex;flex-direction:column;min-width:0}
+    .col-calc{display:flex;flex-direction:column;min-width:0}
+    .stage{margin-bottom:10px;flex:1;display:flex;flex-direction:column}
+    .stage img{flex:1;height:auto;min-height:220px;max-height:320px}
+    .calc-grade{margin-bottom:0}
+    .calc-right{margin-bottom:10px}
+    .pack{margin:0 0 10px}
+    .calc-next{margin-top:10px}
+    .calc-cta{margin-top:12px;align-self:flex-start;width:auto}
+  }
+
   /* Коробки рисуем картонными, а не абстрактными плитками: человек должен узнать
      транспортный короб. Крафтовый тон, клапаны крышки и полоса скотча. */
   .pack{margin:8px 0 10px}
@@ -1312,6 +1331,7 @@
 
       <div class="calc-body">
         <div class="calc-left">
+          <div class="col-info">
           <figure class="stage">
             <img id="stage-img" src="" alt="" decoding="async">
             <figcaption>
@@ -1328,6 +1348,9 @@
             <button type="button" class="gbtn" data-grade="STANDART" aria-pressed="true">STANDART</button>
             <button type="button" class="gbtn" data-grade="PREMIUM" aria-pressed="false">PREMIUM</button>
           </div>
+          </div>
+
+          <div class="col-calc">
 
           <!-- Итог выше ползунка: при перетягивании палец закрывает низ экрана. -->
           <div class="calc-right" aria-live="polite">
@@ -1361,6 +1384,7 @@
           </div>
 
           <a class="pill calc-cta" id="calc-cta" href="#contact">Отправить расчёт в&nbsp;заявку</a>
+          </div>
         </div>
       </div>
 
