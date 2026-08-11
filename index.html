@@ -1376,7 +1376,7 @@
         <h2 class="display" id="prices-h2">Цена <em>за&nbsp;штуку</em></h2>
       </div>
       <div class="sec-side">
-        <p class="mono">Тенге с&nbsp;НДС за&nbsp;штуку. Порог&nbsp;- по&nbsp;сумме заказа.</p>
+        <p class="mono">Цены в&nbsp;тенге с&nbsp;НДС. Уровень определяется суммой заказа.</p>
       </div>
     </div>
 
@@ -1656,7 +1656,7 @@
 
     <div class="prices-act">
       <a class="pill" href="#contact" data-lead="prices">Получить прайс с&nbsp;печатью</a>
-      <span class="mono">Скидка считается от&nbsp;суммы заказа, а&nbsp;не&nbsp;от&nbsp;числа коробок</span>
+      <span class="mono">Прайс с&nbsp;печатью и&nbsp;сроком действия</span>
     </div>
   </section>
 
@@ -2426,8 +2426,8 @@
       var p = m.grades[grade];
       if (cur.tier === 'bulk') return null;
       var target = cur.tier === 'retail'
-        ? { price: p.small, need: Math.ceil(CALC.thresholds.small / p.small), label: 'малого опта' }
-        : { price: p.bulk, need: Math.ceil(CALC.thresholds.bulk / p.bulk), label: 'опта' };
+        ? { price: p.small, need: Math.ceil(CALC.thresholds.small / p.small), label: 'цены малого опта' }
+        : { price: p.bulk, need: Math.ceil(CALC.thresholds.bulk / p.bulk), label: 'оптовой цены' };
       var need = Math.ceil((target.need - qty) / m.unit) * m.unit;
       if (need <= 0) return null;
       var nowTotal = qty * cur.unitPrice;
@@ -2667,11 +2667,11 @@
       if (step) {
         el.next.classList.remove('is-top');
         /* коротко: сколько добавить, какая станет цена и что будет с суммой */
-        el.next.innerHTML = '+<b>' + nf.format(step.need).replace(/\s/g, ' ') + '&nbsp;шт</b> до&nbsp;' +
-          step.label.toLowerCase() + ': <b>' + step.price + '&nbsp;₸</b> (−' + step.cheaperPerUnit + '&nbsp;₸/шт), ' +
+        el.next.innerHTML = 'Ещё <b>' + nf.format(step.need).replace(/\s/g, ' ') + '&nbsp;шт</b> до&nbsp;' +
+          step.label + ': <b>' + step.price + '&nbsp;₸</b> за&nbsp;штуку, на&nbsp;' + step.cheaperPerUnit + '&nbsp;₸ дешевле. ' +
           (step.extraCost < 0
-            ? 'заказ <b>дешевле</b> на&nbsp;' + nf.format(-step.extraCost).replace(/\s/g, ' ') + '&nbsp;₸'
-            : 'заказ +' + nf.format(step.extraCost).replace(/\s/g, ' ') + '&nbsp;₸');
+            ? 'Заказ выйдет <b>дешевле</b> на&nbsp;' + nf.format(-step.extraCost).replace(/\s/g, ' ') + '&nbsp;₸.'
+            : 'Сумма вырастет на&nbsp;' + nf.format(step.extraCost).replace(/\s/g, ' ') + '&nbsp;₸.');
       } else {
         el.next.classList.add('is-top');
         el.next.innerHTML = cur.tier === 'bulk'
