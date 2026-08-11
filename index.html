@@ -476,11 +476,13 @@
     color:rgba(255,255,255,.55);margin-bottom:12px;display:block;
   }
   /* Шаг 2: форма. Пять кнопок вместо ленты из двенадцати - остальное решает класс. */
-  .pickbar{margin-bottom:12px}
-  .forms{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+  .pickbar{margin:10px 0}
+  .forms{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+  .fbtn{grid-column:span 2}
+  .fbtn:nth-child(4),.fbtn:nth-child(5){grid-column:span 3}
   .fbtn{
-    display:flex;flex-direction:column;align-items:center;gap:6px;
-    padding:10px 6px;min-height:64px;border-radius:var(--r-m);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;
+    padding:8px 6px;min-height:56px;border-radius:var(--r-m);
     border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.03);
     color:rgba(255,255,255,.68);touch-action:manipulation;
     transition:background .18s ease,border-color .18s ease,color .18s ease;
@@ -555,7 +557,7 @@
   /* количество: поле, шаг кнопками и ползунок */
   .qty{display:flex;align-items:stretch;gap:8px;margin-bottom:10px}
   .qbtn{
-    flex:none;width:52px;border:1px solid rgba(255,255,255,.16);border-radius:var(--r-s);
+    flex:none;width:46px;border:1px solid rgba(255,255,255,.16);border-radius:var(--r-s);
     color:#fff;font-size:22px;line-height:1;touch-action:manipulation;
     transition:background .18s ease,border-color .18s ease;
   }
@@ -564,7 +566,7 @@
     flex:1;min-width:0;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16);
     border-radius:var(--r-s);color:#fff;padding:12px 16px;
     font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;
-    font-size:clamp(1.3rem,2.4vw,1.9rem);font-variant-numeric:tabular-nums;text-align:center;
+    font-size:clamp(1.15rem,1.5vw,1.4rem);font-variant-numeric:tabular-nums;text-align:center;
   }
   .qty input:focus{outline:2px solid var(--brand-lift);outline-offset:1px}
   #calc-range{width:100%;accent-color:var(--brand-lift);height:44px}
@@ -592,20 +594,20 @@
   /* Коробки рисуем картонными, а не абстрактными плитками: человек должен узнать
      транспортный короб. Крафтовый тон, клапаны крышки и полоса скотча. */
   .pack{margin:8px 0 10px}
-  .boxes{display:flex;flex-wrap:wrap;gap:6px;align-items:flex-end;min-height:34px}
+  .boxes{display:flex;flex-wrap:wrap;gap:5px;align-items:flex-end;min-height:26px}
   .bx{
-    position:relative;width:30px;height:26px;flex:none;border-radius:2px;
+    position:relative;width:24px;height:21px;flex:none;border-radius:2px;
     background:linear-gradient(180deg,#C89A62,#A9773F);
     box-shadow:inset 0 -3px 0 rgba(0,0,0,.18), 0 2px 4px rgba(0,0,0,.4);
     overflow:hidden;transform-origin:bottom center;
     animation:bxIn .26s cubic-bezier(.2,.8,.3,1) both;
   }
   .bx::before{ /* стык клапанов крышки */
-    content:"";position:absolute;left:50%;top:0;width:1px;height:9px;
+    content:"";position:absolute;left:50%;top:0;width:1px;height:7px;
     background:rgba(75,45,15,.55);z-index:2;
   }
   .bx::after{ /* полоса скотча */
-    content:"";position:absolute;left:0;right:0;top:9px;height:4px;z-index:2;
+    content:"";position:absolute;left:0;right:0;top:7px;height:3px;z-index:2;
     background:rgba(233,215,185,.6);
   }
   .bx i{ /* доля заполнения для неполной коробки */
@@ -616,7 +618,7 @@
   .bx--part{filter:saturate(.75)}
   .bx--part i{background:linear-gradient(180deg,rgba(11,14,13,.72),rgba(11,14,13,.5))}
   .bx--more{
-    width:auto;min-width:44px;height:30px;padding:0 10px;background:transparent;
+    width:auto;min-width:38px;height:21px;padding:0 10px;background:transparent;
     border:1px dashed rgba(255,255,255,.28);box-shadow:none;
     display:flex;align-items:center;justify-content:center;
     font-family:'IBM Plex Mono',monospace;font-size:11px;color:rgba(255,255,255,.62);
@@ -727,7 +729,7 @@
   .calc-tier{color:var(--brand-lift);letter-spacing:.12em;white-space:nowrap}
   .calc-sum{
     font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;
-    font-size:clamp(1.9rem,3.6vw,2.8rem);line-height:1;color:#fff;font-variant-numeric:tabular-nums;
+    font-size:clamp(1.8rem,2.9vw,2.4rem);line-height:1;color:#fff;font-variant-numeric:tabular-nums;
   }
   .calc-sum i{font-style:normal;font-size:.34em;color:rgba(255,255,255,.5);margin-left:.18em}
   .calc-per{color:rgba(255,255,255,.6);margin-top:6px}
@@ -756,9 +758,11 @@
      Характеристики и сравнение исполнений уходят за сгиб - там их и ищут. */
   @media (max-width:640px){
     .calc{padding:12px}
-    .fbtn{min-height:58px;padding:8px 4px;gap:5px}
-    .fbtn svg{width:21px;height:18px}
-    .fbtn span{font-size:8.5px}
+    .fbtn{min-height:46px;padding:6px 4px;gap:3px;flex-direction:row;justify-content:center}
+    .fbtn svg{width:17px;height:15px}
+    .fbtn span{font-size:8.5px;text-align:left}
+    .pickbar{margin:8px 0}
+    .forms{gap:5px}
     .calc-grade{margin-bottom:10px}
     .gbtn{padding:11px 12px}
     .calc-next{font-size:11px;padding:8px 10px;line-height:1.38;margin-top:8px}
@@ -1325,10 +1329,6 @@
     <div class="calc" id="calc">
       <!-- Шаг 2: форма и класс. Двенадцать моделей = пять форм x доступные классы,
            поэтому выбор идёт двумя короткими рядами, а не лентой из двенадцати чипов. -->
-      <div class="pickbar">
-        <div class="forms" role="radiogroup" aria-label="Форма полумаски" id="calc-forms"></div>
-      </div>
-
       <div class="calc-body">
         <div class="calc-left">
           <div class="col-info">
@@ -1343,6 +1343,10 @@
               Полная карточка<i aria-hidden="true">+</i>
             </button>
           </figure>
+
+          <div class="pickbar">
+            <div class="forms" role="radiogroup" aria-label="Форма полумаски" id="calc-forms"></div>
+          </div>
 
           <div class="calc-grade" role="radiogroup" aria-label="Исполнение">
             <button type="button" class="gbtn" data-grade="STANDART" aria-pressed="true">STANDART</button>
