@@ -1885,8 +1885,8 @@
     var dpr = Math.min(window.devicePixelRatio || 1, 1.6);
     /* Ближний слой гуще дальнего: перед глазами пыли всегда видно больше. */
     var layers = [
-      { c: far,  ctx: far.getContext('2d'),  rMin: 0.5, rMax: 1.7, aMin: 0.12, aMax: 0.38, sp: 0.030, share: 0.42 },
-      { c: near, ctx: near.getContext('2d'), rMin: 1.1, rMax: 3.6, aMin: 0.18, aMax: 0.60, sp: 0.055, share: 0.58 }
+      { c: far,  ctx: far.getContext('2d'),  rMin: 0.45, rMax: 1.05, aMin: 0.22, aMax: 0.52, sp: 0.030, share: 0.42 },
+      { c: near, ctx: near.getContext('2d'), rMin: 0.60, rMax: 1.75, aMin: 0.30, aMax: 0.78, sp: 0.055, share: 0.58 }
     ];
     var W = 0, H = 0, t0 = performance.now(), prev = t0;
 
@@ -1910,7 +1910,7 @@
           a: rnd(L.aMin, L.aMax),
           /* волокно, чешуйка или пылинка - в луче видно все три */
           kind: kind < 0.44 ? 'fiber' : (kind < 0.72 ? 'flake' : 'mote'),
-          el: rnd(1.8, 4.2),                 /* вытянутость волокна */
+          el: rnd(1.5, 2.8),                 /* вытянутость волокна */
           rot: Math.random() * 6.283,
           vrot: rnd(-0.12, 0.12),
           vy: -rnd(0.5, 1.2) * L.sp * speed,
@@ -1925,7 +1925,7 @@
     var resize = function () {
       var r = hero.getBoundingClientRect();
       W = Math.max(1, Math.round(r.width)); H = Math.max(1, Math.round(r.height));
-      var base = Math.round(Math.min(300, Math.max(64, (W * H) / (W < 760 ? 5200 : 3900))));
+      var base = Math.round(Math.min(460, Math.max(80, (W * H) / (W < 760 ? 5000 : 2500))));
       layers.forEach(function (L) {
         L.c.width = Math.round(W * dpr); L.c.height = Math.round(H * dpr);
         L.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -1941,8 +1941,8 @@
       ctx.rotate(p.rot);
       if (edge) {
         /* тонкая тёмная подложка: пылинка читается и на светлом изделии, и на тёмном фоне */
-        ctx.strokeStyle = 'rgba(18,26,22,' + (alpha * 0.5).toFixed(3) + ')';
-        ctx.lineWidth = Math.max(0.6, p.r * 0.5);
+        ctx.strokeStyle = 'rgba(18,26,22,' + (alpha * 0.42).toFixed(3) + ')';
+        ctx.lineWidth = Math.max(0.5, p.r * 0.42);
         ctx.lineJoin = 'round';
       }
       ctx.fillStyle = 'rgba(232,250,241,' + alpha.toFixed(3) + ')';
@@ -1968,12 +1968,12 @@
         ctx.fill();
       }
       /* мягкий ореол только у крупных и ярких - у остальных он съедает форму */
-      if (p.r > 1.9 && alpha > 0.26) {
-        var g = ctx.createRadialGradient(0, 0, p.r * 0.6, 0, 0, p.r * 3.6);
-        g.addColorStop(0, 'rgba(198,238,218,' + (alpha * 0.34).toFixed(3) + ')');
+      if (p.r > 1.05 && alpha > 0.4) {
+        var g = ctx.createRadialGradient(0, 0, p.r * 0.5, 0, 0, p.r * 4.2);
+        g.addColorStop(0, 'rgba(198,238,218,' + (alpha * 0.26).toFixed(3) + ')');
         g.addColorStop(1, 'rgba(120,190,160,0)');
         ctx.fillStyle = g;
-        ctx.beginPath(); ctx.arc(0, 0, p.r * 3.6, 0, 6.2832); ctx.fill();
+        ctx.beginPath(); ctx.arc(0, 0, p.r * 4.2, 0, 6.2832); ctx.fill();
       }
       ctx.restore();
     };
