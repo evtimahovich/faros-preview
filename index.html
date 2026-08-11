@@ -2650,17 +2650,17 @@
       var step = nextStep(m, state.grade, qty, cur);
       if (step) {
         el.next.classList.remove('is-top');
-        el.next.innerHTML = 'Добавьте <b>' + nf.format(step.need).replace(/\s/g, ' ') + ' шт</b> - и весь заказ пойдёт по&nbsp;цене ' +
-          step.label + ', ' + step.price + ' ₸ за&nbsp;штуку. Это на&nbsp;' + step.cheaperPerUnit +
-          ' ₸ дешевле каждой маски' +
+        /* коротко: сколько добавить, какая станет цена и что будет с суммой */
+        el.next.innerHTML = 'Ещё <b>' + nf.format(step.need).replace(/\s/g, ' ') + '&nbsp;шт</b> - и цена ' +
+          step.label.toLowerCase() + ' <b>' + step.price + '&nbsp;₸</b>, на&nbsp;' + step.cheaperPerUnit + '&nbsp;₸ дешевле. ' +
           (step.extraCost < 0
-            ? ', причём заказ выйдет <b>дешевле нынешнего</b> на&nbsp;' + nf.format(-step.extraCost).replace(/\s/g, ' ') + ' ₸.'
-            : ', а сумма вырастет всего на&nbsp;' + nf.format(step.extraCost).replace(/\s/g, ' ') + ' ₸.');
+            ? 'Заказ выйдет <b>дешевле</b> на&nbsp;' + nf.format(-step.extraCost).replace(/\s/g, ' ') + '&nbsp;₸.'
+            : 'Заказ +' + nf.format(step.extraCost).replace(/\s/g, ' ') + '&nbsp;₸.');
       } else {
         el.next.classList.add('is-top');
         el.next.innerHTML = cur.tier === 'bulk'
-          ? 'Это лучшая цена прайса. Под годовой объём считаем отдельно&nbsp;- напишите в&nbsp;заявке.'
-          : 'Объём уже даёт лучшую доступную цену для этой позиции.';
+          ? 'Лучшая цена прайса. Годовой объём считаем отдельно.'
+          : 'Это лучшая доступная цена для позиции.';
       }
       renderSpecs();
       renderGrades();
