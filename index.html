@@ -685,6 +685,8 @@
   .pack-sum{color:rgba(255,255,255,.6);margin-top:6px;line-height:1.5}
   .pack-sum b{color:#fff;font-weight:400}
   .pack-sum em{font-style:normal;color:var(--brand-lift)}
+  .pack-sum i{font-style:normal;display:block}
+  @media (min-width:641px){.pack-sum i{display:inline}.pack-sum i + i::before{content:' · '}}
   .pack-sum s{
     display:block;text-decoration:none;color:rgba(255,255,255,.58);
     font-size:10.5px;letter-spacing:.06em;margin-top:3px;text-transform:none;
@@ -782,6 +784,8 @@
     display:flex;flex-direction:column;margin-bottom:12px;
   }
   .sum-row{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .calc-tier{white-space:nowrap}
+  .crow span{white-space:nowrap}
   .calc-tier{color:var(--brand-lift);letter-spacing:.12em;white-space:nowrap}
   .calc-sum{
     font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;
@@ -800,12 +804,18 @@
   }
   .crow b{font-size:14.5px;color:rgba(255,255,255,.9);font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
   .crow--save b{color:var(--brand-lift)}
+  .crow--none b{color:rgba(255,255,255,.38)}
   .calc-next{
     margin-top:16px;font-size:13px;line-height:1.5;color:rgba(255,255,255,.72);
     background:rgba(78,158,120,.12);border:1px solid rgba(78,158,120,.28);
     border-radius:var(--r-s);padding:12px 14px;
+    /* высота под три строки задана заранее: при протяжке ползунка меняется текст,
+       а рамка и кнопка под ней остаются на месте */
+    min-height:calc(4.5em + 26px);display:flex;flex-direction:column;justify-content:center;
+    font-variant-numeric:tabular-nums;
   }
   .calc-next b{color:var(--brand-lift)}
+  .calc-next i{font-style:normal;display:block}
   .calc-next.is-top{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.12)}
   .calc-cta{margin-top:14px;background:#fff;color:var(--ink);width:100%;justify-content:center}
   .calc-cta:hover{background:var(--brand-lift);color:#fff}
@@ -829,7 +839,6 @@
     .forms{gap:5px}
     .calc-grade{margin-bottom:10px}
     .gbtn{padding:11px 12px}
-    .calc-next{font-size:11px;padding:8px 10px;line-height:1.38;margin-top:8px}
     /* лента компактнее: класс и ПДК читаются, лишний воздух убран */
     .calc-lab{margin-bottom:8px}
     .mscroll{padding-bottom:8px;gap:6px}
@@ -866,8 +875,8 @@
     .crow span{font-size:10px}
     .crow b{font-size:13px}
     .calc-rows{margin-top:12px}
-    .crow{padding:7px 0}
-    .calc-next{margin-top:10px;padding:9px 11px;font-size:11px;line-height:1.4}
+    .crow{padding:7px 0;gap:8px}
+    .calc-next{margin-top:10px;padding:9px 11px;font-size:11px;line-height:1.4;min-height:calc(4.2em + 20px)}
     .calc-cta{margin-top:12px;width:100%;justify-content:center;padding:14px 22px}
   }
   @media (max-width:560px){
@@ -2530,17 +2539,39 @@
       return many;
     };
 
+    var CAP_W = {};
     var renderBoxes = function () {
       var m = state.model, qty = state.qty;
       var full = Math.floor(qty / m.box);
       var rest = qty % m.box;
       var total = full + (rest > 0 ? 1 : 0);
 
+      /* Подпись справа готовим первой: её ширина зависит от числа коробок
+         («1 коробка» против «100 коробок»), а раньше под неё резервировали
+         фиксированные 74px и на широком экране хвост подписи срезало. */
+      var cnt = el.boxes.querySelector('.bx-count');
+      if (!cnt) {
+        cnt = document.createElement('span');
+        cnt.className = 'bx-count';
+        el.boxes.appendChild(cnt);
+      }
+      var capText = total + '<span>' + plural(total, 'коробка', 'коробки', 'коробок') + '</span>';
+      if (cnt.innerHTML !== capText) cnt.innerHTML = capText;
+
       /* Ряд один, без переносов: сколько коробок в него влезет, столько и рисуем,
          остальное уходит в число справа. */
       var rowW = el.boxes.clientWidth || 320;
       var slot = 26;                                  /* коробка 22px + зазор 4px */
-      var fits = Math.max(3, Math.floor((rowW - 74) / slot));
+      /* Ширину подписи меряем один раз на каждый её вид и запоминаем: без кеша
+         замер сразу после записи текста заставлял браузер пересчитывать вёрстку
+         на каждом шаге ползунка (43 мс в отчёте Lighthouse). */
+      var capKey = capText + '@' + Math.round(rowW);
+      var capW = CAP_W[capKey];
+      if (capW === undefined) {
+        capW = Math.ceil(cnt.getBoundingClientRect().width) + 12;
+        CAP_W[capKey] = capW;
+      }
+      var fits = Math.max(3, Math.floor((rowW - capW) / slot));
       var shown = Math.min(total, fits);
 
       var kids = Array.prototype.filter.call(el.boxes.children, function (c) { return c.classList.contains('bx'); });
@@ -2563,23 +2594,17 @@
         b.title = isCurrent ? 'набирается: ' + rest + ' из ' + m.box + ' шт' : 'закрыта: ' + m.box + ' шт';
       });
 
-      /* в конце ряда - просто число коробок */
-      var cnt = el.boxes.querySelector('.bx-count');
-      if (!cnt) {
-        cnt = document.createElement('span');
-        cnt.className = 'bx-count';
-        el.boxes.appendChild(cnt);
-      }
-      cnt.innerHTML = total + '<span>' + plural(total, 'коробка', 'коробки', 'коробок') + '</span>';
-
       var spec = boxSpec(m);
       if (el.packSum) {
-        var txt = '<b>' + m.series + '</b> · по&nbsp;<b>' + m.box + '&nbsp;шт</b>';
+        /* каждая часть - своя строка: названия машин разной длины («фура» против
+           «легковой фургон») переносили строку и толкали ползунок вниз.
+           На широком экране первые две части снова стоят в одну строку. */
+        var txt = '<i><b>' + m.series + '</b> · по <b>' + m.box + ' шт</b></i>';
         if (spec) {
           var m3 = total * spec.m3;
-          txt += ' · <em>' + (m3 < 10 ? m3.toFixed(2).replace('.', ',') : Math.round(m3)) + '&nbsp;м³</em>' +
-            ' · <b>' + vehicleFor(m3) + '</b>' +
-            '<s>короб ' + spec.cm.join('×') + '&nbsp;см, объём предварительный</s>';
+          txt += '<i><em>' + (m3 < 10 ? m3.toFixed(2).replace('.', ',') : Math.round(m3)) + ' м³</em>' +
+            ' · <b>' + vehicleFor(m3) + '</b></i>' +
+            '<s>короб ' + spec.cm.join('×') + ' см, объём предварительный</s>';
         }
         el.packSum.innerHTML = txt;
       }
@@ -2649,7 +2674,8 @@
       var boxes = qty / m.box;
       var total = qty * cur.unitPrice;
 
-      el.tier.textContent = cur.tier === 'retail' ? 'Розничная цена' : cur.label + ' · цена уже снижена';
+      /* коротко: длинная подпись перескакивала под сумму на больших заказах */
+      el.tier.textContent = cur.tier === 'retail' ? 'Розница' : cur.label;
       el.total.textContent = nf.format(total).replace(/\s/g, ' ');
       el.per.textContent = cur.unitPrice + ' ₸ за штуку · ' + m.model + ' ' + state.grade;
 
@@ -2657,8 +2683,10 @@
       var saved = retailTotal - total;
       /* Количество видно в поле и на ползунке, число коробок - под самими коробками.
          В итоге оставляем только то, чего больше нигде нет. */
-      var rows = [];
-      if (saved > 0) rows.push(['Дешевле розницы на', '−' + nf.format(saved).replace(/\s/g, ' ') + ' ₸', 'save']);
+      /* строка стоит всегда: раньше она появлялась на пороге и толкала кнопку вниз */
+      var rows = [['Дешевле розницы',
+        saved > 0 ? '−' + nf.format(saved).replace(/\s/g, ' ') + ' ₸' : '—',
+        saved > 0 ? 'save' : 'save crow--none']];
       el.rows.innerHTML = rows.map(function (r) {
         return '<div class="crow' + (r[2] ? ' crow--' + r[2] : '') + '"><span>' + r[0] + '</span><b>' + r[1] + '</b></div>';
       }).join('');
@@ -2667,16 +2695,19 @@
       if (step) {
         el.next.classList.remove('is-top');
         /* коротко: сколько добавить, какая станет цена и что будет с суммой */
-        el.next.innerHTML = 'Ещё <b>' + nf.format(step.need).replace(/\s/g, ' ') + '&nbsp;шт</b> до&nbsp;' +
-          step.label + ': <b>' + step.price + '&nbsp;₸</b> за&nbsp;штуку, на&nbsp;' + step.cheaperPerUnit + '&nbsp;₸ дешевле. ' +
+        /* три отдельные строки: сколько добавить, какой станет цена, что будет с суммой.
+           Разбивка задана явно, чтобы длина чисел не меняла число строк в рамке. */
+        el.next.innerHTML =
+          '<i>Ещё <b>' + nf.format(step.need).replace(/\s/g, ' ') + ' шт</b> до ' + step.label + '</i>' +
+          '<i><b>' + step.price + ' ₸</b> за штуку, на ' + step.cheaperPerUnit + ' ₸ дешевле</i>' +
           (step.extraCost < 0
-            ? 'Заказ выйдет <b>дешевле</b> на&nbsp;' + nf.format(-step.extraCost).replace(/\s/g, ' ') + '&nbsp;₸.'
-            : 'Сумма вырастет на&nbsp;' + nf.format(step.extraCost).replace(/\s/g, ' ') + '&nbsp;₸.');
+            ? '<i>Заказ выйдет дешевле на ' + nf.format(-step.extraCost).replace(/\s/g, ' ') + ' ₸</i>'
+            : '<i>Сумма вырастет на ' + nf.format(step.extraCost).replace(/\s/g, ' ') + ' ₸</i>');
       } else {
         el.next.classList.add('is-top');
         el.next.innerHTML = cur.tier === 'bulk'
-          ? 'Лучшая цена прайса. Годовой объём считаем отдельно.'
-          : 'Это лучшая доступная цена для позиции.';
+          ? '<i>Это лучшая цена прайса.</i><i>Годовой объём считаем отдельно.</i>'
+          : '<i>Это лучшая доступная цена</i><i>для выбранной позиции.</i>';
       }
       renderSpecs();
       renderGrades();
