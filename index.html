@@ -628,41 +628,47 @@
     .calc-cta{margin-top:12px;align-self:flex-start;width:auto}
   }
 
-  /* Коробки рисуем картонными, а не абстрактными плитками: человек должен узнать
-     транспортный короб. Крафтовый тон, клапаны крышки и полоса скотча. */
+  /* Коробки в один ряд: видно, как текущая наполняется, и когда она закрыта -
+     счёт идёт к следующей. Пустая коробка тёмная, заполненная - крафтовая. */
   .pack{margin:8px 0 10px}
-  .boxes{display:flex;flex-wrap:wrap;gap:5px;align-items:flex-end;min-height:26px}
+  .boxes{
+    display:flex;flex-wrap:nowrap;gap:4px;align-items:flex-end;min-height:30px;
+    overflow:hidden;
+  }
   .bx{
-    position:relative;width:24px;height:21px;flex:none;border-radius:2px;
+    position:relative;width:22px;height:26px;flex:none;border-radius:2px;
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(201,154,98,.42);
+    overflow:hidden;
+    animation:bxIn .24s cubic-bezier(.2,.8,.3,1) both;
+  }
+  .bx i{ /* уровень заполнения растёт снизу вверх */
+    position:absolute;left:0;right:0;bottom:0;display:block;
     background:linear-gradient(180deg,#C89A62,#A9773F);
-    box-shadow:inset 0 -3px 0 rgba(0,0,0,.18), 0 2px 4px rgba(0,0,0,.4);
-    overflow:hidden;transform-origin:bottom center;
-    animation:bxIn .26s cubic-bezier(.2,.8,.3,1) both;
-  }
-  .bx::before{ /* стык клапанов крышки */
-    content:"";position:absolute;left:50%;top:0;width:1px;height:7px;
-    background:rgba(75,45,15,.55);z-index:2;
-  }
-  .bx::after{ /* полоса скотча */
-    content:"";position:absolute;left:0;right:0;top:7px;height:3px;z-index:2;
-    background:rgba(233,215,185,.6);
-  }
-  .bx i{ /* доля заполнения для неполной коробки */
-    position:absolute;left:0;right:0;bottom:0;display:block;z-index:1;
-    background:linear-gradient(180deg,rgba(0,0,0,.42),rgba(0,0,0,.12));
     transition:height .22s cubic-bezier(.2,.8,.3,1);
   }
-  .bx--part{filter:saturate(.75)}
-  .bx--part i{background:linear-gradient(180deg,rgba(11,14,13,.72),rgba(11,14,13,.5))}
-  .bx--more{
-    width:auto;min-width:38px;height:21px;padding:0 10px;background:transparent;
-    border:1px dashed rgba(255,255,255,.28);box-shadow:none;
-    display:flex;align-items:center;justify-content:center;
-    font-family:'IBM Plex Mono',monospace;font-size:11px;color:rgba(255,255,255,.62);
+  .bx::before{ /* стык клапанов крышки - виден у закрытой коробки */
+    content:"";position:absolute;left:50%;top:0;width:1px;height:7px;z-index:2;
+    background:rgba(75,45,15,.5);opacity:0;
   }
-  .bx--more::before,.bx--more::after{display:none}
-  @keyframes bxIn{from{opacity:0;transform:translateY(6px) scaleY(.6)}to{opacity:1;transform:none}}
+  .bx::after{ /* полоса скотча появляется, когда коробка закрыта */
+    content:"";position:absolute;left:0;right:0;top:7px;height:3px;z-index:2;
+    background:rgba(233,215,185,.6);opacity:0;
+  }
+  .bx--full::before,.bx--full::after{opacity:1}
+  .bx--fill{border-color:rgba(201,154,98,.8);box-shadow:0 0 0 1px rgba(201,154,98,.25)}
+  .bx-count{
+    flex:none;margin-left:8px;align-self:center;white-space:nowrap;
+    font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:800;
+    font-size:13px;letter-spacing:.06em;color:rgba(255,255,255,.82);
+  }
+  .bx-count span{
+    font-family:'IBM Plex Mono',monospace;font-weight:400;font-size:10.5px;
+    letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-left:6px;
+  }
+  @keyframes bxIn{from{opacity:0;transform:translateY(5px) scaleY(.7)}to{opacity:1;transform:none}}
   @media (prefers-reduced-motion:reduce){.bx{animation:none}}
+
   .pack-sum{color:rgba(255,255,255,.6);margin-top:6px;line-height:1.5}
   .pack-sum b{color:#fff;font-weight:400}
   .pack-sum em{font-style:normal;color:var(--brand-lift)}
@@ -2484,51 +2490,54 @@
       var m = state.model, qty = state.qty;
       var full = Math.floor(qty / m.box);
       var rest = qty % m.box;
-      var want = Math.min(full + (rest > 0 ? 1 : 0), MAX_BOXES);
-      var hidden = full + (rest > 0 ? 1 : 0) - want;
+      var total = full + (rest > 0 ? 1 : 0);
 
-      var kids = Array.prototype.filter.call(el.boxes.children, function (c) { return !c.classList.contains('bx--more'); });
-      while (kids.length > want) { el.boxes.removeChild(kids.pop()); }
-      while (kids.length < want) {
+      /* Ряд один, без переносов: сколько коробок в него влезет, столько и рисуем,
+         остальное уходит в число справа. */
+      var rowW = el.boxes.clientWidth || 320;
+      var slot = 26;                                  /* коробка 22px + зазор 4px */
+      var fits = Math.max(3, Math.floor((rowW - 74) / slot));
+      var shown = Math.min(total, fits);
+
+      var kids = Array.prototype.filter.call(el.boxes.children, function (c) { return c.classList.contains('bx'); });
+      while (kids.length > shown) { el.boxes.removeChild(kids.pop()); }
+      while (kids.length < shown) {
         var b = document.createElement('span');
         b.className = 'bx';
         b.appendChild(document.createElement('i'));
-        el.boxes.insertBefore(b, el.boxes.querySelector('.bx--more'));
+        el.boxes.insertBefore(b, el.boxes.querySelector('.bx-count'));
         kids.push(b);
       }
+
       kids.forEach(function (b, i) {
-        var isLast = (i === want - 1) && hidden === 0 && rest > 0;
-        var pct = isLast ? Math.max(8, Math.round(rest / m.box * 100)) : 100;
-        b.classList.toggle('bx--part', isLast);
+        /* последняя видимая коробка показывает остаток, только если дальше ничего нет */
+        var isCurrent = (i === shown - 1) && shown === total && rest > 0;
+        var pct = isCurrent ? Math.max(10, Math.round(rest / m.box * 100)) : 100;
+        b.classList.toggle('bx--full', !isCurrent);
+        b.classList.toggle('bx--fill', isCurrent);
         b.firstChild.style.height = pct + '%';
-        b.title = isLast ? rest + ' шт из ' + m.box : m.box + ' шт';
+        b.title = isCurrent ? 'набирается: ' + rest + ' из ' + m.box + ' шт' : 'закрыта: ' + m.box + ' шт';
       });
+
+      /* в конце ряда - просто число коробок */
+      var cnt = el.boxes.querySelector('.bx-count');
+      if (!cnt) {
+        cnt = document.createElement('span');
+        cnt.className = 'bx-count';
+        el.boxes.appendChild(cnt);
+      }
+      cnt.innerHTML = total + '<span>' + plural(total, 'коробка', 'коробки', 'коробок') + '</span>';
 
       var spec = boxSpec(m);
       if (el.packSum) {
-        var totalBoxes = full + (rest > 0 ? 1 : 0);
-        var txt = '<b>' + totalBoxes + '</b> ' + plural(totalBoxes, 'коробка', 'коробки', 'коробок') +
-          ' по ' + m.box + ' шт' + (rest ? ', последняя на ' + rest + ' шт' : '');
+        var txt = 'По ' + m.box + ' шт в коробке' + (rest ? ', последняя набрана на ' + rest + ' шт' : '');
         if (spec) {
-          var m3 = totalBoxes * spec.m3;
+          var m3 = total * spec.m3;
           txt += ' · <em>' + (m3 < 10 ? m3.toFixed(2).replace('.', ',') : Math.round(m3)) + '&nbsp;м³</em>' +
             ' · войдёт в&nbsp;<b>' + vehicleFor(m3) + '</b>' +
             '<s>короб ' + spec.cm.join('×') + '&nbsp;см, объём предварительный</s>';
         }
         el.packSum.innerHTML = txt;
-      }
-
-      var more = el.boxes.querySelector('.bx--more');
-      if (hidden > 0) {
-        if (!more) {
-          more = document.createElement('span');
-          more.className = 'bx bx--more';
-          el.boxes.appendChild(more);
-        }
-        more.textContent = '+' + hidden;
-        more.title = 'ещё ' + hidden + ' коробок';
-      } else if (more) {
-        el.boxes.removeChild(more);
       }
     };
 
