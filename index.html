@@ -97,13 +97,9 @@
     -webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);
     box-shadow:0 12px 34px rgba(8,10,9,.35);
   }
-  .nav-logo{display:inline-flex;align-items:center;gap:12px;flex:none}
-  .nav-logo svg{width:26px;height:26px;flex:none}
-  .nav-logo b{
-    color:#fff;font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;
-    font-size:15px;letter-spacing:.16em;text-transform:uppercase;
-  }
-  .nav-logo .mono{color:rgba(255,255,255,.42);border-left:1px solid rgba(255,255,255,.18);padding-left:12px}
+  .nav-logo{display:inline-flex;align-items:center;gap:14px;flex:none}
+  .nav-logo img{height:30px;width:auto;flex:none}
+  .nav-logo .mono{color:rgba(255,255,255,.5);border-left:1px solid rgba(255,255,255,.18);padding-left:14px}
   .nav-links{display:flex;gap:clamp(16px,3vw,44px);list-style:none}
   .nav-links a{
     font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;
@@ -141,65 +137,84 @@
   @media (max-width:860px){.nav-logo .mono{display:none}}
   @media (max-width:640px){.nav{gap:10px}.nav-cta{padding:9px 12px;font-size:10px;letter-spacing:.06em}.nav-cta span{display:none}}
 
-  /* ---------- hero: светлый разворот-техпаспорт ---------- */
-  .hero{padding-block:clamp(20px,3vw,44px) clamp(30px,5vw,80px);position:relative}
-  .hero-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:clamp(20px,3vw,48px);align-items:end}
-  .hero-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:clamp(20px,3vw,34px)}
+  /* ---------- hero: тёмный остров, герой по центру, текст внизу ---------- */
+  .hero{
+    background:#0A0C0B;color:#fff;border-radius:var(--r-l);
+    margin-inline:calc((var(--pad) - var(--inset)) * -1);
+    padding:clamp(20px,3vw,40px) calc(var(--pad) - var(--inset)) clamp(26px,3.4vw,48px);
+    min-height:min(92svh,900px);
+    display:flex;flex-direction:column;
+    position:relative;overflow:hidden;
+  }
+  .hero::before{
+    content:"";position:absolute;left:50%;top:14%;translate:-50% 0;
+    width:min(120vw,1100px);aspect-ratio:1;
+    background:radial-gradient(circle,rgba(78,158,120,.22),transparent 62%);
+    pointer-events:none;
+  }
+  .hero > *{position:relative;z-index:2}
+  .hero-chips{display:flex;flex-wrap:wrap;gap:8px}
   .chip{
-    display:inline-flex;align-items:center;gap:9px;background:var(--panel);border:1px solid var(--line);
-    border-radius:999px;padding:9px 16px;color:var(--ink-soft);
+    display:inline-flex;align-items:center;gap:9px;
+    background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);
+    border-radius:999px;padding:9px 16px;color:rgba(255,255,255,.78);
     font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;
   }
-  .chip::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--brand);flex:none}
-  .hero h1{font-size:clamp(2.5rem,5.6vw,5.4rem);margin-bottom:clamp(16px,2vw,26px)}
-  .hero h1 span{display:block}
-  .hero h1 em{font-style:normal;color:var(--brand)}
-  .hero-lead{color:var(--ink-soft);max-width:44ch;font-size:clamp(15px,1.25vw,17.5px);margin-bottom:clamp(20px,2.6vw,32px)}
-  .hero-act{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
-  .hero-act .mono{color:var(--mute);max-width:32ch}
-  .hero-fig{position:relative;margin:0;align-self:end}
-  .hero-fig::before{
-    content:"";position:absolute;left:18%;right:0;bottom:0;height:64%;
-    background:linear-gradient(180deg,rgba(50,100,80,.16),rgba(50,100,80,.03));
-    border-radius:var(--r-l) var(--r-l) 0 0;
+  .chip::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--brand-lift);flex:none}
+  .hero-fig{
+    flex:1;min-height:0;margin:clamp(14px,2vw,26px) 0 0;
+    display:flex;align-items:center;justify-content:center;position:relative;
   }
-  .hero-fig img{position:relative;width:auto;max-width:100%;height:auto;max-height:min(70svh,680px);margin-left:auto;object-fit:contain}
+  .hero-fig img{
+    height:100%;width:auto;max-width:100%;object-fit:contain;object-position:bottom;
+    max-height:min(44svh,440px);
+    -webkit-mask-image:linear-gradient(180deg,#000 78%,transparent 100%);
+    mask-image:linear-gradient(180deg,#000 78%,transparent 100%);
+  }
   .spec{
-    position:absolute;left:-7%;top:52%;z-index:3;max-width:206px;
-    background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:var(--r-m);
-    padding:14px 16px;box-shadow:0 12px 32px rgba(16,20,24,.14);
-    -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+    position:absolute;right:0;bottom:6%;text-align:right;max-width:230px;
   }
-  .spec::after{
-    content:"";position:absolute;left:100%;top:26px;width:clamp(24px,4vw,62px);height:1px;background:var(--ink);opacity:.35;
-  }
-  .spec .k{display:block;color:var(--mute);margin-bottom:7px}
+  .spec .k{display:block;color:rgba(255,255,255,.45);margin-bottom:8px}
   .spec b{
     display:block;font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;
-    font-size:19px;letter-spacing:.04em;text-transform:uppercase;margin-bottom:4px;
+    font-size:clamp(17px,1.7vw,22px);letter-spacing:.04em;text-transform:uppercase;margin-bottom:5px;
   }
-  .spec .l{display:block;color:var(--ink-soft);font-size:13px;line-height:1.45}
+  .spec .l{display:block;color:rgba(255,255,255,.6);font-size:13px;line-height:1.5}
   .spec .p{
-    display:block;margin-top:10px;padding-top:10px;border-top:1px solid var(--line);
-    font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;font-size:17px;color:var(--brand);
+    display:block;margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.16);
+    font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;
+    font-size:clamp(18px,1.9vw,24px);color:var(--brand-lift);
   }
-  .spec .p i{font-style:normal;font-size:.62em;color:var(--mute);letter-spacing:.04em;margin-left:6px}
+  .spec .p i{font-style:normal;font-size:.55em;color:rgba(255,255,255,.5);letter-spacing:.04em;margin-left:6px}
+  .hero-copy{margin-top:clamp(18px,2.4vw,32px)}
+  .hero h1{font-size:clamp(2.2rem,5vw,4.9rem);color:#fff;margin-bottom:clamp(16px,1.8vw,24px)}
+  .hero h1 span{display:block}
+  .hero h1 em{font-style:normal;color:var(--brand-lift)}
+  .hero-bottom{display:flex;justify-content:space-between;align-items:flex-end;gap:clamp(20px,3vw,56px);flex-wrap:wrap}
+  .hero-lead{color:rgba(255,255,255,.72);max-width:46ch;font-size:clamp(15px,1.2vw,17px)}
+  .hero-act{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .hero-act .mono{color:rgba(255,255,255,.5);max-width:26ch}
   @media (max-width:980px){
-    .hero-grid{grid-template-columns:1fr;gap:0}
-    .hero-fig{max-width:520px;margin-inline:auto;width:100%;margin-top:clamp(22px,4vw,36px)}
-    .spec{left:0;top:auto;bottom:6%;max-width:190px}
-    .spec::after{display:none}
+    .hero{min-height:min(96svh,900px)}
+    .hero h1{font-size:clamp(2.2rem,8.4vw,4rem)}
+    .hero-fig{flex-direction:column;gap:14px}
+    .spec{position:static;text-align:left;max-width:none;width:100%;
+      display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+    .spec .k{width:100%;margin-bottom:0}
+    .spec b{margin:0}
+    .spec .l{flex:1;min-width:150px}
+    .spec .p{margin:0;padding:0;border:0;font-size:20px;white-space:nowrap}
+    .hero-fig img{max-height:min(46svh,460px)}
   }
   @media (max-width:560px){
     .chip{font-size:10px;padding:8px 13px;gap:7px}
     .hero-chips{gap:6px}
-  }
-  @media (max-width:520px){
-    .spec{position:static;max-width:none;margin-top:14px;box-shadow:none;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-    .spec .k{width:100%;margin-bottom:2px}
-    .spec b{margin:0}
-    .spec .l{flex:1;min-width:140px}
-    .spec .p{margin:0;padding:0;border:0}
+    .hero-act .pill{width:100%;justify-content:center}
+    .hero-act .mono{max-width:none}
+    .hero-fig img{max-height:min(36svh,330px)}
+    .hero-fig{margin-top:8px}
+    .hero-copy{margin-top:14px}
+    .hero-lead{font-size:14.5px}
   }
 
   /* ---------- section head ---------- */
@@ -296,9 +311,7 @@
     font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;
   }
   .dot{width:9px;height:9px;border-radius:50%;flex:none;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
-  .dot--1{background:#111315}.dot--2{background:#2C5CA8}.dot--3{background:#C0392B}
-  /* на тёмном фоне чёрная маркировка FFP1 не читается - показываем светлой */
-  #price .dot--1,.m--spec .dot--1,.ind--open .dot--1{background:#E6E9EB}
+  .dot--1{background:#00963F}.dot--2{background:#003993}.dot--3{background:#D00405}
   .seg{display:inline-flex;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:4px}
   .seg-b{
     border-radius:999px;padding:9px 18px;color:var(--ink-soft);
@@ -318,8 +331,8 @@
     font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;color:var(--ink);
   }
   .m-img{
-    background:var(--paper);border-radius:var(--r-s);margin-block:2px;
-    display:flex;align-items:center;justify-content:center;padding:6px;
+    background:#fff;border:1px solid var(--line);border-radius:var(--r-s);margin-block:2px;
+    display:flex;align-items:center;justify-content:center;overflow:hidden;
   }
   .m-img img{width:100%;height:auto;aspect-ratio:4/3;object-fit:contain}
   .m b{font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;font-size:clamp(15px,1.4vw,19px);letter-spacing:.05em;text-transform:uppercase}
@@ -430,6 +443,22 @@
   }
   .ptable-foot p{color:rgba(255,255,255,.6);font-size:13px;max-width:60ch}
   @media (max-width:640px){.ptable .pk,.ptable th.pk-h{display:none}}
+
+  /* ---------- области применения ---------- */
+  .areas{
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--r-m);
+    padding:clamp(20px,2.4vw,32px);margin-bottom:14px;
+    box-shadow:0 1px 2px rgba(16,20,24,.06),0 12px 32px rgba(16,20,24,.10);
+  }
+  .areas-head{display:flex;justify-content:space-between;align-items:baseline;gap:24px;flex-wrap:wrap;margin-bottom:clamp(16px,2vw,22px)}
+  .areas-head b{font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;
+    font-size:clamp(1.05rem,1.8vw,1.5rem);text-transform:uppercase;letter-spacing:.03em}
+  .areas-head .mono{color:var(--ink-soft);max-width:46ch}
+  .areas-list{display:flex;flex-wrap:wrap;gap:8px}
+  .area{
+    border:1px solid var(--line);border-radius:999px;padding:9px 16px;color:var(--ink-soft);
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;
+  }
 
   /* ---------- участки ---------- */
   .ind-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
@@ -571,13 +600,14 @@
   .rv.in{opacity:1;transform:none}
 
   /* большие мониторы: острова во всю ширину, контент на центральной сетке */
-  .nav,#price{
+  .nav,.hero,#price{
     margin-inline:calc(50% - 50vw + var(--inset));
     padding-inline:calc(max(var(--pad), 50vw - 720px + var(--pad)) - var(--inset));
   }
   .foot{padding-inline:calc(max(var(--pad), 50vw - 720px + var(--pad)) - var(--inset))}
   @media (max-width:760px){
-    #price{margin-inline:calc(var(--pad) * -1);padding-inline:var(--pad);border-radius:0}
+    .hero,#price{margin-inline:calc(var(--pad) * -1);padding-inline:var(--pad);border-radius:0}
+    .hero{margin-top:-86px;padding-top:106px}
     .nav{margin-inline:0}
   }
   @media (prefers-reduced-motion:reduce){
@@ -592,10 +622,9 @@
 <div class="wrap">
 
   <header class="nav">
-    <a class="nav-logo" href="#top" aria-label="FAROS - дистрибуция ALLTRADE-LTD">
-      <svg viewBox="70 70 360 360" aria-hidden="true"><path fill="#fff" fill-rule="evenodd" d="M250 108 L392 392 L302 392 L276 322 L250 352 L224 322 L198 392 L108 392 Z M250 214 L226 274 L274 274 Z"/></svg>
-      <b>FAROS</b>
-      <span class="mono">дистрибуция ALLTRADE-LTD</span>
+    <a class="nav-logo" href="#top" aria-label="ALLTRADE-LTD - дистрибуция респираторов FAROS">
+      <img src="assets/logo-h-white.png" width="562" height="120" alt="ALLTRADE-LTD">
+      <span class="mono">респираторы FAROS&nbsp;· опт</span>
     </a>
     <nav aria-label="Разделы сайта">
       <ul class="nav-links">
@@ -625,18 +654,29 @@
 
   <!-- ЭКРАН 1 -->
   <section class="hero" aria-label="Респираторы FAROS оптом по Казахстану">
-    <div class="hero-grid">
-      <div class="hero-copy">
-        <div class="hero-chips">
-          <span class="chip">Опт по&nbsp;Казахстану</span>
-          <span class="chip">22&nbsp;позиции прайса</span>
-          <span class="chip">официальная дистрибуция</span>
-        </div>
-        <h1 class="display">
-          <span>Респираторы</span>
-          <span>FAROS <em>оптом</em></span>
-        </h1>
-        <p class="hero-lead">Двенадцать моделей, FFP1–FFP3: складные и&nbsp;чашеобразные, плюс две с&nbsp;угольным фильтром&nbsp;— под&nbsp;сварку и&nbsp;под&nbsp;кислые газы. Отгрузка предприятиям по&nbsp;всему Казахстану.</p>
+    <div class="hero-chips">
+      <span class="chip">Опт по&nbsp;Казахстану</span>
+      <span class="chip">22&nbsp;позиции прайса</span>
+      <span class="chip">официальная дистрибуция</span>
+    </div>
+
+    <figure class="hero-fig">
+      <img src="assets/hero-cut.webp" width="851" height="1126" alt="Рабочий в фильтрующей полумаске FAROS FR 4310 FFP3" fetchpriority="high">
+      <figcaption class="spec">
+        <span class="mono k">на&nbsp;герое</span>
+        <b>FR&nbsp;4310W</b>
+        <span class="l">складная&nbsp;· клапан выдоха<br>FFP3&nbsp;— до&nbsp;50&nbsp;ПДК</span>
+        <span class="p">от&nbsp;421&nbsp;₸ <i>/шт на&nbsp;опте</i></span>
+      </figcaption>
+    </figure>
+
+    <div class="hero-copy">
+      <h1 class="display">
+        <span>Респираторы</span>
+        <span>FAROS <em>оптом</em></span>
+      </h1>
+      <div class="hero-bottom">
+        <p class="hero-lead">Двенадцать моделей, FFP1–FFP3: складные и&nbsp;чашеобразные, плюс две с&nbsp;угольным слоем&nbsp;— под&nbsp;сварочные дымы и&nbsp;под&nbsp;кислые газы. Отгрузка предприятиям по&nbsp;Казахстану.</p>
         <div class="hero-act">
           <a class="pill pill--brand" href="#contact" data-place="хиро">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.5 14c-.2.6-1.2 1.2-1.7 1.2-.5.1-1 .1-1.6-.1-.4-.1-.9-.3-1.5-.6-2.6-1.1-4.3-3.8-4.4-4-.1-.2-1-1.4-1-2.6 0-1.2.6-1.8.9-2.1.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2 0 .4-.1.5l-.3.4-.3.3c-.1.1-.2.3-.1.5.1.2.6 1.1 1.4 1.8 1 .9 1.8 1.1 2 1.2.2.1.4.1.5-.1l.7-.8c.2-.2.3-.2.5-.1l1.8.9c.2.1.4.2.4.3.1.2.1.7-.1 1.3Z"/></svg>
@@ -645,16 +685,6 @@
           <span class="mono">ответим в&nbsp;WhatsApp&nbsp;· прайс одним файлом</span>
         </div>
       </div>
-
-      <figure class="hero-fig">
-        <img src="assets/hero-cut.webp" width="851" height="1126" alt="Рабочий в фильтрующей полумаске FAROS FR 4310W класса FFP3" fetchpriority="high">
-        <figcaption class="spec">
-          <span class="mono k">на&nbsp;герое</span>
-          <b>FR&nbsp;4310W</b>
-          <span class="l">складная&nbsp;· клапан выдоха<br>FFP3&nbsp;— до&nbsp;50&nbsp;ПДК</span>
-          <span class="p">от&nbsp;421&nbsp;₸ <i>/шт на&nbsp;опте</i></span>
-        </figcaption>
-      </figure>
     </div>
   </section>
 
@@ -698,21 +728,21 @@
         <div class="dir-top"><span class="num">01</span><span class="tag">FFP1&nbsp;— FFP3</span></div>
         <div class="dir-t">
           <b>FR&nbsp;4000&nbsp;— складные</b>
-          <p>Складывается плоско, каждая маска в&nbsp;своём пакете: удобно выдавать на&nbsp;смену и&nbsp;носить в&nbsp;кармане спецовки. Пять моделей, с&nbsp;клапаном выдоха и&nbsp;без него. Короб 400&nbsp;штук.</p>
+          <p>Складная форма: компактна, удобно хранить и&nbsp;переносить. Поставляется в&nbsp;индивидуальной упаковке. Пять моделей, с&nbsp;клапаном выдоха и&nbsp;без него. Короб 400&nbsp;штук.</p>
         </div>
       </a>
       <a class="dir rv" href="#models">
         <div class="dir-top"><span class="num">02</span><span class="tag">FFP1&nbsp;— FFP3</span></div>
         <div class="dir-t">
           <b>FR&nbsp;3000&nbsp;— чашка</b>
-          <p>Жёсткая чашка держит форму и&nbsp;надевается одним движением&nbsp;— рабочий вариант для&nbsp;массовой выдачи. Короб 300&nbsp;штук.</p>
+          <p>Чашеобразная форма гарантирует удобное и&nbsp;простое надевание&nbsp;— рабочий вариант для&nbsp;массовой выдачи. Групповая упаковка по&nbsp;10&nbsp;штук, короб 300&nbsp;штук.</p>
         </div>
       </a>
       <a class="dir rv" href="#models">
         <div class="dir-top"><span class="num">03</span><span class="tag">уголь</span></div>
         <div class="dir-t">
           <b>Спец-линия</b>
-          <p>Дополнительный угольный слой против запахов: FR&nbsp;3220&nbsp;— сварка и&nbsp;гарь, FR&nbsp;3230&nbsp;— пары кислот. Оба FFP2.</p>
+          <p>Дополнительный угольный слой: FR&nbsp;3220&nbsp;— сварочные дымы и&nbsp;пары, защита от&nbsp;озона и&nbsp;запахов; FR&nbsp;3230&nbsp;— кислые газы и&nbsp;пары. Оба FFP2, с&nbsp;носовым обтюратором.</p>
         </div>
       </a>
       <a class="dir rv" href="#docs">
@@ -736,7 +766,7 @@
   <section id="models" aria-label="Модельный ряд респираторов FAROS">
     <div class="sec-head rv">
       <h2 class="display"><span class="kick">Модельный ряд</span>Двенадцать моделей<em>.</em></h2>
-      <div class="sec-side"><span class="mono">класс на&nbsp;изделии различают цветом маркировки: FFP1&nbsp;— чёрная, FFP2&nbsp;— синяя, FFP3&nbsp;— красная</span></div>
+      <div class="sec-side"><span class="mono">класс защиты&nbsp;— по&nbsp;кратности превышения ПДК на&nbsp;участке; цвет метки&nbsp;— как в&nbsp;каталоге производителя</span></div>
     </div>
     <div class="m-bar rv">
       <div class="classes">
@@ -753,7 +783,7 @@
     <div class="grid-m">
       <article class="m rv" data-st="208" data-pr="248">
         <div class="m-top"><span class="mono">FR&nbsp;4000&nbsp;· складная</span><span class="m-cls"><i class="dot dot--1"></i>FFP1</span></div>
-        <div class="m-img"><img src="assets/fr4100.webp" width="900" height="900" alt="FAROS FR 4100 — складная полумаска FFP1 без клапана" loading="lazy"></div>
+        <div class="m-img"><img src="assets/fr4100.webp" width="900" height="675" alt="FAROS FR 4100 — складная полумаска FFP1 без клапана" loading="lazy"></div>
         <b>FR&nbsp;4100</b>
         <span class="form">Без клапана</span>
         <div class="price"><span class="from">от</span><span class="num">208&nbsp;₸</span><span class="per">/шт&nbsp;на&nbsp;опте</span></div>
@@ -761,7 +791,7 @@
       </article>
       <article class="m rv" data-st="284" data-pr="330">
         <div class="m-top"><span class="mono">FR&nbsp;4000&nbsp;· складная</span><span class="m-cls"><i class="dot dot--2"></i>FFP2</span></div>
-        <div class="m-img"><img src="assets/fr4200.webp" width="900" height="900" alt="FAROS FR 4200 — складная полумаска FFP2 без клапана" loading="lazy"></div>
+        <div class="m-img"><img src="assets/fr4200.webp" width="900" height="675" alt="FAROS FR 4200 — складная полумаска FFP2 без клапана" loading="lazy"></div>
         <b>FR&nbsp;4200</b>
         <span class="form">Без клапана</span>
         <div class="price"><span class="from">от</span><span class="num">284&nbsp;₸</span><span class="per">/шт&nbsp;на&nbsp;опте</span></div>
@@ -769,7 +799,7 @@
       </article>
       <article class="m rv" data-st="279" data-pr="324">
         <div class="m-top"><span class="mono">FR&nbsp;4000&nbsp;· складная</span><span class="m-cls"><i class="dot dot--1"></i>FFP1</span></div>
-        <div class="m-img"><img src="assets/fr4110.webp" width="900" height="900" alt="FAROS FR 4110W — складная полумаска FFP1 с клапаном выдоха" loading="lazy"></div>
+        <div class="m-img"><img src="assets/fr4110.webp" width="900" height="675" alt="FAROS FR 4110W — складная полумаска FFP1 с клапаном выдоха" loading="lazy"></div>
         <b>FR&nbsp;4110W</b>
         <span class="form">Клапан выдоха</span>
         <div class="price"><span class="from">от</span><span class="num">279&nbsp;₸</span><span class="per">/шт&nbsp;на&nbsp;опте</span></div>
@@ -777,7 +807,7 @@
       </article>
       <article class="m rv" data-st="355" data-pr="406">
         <div class="m-top"><span class="mono">FR&nbsp;4000&nbsp;· складная</span><span class="m-cls"><i class="dot dot--2"></i>FFP2</span></div>
-        <div class="m-img"><img src="assets/fr4210.webp" width="900" height="900" alt="FAROS FR 4210W — складная полумаска FFP2 с клапаном выдоха" loading="lazy"></div>
+        <div class="m-img"><img src="assets/fr4210.webp" width="900" height="675" alt="FAROS FR 4210W — складная полумаска FFP2 с клапаном выдоха" loading="lazy"></div>
         <b>FR&nbsp;4210W</b>
         <span class="form">Клапан выдоха</span>
         <div class="price"><span class="from">от</span><span class="num">355&nbsp;₸</span><span class="per">/шт&nbsp;на&nbsp;опте</span></div>
@@ -785,7 +815,7 @@
       </article>
       <article class="m rv" data-st="421" data-pr="472">
         <div class="m-top"><span class="mono">FR&nbsp;4000&nbsp;· на&nbsp;герое</span><span class="m-cls"><i class="dot dot--3"></i>FFP3</span></div>
-        <div class="m-img"><img src="assets/fr4310.webp" width="900" height="900" alt="FAROS FR 4310W — складная полумаска FFP3 с клапаном выдоха" loading="lazy"></div>
+        <div class="m-img"><img src="assets/fr4310.webp" width="900" height="675" alt="FAROS FR 4310W — складная полумаска FFP3 с клапаном выдоха" loading="lazy"></div>
         <b>FR&nbsp;4310W</b>
         <span class="form">Клапан выдоха&nbsp;· максимальный класс</span>
         <div class="price"><span class="from">от</span><span class="num">421&nbsp;₸</span><span class="per">/шт&nbsp;на&nbsp;опте</span></div>
@@ -793,7 +823,7 @@
       </article>
       <article class="m rv" data-st="208" data-pr="248">
         <div class="m-top"><span class="mono">FR&nbsp;3000&nbsp;· чашка</span><span class="m-cls"><i class="dot dot--1"></i>FFP1</span></div>
-        <div class="m-img"><img src="assets/fr3100.webp" width="900" height="900" alt="FAROS FR 3100 — чашеобразная полумаска FFP1 без клапана" loading="lazy"></div>
+        <div class="m-img"><img src="assets/fr3100.webp" width="900" height="675" alt="FAROS FR 3100 — чашеобразная полумаска FFP1 без клапана" loading="lazy"></div>
         <b>FR&nbsp;3100</b>
         <span class="form">Без клапана</span>
         <div class="price"><span class="from">от</span><span class="num">208&nbsp;₸</span><span class="per">/шт&nbsp;на&nbsp;опте</span></div>
@@ -801,7 +831,7 @@
       </article>
       <article class="m rv" data-st="284" data-pr="330">
         <div class="m-top"><span class="mono">FR&nbsp;3000&nbsp;· чашка</span><span class="m-cls"><i class="dot dot--2"></i>FFP2</span></div>
-        <div class="m-img"><img src="assets/fr3200.webp" width="900" height="900" alt="FAROS FR 3200 — чашеобразная полумаска FFP2 без клапана" loading="lazy"></div>
+        <div class="m-img"><img src="assets/fr3200.webp" width="900" height="675" alt="FAROS FR 3200 — чашеобразная полумаска FFP2 без клапана" loading="lazy"></div>
         <b>FR&nbsp;3200</b>
         <span class="form">Без клапана</span>
         <div class="price"><span class="from">от</span><span class="num">284&nbsp;₸</span><span class="per">/шт&nbsp;на&nbsp;опте</span></div>
@@ -809,7 +839,7 @@
       </article>
       <article class="m rv" data-st="279" data-pr="324">
         <div class="m-top"><span class="mono">FR&nbsp;3000&nbsp;· чашка</span><span class="m-cls"><i class="dot dot--1"></i>FFP1</span></div>
-        <div class="m-img"><img src="assets/fr3110.webp" width="900" height="900" alt="FAROS FR 3110 — чашеобразная полумаска FFP1 с клапаном выдоха" loading="lazy"></div>
+        <div class="m-img"><img src="assets/fr3110.webp" width="900" height="675" alt="FAROS FR 3110 — чашеобразная полумаска FFP1 с клапаном выдоха" loading="lazy"></div>
         <b>FR&nbsp;3110</b>
         <span class="form">Клапан выдоха</span>
         <div class="price"><span class="from">от</span><span class="num">279&nbsp;₸</span><span class="per">/шт&nbsp;на&nbsp;опте</span></div>
@@ -817,7 +847,7 @@
       </article>
       <article class="m rv" data-st="355" data-pr="406">
         <div class="m-top"><span class="mono">FR&nbsp;3000&nbsp;· чашка</span><span class="m-cls"><i class="dot dot--2"></i>FFP2</span></div>
-        <div class="m-img"><img src="assets/fr3210.webp" width="900" height="900" alt="FAROS FR 3210 — чашеобразная полумаска FFP2 с клапаном выдоха" loading="lazy"></div>
+        <div class="m-img"><img src="assets/fr3210.webp" width="900" height="675" alt="FAROS FR 3210 — чашеобразная полумаска FFP2 с клапаном выдоха" loading="lazy"></div>
         <b>FR&nbsp;3210</b>
         <span class="form">Клапан выдоха</span>
         <div class="price"><span class="from">от</span><span class="num">355&nbsp;₸</span><span class="per">/шт&nbsp;на&nbsp;опте</span></div>
@@ -825,7 +855,7 @@
       </article>
       <article class="m rv" data-st="421" data-pr="472">
         <div class="m-top"><span class="mono">FR&nbsp;3000&nbsp;· чашка</span><span class="m-cls"><i class="dot dot--3"></i>FFP3</span></div>
-        <div class="m-img"><img src="assets/fr3310.webp" width="900" height="900" alt="FAROS FR 3310 — чашеобразная полумаска FFP3 с клапаном выдоха" loading="lazy"></div>
+        <div class="m-img"><img src="assets/fr3310.webp" width="900" height="675" alt="FAROS FR 3310 — чашеобразная полумаска FFP3 с клапаном выдоха" loading="lazy"></div>
         <b>FR&nbsp;3310</b>
         <span class="form">Клапан выдоха&nbsp;· максимальный класс</span>
         <div class="price"><span class="from">от</span><span class="num">421&nbsp;₸</span><span class="per">/шт&nbsp;на&nbsp;опте</span></div>
@@ -833,7 +863,7 @@
       </article>
       <article class="m m--spec rv" data-pr="1020">
         <div class="m-top"><span class="mono">спец&nbsp;· сварка</span><span class="m-cls"><i class="dot dot--2"></i>FFP2</span></div>
-        <div class="m-img"><img src="assets/fr3220.webp" width="900" height="900" alt="FAROS FR 3220 — сварочная полумаска FFP2 с угольным слоем" loading="lazy"></div>
+        <div class="m-img"><img src="assets/fr3220.webp" width="900" height="675" alt="FAROS FR 3220 — сварочная полумаска FFP2 с угольным слоем" loading="lazy"></div>
         <b>FR&nbsp;3220</b>
         <span class="form">Угольный слой&nbsp;· озон и&nbsp;гарь</span>
         <div class="price"><span class="from">от</span><span class="num">1&nbsp;020&nbsp;₸</span><span class="per">/шт&nbsp;на&nbsp;опте</span></div>
@@ -841,7 +871,7 @@
       </article>
       <article class="m m--spec rv" data-pr="1070">
         <div class="m-top"><span class="mono">спец&nbsp;· кислые газы</span><span class="m-cls"><i class="dot dot--2"></i>FFP2</span></div>
-        <div class="m-img"><img src="assets/fr3230.webp" width="900" height="900" alt="FAROS FR 3230 — полумаска FFP2 с угольным слоем против паров кислот" loading="lazy"></div>
+        <div class="m-img"><img src="assets/fr3230.webp" width="900" height="675" alt="FAROS FR 3230 — полумаска FFP2 с угольным слоем против паров кислот" loading="lazy"></div>
         <b>FR&nbsp;3230</b>
         <span class="form">Угольный слой&nbsp;· пары кислот</span>
         <div class="price"><span class="from">от</span><span class="num">1&nbsp;070&nbsp;₸</span><span class="per">/шт&nbsp;на&nbsp;опте</span></div>
@@ -850,7 +880,7 @@
     </div>
 
     <div class="m-note rv">
-      <p>Все&nbsp;12 моделей линейки. Полный прайс&nbsp;— <b>22&nbsp;позиции</b>: каждая модель идёт в&nbsp;двух исполнениях, STANDART и&nbsp;PREMIUM (у&nbsp;FR&nbsp;3220 и&nbsp;FR&nbsp;3230&nbsp;— только PREMIUM). Цены на&nbsp;карточках&nbsp;— за&nbsp;штуку на&nbsp;оптовой партии, с&nbsp;НДС.</p>
+      <p>Все&nbsp;12 моделей линейки. Полный прайс&nbsp;— <b>22&nbsp;позиции</b>: каждая модель идёт в&nbsp;двух исполнениях&nbsp;— STANDART без&nbsp;носового обтюратора и&nbsp;PREMIUM с&nbsp;обтюратором (у&nbsp;FR&nbsp;3220 и&nbsp;FR&nbsp;3230&nbsp;— только PREMIUM). Цены на&nbsp;карточках&nbsp;— за&nbsp;штуку на&nbsp;оптовой партии, с&nbsp;НДС. Фото&nbsp;— каталог производителя FAROS PROTECTION.</p>
       <a class="pill" href="#price">Смотреть все 22&nbsp;позиции</a>
     </div>
   </section>
@@ -947,47 +977,47 @@
     </div>
   </section>
 
-  <!-- ЭКРАН 6: участки -->
-  <section id="industries" aria-label="Подбор модели под участок">
+  <!-- ЭКРАН 6: где применяют -->
+  <section id="industries" aria-label="Области применения">
     <div class="sec-head rv">
-      <h2 class="display"><span class="kick">Участок</span>Начнём с&nbsp;того, чем дышат у&nbsp;вас<em>.</em></h2>
-      <div class="sec-side"><span class="mono">класс защиты зависит не&nbsp;от&nbsp;отрасли, а&nbsp;от&nbsp;кратности превышения ПДК</span></div>
+      <h2 class="display"><span class="kick">Применение</span>Где работают эти полумаски<em>.</em></h2>
+      <div class="sec-side"><span class="mono">области применения и назначение моделей&nbsp;— по&nbsp;описанию производителя FAROS PROTECTION</span></div>
     </div>
+
+    <div class="areas rv">
+      <div class="areas-head">
+        <b>Защита от&nbsp;аэрозолей: пыль, дым, туман</b>
+        <span class="mono">серии FR&nbsp;3000 и&nbsp;FR&nbsp;4000&nbsp;· класс подбирается по&nbsp;кратности превышения ПДК</span>
+      </div>
+      <div class="areas-list">
+        <span class="area">Строительство</span>
+        <span class="area">Литейное производство</span>
+        <span class="area">Деревообрабатывающее производство</span>
+        <span class="area">Судостроение и&nbsp;ремонт</span>
+        <span class="area">Обработка металлов</span>
+        <span class="area">Сельское хозяйство</span>
+        <span class="area">Производство продуктов питания, сортировка и&nbsp;упаковка сыпучих</span>
+        <span class="area">Строительные смеси и&nbsp;порошкообразные химикаты</span>
+      </div>
+    </div>
+
     <div class="ind-grid">
       <article class="ind rv">
         <div class="ind-top"><span class="num">01</span><span class="mdl">FR&nbsp;3220</span></div>
-        <b>Сварка и&nbsp;металлообработка</b>
-        <p>Сварочный дым несёт озон и&nbsp;мелкую металлическую пыль, плюс запах, который к&nbsp;концу смены выматывает не&nbsp;меньше самой пыли.</p>
-        <span class="why">нужен угольный слой&nbsp;— обычная FFP2 запах не&nbsp;держит</span>
+        <b>Сварочные работы</b>
+        <p>Дополнительная защита от&nbsp;сварочных дымов и&nbsp;паров. Угольный фильтр защищает от&nbsp;озона и&nbsp;посторонних запахов.</p>
+        <span class="why">совместим с&nbsp;защитными очками и&nbsp;щитком сварщика</span>
       </article>
       <article class="ind rv">
-        <div class="ind-top"><span class="num">02</span><span class="mdl">FR&nbsp;4310W</span></div>
-        <b>Горная добыча</b>
-        <p>Кремнийсодержащая пыль и&nbsp;буровой аэрозоль, смена длинная, респиратор носят под&nbsp;каску.</p>
-        <span class="why">максимальный класс, до&nbsp;50&nbsp;ПДК</span>
-      </article>
-      <article class="ind rv">
-        <div class="ind-top"><span class="num">03</span><span class="mdl">FR&nbsp;3230</span></div>
-        <b>Нефтехимия</b>
-        <p>Фтороводород, сероводород, сернистый ангидрид&nbsp;— работа рядом с&nbsp;парами кислот.</p>
-        <span class="why">единственная модель в&nbsp;прайсе под&nbsp;кислые газы</span>
-      </article>
-      <article class="ind rv">
-        <div class="ind-top"><span class="num">04</span><span class="mdl">FR&nbsp;4210W</span></div>
-        <b>Стекловолокно и&nbsp;стройматериалы</b>
-        <p>Минеральная пыль раздражает дыхательные пути, а&nbsp;работают в&nbsp;каске и&nbsp;очках&nbsp;— маска не&nbsp;должна с&nbsp;ними спорить.</p>
-        <span class="why">складная садится под&nbsp;каску, очки не&nbsp;запотевают</span>
-      </article>
-      <article class="ind rv">
-        <div class="ind-top"><span class="num">05</span><span class="mdl">FR&nbsp;3100</span></div>
-        <b>Текстиль и&nbsp;деревообработка</b>
-        <p>Пыли много, вредность невысокая, а&nbsp;выдавать нужно всей смене каждый день.</p>
-        <span class="why">нижняя цена прайса, короб 300&nbsp;штук</span>
+        <div class="ind-top"><span class="num">02</span><span class="mdl">FR&nbsp;3230</span></div>
+        <b>Кислые газы и&nbsp;пары</b>
+        <p>Дополнительная защита от&nbsp;кислых газов и&nbsp;паров до&nbsp;ПДК. Единственная позиция прайса с&nbsp;такой защитой.</p>
+        <span class="why">класс FFP2&nbsp;· носовой обтюратор в&nbsp;комплектации</span>
       </article>
       <article class="ind ind--open rv">
-        <div class="ind-top"><span class="num">06</span><span class="mdl">подберём</span></div>
-        <b>Другой участок</b>
-        <p>Напишите, чем дышат на&nbsp;вашем производстве и&nbsp;сколько человек в&nbsp;смене&nbsp;— подберём класс и&nbsp;соберём партию.</p>
+        <div class="ind-top"><span class="num">03</span><span class="mdl">подберём</span></div>
+        <b>Ваш участок</b>
+        <p>Напишите, чем дышат на&nbsp;производстве и&nbsp;сколько человек в&nbsp;смене&nbsp;— подберём класс и&nbsp;соберём партию.</p>
         <span class="why">ответим в&nbsp;WhatsApp, прайс&nbsp;— одним файлом</span>
       </article>
     </div>
@@ -1013,7 +1043,7 @@
       <div class="cert rv">
         <span class="stamp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
         <span class="code">EAC&nbsp;· NR&nbsp;D</span>
-        <p>На&nbsp;изделии: NR&nbsp;— одноразовая, D&nbsp;— пройдено испытание дозаряжением доломитовой пылью.</p>
+        <p>На&nbsp;изделии: NR&nbsp;— на&nbsp;одну рабочую смену, D&nbsp;— пройдено испытание на&nbsp;устойчивость к&nbsp;запылению. Там&nbsp;же ТУ&nbsp;32.99.11-012-44451324-2021.</p>
       </div>
     </div>
     <div class="docs-cta rv">
@@ -1074,8 +1104,8 @@
       <figure class="ct-side rv">
         <img src="assets/final.webp" width="896" height="1200" alt="Рабочий в каске, очках и полумаске FAROS FR 4310W FFP3" loading="lazy">
         <figcaption class="ct-cap">
-          <b>FFP3&nbsp;· садится под&nbsp;каску и&nbsp;очки</b>
-          <span class="mono">FR&nbsp;4310W&nbsp;— клапан выдоха, до&nbsp;50&nbsp;ПДК</span>
+          <b>FR&nbsp;4310&nbsp;· FFP3</b>
+          <span class="mono">клапан выдоха&nbsp;· до&nbsp;50&nbsp;ПДК&nbsp;· NR&nbsp;D</span>
           <span class="ct-dir">
             <a href="https://wa.me/77710519449" data-place="карточка формы" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.5 14c-.2.6-1.2 1.2-1.7 1.2-.5.1-1 .1-1.6-.1-.4-.1-.9-.3-1.5-.6-2.6-1.1-4.3-3.8-4.4-4-.1-.2-1-1.4-1-2.6 0-1.2.6-1.8.9-2.1.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2 0 .4-.1.5l-.3.4-.3.3c-.1.1-.2.3-.1.5.1.2.6 1.1 1.4 1.8 1 .9 1.8 1.1 2 1.2.2.1.4.1.5-.1l.7-.8c.2-.2.3-.2.5-.1l1.8.9c.2.1.4.2.4.3.1.2.1.7-.1 1.3Z"/></svg>
