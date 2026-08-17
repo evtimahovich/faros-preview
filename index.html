@@ -814,8 +814,11 @@
   .f-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
   .f-row--one{grid-template-columns:1fr}
   .field{display:flex;flex-direction:column;gap:7px}
-  .field label{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:var(--ls-ui);text-transform:uppercase;color:var(--ink-soft)}
-  .field label .opt{color:var(--mute);letter-spacing:.06em}
+  .field label{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+  .field label i{font-style:normal;color:var(--mute);letter-spacing:var(--ls-ui)}
+  .field label._x{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:var(--ls-ui);text-transform:uppercase;color:var(--ink-soft)}
+  .field label .field label.f-agree{justify-content:flex-start;gap:10px}
+  .opt{font-style:normal;color:var(--mute);text-transform:lowercase;letter-spacing:var(--ls-ui)}
   .field input,.field textarea{
     font-family:'Manrope',sans-serif;font-size:16px;color:var(--ink);background:#fff;
     border:1px solid var(--line);border-radius:var(--r-s);padding:14px 16px;width:100%;min-height:48px;
@@ -1376,7 +1379,8 @@
         <button class="chip" type="button" data-air="weld">Сварочный дым, озон, гарь</button>
         <button class="chip" type="button" data-air="acid">Кислые газы и&nbsp;пары</button>
       </div>
-      <p class="pick-rule">Фильтрующая полумаска берёт <b>аэрозоли: пыль, дым, туман.</b> Против сварочных дымов и&nbsp;кислых газов нужен дополнительный угольный слой&nbsp;— это две отдельные позиции прайса.</p>
+      <p class="pick-areas"><span class="mono">где применяют</span> строительство · литейное производство · деревообработка · судостроение и&nbsp;ремонт · обработка металлов · сельское хозяйство · производство и&nbsp;упаковка продуктов питания · строительные смеси и&nbsp;порошкообразные химикаты <i>— по&nbsp;описанию производителя FAROS PROTECTION</i></p>
+        <p class="pick-rule">Фильтрующая полумаска берёт <b>аэрозоли: пыль, дым, туман.</b> Против сварочных дымов и&nbsp;кислых газов нужен дополнительный угольный слой&nbsp;— это две отдельные позиции прайса.</p>
       <table class="ptbl">
         <tbody>
           <tr data-air="dust">
@@ -1420,22 +1424,7 @@
       </div>
     </div>
 
-    <div class="areas rv">
-      <div class="areas-head">
-        <b>Где применяют эти полумаски</b>
-        <p class="areas-note">Области применения&nbsp;— по&nbsp;описанию производителя FAROS&nbsp;PROTECTION. Класс внутри отрасли подбирают по&nbsp;замеру.</p>
-      </div>
-      <ul class="areas-list">
-        <li class="area">Строительство</li>
-        <li class="area">Литейное производство</li>
-        <li class="area">Деревообрабатывающее производство</li>
-        <li class="area">Судостроение и&nbsp;ремонт</li>
-        <li class="area">Обработка металлов</li>
-        <li class="area">Сельское хозяйство</li>
-        <li class="area">Производство продуктов питания, сортировка и&nbsp;упаковка сыпучих</li>
-        <li class="area">Строительные смеси и&nbsp;порошкообразные химикаты</li>
-      </ul>
-    </div>
+    
   </section>
 
   <!-- ЭКРАН 4: модельный ряд -->
@@ -1583,7 +1572,7 @@
     <div class="m-note rv">
       <div class="m-note-txt">
         <p><b>22&nbsp;позиции прайса&nbsp;— это те&nbsp;же 12&nbsp;моделей в&nbsp;двух исполнениях:</b> STANDART без&nbsp;носового обтюратора и&nbsp;PREMIUM с&nbsp;обтюратором. У&nbsp;FR&nbsp;3220 и&nbsp;FR&nbsp;3230&nbsp;— только PREMIUM.</p>
-        <p class="fine">Цены на&nbsp;карточках&nbsp;— диапазон от&nbsp;оптовой до&nbsp;розничной, за&nbsp;штуку с&nbsp;НДС. Все три порога и&nbsp;цена за&nbsp;короб&nbsp;— в&nbsp;прайсе ниже. Фото&nbsp;— каталог производителя FAROS&nbsp;PROTECTION.</p>
+        <p class="fine">Цены на&nbsp;карточках&nbsp;— диапазон от&nbsp;оптовой до&nbsp;розничной, за&nbsp;штуку с&nbsp;НДС. Все три порога и&nbsp;цена за&nbsp;короб&nbsp;— в&nbsp;прайсе ниже.</p>
       </div>
     </div>
   </section>
@@ -1770,17 +1759,17 @@
           </div>
           <div class="f-row">
             <div class="field">
-              <label for="f-company">Компания <span class="opt">— необязательно</span></label>
+              <label for="f-company">Компания <span class="opt">необязательно</span></label>
               <input id="f-company" name="company" type="text" autocomplete="organization" placeholder="Название предприятия">
             </div>
             <div class="field">
-              <label for="f-email">E-mail <span class="opt">— для счёта и КП, необязательно</span></label>
-              <input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="Куда прислать документы">
+              <label for="f-email">E-mail <span class="opt">необязательно</span></label>
+              <input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="Куда прислать счёт и КП">
             </div>
           </div>
           <div class="f-row f-row--one">
             <div class="field">
-              <label for="f-need">Объём и&nbsp;участок <span class="opt">— необязательно</span></label>
+              <label for="f-need">Объём и&nbsp;участок <span class="opt">необязательно</span></label>
               <textarea id="f-need" name="need" rows="3" placeholder="Например: 2 000 шт FFP2 на сварочный цех, 40 человек в смене"></textarea>
             </div>
           </div>
