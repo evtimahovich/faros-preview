@@ -28,7 +28,7 @@
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="image" href="assets/hero-cut.webp" fetchpriority="high">
+<link rel="preload" as="image" href="assets/hero-field-tested-v2.webp" fetchpriority="high">
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@125,500;125,700;125,800;125,900&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
@@ -616,41 +616,183 @@
     .rv{opacity:1;transform:none}
   }
 
-  /* ---------- Field-Tested Editorial: first screen ---------- */
-  .nav{
-    top:0;height:62px;margin:0 calc(50% - 50vw);padding:0 max(24px,calc(50vw - 680px));
-    border:0;border-bottom:1px solid rgba(255,255,255,.16);border-radius:0;
-    background:#111412;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;
-  }
-  .nav-logo img{height:24px}.nav-logo .mono{font-size:10px;letter-spacing:.1em}
-  .nav-links{gap:clamp(18px,2.8vw,42px)}
-  .nav-links a{font-family:'Manrope',sans-serif;font-size:12px;font-weight:700;letter-spacing:.02em;color:rgba(255,255,255,.8)}
-  .nav-cta{border:0;border-left:1px solid rgba(255,255,255,.16);border-radius:0;background:transparent;padding:21px 0 21px 20px;font-family:'Manrope',sans-serif;font-size:12px;font-weight:700;letter-spacing:.02em}
-  .nav-cta:hover{background:transparent;color:var(--brand-lift);border-color:rgba(255,255,255,.16);box-shadow:none;transform:none}
+  /* ---------- HERO v3: тёмный остров-обложка + открытая цена ---------- */
+  /* высота шапки-пилюли вместе с её воздухом сверху и снизу */
+  :root{--navh:84px}
+
+  .nav{background:rgba(10,12,11,.92)}
+  .nav-links a{color:rgba(255,255,255,.72)}
 
   .hero--field{
-    min-height:calc(100svh - 62px);margin:0 calc(50% - 50vw);padding:0 max(24px,calc(50vw - 680px));
-    display:flex;align-items:flex-end;overflow:hidden;
-    border-radius:0;background:#101311;color:#fff;
+    position:relative;overflow:hidden;
+    background:#0A0C0B;color:#fff;border-radius:var(--r-l);
+    min-height:min(calc(100svh - var(--navh)),900px);
+    padding-top:clamp(26px,3.4vw,52px);
+    padding-bottom:clamp(18px,2vw,30px);
+    display:flex;flex-direction:column;
   }
   .hero--field::before{display:none}
-  .hero--field .hero-fig{position:absolute;inset:0;display:block;margin:0;min-height:0;z-index:0}
-  .hero--field .hero-fig::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#101311 0%,rgba(16,19,17,.94) 25%,rgba(16,19,17,.38) 56%,rgba(16,19,17,.2) 100%),linear-gradient(0deg,rgba(16,19,17,.48),transparent 42%)}
-  .hero--field .hero-fig img{width:100%;height:100%;max-width:none;max-height:none;object-fit:cover;object-position:center;filter:saturate(.74) contrast(1.03);-webkit-mask:none;mask:none}
-  .hero--field .hero-copy{position:relative;z-index:2;margin:0;padding:clamp(64px,7vw,104px) clamp(24px,5vw,78px) clamp(38px,4vw,56px) 0;max-width:760px}
-  .hero-kicker{display:block;margin-bottom:20px;color:var(--brand-lift);font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.13em;text-transform:uppercase}
-  .hero--field h1{max-width:9ch;margin-bottom:26px;font-size:clamp(3.4rem,5.8vw,6.6rem);line-height:.84;letter-spacing:-.055em}
-  .hero--field h1 em{color:#fff;font-style:normal}
-  .hero--field .hero-lead{max-width:42ch;color:rgba(255,255,255,.78);font-size:clamp(15px,1.25vw,18px);line-height:1.55}
-  .hero--field .hero-bottom{display:block}.hero--field .hero-act{margin-top:30px;gap:18px}
-  .hero--field .pill{border-radius:0;background:var(--brand-lift);color:#101311;padding:17px 20px;font-size:11px;letter-spacing:.08em}
-  .hero--field .pill:hover{background:#fff;transform:none}.hero--field .hero-act .mono{font-size:10px;color:rgba(255,255,255,.58)}
-  @media (max-width:760px){
-    .nav{height:56px;margin:0 -16px;padding:0 16px}.nav-logo img{height:21px}.nav-cta{width:36px;height:36px;padding:0;border:0;justify-content:center;background:var(--brand)}.nav-cta span{display:none}.nav-menu{width:36px;height:36px;border-radius:0}.nav-drawer{right:16px;border-radius:0}
-    .hero--field{min-height:calc(100svh - 56px);margin:0 -16px;padding:0;display:block}.hero--field .hero-fig::after{background:linear-gradient(90deg,#101311 0%,rgba(16,19,17,.9) 50%,rgba(16,19,17,.25) 100%),linear-gradient(0deg,#101311 0%,rgba(16,19,17,.3) 48%,rgba(16,19,17,.18) 100%)}.hero--field .hero-fig img{object-position:62% center}
-    .hero--field .hero-copy{position:absolute;inset:auto 0 0;padding:48px 16px 40px;max-width:none}.hero-kicker{margin-bottom:16px;font-size:10px}.hero--field h1{max-width:8.8ch;margin-bottom:20px;font-size:clamp(3rem,13.3vw,4.15rem)}.hero--field .hero-lead{max-width:30ch;font-size:14px}.hero--field .hero-act{margin-top:22px}.hero--field .pill{width:auto;justify-content:center}.hero--field .hero-act .mono{display:none}
+
+  /* фото занимает правую часть острова и растворяется в чёрное к центру */
+  .hero--field .hero-fig{position:absolute;inset:0 0 0 28%;margin:0;min-height:0;display:block;z-index:0}
+  .hero--field .hero-fig img{
+    width:100%;height:100%;max-width:none;max-height:none;
+    object-fit:cover;object-position:74% 46%;
+    filter:saturate(.7) contrast(1.06) brightness(.94);
+    -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 44%);
+    mask-image:linear-gradient(90deg,transparent 0,#000 44%);
   }
-  @media (max-width:760px){.hero--field h1{max-width:100%;font-size:clamp(2.8rem,11.8vw,3.5rem)}}
+  .hero--field .hero-fig::after{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(0deg,rgba(10,12,11,.92) 0,rgba(10,12,11,.35) 18%,rgba(10,12,11,0) 40%);
+  }
+
+  /* текстовая колонка: взгляд рабочего опущен влево и ведёт в заголовок */
+  .hero--field .hero-copy{
+    position:relative;z-index:2;margin:auto 0;padding:0;
+    max-width:min(62%,900px);
+  }
+  .hero-kicker{
+    display:inline-flex;align-items:center;gap:10px;
+    margin-bottom:clamp(16px,1.7vw,24px);color:rgba(255,255,255,.66);
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.13em;
+    text-transform:uppercase;line-height:1.3;
+  }
+  .hero-kicker i{font-style:normal}
+  .hk-min{display:none}
+  .hero-kicker::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--brand-lift);flex:none}
+  .hero--field h1{
+    margin:0 0 clamp(16px,1.8vw,26px) -.035em;
+    font-size:clamp(2.7rem,6.4vw,6.2rem);line-height:.88;letter-spacing:-.042em;color:#fff;
+  }
+  .hero--field h1 span{display:block}
+  .hero--field h1 em{font-style:normal;color:var(--brand-lift);margin-left:-.14em}
+  .hero--field .hero-bottom{display:block}
+  .hero--field .hero-lead{
+    max-width:44ch;margin:0;color:rgba(255,255,255,.76);
+    font-size:clamp(15px,1.15vw,17px);line-height:1.6;
+  }
+  .hero--field .hero-act{margin-top:clamp(20px,2.2vw,30px);gap:12px;align-items:center}
+  .hero--field .pill{border-radius:999px;padding:16px 26px;font-size:11.5px;letter-spacing:.1em}
+  .hero--field .pill--brand{background:var(--brand);color:#fff}
+  .hero--field .pill--brand:hover{background:var(--brand-lift);transform:translateY(-2px)}
+  .hero--field .pill--ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.32)}
+  .hero--field .pill--ghost:hover{background:#fff;color:var(--ink);border-color:#fff;transform:translateY(-2px)}
+  .hero--field .pill--ghost svg{width:15px;height:15px;opacity:.75}
+
+  /* ценовая плашка: единственный светлый предмет в тёмном кадре */
+  .hero-price{
+    display:grid;grid-template-columns:repeat(3,1fr);
+    margin-top:clamp(22px,2.6vw,36px);max-width:min(100%,820px);
+    background:var(--panel);color:var(--ink);
+    border-radius:var(--r-l);overflow:hidden;
+    box-shadow:0 26px 60px rgba(0,0,0,.5);
+  }
+  .hp{padding:clamp(13px,1.15vw,16px) clamp(15px,1.4vw,20px);border-left:1px solid var(--line)}
+  .hp:first-child{border-left:0}
+  .hp .k{
+    display:block;margin-bottom:9px;color:var(--mute);
+    font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  }
+  .hp b{
+    display:block;font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;
+    font-size:clamp(26px,2.5vw,36px);line-height:.94;letter-spacing:-.02em;font-variant-numeric:tabular-nums;
+    white-space:nowrap;
+  }
+  .hp b i{font-style:normal;font-size:.5em;margin-left:5px;color:var(--mute)}
+  .hp .l{display:block;margin-top:8px;font-size:12.5px;line-height:1.35;color:var(--ink-soft)}
+  .hp .l i{font-style:normal}
+  .hero-price-note{
+    position:relative;z-index:2;display:block;margin-top:12px;
+    color:rgba(255,255,255,.58);font-size:10.5px;letter-spacing:.1em;
+  }
+  .hp--price{background:var(--brand);color:#fff}
+  .hp--price .k{color:rgba(255,255,255,.7)}
+  .hp--price b i,.hp--price .l{color:rgba(255,255,255,.82)}
+
+  /* нижняя служебная линейка — как строка спецификации в чертеже */
+  .hero-rail{
+    position:relative;z-index:2;display:flex;flex-wrap:wrap;gap:6px 26px;
+    margin-top:clamp(20px,2.4vw,36px);padding-top:15px;
+    border-top:1px solid rgba(255,255,255,.15);
+    color:rgba(255,255,255,.64);
+  }
+  .hero-rail span{display:inline-flex;align-items:center;gap:9px}
+  .hero-rail span::before{content:"";width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.34);flex:none}
+
+  @media (max-width:1200px){
+    .hero--field .hero-fig{inset:0 0 0 22%}
+    .hero--field h1{font-size:clamp(2.7rem,6vw,4.6rem)}
+  }
+  @media (max-width:1100px){
+    .hero-rail{display:none}
+  }
+  @media (max-width:980px){
+    /* планшет: фото — весь кадр, текст садится на затемнённый низ */
+    .hero--field{
+      min-height:min(calc(100svh - var(--navh)),760px);
+      justify-content:flex-end;padding-top:clamp(150px,28svh,280px);
+      padding-bottom:clamp(24px,3vw,34px);
+    }
+    .hero--field .hero-fig{inset:0}
+    .hero--field .hero-fig img{object-position:64% 24%;-webkit-mask:none;mask:none}
+    .hero--field .hero-fig::after{
+      background:linear-gradient(0deg,#0A0C0B 4%,rgba(10,12,11,.92) 28%,rgba(10,12,11,.45) 54%,rgba(10,12,11,.22) 100%),
+                 linear-gradient(90deg,rgba(10,12,11,.66) 0,rgba(10,12,11,.3) 44%,rgba(10,12,11,0) 70%);
+    }
+    .hero--field .hero-copy{margin:0;max-width:min(94%,620px)}
+    .hero--field h1{font-size:clamp(2.4rem,6.2vw,3.5rem)}
+    .hero--field .hero-lead{max-width:40ch}
+  }
+  @media (max-width:760px){
+    .nav{margin-inline:0}
+    .hero--field{
+      margin-top:calc(var(--navh) * -1);border-radius:0;
+      min-height:100svh;
+      padding-top:clamp(272px,40svh,336px);padding-bottom:24px;
+      justify-content:flex-end;
+    }
+    /* фото — верхняя полоса кадра, растворяется в чёрное перед заголовком */
+    .hero--field .hero-fig{inset:0 0 auto 0;height:clamp(322px,47svh,396px)}
+    .hero--field .hero-fig img{
+      object-position:66% 30%;
+      -webkit-mask-image:linear-gradient(180deg,#000 68%,transparent 100%);
+      mask-image:linear-gradient(180deg,#000 68%,transparent 100%);
+    }
+    .hero--field .hero-fig::after{
+      background:linear-gradient(0deg,#0A0C0B 0,rgba(10,12,11,.6) 30%,rgba(10,12,11,.12) 58%,rgba(10,12,11,.4) 100%);
+    }
+    .hero--field .hero-copy{margin:0;max-width:none}
+    .hk-full{display:none}.hk-min{display:inline}
+    .hero-kicker{margin-bottom:12px;font-size:10px;letter-spacing:.1em}
+    .hero--field h1{font-size:clamp(2.35rem,10.4vw,3.1rem);line-height:.9;margin-bottom:13px}
+    .hero--field .hero-lead{max-width:34ch;font-size:14px;line-height:1.5}
+    .hero--field .hero-act{margin-top:16px;gap:2px;flex-direction:column;align-items:stretch}
+    .hero--field .pill--brand{width:100%;justify-content:center;padding:15px 20px}
+    .hero--field .pill--ghost{
+      width:100%;border:0;background:transparent;padding:10px 0;justify-content:center;
+      color:rgba(255,255,255,.72);font-size:11px;
+    }
+    .hero--field .pill--ghost:hover{background:transparent;color:#fff;transform:none}
+    /* плашка на телефоне — компактная строка спецификации */
+    .hero-price{margin-top:16px;max-width:none;grid-template-columns:repeat(3,1fr)}
+    .hp{padding:11px 10px;min-width:0}
+    .hp .k{margin-bottom:6px;font-size:9px;letter-spacing:.08em}
+    .hp b{font-size:18px}
+    .hp b i{font-size:.44em;margin-left:3px}
+    .hp .l{margin-top:6px;font-size:10.5px}
+    .hp .l i{display:none}
+    .hero-price-note{margin-top:10px;font-size:9.5px;letter-spacing:.06em;color:rgba(255,255,255,.46)}
+  }
+  @media (max-width:380px){
+    .hero--field{padding-top:clamp(252px,38svh,310px)}
+    .hero--field .hero-fig{height:clamp(300px,45svh,366px)}
+    .hero--field h1{font-size:2.2rem}
+    .hp{padding:10px 8px}
+    .hp b{font-size:16px}
+    .hp .k{font-size:8.5px}
+    .hp .l{font-size:10px}
+  }
 </style>
 </head>
 <body id="top">
@@ -695,20 +837,52 @@
     </figure>
 
     <div class="hero-copy">
-      <span class="hero-kicker">FAROS&nbsp;· ОПТОВЫЕ РЕСПИРАТОРЫ</span>
+      <span class="hero-kicker">FAROS PROTECTION&nbsp;· <i class="hk-full">официальная дистрибуция ТОО&nbsp;«ALLTRADE-LTD»</i><i class="hk-min">официальный дистрибьютор</i></span>
       <h1 class="display">
-        <span>Защита</span>
-        <span><em>на участке.</em></span>
+        <span>Оптовые</span>
+        <span>респираторы.</span>
+        <span>Цена открыта<em>.</em></span>
       </h1>
       <div class="hero-bottom">
-        <p class="hero-lead">FFP1–FFP3 для цеха, склада и&nbsp;стройки.</p>
+        <p class="hero-lead">FFP1–FFP3 для цеха, склада и&nbsp;стройки. Все 22&nbsp;позиции прайса с&nbsp;ценами&nbsp;— прямо на&nbsp;этой странице.</p>
         <div class="hero-act">
           <a class="pill pill--brand" href="#contact" data-place="хиро">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.5 14c-.2.6-1.2 1.2-1.7 1.2-.5.1-1 .1-1.6-.1-.4-.1-.9-.3-1.5-.6-2.6-1.1-4.3-3.8-4.4-4-.1-.2-1-1.4-1-2.6 0-1.2.6-1.8.9-2.1.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2 0 .4-.1.5l-.3.4-.3.3c-.1.1-.2.3-.1.5.1.2.6 1.1 1.4 1.8 1 .9 1.8 1.1 2 1.2.2.1.4.1.5-.1l.7-.8c.2-.2.3-.2.5-.1l1.8.9c.2.1.4.2.4.3.1.2.1.7-.1 1.3Z"/></svg>
             Получить прайс
           </a>
+          <a class="pill pill--ghost" href="#price" data-place="хиро-прайс">
+            Смотреть 22&nbsp;позиции
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M12 4v15m0 0-6-6m6 6 6-6"/></svg>
+          </a>
         </div>
       </div>
+
+      <div class="hero-price">
+        <div class="hp">
+          <span class="k">розница</span>
+          <b>от&nbsp;267<i>₸/шт</i></b>
+          <span class="l">любой объём</span>
+        </div>
+        <div class="hp">
+          <span class="k">малый опт</span>
+          <b>от&nbsp;240<i>₸/шт</i></b>
+          <span class="l"><i>партия </i>от&nbsp;110&nbsp;000&nbsp;₸</span>
+        </div>
+        <div class="hp hp--price">
+          <span class="k">опт</span>
+          <b>от&nbsp;208<i>₸/шт</i></b>
+          <span class="l"><i>партия </i>от&nbsp;1&nbsp;100&nbsp;000&nbsp;₸</span>
+        </div>
+      </div>
+      <span class="hero-price-note mono">цены за&nbsp;штуку с&nbsp;НДС&nbsp;· 12&nbsp;моделей, 22&nbsp;позиции&nbsp;— весь прайс ниже на&nbsp;странице</span>
+    </div>
+
+    <div class="hero-rail mono">
+      <span>FR&nbsp;4000&nbsp;— складные</span>
+      <span>FR&nbsp;3000&nbsp;— чашеобразные</span>
+      <span>спец-линия с&nbsp;угольным фильтром</span>
+      <span>упаковка 10&nbsp;/&nbsp;300&nbsp;/&nbsp;400&nbsp;шт</span>
+      <span>отгрузка по&nbsp;Казахстану</span>
     </div>
   </section>
 
