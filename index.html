@@ -615,6 +615,50 @@
     *,*::before,*::after{transition:none !important;animation:none !important}
     .rv{opacity:1;transform:none}
   }
+
+  /* ---------- Field-Tested Editorial: first screen ---------- */
+  .nav{
+    top:0;height:62px;margin:0 calc(50% - 50vw);padding:0 max(24px,calc(50vw - 680px));
+    border:0;border-bottom:1px solid rgba(255,255,255,.16);border-radius:0;
+    background:#111412;box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;
+  }
+  .nav-logo img{height:24px}.nav-logo .mono{font-size:10px;letter-spacing:.1em}
+  .nav-links{gap:clamp(18px,2.8vw,42px)}
+  .nav-links a{font-family:'Manrope',sans-serif;font-size:12px;font-weight:700;letter-spacing:.02em;color:rgba(255,255,255,.8)}
+  .nav-cta{border:0;border-left:1px solid rgba(255,255,255,.16);border-radius:0;background:transparent;padding:21px 0 21px 20px;font-family:'Manrope',sans-serif;font-size:12px;font-weight:700;letter-spacing:.02em}
+  .nav-cta:hover{background:transparent;color:var(--brand-lift);border-color:rgba(255,255,255,.16);box-shadow:none;transform:none}
+
+  .hero--field{
+    min-height:calc(100svh - 62px);margin:0 calc(50% - 50vw);padding:0 max(24px,calc(50vw - 680px));
+    display:grid;grid-template-columns:minmax(0,1fr) 210px;align-items:end;overflow:hidden;
+    border-radius:0;background:#101311;color:#fff;
+  }
+  .hero--field::before{display:none}
+  .hero--field .hero-fig{position:absolute;inset:0;display:block;margin:0;min-height:0;z-index:0}
+  .hero--field .hero-fig::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#101311 0%,rgba(16,19,17,.94) 25%,rgba(16,19,17,.38) 56%,rgba(16,19,17,.2) 100%),linear-gradient(0deg,rgba(16,19,17,.48),transparent 42%)}
+  .hero--field .hero-fig img{width:100%;height:100%;max-width:none;max-height:none;object-fit:cover;object-position:center;filter:saturate(.74) contrast(1.03);-webkit-mask:none;mask:none}
+  .hero--field .hero-copy{position:relative;z-index:2;grid-column:1;margin:0;padding:clamp(64px,7vw,104px) clamp(24px,5vw,78px) clamp(38px,4vw,56px) 0;max-width:760px}
+  .hero-kicker{display:block;margin-bottom:20px;color:var(--brand-lift);font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.13em;text-transform:uppercase}
+  .hero--field h1{max-width:9ch;margin-bottom:26px;font-size:clamp(3.4rem,5.8vw,6.6rem);line-height:.84;letter-spacing:-.055em}
+  .hero--field h1 em{color:#fff;font-style:normal}
+  .hero--field .hero-lead{max-width:42ch;color:rgba(255,255,255,.78);font-size:clamp(15px,1.25vw,18px);line-height:1.55}
+  .hero--field .hero-bottom{display:block}.hero--field .hero-act{margin-top:30px;gap:18px}
+  .hero--field .pill{border-radius:0;background:var(--brand-lift);color:#101311;padding:17px 20px;font-size:11px;letter-spacing:.08em}
+  .hero--field .pill:hover{background:#fff;transform:none}.hero--field .hero-act .mono{font-size:10px;color:rgba(255,255,255,.58)}
+  .hero-rail{position:relative;z-index:2;grid-column:2;align-self:stretch;display:flex;flex-direction:column;justify-content:flex-end;border-left:1px solid rgba(255,255,255,.22)}
+  .hero-rail div{padding:16px 0 16px 22px;border-top:1px solid rgba(255,255,255,.22)}
+  .hero-rail span{display:block;margin-bottom:7px;color:rgba(255,255,255,.52);font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase}
+  .hero-rail b{display:block;font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;font-size:18px;letter-spacing:.035em;line-height:1.05;text-transform:uppercase}
+  .hero-rail small{display:block;margin-top:5px;color:rgba(255,255,255,.68);font-size:12px;line-height:1.35}
+  .hero-rail .rail-price b{color:var(--brand-lift);font-size:22px}
+
+  @media (max-width:760px){
+    .nav{height:56px;margin:0 -16px;padding:0 16px}.nav-logo img{height:21px}.nav-cta{width:36px;height:36px;padding:0;border:0;justify-content:center;background:var(--brand)}.nav-cta span{display:none}.nav-menu{width:36px;height:36px;border-radius:0}.nav-drawer{right:16px;border-radius:0}
+    .hero--field{min-height:calc(100svh - 56px);margin:0 -16px;padding:0;display:block}.hero--field .hero-fig::after{background:linear-gradient(90deg,#101311 0%,rgba(16,19,17,.9) 50%,rgba(16,19,17,.25) 100%),linear-gradient(0deg,#101311 0%,rgba(16,19,17,.3) 48%,rgba(16,19,17,.18) 100%)}.hero--field .hero-fig img{object-position:62% center}
+    .hero--field .hero-copy{position:absolute;inset:auto 0 98px 0;padding:48px 16px 0;max-width:none}.hero-kicker{margin-bottom:16px;font-size:10px}.hero--field h1{max-width:8.8ch;margin-bottom:20px;font-size:clamp(3rem,13.3vw,4.15rem)}.hero--field .hero-lead{max-width:32ch;font-size:14px}.hero--field .hero-act{margin-top:24px}.hero--field .pill{width:100%;justify-content:center}.hero--field .hero-act .mono{max-width:none}
+    .hero-rail{position:absolute;z-index:3;right:0;bottom:0;left:0;display:grid;grid-template-columns:repeat(3,1fr);height:98px;border-top:1px solid rgba(255,255,255,.22);border-left:0;background:rgba(16,19,17,.88)}.hero-rail div{padding:14px 12px;border-top:0;border-left:1px solid rgba(255,255,255,.22)}.hero-rail div:first-child{border-left:0}.hero-rail span{font-size:8.5px;margin-bottom:5px}.hero-rail b{font-size:12px;letter-spacing:.02em}.hero-rail small{font-size:9.5px;line-height:1.25}.hero-rail .rail-price b{font-size:15px}
+  }
+  @media (max-width:760px){.hero--field h1{max-width:100%;font-size:clamp(2.8rem,11.8vw,3.5rem)}}
 </style>
 </head>
 <body id="top">
@@ -653,30 +697,20 @@
   </header>
 
   <!-- ЭКРАН 1 -->
-  <section class="hero" aria-label="Респираторы FAROS оптом по Казахстану">
-    <div class="hero-chips">
-      <span class="chip">Опт по&nbsp;Казахстану</span>
-      <span class="chip">22&nbsp;позиции прайса</span>
-      <span class="chip">официальная дистрибуция</span>
-    </div>
-
+  <section class="hero hero--field" aria-label="Респираторы FAROS оптом по Казахстану">
     <figure class="hero-fig">
-      <img src="assets/hero-cut.webp" width="851" height="1126" alt="Рабочий в фильтрующей полумаске FAROS FR 4310 FFP3" fetchpriority="high">
-      <figcaption class="spec">
-        <span class="mono k">на&nbsp;герое</span>
-        <b>FR&nbsp;4310W</b>
-        <span class="l">складная&nbsp;· клапан выдоха<br>FFP3&nbsp;— до&nbsp;50&nbsp;ПДК</span>
-        <span class="p">от&nbsp;421&nbsp;₸ <i>/шт на&nbsp;опте</i></span>
-      </figcaption>
+      <img src="assets/hero-field-tested-v2.webp" width="1664" height="936" alt="Рабочий металлообрабатывающего цеха в защитной полумаске" fetchpriority="high">
     </figure>
 
     <div class="hero-copy">
+      <span class="hero-kicker">FAROS PROTECTION&nbsp;· ОПТ КАЗАХСТАН</span>
       <h1 class="display">
-        <span>Респираторы</span>
-        <span>FAROS <em>оптом</em></span>
+        <span>Защита</span>
+        <span>для реального</span>
+        <span><em>участка.</em></span>
       </h1>
       <div class="hero-bottom">
-        <p class="hero-lead">Двенадцать моделей, FFP1–FFP3: складные и&nbsp;чашеобразные, плюс две с&nbsp;угольным слоем&nbsp;— под&nbsp;сварочные дымы и&nbsp;под&nbsp;кислые газы. Отгрузка предприятиям по&nbsp;Казахстану.</p>
+        <p class="hero-lead">Респираторы FAROS FFP1–FFP3 для пыли, сварочных дымов и&nbsp;кислых газов. Подберём класс, соберём партию и&nbsp;пришлём документы для закупки.</p>
         <div class="hero-act">
           <a class="pill pill--brand" href="#contact" data-place="хиро">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.5 14c-.2.6-1.2 1.2-1.7 1.2-.5.1-1 .1-1.6-.1-.4-.1-.9-.3-1.5-.6-2.6-1.1-4.3-3.8-4.4-4-.1-.2-1-1.4-1-2.6 0-1.2.6-1.8.9-2.1.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2 0 .4-.1.5l-.3.4-.3.3c-.1.1-.2.3-.1.5.1.2.6 1.1 1.4 1.8 1 .9 1.8 1.1 2 1.2.2.1.4.1.5-.1l.7-.8c.2-.2.3-.2.5-.1l1.8.9c.2.1.4.2.4.3.1.2.1.7-.1 1.3Z"/></svg>
@@ -686,6 +720,23 @@
         </div>
       </div>
     </div>
+    <aside class="hero-rail" aria-label="Характеристики модели">
+      <div>
+        <span>Модель на кадре</span>
+        <b>FR 4310W</b>
+        <small>складная · клапан выдоха</small>
+      </div>
+      <div>
+        <span>Класс защиты</span>
+        <b>FFP3</b>
+        <small>до 50 ПДК</small>
+      </div>
+      <div class="rail-price">
+        <span>Оптовая цена</span>
+        <b>от 421 ₸</b>
+        <small>за штуку, с НДС</small>
+      </div>
+    </aside>
   </section>
 
   <!-- ЭКРАН 2: факты -->
