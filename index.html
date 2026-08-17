@@ -40,12 +40,27 @@
     --mute:#6A7076;
     --brand:#326450;      /* PANTONE 554 C - фирменный */
     --brand-lift:#4E9E78; /* осветлённый - только на тёмном фоне */
+    --stage:#0A0C0B;      /* полноширинные тёмные острова */
+    --danger:#C0342F;
+    /* коды классов защиты из каталога производителя + пары для тёмного фона */
+    --c1:#00963F; --c1-d:#33C173;
+    --c2:#003993; --c2-d:#5B8CF0;
+    --c3:#D00405; --c3-d:#F0554F;
     --r-s:6px;
     --r-m:8px;
     --r-l:12px;
     --pad:clamp(16px,3.4vw,48px);
     --inset:clamp(10px,1.4vw,20px);
     --card-pad:clamp(20px,2.2vw,28px);
+    /* вертикальный ритм: связка / пауза / смена регистра */
+    --gap-s:56px;
+    --gap-m:96px;
+    --gap-l:144px;
+    /* типографическая лестница: H1 первого экрана 92px — потолок страницы */
+    --t-h2:clamp(1.75rem,3.7vw,3.35rem);   /* 53px @1440 — заголовки разделов */
+    --t-h3:clamp(1.35rem,2.2vw,2rem);      /* 32px — ведущая карточка блока   */
+    --t-h4:clamp(1.05rem,1.45vw,1.32rem);  /* 21px — обычная карточка         */
+    --t-num:clamp(1.65rem,3.05vw,2.75rem);  /* 44px — крупная цифра            */
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
@@ -218,100 +233,175 @@
   }
 
   /* ---------- section head ---------- */
-  section{padding-block:clamp(40px,6vw,96px)}
-  section[id]{scroll-margin-top:84px}
-  .sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;margin-bottom:clamp(24px,3.4vw,48px)}
-  .sec-head h2{font-size:clamp(2rem,5.2vw,4.6rem)}
+  section{padding-block:clamp(40px,6vw,var(--gap-m))}
+  section[id]{scroll-margin-top:104px}
+  #about{padding-top:clamp(28px,3.9vw,var(--gap-s))}      /* спецификация — продолжение хиро */
+  #models{padding-bottom:clamp(28px,3.9vw,var(--gap-s))}  /* модели и прайс — одна мысль    */
+  #price{padding-top:clamp(28px,3.9vw,var(--gap-s))}
+  #contact{padding-top:clamp(56px,9vw,var(--gap-l))}      /* большой вдох перед заявкой     */
+  .sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:clamp(24px,4vw,64px);margin-bottom:clamp(22px,2.8vw,38px)}
+  .sec-head h2{font-size:var(--t-h2);max-width:20ch}
   .sec-head h2 em{font-style:normal;color:var(--brand)}
   .sec-head .kick{display:block;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--brand);margin-bottom:14px}
-  .sec-side{max-width:340px}
-  .sec-side .mono{color:var(--ink-soft)}
-  @media (max-width:760px){.sec-head{flex-direction:column;align-items:flex-start;gap:16px}.sec-head h2{overflow-wrap:break-word}}
-  @media (max-width:560px){.sec-head h2{font-size:clamp(1.7rem,8.6vw,2.4rem)}}
+  .sec-side{max-width:38ch;padding-bottom:.35em}
+  /* пояснение раздела — человеческим текстом, а не капслоком */
+  .sec-side .note{display:block;color:var(--ink-soft);font-size:15px;line-height:1.5}
+  @media (max-width:760px){.sec-head{flex-direction:column;align-items:flex-start;gap:14px;margin-bottom:24px}.sec-head h2{overflow-wrap:break-word;max-width:none}.sec-side{padding-bottom:0;max-width:46ch}.sec-side .note{font-size:14px}}
 
-  /* ---------- карточная база ---------- */
-  .stat,.dir,.m,.ind,.cert,.thr,.ct-form{
+  /* ---------- карточная база: одна ступень высоты на страницу ---------- */
+  .m,.ct-form{
     border:1px solid var(--line);
     box-shadow:0 1px 2px rgba(16,20,24,.06),0 12px 32px rgba(16,20,24,.10);
     transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;
   }
+  .dir,.ind,.cert,.thr{
+    border:1px solid var(--line);
+    transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;
+  }
   @media (hover:hover){
-    .stat:hover,.dir:hover,.m:hover,.ind:hover,.cert:hover,.thr:hover{
+    /* подъём — только там, где карточка действительно кликается */
+    .dir:hover,.m:hover{
       transform:translateY(-4px);
       box-shadow:0 2px 6px rgba(16,20,24,.08),0 26px 60px rgba(16,20,24,.17);
     }
+    .ind:hover,.cert:hover{border-color:var(--brand)}
   }
 
-  /* ---------- факты ---------- */
-  .stats-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
+  /* ---------- лист спецификации: цифры линейки + отгрузка ---------- */
+  .spec-sheet{
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--r-m);overflow:hidden;
+  }
+  .stats-grid{display:grid;grid-template-columns:repeat(4,1fr)}
   .stat{
-    background:var(--panel);border-radius:var(--r-m);padding:var(--card-pad);grid-column:span 3;
-    display:flex;flex-direction:column;justify-content:space-between;gap:18px;min-height:170px;
+    padding:clamp(18px,1.9vw,26px) clamp(16px,1.7vw,24px);
+    display:flex;flex-direction:column;gap:10px;
+    border-left:1px solid var(--line);
+  }
+  .stat:first-child{border-left:0}
+  .stat .k{
+    font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--mute);
   }
   .stat .n{
-    font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;text-wrap:balance;
-    font-size:clamp(2.2rem,4.6vw,4.2rem);line-height:.9;letter-spacing:-.01em;font-variant-numeric:tabular-nums;
+    font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;
+    font-size:var(--t-num);line-height:.9;letter-spacing:-.015em;font-variant-numeric:tabular-nums;
   }
-  .stat .n i{font-style:normal;font-size:.4em;letter-spacing:.02em;margin-left:.12em;white-space:nowrap}
-  .stat .n--cls{font-size:clamp(1.5rem,2.4vw,2.2rem);letter-spacing:.02em;line-height:1.05}
-  .stat .l{color:var(--ink-soft)}
-  .stat--brand{background:var(--brand);color:#fff;border-color:var(--brand)}
-  .stat--brand .l{color:rgba(255,255,255,.86)}
+  .stat .n i{font-style:normal;font-size:.42em;letter-spacing:.02em;margin-left:.1em;white-space:nowrap}
+  .stat .n--cls{font-weight:800;font-size:clamp(1.3rem,1.75vw,1.6rem);letter-spacing:.03em;line-height:1.28;white-space:nowrap}
+  .stat .l{color:var(--ink-soft);font-size:14px;line-height:1.45;margin-top:auto;padding-top:4px}
+  .stat--brand{background:var(--brand);color:#fff;border-left-color:var(--brand)}
+  .stat--brand + .stat{border-left-color:var(--brand)}
+  .stat--brand .k{color:rgba(255,255,255,.72)}
+  .stat--brand .l{color:rgba(255,255,255,.88)}
   .geo{
-    grid-column:span 12;background:var(--ink);color:#fff;border-radius:var(--r-m);
-    padding:clamp(18px,2vw,26px);display:flex;gap:10px;flex-wrap:wrap;align-items:center;
+    background:var(--stage);color:#fff;
+    padding:clamp(14px,1.5vw,20px) clamp(16px,1.7vw,24px);
+    display:flex;gap:10px 12px;flex-wrap:wrap;align-items:center;
     position:relative;overflow:hidden;
   }
   .geo::after{
     content:"";position:absolute;right:-25%;top:-60%;width:70%;height:180%;
     background:radial-gradient(circle,rgba(78,158,120,.16),transparent 62%);pointer-events:none;
   }
-  .geo .mono{color:rgba(255,255,255,.6);margin-right:8px;position:relative;z-index:1}
+  .geo .mono{color:rgba(255,255,255,.5);margin-right:6px;position:relative;z-index:1}
   .gpill{
-    border:1px solid rgba(255,255,255,.26);border-radius:999px;padding:8px 16px;position:relative;z-index:1;
-    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#fff;
+    border:1px solid rgba(255,255,255,.24);border-radius:999px;padding:7px 15px;position:relative;z-index:1;
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.92);
   }
-  @media (max-width:960px){.stat{grid-column:span 6}}
-  @media (max-width:600px){.stat{grid-column:span 12;min-height:0;gap:12px;padding:20px 22px}}
+  @media (max-width:840px){
+    .stats-grid{grid-template-columns:repeat(2,1fr)}
+    .stat:nth-child(3){border-left:0}
+    .stat:nth-child(n+3){border-top:1px solid var(--line)}
+    .stat--brand{border-top-color:var(--brand)}
+  }
+  @media (max-width:560px){
+    .stat{padding:16px 16px 18px;gap:8px}
+    .stat .l{font-size:13px}
+    .geo{gap:8px;padding:14px 16px}
+    .geo .mono{width:100%;margin:0 0 2px}
+    .gpill{padding:6px 12px;font-size:10px;letter-spacing:.05em}
+  }
 
   /* ---------- три линии ---------- */
-  .dirs{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(12px,1.4vw,18px)}
-  .dir--hero{grid-column:span 2}
-  .dir--wide{grid-column:1 / -1;flex-direction:row;align-items:flex-end;gap:clamp(20px,3vw,48px);min-height:0}
-  .dir--wide .dir-top{flex-direction:column;align-items:flex-start;gap:10px;flex:none}
-  .dir--wide .dir-t{padding-top:0;margin-top:0}
-  .dir--wide .dir-t b{font-size:clamp(1.4rem,2.4vw,2.2rem)}
-  .dir--wide .dir-t p{max-width:64ch}
+  .dirs{display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(12px,1.4vw,18px)}
   .dir{
-    display:flex;flex-direction:column;min-height:clamp(160px,15vw,210px);
-    padding:clamp(18px,1.9vw,28px);background:var(--panel);border-radius:var(--r-l);
+    grid-column:span 4;
+    display:flex;flex-direction:column;min-height:clamp(180px,16vw,230px);
+    padding:clamp(20px,1.9vw,28px);background:var(--panel);border-radius:var(--r-l);
   }
-  .dir-top{display:flex;align-items:center;justify-content:space-between}
-  .dir .num{font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.14em;color:var(--mute)}
+  .dir--doc{grid-column:span 5}
+  .dir--wide{grid-column:span 7}
+  .dir-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .dir .num{font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:.14em;color:var(--mute);transition:color .25s ease}
   .dir .tag{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--brand)}
-  .dir-t{margin-top:auto;padding-top:24px}
+  .dir-t{margin-top:auto;padding-top:28px}
   .dir-t b{
     font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;
-    font-size:clamp(1.15rem,1.7vw,1.6rem);line-height:1.04;text-transform:uppercase;
-    display:block;margin-bottom:8px;
+    font-size:var(--t-h4);line-height:1.08;text-transform:uppercase;
+    display:block;margin-bottom:9px;
   }
-  .dir-t p{color:var(--ink-soft);font-size:14.5px;line-height:1.45;max-width:52ch}
-  .dir--hero .dir-t b{font-size:clamp(1.5rem,2.6vw,2.4rem)}
-  @media (hover:hover){.dir:hover{border-color:var(--brand)}.dir:hover .num{color:var(--brand)}}
-  @media (max-width:820px){.dirs{grid-template-columns:repeat(2,1fr)}.dir--hero{grid-column:span 2}}
-  @media (max-width:640px){.dir--wide{flex-direction:column;align-items:stretch;gap:0}.dir--wide .dir-top{flex-direction:row;align-items:center;justify-content:space-between}.dir--wide .dir-t{padding-top:24px}}
-  @media (max-width:560px){.dirs{grid-template-columns:1fr}.dir--hero{grid-column:auto}.dir{min-height:0}.dir-t{padding-top:20px}}
+  .dir-t b::after{
+    content:"→";display:inline-block;margin-left:.45em;color:var(--brand);opacity:.5;
+    font-family:'IBM Plex Mono',monospace;font-weight:400;font-size:.85em;
+    transition:transform .22s ease,opacity .22s ease;
+  }
+  .dir-t p{color:var(--ink-soft);font-size:14.5px;line-height:1.5;max-width:50ch}
+  .dir--wide .dir-t b{font-size:var(--t-h3)}
+  .dir--wide .dir-t p{max-width:62ch}
+  /* спец-линия с углём — единственная тёмная карточка блока */
+  .dir--spec{background:var(--ink);border-color:var(--ink);color:#fff}
+  .dir--spec .num{color:rgba(255,255,255,.45)}
+  .dir--spec .tag{color:var(--brand-lift)}
+  .dir--spec .dir-t p{color:rgba(255,255,255,.7)}
+  .dir--spec .dir-t b::after{color:var(--brand-lift);opacity:.75}
+  @media (hover:hover){
+    .dir:hover{border-color:var(--brand)}
+    .dir:hover .num{color:var(--brand)}
+    .dir:hover .dir-t b::after{transform:translateX(5px);opacity:1}
+    .dir--spec:hover{border-color:var(--brand-lift)}
+    .dir--spec:hover .num{color:var(--brand-lift)}
+  }
+  @media (max-width:980px){
+    .dir,.dir--doc,.dir--wide{grid-column:span 6}
+    .dir--wide{grid-column:span 12}
+  }
+  @media (max-width:560px){
+    .dir,.dir--doc,.dir--wide{grid-column:span 12;min-height:0}
+    .dir-t{padding-top:22px}
+  }
 
   /* ---------- модельный ряд ---------- */
-  .m-bar{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:clamp(16px,2vw,24px)}
-  .classes{display:flex;gap:8px;flex-wrap:wrap}
-  .cls{
-    display:inline-flex;align-items:center;gap:9px;border:1px solid var(--line);background:var(--panel);
-    border-radius:999px;padding:9px 15px;color:var(--ink-soft);
-    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+  .m-bar{display:flex;justify-content:space-between;align-items:flex-end;gap:20px 28px;flex-wrap:wrap;margin-bottom:clamp(16px,2vw,24px)}
+
+  /* шкала ПДК: длина метки = кратность превышения, а не декоративный кружок */
+  .pdk{display:flex;width:min(460px,100%)}
+  .pdk-seg{display:flex;flex-direction:column;gap:3px;padding-right:12px}
+  .pdk-seg::before{content:"";height:3px;border-radius:1px;margin-bottom:5px}
+  .pdk-seg--1{flex:6}.pdk-seg--2{flex:11}.pdk-seg--3{flex:17}
+  .pdk-seg--1::before{background:var(--c1)}
+  .pdk-seg--2::before{background:var(--c2)}
+  .pdk-seg--3::before{background:var(--c3)}
+  .pdk-seg + .pdk-seg{border-left:1px solid var(--line);padding-left:12px}
+  .pdk-seg b{font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:11px;letter-spacing:.08em;color:var(--ink)}
+  .pdk-seg i{
+    font-style:normal;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.05em;
+    color:var(--mute);text-transform:uppercase;white-space:nowrap;
   }
-  .dot{width:9px;height:9px;border-radius:50%;flex:none;box-shadow:inset 0 0 0 1px rgba(0,0,0,.12)}
-  .dot--1{background:#00963F}.dot--2{background:#003993}.dot--3{background:#D00405}
+
+  /* метка класса внутри карточек и таблицы — тот же принцип, в миниатюре */
+  .dot{
+    width:24px;height:3px;border-radius:1px;flex:none;
+    background:linear-gradient(90deg,var(--c) 0 var(--w),var(--track,#D2D8DC) var(--w) 100%);
+  }
+  .dot--1{--c:var(--c1);--w:35%}
+  .dot--2{--c:var(--c2);--w:65%}
+  .dot--3{--c:var(--c3);--w:100%}
+  #price .dot,.m--spec .dot{--track:rgba(255,255,255,.22)}
+  #price .dot--1,.m--spec .dot--1{--c:var(--c1-d)}
+  #price .dot--2,.m--spec .dot--2{--c:var(--c2-d)}
+  #price .dot--3,.m--spec .dot--3{--c:var(--c3-d)}
+
+  .seg-wrap{display:flex;flex-direction:column;align-items:flex-end;gap:9px}
   .seg{display:inline-flex;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:4px}
   .seg-b{
     border-radius:999px;padding:9px 18px;color:var(--ink-soft);
@@ -319,6 +409,7 @@
     transition:background .2s ease,color .2s ease;
   }
   .seg-b.is-on{background:var(--ink);color:#fff}
+  .seg-note{color:var(--ink-soft);text-align:right}
   .grid-m{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
   .m{
     background:var(--panel);border-radius:var(--r-m);padding:18px;
@@ -339,125 +430,244 @@
   .m .form{color:var(--ink-soft);font-size:13.5px;line-height:1.4;min-height:2.5em}
   .m .price{display:flex;align-items:baseline;gap:7px;margin-top:auto;padding-top:12px;border-top:1px solid var(--line)}
   .m .price .from{color:var(--mute);font-size:12px}
-  .m .price .num{font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;font-size:clamp(1.15rem,1.8vw,1.5rem);font-variant-numeric:tabular-nums}
+  .m .price .num{
+    font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;
+    font-size:clamp(1.15rem,1.8vw,1.5rem);font-variant-numeric:tabular-nums;
+    transition:opacity .18s ease;
+  }
   .m .price .per{color:var(--mute);font-size:12px}
   .m .grade{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
-  .m--spec{background:#101413;border-color:#101413;color:#fff}
+  /* карточка целиком — ссылка в WhatsApp с подставленной моделью */
+  .m-link{position:absolute;inset:0;z-index:2;border-radius:inherit}
+  .m--spec{background:var(--ink);border-color:var(--ink);color:#fff}
   .m--spec .m-top .mono,.m--spec .grade{color:rgba(255,255,255,.55)}
   .m--spec .m-cls{color:#fff}
-  .m--spec .m-img{background:#07110e}
+  .m--spec .m-img{background:#07110e;border-color:rgba(255,255,255,.12)}
   .m--spec .form{color:rgba(255,255,255,.7)}
   .m--spec .price{border-top-color:rgba(255,255,255,.14)}
   .m--spec .price .num{color:var(--brand-lift)}
   .m--spec .price .from,.m--spec .price .per{color:rgba(255,255,255,.5)}
-  .m--spec .dot{box-shadow:inset 0 0 0 1px rgba(255,255,255,.35)}
   .m-note{
     margin-top:14px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-m);
-    padding:clamp(20px,2.2vw,28px);display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;
+    padding:clamp(20px,2.2vw,28px);display:flex;justify-content:space-between;align-items:center;gap:20px 40px;flex-wrap:wrap;
   }
-  .m-note p{color:var(--ink-soft);font-size:14px;max-width:74ch}
+  .m-note-txt{flex:1;min-width:min(100%,340px)}
+  .m-note p{color:var(--ink-soft);font-size:14.5px;line-height:1.5;max-width:62ch}
   .m-note p b{color:var(--ink)}
+  .m-note .fine{margin-top:8px;color:var(--mute);font-size:12.5px;line-height:1.5}
+  .m-note .pill{flex:none}
   @media (max-width:1100px){.grid-m{grid-template-columns:repeat(3,1fr)}}
-  @media (max-width:820px){.grid-m{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:820px){
+    .grid-m{grid-template-columns:repeat(2,1fr)}
+    .m-bar{align-items:stretch;gap:16px}
+    .seg-wrap{flex-direction:row;align-items:center;justify-content:space-between;gap:14px;width:100%;flex-wrap:wrap}
+    .seg-note{text-align:left;flex:1;min-width:180px}
+  }
   @media (max-width:520px){
     .grid-m{gap:10px}
     .m{padding:12px;gap:8px}
+    .m-top{gap:6px}
     .m-top .mono{font-size:9.5px;letter-spacing:.04em}
     .m-cls{font-size:10px;gap:5px}
+    .m-cls .dot{width:16px}
     .m b{font-size:15px}
     .m .form{font-size:12.5px;min-height:3.4em}
     .m .price{padding-top:10px;gap:5px}
     .m .price .num{font-size:1.1rem}
     .m .price .per{display:none}
     .m .grade{font-size:9.5px}
+    .pdk-seg i{font-size:9px;letter-spacing:.02em}
+    .pdk-seg{padding-right:8px}
+    .pdk-seg + .pdk-seg{padding-left:8px}
+    .m-note{padding:20px}
+    .m-note .pill{width:100%;justify-content:center}
   }
 
   /* ---------- тёмный остров: цена и прайс ---------- */
   #price{
-    background:#0B0E0D;color:#fff;border-radius:var(--r-l);
+    background:var(--stage);color:#fff;border-radius:var(--r-l);
     margin-inline:calc((var(--pad) - var(--inset)) * -1);
     padding-inline:calc(var(--pad) - var(--inset));
-    position:relative;overflow:hidden;
+    position:relative;
   }
   #price::before{
-    content:"";position:absolute;inset:0;pointer-events:none;
+    content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
     background:radial-gradient(ellipse 90% 70% at 12% 8%,rgba(78,158,120,.13),transparent 58%);
   }
   #price > *{position:relative;z-index:1}
   #price .display{color:#fff}
-  #price .sec-side .mono{color:rgba(255,255,255,.6)}
+  #price .sec-side .note{color:rgba(255,255,255,.7)}
   #price .kick{color:var(--brand-lift)}
-  .thr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+
+  /* три порога: кегль числа = глубина скидки, спуск читается по горизонтали */
+  .thr-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;align-items:stretch}
   .thr{
     background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:var(--r-m);
-    padding:clamp(20px,2.2vw,30px);display:flex;flex-direction:column;gap:14px;box-shadow:none;
+    padding:clamp(20px,2.2vw,30px);display:flex;flex-direction:column;gap:12px;box-shadow:none;
+    transition:border-color .25s ease;
   }
-  .thr .num{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.55)}
-  .thr b{font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;font-size:clamp(1.1rem,1.8vw,1.5rem);letter-spacing:.05em;text-transform:uppercase}
-  .thr .v{font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;font-size:clamp(2rem,3.4vw,3rem);line-height:1;font-variant-numeric:tabular-nums;color:var(--brand-lift)}
-  .thr .v i{font-style:normal;font-size:.34em;color:rgba(255,255,255,.5);margin-left:.3em;letter-spacing:.04em}
-  .thr ul{list-style:none;display:flex;flex-direction:column;gap:8px;margin-top:auto;padding-top:6px}
-  .thr li{color:rgba(255,255,255,.68);font-size:13.5px;display:flex;gap:9px;align-items:flex-start}
+  .thr .num{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.62)}
+  .thr b{font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;font-size:var(--t-h4);letter-spacing:.05em;text-transform:uppercase}
+  .thr .v{
+    font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;
+    font-size:clamp(1.6rem,2.75vw,2.5rem);line-height:.94;letter-spacing:-.02em;
+    font-variant-numeric:tabular-nums;color:var(--brand-lift);margin-top:2px;
+  }
+  .thr .v i{font-style:normal;font-size:.34em;color:rgba(255,255,255,.55);margin-left:.3em;letter-spacing:.04em}
+  .thr--mid .v{font-size:clamp(1.9rem,3.6vw,3.25rem)}
+  .thr--best .v{font-size:clamp(2.3rem,5vw,4.5rem)}
+  .thr .delta{
+    font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
+    color:rgba(255,255,255,.6);
+  }
+  .thr ul{list-style:none;display:flex;flex-direction:column;gap:8px;margin-top:auto;padding-top:14px;border-top:1px solid rgba(255,255,255,.12)}
+  .thr li{color:rgba(255,255,255,.72);font-size:13.5px;display:flex;gap:9px;align-items:flex-start}
   .thr li::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--brand-lift);flex:none;margin-top:8px}
   .thr--best{background:var(--brand);border-color:var(--brand)}
-  .thr--best .num{color:rgba(255,255,255,.75)}
+  .thr--best .num{color:rgba(255,255,255,.78)}
   .thr--best .v{color:#fff}
-  .thr--best .v i{color:rgba(255,255,255,.66)}
-  .thr--best li{color:rgba(255,255,255,.9)}
+  .thr--best .v i{color:rgba(255,255,255,.7)}
+  .thr--best .delta{color:rgba(255,255,255,.85)}
+  .thr--best ul{border-top-color:rgba(255,255,255,.28)}
+  .thr--best li{color:rgba(255,255,255,.92)}
   .thr--best li::before{background:#fff}
-  @media (hover:hover){.thr:hover{transform:translateY(-4px);box-shadow:0 24px 50px rgba(0,0,0,.3)}}
-  @media (max-width:900px){.thr-grid{grid-template-columns:1fr}}
+  @media (hover:hover){
+    .thr:hover{border-color:rgba(78,158,120,.55)}
+    .thr--best:hover{border-color:#fff}
+  }
+  @media (max-width:900px){
+    /* спуск цены сохраняется и в столбик: кегль растёт вместе с выгодой */
+    .thr-grid{grid-template-columns:1fr}
+    .thr .v{font-size:clamp(1.7rem,6.2vw,2.05rem)}
+    .thr--mid .v{font-size:clamp(1.95rem,7.6vw,2.45rem)}
+    .thr--best .v{font-size:clamp(2.3rem,10vw,2.9rem)}
+  }
 
   .ptable-wrap{
     margin-top:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
-    border-radius:var(--r-m);overflow:hidden;
+    border-radius:var(--r-m);
   }
   .ptable-head{
-    display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;
+    display:flex;justify-content:space-between;align-items:baseline;gap:8px 18px;flex-wrap:wrap;
     padding:clamp(16px,1.8vw,22px) clamp(16px,2vw,26px);border-bottom:1px solid rgba(255,255,255,.1);
+    border-radius:var(--r-m) var(--r-m) 0 0;
   }
-  .ptable-head b{font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;font-size:clamp(14px,1.4vw,18px);letter-spacing:.06em;text-transform:uppercase}
-  .ptable-head .mono{color:rgba(255,255,255,.55)}
-  .ptable-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
-  table.ptable{width:100%;border-collapse:collapse;min-width:640px}
+  .ptable-head b{font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;font-size:clamp(15px,1.35vw,19px);letter-spacing:.05em;text-transform:uppercase}
+  .ptable-head .mono{color:rgba(255,255,255,.6)}
+  .ptable-scroll{overflow-x:visible}
+  table.ptable{width:100%;border-collapse:collapse}
   .ptable th,.ptable td{padding:13px clamp(10px,1.2vw,18px);text-align:left;white-space:nowrap}
   .ptable thead th{
     font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
-    color:rgba(255,255,255,.5);font-weight:400;border-bottom:1px solid rgba(255,255,255,.12);
+    color:rgba(255,255,255,.62);font-weight:400;border-bottom:1px solid rgba(255,255,255,.14);
+    background:#0D100F;
   }
-  .ptable thead th small{display:block;color:rgba(255,255,255,.35);letter-spacing:.06em;margin-top:3px}
+  .ptable thead th small{display:block;font-size:11px;color:rgba(255,255,255,.72);letter-spacing:.04em;margin-top:4px;text-transform:none}
   .ptable tbody tr{border-bottom:1px solid rgba(255,255,255,.06)}
   .ptable tbody tr:last-child{border-bottom:0}
   .ptable tbody tr:hover{background:rgba(255,255,255,.04)}
-  .ptable .idx{font-family:'IBM Plex Mono',monospace;font-size:11px;color:rgba(255,255,255,.4)}
+  /* смена серии внутри прайса — линия плотнее, 22 строки перестают быть сплошным полотном */
+  .ptable tbody tr.grp{border-top:1px solid rgba(255,255,255,.2)}
+  .ptable .idx{font-family:'IBM Plex Mono',monospace;font-size:11px;color:rgba(255,255,255,.55)}
   .ptable .mdl{font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:800;font-size:14px;letter-spacing:.05em;text-transform:uppercase}
-  .ptable .cl{font-family:'IBM Plex Mono',monospace;font-size:11px;color:rgba(255,255,255,.72)}
-  .ptable .cl .dot{display:inline-block;margin-right:7px;vertical-align:middle;box-shadow:inset 0 0 0 1px rgba(255,255,255,.35)}
-  .ptable .gr,.ptable .pk{font-family:'IBM Plex Mono',monospace;font-size:11px;color:rgba(255,255,255,.55)}
-  .ptable td.p{font-variant-numeric:tabular-nums;color:rgba(255,255,255,.7);text-align:right}
+  .ptable .cl{font-family:'IBM Plex Mono',monospace;font-size:11px;color:rgba(255,255,255,.78)}
+  .ptable .cl .dot{display:inline-block;margin-right:8px;vertical-align:middle}
+  .ptable .gr,.ptable .pk{font-family:'IBM Plex Mono',monospace;font-size:11px;color:rgba(255,255,255,.6)}
+  .ptable td.p{font-variant-numeric:tabular-nums;color:rgba(255,255,255,.72);text-align:right}
+  /* колонка «Опт» подсвечена насквозь — открытая нижняя цена и есть предложение */
+  .ptable td.p--best{background:rgba(78,158,120,.09)}
+  .ptable thead th.p--best{background:#131D19}   /* непрозрачно: шапка липкая, строки не просвечивают */
   .ptable td.p--best{color:var(--brand-lift);font-weight:700}
+  .ptable tbody tr:hover td.p--best{background:rgba(78,158,120,.15)}
   .ptable th.p{text-align:right}
   .ptable-foot{
     display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;
     padding:clamp(16px,1.8vw,24px) clamp(16px,2vw,26px);border-top:1px solid rgba(255,255,255,.1);
+    border-radius:0 0 var(--r-m) var(--r-m);
   }
-  .ptable-foot p{color:rgba(255,255,255,.6);font-size:13px;max-width:60ch}
-  @media (max-width:640px){.ptable .pk,.ptable th.pk-h{display:none}}
+  .ptable-foot p{color:rgba(255,255,255,.68);font-size:13.5px;line-height:1.5;max-width:58ch}
+  /* шапка прайса едет вместе со взглядом: 22 строки читаются без возврата наверх */
+  @media (min-width:901px){
+    .ptable thead th{position:sticky;top:var(--navh);z-index:3}
+  }
+  @media (max-width:900px){
+    .ptable-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+    table.ptable{min-width:620px}
+  }
+  /* узкий экран: строка прайса разворачивается в карточку — цены видны без горизонтальной прокрутки */
+  @media (max-width:820px){
+    .ptable-scroll{overflow-x:visible}
+    table.ptable,.ptable tbody{display:block;min-width:0}
+    .ptable thead{display:none}
+    .ptable tbody tr{
+      display:grid;grid-template-columns:repeat(3,1fr);
+      grid-template-areas:"mdl mdl cls" "gr gr pk" "p1 p2 p3";
+      gap:9px 10px;padding:15px 16px;align-items:end;
+    }
+    .ptable tbody tr.grp{border-top:1px solid rgba(255,255,255,.22)}
+    .ptable td{padding:0;white-space:normal}
+    .ptable .idx{display:none}
+    .ptable .mdl{grid-area:mdl;font-size:15px}
+    .ptable .cl{grid-area:cls;text-align:right}
+    .ptable .cl .dot{margin:0 8px 0 0}
+    .ptable .gr{grid-area:gr}
+    .ptable .pk{grid-area:pk;text-align:right}
+    .ptable td.p{text-align:left;padding-top:5px;border-top:1px solid rgba(255,255,255,.1);font-size:14px}
+    .ptable td.p:nth-child(6){grid-area:p1}
+    .ptable td.p:nth-child(7){grid-area:p2}
+    .ptable td.p:nth-child(8){grid-area:p3}
+    .ptable td.p--best{background:none;padding-left:0}
+    .ptable tbody tr:hover td.p--best{background:none}
+    .ptable td.p::before{
+      display:block;margin-bottom:3px;font-family:'IBM Plex Mono',monospace;font-size:9.5px;
+      letter-spacing:.07em;text-transform:uppercase;color:rgba(255,255,255,.55);font-weight:400;
+    }
+    .ptable td.p:nth-child(6)::before{content:"розница"}
+    .ptable td.p:nth-child(7)::before{content:"малый опт"}
+    .ptable td.p:nth-child(8)::before{content:"опт";color:var(--brand-lift)}
+    .ptable-head,.ptable-foot{padding:16px}
+    .ptable-foot .pill{width:100%;justify-content:center}
+  }
+  /* планшет: та же карточка-строка, но в две линии — ширину есть на что потратить */
+  @media (min-width:561px) and (max-width:820px){
+    .ptable tbody tr{
+      grid-template-columns:1.5fr .8fr 1fr 1fr 1fr;
+      grid-template-areas:"mdl cls p1 p2 p3" "gr pk p1 p2 p3";
+      gap:5px 16px;padding:13px 18px;align-items:center;
+    }
+    .ptable .cl,.ptable .pk{text-align:left}
+    .ptable td.p{border-top:0;padding-top:0;text-align:right}
+    .ptable td.p::before{text-align:right}
+  }
+  @media (max-width:820px){.ptable-foot .pill{width:auto}}
+  @media (max-width:560px){.ptable-foot .pill{width:100%;justify-content:center}}
 
   /* ---------- области применения ---------- */
+  /* реестр отраслей: список с волосяными линиями вместо россыпи пилюль */
   .areas{
     background:var(--panel);border:1px solid var(--line);border-radius:var(--r-m);
-    padding:clamp(20px,2.4vw,32px);margin-bottom:14px;
-    box-shadow:0 1px 2px rgba(16,20,24,.06),0 12px 32px rgba(16,20,24,.10);
+    padding:clamp(20px,2.4vw,32px);margin-bottom:14px;box-shadow:none;
+    display:grid;grid-template-columns:minmax(230px,.85fr) 2fr;gap:clamp(20px,3vw,48px);
   }
-  .areas-head{display:flex;justify-content:space-between;align-items:baseline;gap:24px;flex-wrap:wrap;margin-bottom:clamp(16px,2vw,22px)}
-  .areas-head b{font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;
-    font-size:clamp(1.05rem,1.8vw,1.5rem);text-transform:uppercase;letter-spacing:.03em}
-  .areas-head .mono{color:var(--ink-soft);max-width:46ch}
-  .areas-list{display:flex;flex-wrap:wrap;gap:8px}
+  .areas-head b{
+    display:block;font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;
+    font-size:var(--t-h4);text-transform:uppercase;letter-spacing:.02em;line-height:1.12;
+  }
+  .areas-head .areas-note{margin-top:10px;color:var(--ink-soft);font-size:14px;line-height:1.5;max-width:34ch}
+  .areas-list{list-style:none;display:grid;grid-template-columns:repeat(2,1fr);gap:0 clamp(20px,3vw,44px);align-content:start}
   .area{
-    border:1px solid var(--line);border-radius:999px;padding:9px 16px;color:var(--ink-soft);
-    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;
+    display:flex;gap:11px;align-items:flex-start;
+    padding:11px 0;border-top:1px solid var(--line);
+    color:var(--ink-soft);font-size:14.5px;line-height:1.4;
+  }
+  .area::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--brand);flex:none;margin-top:.5em}
+  @media (max-width:820px){
+    .areas{grid-template-columns:1fr;gap:20px}
+    .areas-head .areas-note{max-width:52ch}
+  }
+  @media (max-width:560px){
+    .areas-list{grid-template-columns:1fr}
+    .area{font-size:14px;padding:10px 0}
   }
 
   /* ---------- участки ---------- */
@@ -466,14 +676,14 @@
     background:var(--panel);border-radius:var(--r-m);padding:var(--card-pad);
     display:flex;flex-direction:column;gap:12px;
   }
-  .ind-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
-  .ind-top .num{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:var(--mute)}
-  .ind-top .mdl{
+  .ind-top,.cert-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .ind-top .num,.cert-top .num{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;color:var(--mute)}
+  .ind-top .mdl,.cert-top .kind{
     font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.06em;color:var(--brand);
     border:1px solid rgba(50,100,80,.28);background:rgba(50,100,80,.07);border-radius:999px;padding:5px 11px;
   }
-  .ind b{font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;font-size:clamp(1.05rem,1.6vw,1.4rem);text-transform:uppercase;line-height:1.1;letter-spacing:.02em}
-  .ind p{color:var(--ink-soft);font-size:14px}
+  .ind b{font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;font-size:var(--t-h4);text-transform:uppercase;line-height:1.12;letter-spacing:.02em}
+  .ind p{color:var(--ink-soft);font-size:14.5px;line-height:1.5}
   .ind .why{
     margin-top:auto;padding-top:12px;border-top:1px solid var(--line);color:var(--brand);
     font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.05em;line-height:1.6;
@@ -482,52 +692,64 @@
   .ind--open .num,.ind--open p{color:rgba(255,255,255,.7)}
   .ind--open .mdl{color:var(--brand-lift);border-color:rgba(78,158,120,.4);background:rgba(78,158,120,.14)}
   .ind--open .why{border-top-color:rgba(255,255,255,.16);color:var(--brand-lift)}
-  @media (max-width:900px){.ind-grid{grid-template-columns:1fr 1fr}}
-  @media (max-width:560px){.ind-grid{grid-template-columns:1fr}}
+  @media (hover:hover){
+    .ind--open:hover{
+      border-color:var(--brand-lift);transform:translateY(-4px);
+      box-shadow:0 2px 6px rgba(16,20,24,.08),0 26px 60px rgba(16,20,24,.17);
+    }
+  }
+  @media (max-width:900px){.ind-grid{grid-template-columns:1fr 1fr}.ind--open{grid-column:span 2}}
+  @media (max-width:560px){.ind-grid{grid-template-columns:1fr}.ind--open{grid-column:auto}}
 
   /* ---------- документы ---------- */
   .certs{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-  .cert{background:var(--panel);border-radius:var(--r-m);padding:var(--card-pad);display:flex;flex-direction:column;gap:12px}
-  .cert .stamp{width:44px;height:44px;border-radius:50%;border:2px solid var(--brand);color:var(--brand);display:flex;align-items:center;justify-content:center}
-  .cert .stamp svg{width:20px;height:20px}
-  .cert .code{font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;font-size:clamp(1.15rem,2.2vw,1.8rem);letter-spacing:.02em;text-transform:uppercase;line-height:1}
-  .cert p{color:var(--ink-soft);font-size:14px}
+  .cert{background:var(--panel);border-radius:var(--r-m);padding:var(--card-pad);display:flex;flex-direction:column;gap:14px}
+  .cert .code{
+    font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;font-size:var(--t-h4);
+    letter-spacing:.02em;text-transform:uppercase;line-height:1.1;
+  }
+  .cert p{color:var(--ink-soft);font-size:14.5px;line-height:1.5}
   .docs-cta{
     margin-top:14px;background:var(--ink);color:#fff;border-radius:var(--r-m);
-    padding:clamp(22px,2.6vw,38px);display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;
+    padding:clamp(22px,2.6vw,36px);display:flex;justify-content:space-between;align-items:center;gap:20px 32px;flex-wrap:wrap;
     position:relative;overflow:hidden;
   }
   .docs-cta::after{
     content:"";position:absolute;right:-25%;top:-60%;width:70%;height:180%;
     background:radial-gradient(circle,rgba(78,158,120,.16),transparent 62%);pointer-events:none;
   }
-  .docs-cta b{font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;font-size:clamp(1.2rem,2.6vw,2.2rem);text-transform:uppercase;line-height:1.05;position:relative;z-index:1}
-  .docs-cta .mono{color:rgba(255,255,255,.6);display:block;margin-top:8px}
-  .docs-cta .pill{position:relative;z-index:1}
+  .docs-cta b{font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;font-size:var(--t-h3);text-transform:uppercase;line-height:1.06;position:relative;z-index:1;max-width:22ch;display:block}
+  .docs-cta .note{color:rgba(255,255,255,.68);display:block;margin-top:10px;font-size:14.5px;line-height:1.5;max-width:46ch;position:relative;z-index:1}
+  .docs-cta .pill{position:relative;z-index:1;flex:none}
   @media (max-width:860px){.certs{grid-template-columns:1fr}}
+  @media (max-width:560px){.docs-cta b{max-width:none}.docs-cta .pill{width:100%;justify-content:center}}
 
   /* ---------- заявка ---------- */
   .ct-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:14px;align-items:stretch}
   .ct-form{background:var(--panel);border-radius:var(--r-m);padding:clamp(24px,2.6vw,38px)}
-  .ct-form h2{font-size:clamp(1.6rem,3.4vw,2.8rem);margin-bottom:12px}
+  .ct-form h2{font-size:clamp(1.5rem,2.6vw,2.35rem);margin-bottom:12px;max-width:18ch}
   .ct-form h2 em{font-style:normal;color:var(--brand)}
   .ct-form > .mono{color:var(--brand);display:block;margin-bottom:14px}
-  .ct-form .lead{color:var(--ink-soft);font-size:14.5px;margin-bottom:clamp(20px,2.4vw,28px);max-width:52ch}
+  .ct-form .lead{color:var(--ink-soft);font-size:14.5px;line-height:1.5;margin-bottom:clamp(20px,2.4vw,28px);max-width:52ch}
   .f-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+  .f-row--one{grid-template-columns:1fr}
   .field{display:flex;flex-direction:column;gap:7px}
   .field label{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
+  .field label .opt{color:var(--mute);letter-spacing:.06em}
   .field input,.field textarea{
     font-family:'Manrope',sans-serif;font-size:16px;color:var(--ink);background:#fff;
-    border:1px solid var(--line);border-radius:var(--r-s);padding:14px 16px;width:100%;transition:border-color .2s ease;
+    border:1px solid var(--line);border-radius:var(--r-s);padding:14px 16px;width:100%;
+    transition:border-color .2s ease,box-shadow .2s ease;
   }
   .field input:focus,.field textarea:focus{outline:2px solid var(--brand);outline-offset:1px;border-color:var(--brand)}
-  .field textarea{resize:vertical;min-height:104px}
-  .field.is-bad input,.field.is-bad textarea{border:2px solid var(--ink)}
-  .f-err{color:var(--ink);font-weight:700;font-size:12px;display:none}
+  .field textarea{resize:vertical;min-height:92px;line-height:1.45}
+  /* ошибка говорит цветом, а не толщиной: иначе она тише фокуса */
+  .field.is-bad input,.field.is-bad textarea{border-color:var(--danger);box-shadow:0 0 0 3px rgba(192,52,47,.12)}
+  .f-err{color:var(--danger);font-weight:600;font-size:12.5px;display:none}
   .f-err::before{content:"⚠ "}
   .field.is-bad .f-err{display:block}
   .f-submit{display:flex;align-items:center;gap:14px;margin-top:18px;flex-wrap:wrap}
-  .f-note{color:var(--mute);font-size:12px;max-width:320px}
+  .f-note{color:var(--mute);font-size:12px;line-height:1.45;max-width:320px}
   .f-note a{color:var(--brand);text-decoration:underline}
   .ct-side{
     position:relative;border-radius:var(--r-m);overflow:hidden;background:var(--ink);
@@ -560,7 +782,7 @@
     padding:clamp(28px,4vw,64px) calc(var(--pad) - var(--inset)) clamp(10px,1vw,14px);
     position:relative;overflow:hidden;
   }
-  .foot-title{font-size:clamp(1.9rem,4.6vw,4.2rem);color:#fff;margin-bottom:clamp(26px,4vw,56px)}
+  .foot-title{font-size:var(--t-h2);color:#fff;margin-bottom:clamp(26px,4vw,52px);max-width:22ch}
   .foot-title span{display:block}
   .foot-title em{font-style:normal;color:var(--brand-lift)}
   .foot-top{display:flex;justify-content:space-between;align-items:flex-end;gap:clamp(28px,4vw,72px);flex-wrap:wrap;margin-bottom:clamp(14px,1.8vw,22px)}
@@ -888,24 +1110,30 @@
 
   <!-- ЭКРАН 2: факты -->
   <section id="about" aria-label="Линейка в цифрах">
-    <div class="stats-grid">
-      <div class="stat rv">
-        <div class="n">12</div>
-        <div class="l">моделей в&nbsp;линейке: две серии и&nbsp;спец-линия с&nbsp;углём</div>
+    <div class="spec-sheet rv">
+      <div class="stats-grid">
+        <div class="stat">
+          <span class="k">линейка</span>
+          <div class="n">12</div>
+          <div class="l">моделей: две серии и&nbsp;спец-линия с&nbsp;углём</div>
+        </div>
+        <div class="stat">
+          <span class="k">прайс</span>
+          <div class="n">22</div>
+          <div class="l">позиции: каждая модель в&nbsp;двух исполнениях</div>
+        </div>
+        <div class="stat stat--brand">
+          <span class="k">нижняя цена</span>
+          <div class="n">208<i>₸/шт</i></div>
+          <div class="l">на&nbsp;оптовой партии, с&nbsp;НДС</div>
+        </div>
+        <div class="stat">
+          <span class="k">классы защиты</span>
+          <div class="n n--cls">FFP1&ndash;FFP3</div>
+          <div class="l">от&nbsp;4 до&nbsp;50&nbsp;ПДК на&nbsp;участке</div>
+        </div>
       </div>
-      <div class="stat rv">
-        <div class="n">22</div>
-        <div class="l">позиции прайса: каждая модель в&nbsp;двух исполнениях</div>
-      </div>
-      <div class="stat stat--brand rv">
-        <div class="n">208<i>₸</i></div>
-        <div class="l">нижняя цена за&nbsp;штуку на&nbsp;оптовой партии, с&nbsp;НДС</div>
-      </div>
-      <div class="stat rv">
-        <div class="n n--cls">FFP1&nbsp;— FFP3</div>
-        <div class="l">классы защиты: от&nbsp;4 до&nbsp;50&nbsp;ПДК на&nbsp;участке</div>
-      </div>
-      <div class="geo rv">
+      <div class="geo">
         <span class="mono">упаковки и&nbsp;отгрузка</span>
         <span class="gpill">10&nbsp;шт&nbsp;· розничная</span>
         <span class="gpill">300&nbsp;шт&nbsp;· короб FR&nbsp;3000</span>
@@ -919,10 +1147,10 @@
   <section id="series" aria-label="Серии респираторов FAROS">
     <div class="sec-head rv">
       <h2 class="display"><span class="kick">Серии</span>Три линии под&nbsp;задачу цеха<em>.</em></h2>
-      <div class="sec-side"><span class="mono">выбор идёт от&nbsp;пыли и&nbsp;газов на&nbsp;участке, а&nbsp;не&nbsp;от&nbsp;формы маски</span></div>
+      <div class="sec-side"><span class="note">Выбор идёт от&nbsp;пыли и&nbsp;газов на&nbsp;участке, а&nbsp;не&nbsp;от&nbsp;формы маски.</span></div>
     </div>
     <div class="dirs">
-      <a class="dir dir--hero rv" href="#models">
+      <a class="dir rv" href="#models">
         <div class="dir-top"><span class="num">01</span><span class="tag">FFP1&nbsp;— FFP3</span></div>
         <div class="dir-t">
           <b>FR&nbsp;4000&nbsp;— складные</b>
@@ -936,14 +1164,14 @@
           <p>Чашеобразная форма гарантирует удобное и&nbsp;простое надевание&nbsp;— рабочий вариант для&nbsp;массовой выдачи. Групповая упаковка по&nbsp;10&nbsp;штук, короб 300&nbsp;штук.</p>
         </div>
       </a>
-      <a class="dir rv" href="#models">
+      <a class="dir dir--spec rv" href="#models">
         <div class="dir-top"><span class="num">03</span><span class="tag">уголь</span></div>
         <div class="dir-t">
           <b>Спец-линия</b>
           <p>Дополнительный угольный слой: FR&nbsp;3220&nbsp;— сварочные дымы и&nbsp;пары, защита от&nbsp;озона и&nbsp;запахов; FR&nbsp;3230&nbsp;— кислые газы и&nbsp;пары. Оба FFP2, с&nbsp;носовым обтюратором.</p>
         </div>
       </a>
-      <a class="dir rv" href="#docs">
+      <a class="dir dir--doc rv" href="#docs">
         <div class="dir-top"><span class="num">04</span><span class="tag">документы</span></div>
         <div class="dir-t">
           <b>ГОСТ и&nbsp;ТР&nbsp;ТС</b>
@@ -964,17 +1192,20 @@
   <section id="models" aria-label="Модельный ряд респираторов FAROS">
     <div class="sec-head rv">
       <h2 class="display"><span class="kick">Модельный ряд</span>Двенадцать моделей<em>.</em></h2>
-      <div class="sec-side"><span class="mono">класс защиты&nbsp;— по&nbsp;кратности превышения ПДК на&nbsp;участке; цвет метки&nbsp;— как в&nbsp;каталоге производителя</span></div>
+      <div class="sec-side"><span class="note">Класс защиты подбирается по&nbsp;кратности превышения ПДК на&nbsp;участке. Цвет метки&nbsp;— как в&nbsp;каталоге производителя.</span></div>
     </div>
     <div class="m-bar rv">
-      <div class="classes">
-        <span class="cls"><i class="dot dot--1"></i>FFP1&nbsp;— до&nbsp;4&nbsp;ПДК</span>
-        <span class="cls"><i class="dot dot--2"></i>FFP2&nbsp;— до&nbsp;12&nbsp;ПДК</span>
-        <span class="cls"><i class="dot dot--3"></i>FFP3&nbsp;— до&nbsp;50&nbsp;ПДК</span>
+      <div class="pdk" role="img" aria-label="Шкала классов защиты: FFP1 — до 4 ПДК, FFP2 — до 12 ПДК, FFP3 — до 50 ПДК">
+        <span class="pdk-seg pdk-seg--1"><b>FFP1</b><i>до&nbsp;4&nbsp;ПДК</i></span>
+        <span class="pdk-seg pdk-seg--2"><b>FFP2</b><i>до&nbsp;12&nbsp;ПДК</i></span>
+        <span class="pdk-seg pdk-seg--3"><b>FFP3</b><i>до&nbsp;50&nbsp;ПДК</i></span>
       </div>
-      <div class="seg" role="group" aria-label="Исполнение">
-        <button class="seg-b is-on" type="button" data-grade="st">STANDART</button>
-        <button class="seg-b" type="button" data-grade="pr">PREMIUM</button>
+      <div class="seg-wrap">
+        <div class="seg" role="group" aria-label="Исполнение">
+          <button class="seg-b is-on" type="button" data-grade="st">STANDART</button>
+          <button class="seg-b" type="button" data-grade="pr">PREMIUM</button>
+        </div>
+        <span class="seg-note mono" id="seg-note" role="status">без носового обтюратора</span>
       </div>
     </div>
 
@@ -986,6 +1217,7 @@
         <span class="form">Без клапана</span>
         <div class="price"><span class="from">от</span><span class="num">208&nbsp;₸</span><span class="per">/шт&nbsp;на&nbsp;опте</span></div>
         <span class="grade">исполнение STANDART</span>
+        <a class="m-link" href="https://wa.me/77710519449?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%9D%D1%83%D0%B6%D0%B5%D0%BD%20%D0%BE%D0%BF%D1%82%D0%BE%D0%B2%D1%8B%D0%B9%20%D0%BF%D1%80%D0%B0%D0%B9%D1%81%20%D0%BD%D0%B0%20FAROS%20FR%204100%20%28FFP1%29.%20%D0%98%D1%81%D1%82%D0%BE%D1%87%D0%BD%D0%B8%D0%BA%3A%20%D1%81%D0%B0%D0%B9%D1%82%20farospro.kz" target="_blank" rel="noopener" data-place="карточка модели" aria-label="Запросить прайс на FAROS FR 4100 (FFP1) в WhatsApp"></a>
       </article>
       <article class="m rv" data-st="284" data-pr="330">
         <div class="m-top"><span class="mono">FR&nbsp;4000&nbsp;· складная</span><span class="m-cls"><i class="dot dot--2"></i>FFP2</span></div>
@@ -994,6 +1226,7 @@
         <span class="form">Без клапана</span>
         <div class="price"><span class="from">от</span><span class="num">284&nbsp;₸</span><span class="per">/шт&nbsp;на&nbsp;опте</span></div>
         <span class="grade">исполнение STANDART</span>
+        <a class="m-link" href="https://wa.me/77710519449?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%9D%D1%83%D0%B6%D0%B5%D0%BD%20%D0%BE%D0%BF%D1%82%D0%BE%D0%B2%D1%8B%D0%B9%20%D0%BF%D1%80%D0%B0%D0%B9%D1%81%20%D0%BD%D0%B0%20FAROS%20FR%204200%20%28FFP2%29.%20%D0%98%D1%81%D1%82%D0%BE%D1%87%D0%BD%D0%B8%D0%BA%3A%20%D1%81%D0%B0%D0%B9%D1%82%20farospro.kz" target="_blank" rel="noopener" data-place="карточка модели" aria-label="Запросить прайс на FAROS FR 4200 (FFP2) в WhatsApp"></a>
       </article>
       <article class="m rv" data-st="279" data-pr="324">
         <div class="m-top"><span class="mono">FR&nbsp;4000&nbsp;· складная</span><span class="m-cls"><i class="dot dot--1"></i>FFP1</span></div>
@@ -1002,6 +1235,7 @@
         <span class="form">Клапан выдоха</span>
         <div class="price"><span class="from">от</span><span class="num">279&nbsp;₸</span><span class="per">/шт&nbsp;на&nbsp;опте</span></div>
         <span class="grade">исполнение STANDART</span>
+        <a class="m-link" href="https://wa.me/77710519449?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%9D%D1%83%D0%B6%D0%B5%D0%BD%20%D0%BE%D0%BF%D1%82%D0%BE%D0%B2%D1%8B%D0%B9%20%D0%BF%D1%80%D0%B0%D0%B9%D1%81%20%D0%BD%D0%B0%20FAROS%20FR%204110W%20%28FFP1%29.%20%D0%98%D1%81%D1%82%D0%BE%D1%87%D0%BD%D0%B8%D0%BA%3A%20%D1%81%D0%B0%D0%B9%D1%82%20farospro.kz" target="_blank" rel="noopener" data-place="карточка модели" aria-label="Запросить прайс на FAROS FR 4110W (FFP1) в WhatsApp"></a>
       </article>
       <article class="m rv" data-st="355" data-pr="406">
         <div class="m-top"><span class="mono">FR&nbsp;4000&nbsp;· складная</span><span class="m-cls"><i class="dot dot--2"></i>FFP2</span></div>
@@ -1010,6 +1244,7 @@
         <span class="form">Клапан выдоха</span>
         <div class="price"><span class="from">от</span><span class="num">355&nbsp;₸</span><span class="per">/шт&nbsp;на&nbsp;опте</span></div>
         <span class="grade">исполнение STANDART</span>
+        <a class="m-link" href="https://wa.me/77710519449?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%9D%D1%83%D0%B6%D0%B5%D0%BD%20%D0%BE%D0%BF%D1%82%D0%BE%D0%B2%D1%8B%D0%B9%20%D0%BF%D1%80%D0%B0%D0%B9%D1%81%20%D0%BD%D0%B0%20FAROS%20FR%204210W%20%28FFP2%29.%20%D0%98%D1%81%D1%82%D0%BE%D1%87%D0%BD%D0%B8%D0%BA%3A%20%D1%81%D0%B0%D0%B9%D1%82%20farospro.kz" target="_blank" rel="noopener" data-place="карточка модели" aria-label="Запросить прайс на FAROS FR 4210W (FFP2) в WhatsApp"></a>
       </article>
       <article class="m rv" data-st="421" data-pr="472">
         <div class="m-top"><span class="mono">FR&nbsp;4000&nbsp;· на&nbsp;герое</span><span class="m-cls"><i class="dot dot--3"></i>FFP3</span></div>
@@ -1018,6 +1253,7 @@
         <span class="form">Клапан выдоха&nbsp;· максимальный класс</span>
         <div class="price"><span class="from">от</span><span class="num">421&nbsp;₸</span><span class="per">/шт&nbsp;на&nbsp;опте</span></div>
         <span class="grade">исполнение STANDART</span>
+        <a class="m-link" href="https://wa.me/77710519449?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%9D%D1%83%D0%B6%D0%B5%D0%BD%20%D0%BE%D0%BF%D1%82%D0%BE%D0%B2%D1%8B%D0%B9%20%D0%BF%D1%80%D0%B0%D0%B9%D1%81%20%D0%BD%D0%B0%20FAROS%20FR%204310W%20%28FFP3%29.%20%D0%98%D1%81%D1%82%D0%BE%D1%87%D0%BD%D0%B8%D0%BA%3A%20%D1%81%D0%B0%D0%B9%D1%82%20farospro.kz" target="_blank" rel="noopener" data-place="карточка модели" aria-label="Запросить прайс на FAROS FR 4310W (FFP3) в WhatsApp"></a>
       </article>
       <article class="m rv" data-st="208" data-pr="248">
         <div class="m-top"><span class="mono">FR&nbsp;3000&nbsp;· чашка</span><span class="m-cls"><i class="dot dot--1"></i>FFP1</span></div>
@@ -1026,6 +1262,7 @@
         <span class="form">Без клапана</span>
         <div class="price"><span class="from">от</span><span class="num">208&nbsp;₸</span><span class="per">/шт&nbsp;на&nbsp;опте</span></div>
         <span class="grade">исполнение STANDART</span>
+        <a class="m-link" href="https://wa.me/77710519449?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%9D%D1%83%D0%B6%D0%B5%D0%BD%20%D0%BE%D0%BF%D1%82%D0%BE%D0%B2%D1%8B%D0%B9%20%D0%BF%D1%80%D0%B0%D0%B9%D1%81%20%D0%BD%D0%B0%20FAROS%20FR%203100%20%28FFP1%29.%20%D0%98%D1%81%D1%82%D0%BE%D1%87%D0%BD%D0%B8%D0%BA%3A%20%D1%81%D0%B0%D0%B9%D1%82%20farospro.kz" target="_blank" rel="noopener" data-place="карточка модели" aria-label="Запросить прайс на FAROS FR 3100 (FFP1) в WhatsApp"></a>
       </article>
       <article class="m rv" data-st="284" data-pr="330">
         <div class="m-top"><span class="mono">FR&nbsp;3000&nbsp;· чашка</span><span class="m-cls"><i class="dot dot--2"></i>FFP2</span></div>
@@ -1034,6 +1271,7 @@
         <span class="form">Без клапана</span>
         <div class="price"><span class="from">от</span><span class="num">284&nbsp;₸</span><span class="per">/шт&nbsp;на&nbsp;опте</span></div>
         <span class="grade">исполнение STANDART</span>
+        <a class="m-link" href="https://wa.me/77710519449?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%9D%D1%83%D0%B6%D0%B5%D0%BD%20%D0%BE%D0%BF%D1%82%D0%BE%D0%B2%D1%8B%D0%B9%20%D0%BF%D1%80%D0%B0%D0%B9%D1%81%20%D0%BD%D0%B0%20FAROS%20FR%203200%20%28FFP2%29.%20%D0%98%D1%81%D1%82%D0%BE%D1%87%D0%BD%D0%B8%D0%BA%3A%20%D1%81%D0%B0%D0%B9%D1%82%20farospro.kz" target="_blank" rel="noopener" data-place="карточка модели" aria-label="Запросить прайс на FAROS FR 3200 (FFP2) в WhatsApp"></a>
       </article>
       <article class="m rv" data-st="279" data-pr="324">
         <div class="m-top"><span class="mono">FR&nbsp;3000&nbsp;· чашка</span><span class="m-cls"><i class="dot dot--1"></i>FFP1</span></div>
@@ -1042,6 +1280,7 @@
         <span class="form">Клапан выдоха</span>
         <div class="price"><span class="from">от</span><span class="num">279&nbsp;₸</span><span class="per">/шт&nbsp;на&nbsp;опте</span></div>
         <span class="grade">исполнение STANDART</span>
+        <a class="m-link" href="https://wa.me/77710519449?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%9D%D1%83%D0%B6%D0%B5%D0%BD%20%D0%BE%D0%BF%D1%82%D0%BE%D0%B2%D1%8B%D0%B9%20%D0%BF%D1%80%D0%B0%D0%B9%D1%81%20%D0%BD%D0%B0%20FAROS%20FR%203110%20%28FFP1%29.%20%D0%98%D1%81%D1%82%D0%BE%D1%87%D0%BD%D0%B8%D0%BA%3A%20%D1%81%D0%B0%D0%B9%D1%82%20farospro.kz" target="_blank" rel="noopener" data-place="карточка модели" aria-label="Запросить прайс на FAROS FR 3110 (FFP1) в WhatsApp"></a>
       </article>
       <article class="m rv" data-st="355" data-pr="406">
         <div class="m-top"><span class="mono">FR&nbsp;3000&nbsp;· чашка</span><span class="m-cls"><i class="dot dot--2"></i>FFP2</span></div>
@@ -1050,6 +1289,7 @@
         <span class="form">Клапан выдоха</span>
         <div class="price"><span class="from">от</span><span class="num">355&nbsp;₸</span><span class="per">/шт&nbsp;на&nbsp;опте</span></div>
         <span class="grade">исполнение STANDART</span>
+        <a class="m-link" href="https://wa.me/77710519449?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%9D%D1%83%D0%B6%D0%B5%D0%BD%20%D0%BE%D0%BF%D1%82%D0%BE%D0%B2%D1%8B%D0%B9%20%D0%BF%D1%80%D0%B0%D0%B9%D1%81%20%D0%BD%D0%B0%20FAROS%20FR%203210%20%28FFP2%29.%20%D0%98%D1%81%D1%82%D0%BE%D1%87%D0%BD%D0%B8%D0%BA%3A%20%D1%81%D0%B0%D0%B9%D1%82%20farospro.kz" target="_blank" rel="noopener" data-place="карточка модели" aria-label="Запросить прайс на FAROS FR 3210 (FFP2) в WhatsApp"></a>
       </article>
       <article class="m rv" data-st="421" data-pr="472">
         <div class="m-top"><span class="mono">FR&nbsp;3000&nbsp;· чашка</span><span class="m-cls"><i class="dot dot--3"></i>FFP3</span></div>
@@ -1058,6 +1298,7 @@
         <span class="form">Клапан выдоха&nbsp;· максимальный класс</span>
         <div class="price"><span class="from">от</span><span class="num">421&nbsp;₸</span><span class="per">/шт&nbsp;на&nbsp;опте</span></div>
         <span class="grade">исполнение STANDART</span>
+        <a class="m-link" href="https://wa.me/77710519449?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%9D%D1%83%D0%B6%D0%B5%D0%BD%20%D0%BE%D0%BF%D1%82%D0%BE%D0%B2%D1%8B%D0%B9%20%D0%BF%D1%80%D0%B0%D0%B9%D1%81%20%D0%BD%D0%B0%20FAROS%20FR%203310%20%28FFP3%29.%20%D0%98%D1%81%D1%82%D0%BE%D1%87%D0%BD%D0%B8%D0%BA%3A%20%D1%81%D0%B0%D0%B9%D1%82%20farospro.kz" target="_blank" rel="noopener" data-place="карточка модели" aria-label="Запросить прайс на FAROS FR 3310 (FFP3) в WhatsApp"></a>
       </article>
       <article class="m m--spec rv" data-pr="1020">
         <div class="m-top"><span class="mono">спец&nbsp;· сварка</span><span class="m-cls"><i class="dot dot--2"></i>FFP2</span></div>
@@ -1066,6 +1307,7 @@
         <span class="form">Угольный слой&nbsp;· озон и&nbsp;гарь</span>
         <div class="price"><span class="from">от</span><span class="num">1&nbsp;020&nbsp;₸</span><span class="per">/шт&nbsp;на&nbsp;опте</span></div>
         <span class="grade">только PREMIUM</span>
+        <a class="m-link" href="https://wa.me/77710519449?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%9D%D1%83%D0%B6%D0%B5%D0%BD%20%D0%BE%D0%BF%D1%82%D0%BE%D0%B2%D1%8B%D0%B9%20%D0%BF%D1%80%D0%B0%D0%B9%D1%81%20%D0%BD%D0%B0%20FAROS%20FR%203220%20%28FFP2%29.%20%D0%98%D1%81%D1%82%D0%BE%D1%87%D0%BD%D0%B8%D0%BA%3A%20%D1%81%D0%B0%D0%B9%D1%82%20farospro.kz" target="_blank" rel="noopener" data-place="карточка модели" aria-label="Запросить прайс на FAROS FR 3220 (FFP2) в WhatsApp"></a>
       </article>
       <article class="m m--spec rv" data-pr="1070">
         <div class="m-top"><span class="mono">спец&nbsp;· кислые газы</span><span class="m-cls"><i class="dot dot--2"></i>FFP2</span></div>
@@ -1074,11 +1316,15 @@
         <span class="form">Угольный слой&nbsp;· пары кислот</span>
         <div class="price"><span class="from">от</span><span class="num">1&nbsp;070&nbsp;₸</span><span class="per">/шт&nbsp;на&nbsp;опте</span></div>
         <span class="grade">только PREMIUM</span>
+        <a class="m-link" href="https://wa.me/77710519449?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%9D%D1%83%D0%B6%D0%B5%D0%BD%20%D0%BE%D0%BF%D1%82%D0%BE%D0%B2%D1%8B%D0%B9%20%D0%BF%D1%80%D0%B0%D0%B9%D1%81%20%D0%BD%D0%B0%20FAROS%20FR%203230%20%28FFP2%29.%20%D0%98%D1%81%D1%82%D0%BE%D1%87%D0%BD%D0%B8%D0%BA%3A%20%D1%81%D0%B0%D0%B9%D1%82%20farospro.kz" target="_blank" rel="noopener" data-place="карточка модели" aria-label="Запросить прайс на FAROS FR 3230 (FFP2) в WhatsApp"></a>
       </article>
     </div>
 
     <div class="m-note rv">
-      <p>Все&nbsp;12 моделей линейки. Полный прайс&nbsp;— <b>22&nbsp;позиции</b>: каждая модель идёт в&nbsp;двух исполнениях&nbsp;— STANDART без&nbsp;носового обтюратора и&nbsp;PREMIUM с&nbsp;обтюратором (у&nbsp;FR&nbsp;3220 и&nbsp;FR&nbsp;3230&nbsp;— только PREMIUM). Цены на&nbsp;карточках&nbsp;— за&nbsp;штуку на&nbsp;оптовой партии, с&nbsp;НДС. Фото&nbsp;— каталог производителя FAROS PROTECTION.</p>
+      <div class="m-note-txt">
+        <p><b>22&nbsp;позиции прайса&nbsp;— это те&nbsp;же 12&nbsp;моделей в&nbsp;двух исполнениях:</b> STANDART без&nbsp;носового обтюратора и&nbsp;PREMIUM с&nbsp;обтюратором. У&nbsp;FR&nbsp;3220 и&nbsp;FR&nbsp;3230&nbsp;— только PREMIUM.</p>
+        <p class="fine">Цены на&nbsp;карточках&nbsp;— за&nbsp;штуку на&nbsp;оптовой партии, с&nbsp;НДС. Фото&nbsp;— каталог производителя FAROS&nbsp;PROTECTION.</p>
+      </div>
       <a class="pill" href="#price">Смотреть все 22&nbsp;позиции</a>
     </div>
   </section>
@@ -1087,7 +1333,7 @@
   <section id="price" aria-label="Цена за штуку и полный прайс">
     <div class="sec-head rv">
       <h2 class="display"><span class="kick">Цена за&nbsp;штуку</span>Три порога&nbsp;— цена ниже, объём больше<em>.</em></h2>
-      <div class="sec-side"><span class="mono">у&nbsp;каждой модели своя цена: она растёт с&nbsp;классом защиты и&nbsp;наличием клапана</span></div>
+      <div class="sec-side"><span class="note">У&nbsp;каждой модели своя цена: она растёт с&nbsp;классом защиты и&nbsp;наличием клапана.</span></div>
     </div>
 
     <div class="thr-grid">
@@ -1101,10 +1347,11 @@
           <li>отгрузка по&nbsp;Казахстану</li>
         </ul>
       </div>
-      <div class="thr rv">
+      <div class="thr thr--mid rv">
         <span class="num">02&nbsp;· партия от&nbsp;110&nbsp;000&nbsp;₸</span>
         <b>Малый опт</b>
         <span class="v">от&nbsp;240<i>₸ /шт</i></span>
+        <span class="delta">−10&nbsp;% к&nbsp;рознице&nbsp;· расчёт по&nbsp;прайсу</span>
         <ul>
           <li>упаковки 10&nbsp;/&nbsp;300&nbsp;/&nbsp;400&nbsp;шт</li>
           <li>прайс&nbsp;— одним файлом</li>
@@ -1115,6 +1362,7 @@
         <span class="num">03&nbsp;· партия от&nbsp;1&nbsp;100&nbsp;000&nbsp;₸</span>
         <b>Опт</b>
         <span class="v">от&nbsp;208<i>₸ /шт</i></span>
+        <span class="delta">−22&nbsp;% к&nbsp;рознице&nbsp;· расчёт по&nbsp;прайсу</span>
         <ul>
           <li>нижняя цена прайса</li>
           <li>годовая потребность одним расчётом</li>
@@ -1139,7 +1387,7 @@
               <th class="pk-h">Упаковка</th>
               <th class="p">Розница</th>
               <th class="p">Малый опт<small>от 110 000 ₸</small></th>
-              <th class="p">Опт<small>от 1 100 000 ₸</small></th>
+              <th class="p p--best">Опт<small>от 1 100 000 ₸</small></th>
             </tr>
           </thead>
           <tbody>
@@ -1153,7 +1401,7 @@
             <tr><td class="idx">08</td><td class="mdl">FR&nbsp;4110W</td><td class="cl"><i class="dot dot--1"></i>FFP1</td><td class="gr">PREMIUM</td><td class="pk">10&nbsp;/&nbsp;400&nbsp;шт</td><td class="p">416&nbsp;₸</td><td class="p">374&nbsp;₸</td><td class="p p--best">324&nbsp;₸</td></tr>
             <tr><td class="idx">09</td><td class="mdl">FR&nbsp;4210W</td><td class="cl"><i class="dot dot--2"></i>FFP2</td><td class="gr">PREMIUM</td><td class="pk">10&nbsp;/&nbsp;400&nbsp;шт</td><td class="p">520&nbsp;₸</td><td class="p">468&nbsp;₸</td><td class="p p--best">406&nbsp;₸</td></tr>
             <tr><td class="idx">10</td><td class="mdl">FR&nbsp;4310W</td><td class="cl"><i class="dot dot--3"></i>FFP3</td><td class="gr">PREMIUM</td><td class="pk">10&nbsp;/&nbsp;400&nbsp;шт</td><td class="p">605&nbsp;₸</td><td class="p">544&nbsp;₸</td><td class="p p--best">472&nbsp;₸</td></tr>
-            <tr><td class="idx">11</td><td class="mdl">FR&nbsp;3100</td><td class="cl"><i class="dot dot--1"></i>FFP1</td><td class="gr">STANDART</td><td class="pk">10&nbsp;/&nbsp;300&nbsp;шт</td><td class="p">267&nbsp;₸</td><td class="p">240&nbsp;₸</td><td class="p p--best">208&nbsp;₸</td></tr>
+            <tr class="grp"><td class="idx">11</td><td class="mdl">FR&nbsp;3100</td><td class="cl"><i class="dot dot--1"></i>FFP1</td><td class="gr">STANDART</td><td class="pk">10&nbsp;/&nbsp;300&nbsp;шт</td><td class="p">267&nbsp;₸</td><td class="p">240&nbsp;₸</td><td class="p p--best">208&nbsp;₸</td></tr>
             <tr><td class="idx">12</td><td class="mdl">FR&nbsp;3200</td><td class="cl"><i class="dot dot--2"></i>FFP2</td><td class="gr">STANDART</td><td class="pk">10&nbsp;/&nbsp;300&nbsp;шт</td><td class="p">364&nbsp;₸</td><td class="p">328&nbsp;₸</td><td class="p p--best">284&nbsp;₸</td></tr>
             <tr><td class="idx">13</td><td class="mdl">FR&nbsp;3100</td><td class="cl"><i class="dot dot--1"></i>FFP1</td><td class="gr">PREMIUM</td><td class="pk">10&nbsp;/&nbsp;300&nbsp;шт</td><td class="p">319&nbsp;₸</td><td class="p">287&nbsp;₸</td><td class="p p--best">248&nbsp;₸</td></tr>
             <tr><td class="idx">14</td><td class="mdl">FR&nbsp;3200</td><td class="cl"><i class="dot dot--2"></i>FFP2</td><td class="gr">PREMIUM</td><td class="pk">10&nbsp;/&nbsp;300&nbsp;шт</td><td class="p">423&nbsp;₸</td><td class="p">380&nbsp;₸</td><td class="p p--best">330&nbsp;₸</td></tr>
@@ -1163,7 +1411,7 @@
             <tr><td class="idx">18</td><td class="mdl">FR&nbsp;3110</td><td class="cl"><i class="dot dot--1"></i>FFP1</td><td class="gr">PREMIUM</td><td class="pk">10&nbsp;/&nbsp;300&nbsp;шт</td><td class="p">416&nbsp;₸</td><td class="p">374&nbsp;₸</td><td class="p p--best">324&nbsp;₸</td></tr>
             <tr><td class="idx">19</td><td class="mdl">FR&nbsp;3210</td><td class="cl"><i class="dot dot--2"></i>FFP2</td><td class="gr">PREMIUM</td><td class="pk">10&nbsp;/&nbsp;300&nbsp;шт</td><td class="p">520&nbsp;₸</td><td class="p">468&nbsp;₸</td><td class="p p--best">406&nbsp;₸</td></tr>
             <tr><td class="idx">20</td><td class="mdl">FR&nbsp;3310</td><td class="cl"><i class="dot dot--3"></i>FFP3</td><td class="gr">PREMIUM</td><td class="pk">10&nbsp;/&nbsp;300&nbsp;шт</td><td class="p">605&nbsp;₸</td><td class="p">544&nbsp;₸</td><td class="p p--best">472&nbsp;₸</td></tr>
-            <tr><td class="idx">21</td><td class="mdl">FR&nbsp;3230</td><td class="cl"><i class="dot dot--2"></i>FFP2</td><td class="gr">PREMIUM</td><td class="pk">10&nbsp;/&nbsp;300&nbsp;шт</td><td class="p">1&nbsp;300&nbsp;₸</td><td class="p">1&nbsp;125&nbsp;₸</td><td class="p p--best">1&nbsp;070&nbsp;₸</td></tr>
+            <tr class="grp"><td class="idx">21</td><td class="mdl">FR&nbsp;3230</td><td class="cl"><i class="dot dot--2"></i>FFP2</td><td class="gr">PREMIUM</td><td class="pk">10&nbsp;/&nbsp;300&nbsp;шт</td><td class="p">1&nbsp;300&nbsp;₸</td><td class="p">1&nbsp;125&nbsp;₸</td><td class="p p--best">1&nbsp;070&nbsp;₸</td></tr>
             <tr><td class="idx">22</td><td class="mdl">FR&nbsp;3220</td><td class="cl"><i class="dot dot--2"></i>FFP2</td><td class="gr">PREMIUM</td><td class="pk">10&nbsp;/&nbsp;300&nbsp;шт</td><td class="p">1&nbsp;160&nbsp;₸</td><td class="p">1&nbsp;070&nbsp;₸</td><td class="p p--best">1&nbsp;020&nbsp;₸</td></tr>
           </tbody>
         </table>
@@ -1179,24 +1427,24 @@
   <section id="industries" aria-label="Области применения">
     <div class="sec-head rv">
       <h2 class="display"><span class="kick">Применение</span>Где работают эти полумаски<em>.</em></h2>
-      <div class="sec-side"><span class="mono">области применения и назначение моделей&nbsp;— по&nbsp;описанию производителя FAROS PROTECTION</span></div>
+      <div class="sec-side"><span class="note">Области применения и&nbsp;назначение моделей&nbsp;— по&nbsp;описанию производителя FAROS&nbsp;PROTECTION.</span></div>
     </div>
 
     <div class="areas rv">
       <div class="areas-head">
         <b>Защита от&nbsp;аэрозолей: пыль, дым, туман</b>
-        <span class="mono">серии FR&nbsp;3000 и&nbsp;FR&nbsp;4000&nbsp;· класс подбирается по&nbsp;кратности превышения ПДК</span>
+        <p class="areas-note">Серии FR&nbsp;3000 и&nbsp;FR&nbsp;4000. Класс подбирается по&nbsp;кратности превышения ПДК.</p>
       </div>
-      <div class="areas-list">
-        <span class="area">Строительство</span>
-        <span class="area">Литейное производство</span>
-        <span class="area">Деревообрабатывающее производство</span>
-        <span class="area">Судостроение и&nbsp;ремонт</span>
-        <span class="area">Обработка металлов</span>
-        <span class="area">Сельское хозяйство</span>
-        <span class="area">Производство продуктов питания, сортировка и&nbsp;упаковка сыпучих</span>
-        <span class="area">Строительные смеси и&nbsp;порошкообразные химикаты</span>
-      </div>
+      <ul class="areas-list">
+        <li class="area">Строительство</li>
+        <li class="area">Литейное производство</li>
+        <li class="area">Деревообрабатывающее производство</li>
+        <li class="area">Судостроение и&nbsp;ремонт</li>
+        <li class="area">Обработка металлов</li>
+        <li class="area">Сельское хозяйство</li>
+        <li class="area">Производство продуктов питания, сортировка и&nbsp;упаковка сыпучих</li>
+        <li class="area">Строительные смеси и&nbsp;порошкообразные химикаты</li>
+      </ul>
     </div>
 
     <div class="ind-grid">
@@ -1212,12 +1460,12 @@
         <p>Дополнительная защита от&nbsp;кислых газов и&nbsp;паров до&nbsp;ПДК. Единственная позиция прайса с&nbsp;такой защитой.</p>
         <span class="why">класс FFP2&nbsp;· носовой обтюратор в&nbsp;комплектации</span>
       </article>
-      <article class="ind ind--open rv">
+      <a class="ind ind--open rv" href="#contact">
         <div class="ind-top"><span class="num">03</span><span class="mdl">подберём</span></div>
         <b>Ваш участок</b>
         <p>Напишите, чем дышат на&nbsp;производстве и&nbsp;сколько человек в&nbsp;смене&nbsp;— подберём класс и&nbsp;соберём партию.</p>
         <span class="why">ответим в&nbsp;WhatsApp, прайс&nbsp;— одним файлом</span>
-      </article>
+      </a>
     </div>
   </section>
 
@@ -1225,29 +1473,29 @@
   <section id="docs" aria-label="Документы и стандарты">
     <div class="sec-head rv">
       <h2 class="display"><span class="kick">Документы</span>Что смотрит служба охраны труда<em>.</em></h2>
-      <div class="sec-side"><span class="mono">полумаски выпускаются по&nbsp;единому стандарту&nbsp;— класс и&nbsp;маркировка нанесены на&nbsp;самом изделии</span></div>
+      <div class="sec-side"><span class="note">Полумаски выпускаются по&nbsp;единому стандарту: класс и&nbsp;маркировка нанесены на&nbsp;самом изделии.</span></div>
     </div>
     <div class="certs">
       <div class="cert rv">
-        <span class="stamp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
+        <div class="cert-top"><span class="num">01</span><span class="kind">стандарт</span></div>
         <span class="code">ГОСТ 12.4.294-2015</span>
         <p>Стандарт на&nbsp;фильтрующие полумаски: классы FFP1, FFP2, FFP3 и&nbsp;методы испытаний.</p>
       </div>
       <div class="cert rv">
-        <span class="stamp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
+        <div class="cert-top"><span class="num">02</span><span class="kind">техрегламент</span></div>
         <span class="code">ТР&nbsp;ТС 019/2011</span>
         <p>Технический регламент Таможенного союза о&nbsp;безопасности средств индивидуальной защиты.</p>
       </div>
       <div class="cert rv">
-        <span class="stamp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
+        <div class="cert-top"><span class="num">03</span><span class="kind">на&nbsp;изделии</span></div>
         <span class="code">EAC&nbsp;· NR&nbsp;D</span>
-        <p>На&nbsp;изделии: NR&nbsp;— на&nbsp;одну рабочую смену, D&nbsp;— пройдено испытание на&nbsp;устойчивость к&nbsp;запылению. Там&nbsp;же ТУ&nbsp;32.99.11-012-44451324-2021.</p>
+        <p>NR&nbsp;— на&nbsp;одну рабочую смену, D&nbsp;— пройдено испытание на&nbsp;устойчивость к&nbsp;запылению. Там&nbsp;же ТУ&nbsp;32.99.11-012-44451324-2021.</p>
       </div>
     </div>
     <div class="docs-cta rv">
       <div>
         <b>Пакет документов&nbsp;— вместе с&nbsp;прайсом</b>
-        <span class="mono">пришлём по&nbsp;нужным позициям: под&nbsp;тендер и&nbsp;под&nbsp;службу охраны труда</span>
+        <span class="note">Пришлём по&nbsp;нужным позициям: под&nbsp;тендер и&nbsp;под&nbsp;службу охраны труда.</span>
       </div>
       <a class="pill pill--light" href="#contact" data-place="документы">Запросить документы</a>
     </div>
@@ -1273,16 +1521,16 @@
               <span class="f-err">Укажите телефон для связи</span>
             </div>
           </div>
-          <div class="f-row">
+          <div class="f-row f-row--one">
             <div class="field">
-              <label for="f-company">Компания</label>
+              <label for="f-company">Компания <span class="opt">— необязательно</span></label>
               <input id="f-company" name="company" type="text" autocomplete="organization" placeholder="Название предприятия">
-              <span class="f-err">Укажите компанию</span>
             </div>
+          </div>
+          <div class="f-row f-row--one">
             <div class="field">
-              <label for="f-need">Объём и&nbsp;участок</label>
-              <input id="f-need" name="need" type="text" placeholder="Например: 2 000 шт, сварочный цех">
-              <span class="f-err">Опишите задачу</span>
+              <label for="f-need">Объём и&nbsp;участок <span class="opt">— необязательно</span></label>
+              <textarea id="f-need" name="need" rows="3" placeholder="Например: 2 000 шт FFP2 на сварочный цех, 40 человек в смене"></textarea>
             </div>
           </div>
           <div class="f-submit">
@@ -1422,22 +1670,34 @@ window.FAROS_CONFIG = {
 (function(){
   var seg=document.querySelector('.seg'); if(!seg)return;
   var cards=[].slice.call(document.querySelectorAll('.grid-m .m'));
+  var note=document.getElementById('seg-note');
+  var fadeTimer=null;
   function fmt(n){ return String(n).replace(/\B(?=(\d{3})+(?!\d))/g,' ')+' ₸'; }
-  function apply(g){
+  function write(g){
     cards.forEach(function(c){
       var st=c.getAttribute('data-st'), pr=c.getAttribute('data-pr');
-      var num=c.querySelector('.num'), grade=c.querySelector('.grade');
+      var num=c.querySelector('.price .num'), grade=c.querySelector('.grade');
       if(!num)return;
       if(!st){ num.textContent=fmt(pr); if(grade)grade.textContent='только PREMIUM'; return; }
       num.textContent=fmt(g==='st'?st:pr);
       if(grade)grade.textContent='исполнение '+(g==='st'?'STANDART':'PREMIUM');
     });
+    if(note) note.textContent=(g==='st'?'без носового обтюратора':'с носовым обтюратором');
+  }
+  function fade(v){ cards.forEach(function(c){ var n=c.querySelector('.price .num'); if(n) n.style.opacity=v; }); }
+  function apply(g,animate){
     seg.querySelectorAll('.seg-b').forEach(function(b){ b.classList.toggle('is-on', b.dataset.grade===g); });
+    if(!animate){ write(g); return; }
+    /* цена гаснет и возвращается — иначе подмена чисел проходит незамеченной */
+    fade('.25');
+    clearTimeout(fadeTimer);
+    fadeTimer=setTimeout(function(){ write(g); fade(''); },170);
   }
   seg.addEventListener('click',function(e){
-    var b=e.target.closest('.seg-b'); if(b) apply(b.dataset.grade);
+    var b=e.target.closest('.seg-b');
+    if(b && !b.classList.contains('is-on')) apply(b.dataset.grade,true);
   });
-  apply('st');
+  apply('st',false);
 })();
 
 /* ===== заявка: собираем сообщение и открываем WhatsApp ===== */
