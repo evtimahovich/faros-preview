@@ -135,13 +135,7 @@
   .nav-drawer a:hover{background:rgba(255,255,255,.09);color:#fff}
   @media (max-width:1100px){.nav-links{display:none}.nav-menu{display:inline-flex}}
   @media (max-width:860px){.nav-logo .mono{display:none}}
-  @media (max-width:640px){
-    .nav{top:8px;gap:8px;padding:7px 10px}
-    .nav-logo img{height:25px}
-    .nav-cta{padding:8px 11px;font-size:10px;letter-spacing:.06em}
-    .nav-cta span{display:none}
-    .nav-menu{width:38px;height:38px}
-  }
+  @media (max-width:640px){.nav{gap:10px}.nav-cta{padding:9px 12px;font-size:10px;letter-spacing:.06em}.nav-cta span{display:none}}
 
   /* ---------- hero: тёмный остров, герой по центру, текст внизу ---------- */
   .hero{
@@ -200,9 +194,6 @@
   .hero-lead{color:rgba(255,255,255,.72);max-width:46ch;font-size:clamp(15px,1.2vw,17px)}
   .hero-act{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
   .hero-act .mono{color:rgba(255,255,255,.5);max-width:26ch}
-  .hero-proof{display:flex;flex-wrap:wrap;gap:8px 18px;list-style:none;margin-top:18px}
-  .hero-proof li{display:flex;align-items:center;gap:8px;color:rgba(255,255,255,.72);font-size:12px}
-  .hero-proof li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--brand-lift);flex:none}
   @media (max-width:980px){
     .hero{min-height:min(96svh,900px)}
     .hero h1{font-size:clamp(2.2rem,8.4vw,4rem)}
@@ -220,8 +211,6 @@
     .hero-chips{gap:6px}
     .hero-act .pill{width:100%;justify-content:center}
     .hero-act .mono{max-width:none}
-    .hero-proof{gap:8px 14px;margin-top:16px}
-    .hero-proof li{font-size:11.5px}
     .hero-fig img{max-height:min(36svh,330px)}
     .hero-fig{margin-top:8px}
     .hero-copy{margin-top:14px}
@@ -418,13 +407,6 @@
   .thr--best li::before{background:#fff}
   @media (hover:hover){.thr:hover{transform:translateY(-4px);box-shadow:0 24px 50px rgba(0,0,0,.3)}}
   @media (max-width:900px){.thr-grid{grid-template-columns:1fr}}
-  .price-convert{display:flex;align-items:center;justify-content:space-between;gap:22px;flex-wrap:wrap;margin-top:14px;padding:clamp(20px,2.4vw,30px);border:1px solid rgba(78,158,120,.48);border-radius:var(--r-m);background:linear-gradient(100deg,rgba(78,158,120,.2),rgba(255,255,255,.05))}
-  .price-convert b{display:block;font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;font-size:clamp(1.15rem,2.1vw,1.8rem);letter-spacing:.025em;text-transform:uppercase;line-height:1.05}
-  .price-convert .mono{display:block;color:rgba(255,255,255,.7);max-width:52ch;margin-top:8px}
-  .buy-steps{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
-  .buy-step{display:flex;align-items:center;gap:8px;color:rgba(255,255,255,.7);font-size:12px}
-  .buy-step b{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.12);color:#fff;font-family:'IBM Plex Mono',monospace;font-size:10px}
-  @media (max-width:640px){.price-convert .pill{width:100%;justify-content:center}.buy-steps{gap:9px}.buy-step{font-size:11px}}
 
   .ptable-wrap{
     margin-top:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
@@ -611,7 +593,7 @@
   }
   .wa-fab svg{width:28px;height:28px}
   .wa-fab.is-on{opacity:1;pointer-events:auto;transform:none}
-  @media (max-width:760px){.wa-fab{display:none}}
+  @media (max-width:760px){.wa-fab{display:flex}}
 
   /* ---------- появление при скролле ---------- */
   .rv{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
@@ -625,7 +607,7 @@
   .foot{padding-inline:calc(max(var(--pad), 50vw - 720px + var(--pad)) - var(--inset))}
   @media (max-width:760px){
     .hero,#price{margin-inline:calc(var(--pad) * -1);padding-inline:var(--pad);border-radius:0}
-    .hero{margin-top:-70px;padding-top:84px}
+    .hero{margin-top:-86px;padding-top:106px}
     .nav{margin-inline:0}
   }
   @media (prefers-reduced-motion:reduce){
@@ -655,7 +637,7 @@
     </nav>
     <a class="nav-cta" href="#contact" data-place="шапка">
       <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.5 14c-.2.6-1.2 1.2-1.7 1.2-.5.1-1 .1-1.6-.1-.4-.1-.9-.3-1.5-.6-2.6-1.1-4.3-3.8-4.4-4-.1-.2-1-1.4-1-2.6 0-1.2.6-1.8.9-2.1.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2 0 .4-.1.5l-.3.4-.3.3c-.1.1-.2.3-.1.5.1.2.6 1.1 1.4 1.8 1 .9 1.8 1.1 2 1.2.2.1.4.1.5-.1l.7-.8c.2-.2.3-.2.5-.1l1.8.9c.2.1.4.2.4.3.1.2.1.7-.1 1.3Z"/></svg>
-      <span>Прайс и расчёт</span>
+      <span>Оптовый прайс</span>
     </a>
     <button class="nav-menu" type="button" aria-label="Меню" aria-expanded="false" aria-controls="drawer">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
@@ -666,7 +648,7 @@
       <a href="#price">Цена и прайс</a>
       <a href="#industries">Участки</a>
       <a href="#docs">Документы</a>
-      <a href="#contact">Получить прайс и расчёт</a>
+      <a href="#contact">Запросить прайс</a>
     </div>
   </header>
 
@@ -694,20 +676,13 @@
         <span>FAROS <em>оптом</em></span>
       </h1>
       <div class="hero-bottom">
-        <div>
-          <p class="hero-lead">Подберём класс защиты под участок, соберём партию и&nbsp;пришлём прайс с&nbsp;документами для закупки или тендера. Двенадцать моделей FFP1–FFP3&nbsp;— для пыли, сварочных дымов и&nbsp;кислых газов.</p>
-          <ul class="hero-proof" aria-label="Основания для доверия">
-            <li>ТОО ALLTRADE-LTD · БИН 160 340 027 310</li>
-            <li>22 позиции с НДС</li>
-            <li>Документы под тендер и ОТ</li>
-          </ul>
-        </div>
+        <p class="hero-lead">Двенадцать моделей, FFP1–FFP3: складные и&nbsp;чашеобразные, плюс две с&nbsp;угольным слоем&nbsp;— под&nbsp;сварочные дымы и&nbsp;под&nbsp;кислые газы. Отгрузка предприятиям по&nbsp;Казахстану.</p>
         <div class="hero-act">
           <a class="pill pill--brand" href="#contact" data-place="хиро">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.5 14c-.2.6-1.2 1.2-1.7 1.2-.5.1-1 .1-1.6-.1-.4-.1-.9-.3-1.5-.6-2.6-1.1-4.3-3.8-4.4-4-.1-.2-1-1.4-1-2.6 0-1.2.6-1.8.9-2.1.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2 0 .4-.1.5l-.3.4-.3.3c-.1.1-.2.3-.1.5.1.2.6 1.1 1.4 1.8 1 .9 1.8 1.1 2 1.2.2.1.4.1.5-.1l.7-.8c.2-.2.3-.2.5-.1l1.8.9c.2.1.4.2.4.3.1.2.1.7-.1 1.3Z"/></svg>
-            Получить прайс и&nbsp;расчёт
+            Запросить прайс
           </a>
-          <span class="mono">готовый расчёт и&nbsp;документы&nbsp;— в&nbsp;WhatsApp</span>
+          <span class="mono">ответим в&nbsp;WhatsApp&nbsp;· прайс одним файлом</span>
         </div>
       </div>
     </div>
@@ -950,19 +925,6 @@
       </div>
     </div>
 
-    <div class="price-convert rv">
-      <div>
-        <b>Прайс и расчёт партии<br>без лишней переписки.</b>
-        <span class="mono">Напишите объём или задачу участка — подберём класс, посчитаем партию и пришлём документы одним сообщением.</span>
-        <div class="buy-steps" aria-label="Как проходит закупка">
-          <span class="buy-step"><b>1</b>Отправляете объём</span>
-          <span class="buy-step"><b>2</b>Получаете расчёт и прайс</span>
-          <span class="buy-step"><b>3</b>Согласуем отгрузку</span>
-        </div>
-      </div>
-      <a class="pill pill--light" href="#contact" data-place="цена после порогов">Получить прайс и&nbsp;расчёт</a>
-    </div>
-
     <div class="ptable-wrap rv">
       <div class="ptable-head">
         <b>Полный прайс&nbsp;· 22&nbsp;позиции</b>
@@ -1010,7 +972,7 @@
       </div>
       <div class="ptable-foot">
         <p>Пришлём прайс со&nbsp;всеми 22&nbsp;позициями одним файлом&nbsp;— с&nbsp;ценами по&nbsp;каждому порогу, чтобы вы сразу посчитали смету на&nbsp;год.</p>
-        <a class="pill pill--light" href="#contact" data-place="полный прайс">Получить прайс и&nbsp;расчёт</a>
+        <a class="pill pill--light" href="#contact" data-place="прайс">Получить прайс файлом</a>
       </div>
     </div>
   </section>
@@ -1099,7 +1061,7 @@
       <div class="ct-form rv">
         <span class="mono">Оптовый отдел&nbsp;· Казахстан</span>
         <h2 class="display">Дыши спокойно. Партию соберём<em>.</em></h2>
-        <p class="lead">Оставьте телефон и&nbsp;задачу, если уже знаете её. Подберём модели и&nbsp;классы защиты, пришлём прайс и&nbsp;документы одним сообщением.</p>
+        <p class="lead">Напишите объём и&nbsp;задачу участка&nbsp;— подберём модели и&nbsp;классы защиты, пришлём прайс и&nbsp;документы одним сообщением.</p>
         <form id="lead" novalidate>
           <div class="f-row">
             <div class="field">
@@ -1115,12 +1077,12 @@
           </div>
           <div class="f-row">
             <div class="field">
-              <label for="f-company">Компания <span aria-hidden="true">· необязательно</span></label>
+              <label for="f-company">Компания</label>
               <input id="f-company" name="company" type="text" autocomplete="organization" placeholder="Название предприятия">
               <span class="f-err">Укажите компанию</span>
             </div>
             <div class="field">
-              <label for="f-need">Что нужно и&nbsp;сколько <span aria-hidden="true">· необязательно</span></label>
+              <label for="f-need">Объём и&nbsp;участок</label>
               <input id="f-need" name="need" type="text" placeholder="Например: 2 000 шт, сварочный цех">
               <span class="f-err">Опишите задачу</span>
             </div>
@@ -1128,7 +1090,7 @@
           <div class="f-submit">
             <button class="pill pill--brand" type="submit">
               <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.5 14c-.2.6-1.2 1.2-1.7 1.2-.5.1-1 .1-1.6-.1-.4-.1-.9-.3-1.5-.6-2.6-1.1-4.3-3.8-4.4-4-.1-.2-1-1.4-1-2.6 0-1.2.6-1.8.9-2.1.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2 0 .4-.1.5l-.3.4-.3.3c-.1.1-.2.3-.1.5.1.2.6 1.1 1.4 1.8 1 .9 1.8 1.1 2 1.2.2.1.4.1.5-.1l.7-.8c.2-.2.3-.2.5-.1l1.8.9c.2.1.4.2.4.3.1.2.1.7-.1 1.3Z"/></svg>
-              Получить прайс и&nbsp;расчёт
+              Отправить в&nbsp;WhatsApp
             </button>
             <span class="f-note">Нажимая кнопку, вы&nbsp;соглашаетесь на&nbsp;обработку контактных данных&nbsp;— <a href="privacy.html">политика конфиденциальности</a>. Заявка уйдёт сообщением в&nbsp;WhatsApp.</span>
           </div>
