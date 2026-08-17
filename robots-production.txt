@@ -2,6 +2,6 @@
 # При переезде на домен переименовать в robots.txt — текущий закрывает превью от индексации.
 User-agent: *
 Allow: /
-Disallow: /assets/
+Disallow: /privacy.html
 
 Sitemap: https://farospro.kz/sitemap.xml
