@@ -1,0 +1,7 @@
+# Боевая версия robots.txt для farospro.kz.
+# При переезде на домен переименовать в robots.txt — текущий закрывает превью от индексации.
+User-agent: *
+Allow: /
+Disallow: /assets/
+
+Sitemap: https://farospro.kz/sitemap.xml
