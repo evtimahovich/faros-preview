@@ -558,15 +558,15 @@
   #models .sec-head h2,#price .sec-head h2,#docs .sec-head h2,#contact .sec-head h2{
     font-size:var(--t-h2-mid);max-width:none;
   }
-  #models .sec-side,#price .sec-side,#docs .sec-side,#contact .sec-side{max-width:34ch}
+  #select .sec-side,#models .sec-side,#price .sec-side,#docs .sec-side,#contact .sec-side{max-width:34ch}
   /* моно-подпись сбоку - служебный слой, как на сайте поставщика */
-  #models .sec-side .note,
+  #select .sec-side .note,#models .sec-side .note,
   #price .sec-side .note,#docs .sec-side .note,#contact .sec-side .note{
     font-family:'IBM Plex Mono',monospace;font-size:11px;line-height:1.7;
     letter-spacing:var(--ls-cap);text-transform:uppercase;color:var(--mute);text-wrap:pretty;
   }
   @media (max-width:760px){
-    #models .sec-side .note,
+    #select .sec-side .note,#models .sec-side .note,
     #price .sec-side .note,#docs .sec-side .note,#contact .sec-side .note{font-size:10.5px;line-height:1.75}
     /* на телефоне ручной перенос оставил бы «ТРУДА.» одиноким третьей строкой */
     #docs .sec-head h2 br{display:none}
@@ -1564,30 +1564,7 @@
     </div>
   </section>
 
-  <!-- ЭКРАН 3: подбор класса под участок -->
-  <!-- КТО ОТГРУЖАЕТ -->
-  <section id="who" aria-label="Кто поставляет респираторы FAROS">
-    <div class="who rv">
-      <div class="who-head">
-        <div>
-          <span class="kick">Поставка по&nbsp;Казахстану</span>
-          <h2 class="display">Официальный<br>дистрибьютор FAROS<br>PROTECTION в&nbsp;Казахстане<em>.</em></h2>
-        </div>
-        <p class="who-lead">ТОО&nbsp;«ALLTRADE-LTD» поставляет респираторы FAROS предприятиям по&nbsp;всему Казахстану. Счёт, договор, документы и&nbsp;отгрузка&nbsp;— от&nbsp;одного поставщика.</p>
-      </div>
-      <ul class="who-facts">
-        <li><b>10+</b><span>лет в&nbsp;поставках СИЗ и&nbsp;оборудования</span></li>
-        <li><b>4</b><span>филиала по&nbsp;Казахстану</span></li>
-        <li><b>12</b><span>моделей FAROS PROTECTION в&nbsp;прайсе</span></li>
-        <li><b>1</b><span>поставщик: счёт, договор, документы и&nbsp;отгрузка</span></li>
-      </ul>
-      <div class="who-foot">
-        <span class="mono">Алматы&nbsp;· Усть-Каменогорск&nbsp;· Павлодар&nbsp;· Атырау&nbsp;· БИН&nbsp;160&nbsp;340&nbsp;027&nbsp;310</span>
-        <a class="mono who-more" href="https://alltrade-ltd.kz" target="_blank" rel="noopener">Все категории СИЗ&nbsp;— на&nbsp;alltrade-ltd.kz&nbsp;→</a>
-      </div>
-    </div>
-  </section>
-
+  <!-- ЭКРАН 2: подбор класса под участок -->
   <section id="select" aria-label="Подбор класса защиты под участок">
 
     <div class="sec-head rv">
@@ -1658,6 +1635,29 @@
           <span class="note">Класс и&nbsp;модель подтверждаем по&nbsp;виду загрязнителя, концентрации и&nbsp;условиям работы. Есть протокол замеров&nbsp;— отправьте его: сверим подбор по&nbsp;фактическим данным.</span>
         </div>
         <a class="pill pill--light" href="#contact" data-place="подбор класса">Получить подбор по&nbsp;участку</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- КТО ОТГРУЖАЕТ -->
+  <section id="who" aria-label="Кто поставляет респираторы FAROS">
+    <div class="who rv">
+      <div class="who-head">
+        <div>
+          <span class="kick">Поставка по&nbsp;Казахстану</span>
+          <h2 class="display">Официальный<br>дистрибьютор FAROS<br>PROTECTION в&nbsp;Казахстане<em>.</em></h2>
+        </div>
+        <p class="who-lead">ТОО&nbsp;«ALLTRADE-LTD» поставляет респираторы FAROS предприятиям по&nbsp;всему Казахстану. Счёт, договор, документы и&nbsp;отгрузка&nbsp;— от&nbsp;одного поставщика.</p>
+      </div>
+      <ul class="who-facts">
+        <li><b>10+</b><span>лет в&nbsp;поставках СИЗ и&nbsp;оборудования</span></li>
+        <li><b>4</b><span>филиала по&nbsp;Казахстану</span></li>
+        <li><b>9</b><span>категорий защиты с&nbsp;одного склада</span></li>
+        <li><b>1</b><span>поставщик: счёт, договор, документы и&nbsp;отгрузка</span></li>
+      </ul>
+      <div class="who-foot">
+        <span class="mono">Алматы&nbsp;· Усть-Каменогорск&nbsp;· Павлодар&nbsp;· Атырау&nbsp;· БИН&nbsp;160&nbsp;340&nbsp;027&nbsp;310</span>
+        <a class="mono who-more" href="https://alltrade-ltd.kz" target="_blank" rel="noopener">Все 9&nbsp;категорий защиты&nbsp;— на&nbsp;alltrade-ltd.kz&nbsp;→</a>
       </div>
     </div>
   </section>
