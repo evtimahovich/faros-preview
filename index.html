@@ -851,45 +851,6 @@
     .thr--best .v{font-size:clamp(2.3rem,10vw,2.9rem)}
   }
 
-  /* Прайс — не набор тарифов: это одна коммерческая шкала.
-     Три уровня соединены в лестницу, где нижняя цена физически становится главным уровнем. */
-  #price{overflow:hidden}
-  #price .sec-head{margin-bottom:clamp(30px,4.2vw,58px)}
-  #price .sec-head h2{max-width:12ch}
-  .price-ladder{
-    grid-template-columns:.88fr 1fr 1.2fr;gap:1px;padding:1px;
-    background:rgba(255,255,255,.16);border:0;border-radius:var(--r-l);
-    align-items:end;overflow:hidden;
-  }
-  .price-ladder .thr{
-    min-height:262px;padding:clamp(22px,2.5vw,34px);border:0;border-radius:0;
-    background:linear-gradient(145deg,rgba(255,255,255,.09),rgba(255,255,255,.035));
-    position:relative;overflow:hidden;
-  }
-  .price-ladder .thr::before{
-    content:"";position:absolute;inset:0 0 auto;height:3px;background:rgba(255,255,255,.26);
-  }
-  .price-ladder .thr--mid{min-height:300px;background:linear-gradient(145deg,rgba(87,170,130,.13),rgba(255,255,255,.045))}
-  .price-ladder .thr--best{min-height:338px;background:var(--brand)}
-  .price-ladder .thr--best::before{background:#fff}
-  .price-ladder .thr .num{color:rgba(255,255,255,.58)}
-  .price-ladder .thr--mid .num{color:var(--brand-lift)}
-  .price-ladder .thr--best .num{color:rgba(255,255,255,.8)}
-  .price-ladder .thr b{margin-top:clamp(12px,1.6vw,20px)}
-  .price-ladder .thr .v{margin-top:auto;padding-top:clamp(24px,3vw,40px)}
-  .price-ladder .thr .delta{margin-top:6px}
-  .price-ladder .thr ul{margin-top:clamp(18px,2vw,28px)}
-  @media (max-width:900px){
-    .price-ladder{grid-template-columns:1fr}
-    .price-ladder .thr,.price-ladder .thr--mid,.price-ladder .thr--best{min-height:0}
-    .price-ladder .thr{padding:24px}
-    .price-ladder .thr .v{padding-top:24px}
-  }
-  @media (max-width:560px){
-    #price .sec-head h2{max-width:10ch}
-    .price-ladder .thr{padding:20px}
-  }
-
   .ptable-wrap{
     margin-top:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
     border-radius:var(--r-m);
@@ -1834,13 +1795,13 @@
   <!-- ЭКРАН 5: цена и прайс (тёмный остров) -->
   <section id="price" aria-label="Цена за штуку и полный прайс">
     <div class="sec-head rv">
-      <h2 class="display"><span class="kick">Прайс</span>Цена за&nbsp;штуку.<br>Выгода&nbsp;— за&nbsp;сумму заказа<em>.</em></h2>
+      <h2 class="display"><span class="kick">Цена за&nbsp;штуку</span>Три порога&nbsp;-<br>по&nbsp;сумме партии<em>.</em></h2>
       <div class="sec-side"><span class="note">Цена зависит от&nbsp;класса защиты, конструкции и&nbsp;исполнения. Колонку определяет сумма заказа, а&nbsp;не&nbsp;количество штук.</span></div>
     </div>
 
-    <div class="thr-grid price-ladder">
+    <div class="thr-grid">
       <div class="thr rv">
-        <span class="num">01&nbsp;· от&nbsp;1&nbsp;шт</span>
+        <span class="num">01&nbsp;· штучная закупка</span>
         <b>Розница</b>
         <span class="v">от&nbsp;267<i>₸ /шт</i></span>
         <ul>
@@ -1849,7 +1810,7 @@
         </ul>
       </div>
       <div class="thr thr--mid rv">
-        <span class="num">02&nbsp;· от&nbsp;110&nbsp;000&nbsp;₸</span>
+        <span class="num">02&nbsp;· партия от&nbsp;110&nbsp;000&nbsp;₸</span>
         <b>Малый опт</b>
         <span class="v">от&nbsp;240<i>₸ /шт</i></span>
         <span class="delta">−10&nbsp;% к&nbsp;рознице*</span>
@@ -1859,7 +1820,7 @@
         </ul>
       </div>
       <div class="thr thr--best rv">
-        <span class="num">03&nbsp;· от&nbsp;1&nbsp;100&nbsp;000&nbsp;₸</span>
+        <span class="num">03&nbsp;· партия от&nbsp;1&nbsp;100&nbsp;000&nbsp;₸</span>
         <b>Опт</b>
         <span class="v">от&nbsp;208<i>₸ /шт</i></span>
         <span class="delta">−22&nbsp;% к&nbsp;рознице*</span>
@@ -1873,7 +1834,7 @@
     <div class="ptable-wrap rv">
       <div class="ptable-head">
         <b>Прайс&nbsp;· <span class="p-count" id="p-count">22&nbsp;позиции</span></b>
-        <span class="mono">цена за&nbsp;штуку&nbsp;· сумма короба&nbsp;— под&nbsp;ней</span>
+        <span class="mono">крупно - цена за&nbsp;штуку, мелко - за&nbsp;целый короб</span>
       </div>
       <div class="pfilt">
         <div class="pfilt-g" role="group" aria-label="Класс защиты">
