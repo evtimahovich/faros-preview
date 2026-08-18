@@ -1247,12 +1247,23 @@
      Нижний отступ 18px держит шаг строк 44px - зоны соседних ссылок не наезжают друг на друга */
   .ptbl .mdls a::after{content:"";position:absolute;left:0;right:0;top:50%;height:44px;transform:translateY(-50%)}
   @media (hover:hover){.ptbl .mdls a:hover{color:var(--brand);border-bottom-color:var(--brand)}}
-  .ptbl .prc{text-align:right;white-space:nowrap;width:16%}
+  /* цена строки - ярлык у правого края: снабженец ищет её глазом первой,
+     и она же работает акцентом в спокойной таблице */
+  /* где применяют - подпись под моделями: «вот маски, вот для чего они» */
+  .ptbl .use{
+    margin:2px 0 0;color:var(--mute);font-family:'IBM Plex Mono',monospace;
+    font-size:10px;letter-spacing:var(--ls-cap);text-transform:uppercase;line-height:1.7;
+  }
+  .ptbl .prc{text-align:right;white-space:nowrap;width:1%;vertical-align:top}
+  .ptbl .prc .tag{
+    display:inline-flex;flex-direction:column;align-items:flex-end;gap:3px;
+    background:var(--brand);color:#fff;border-radius:var(--r-m);padding:9px 13px;
+  }
   .ptbl .prc b{
     font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;
     font-size:clamp(1.05rem,1.55vw,1.35rem);font-variant-numeric:tabular-nums;display:block;
   }
-  .ptbl .prc i{font-style:normal;display:block;margin-top:5px;color:var(--mute);font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.04em}
+  .ptbl .prc i{font-style:normal;display:block;margin-top:0;color:rgba(255,255,255,.72);font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.04em}
   .pick-foot{
     display:flex;justify-content:space-between;align-items:center;gap:18px 40px;flex-wrap:wrap;
     padding:clamp(22px,2.6vw,36px) clamp(18px,2.1vw,28px);
@@ -1277,7 +1288,10 @@
     .ptbl .cls .dot{align-self:center;margin:0}
     .ptbl .cls span{margin:0}
     .ptbl .mdls{margin-top:10px}
-    .ptbl .prc{text-align:left;margin-top:8px}
+    /* на телефоне строка - карточка, и ярлык с ценой стоит в её правом верхнем углу */
+    .ptbl tr{position:relative}
+    .ptbl .prc{position:absolute;top:clamp(12px,2.6vw,16px);right:clamp(14px,3.4vw,18px);margin:0;text-align:right}
+    .ptbl .air{padding-right:122px}
     .pick-foot .pill{width:100%;justify-content:center}
   }
 
@@ -1631,7 +1645,7 @@
     </div>
 
     <div class="pick rv" id="pick">
-      <p class="pick-rule">Фильтрующая полумаска предназначена для <b>аэрозолей: пыли, дыма и&nbsp;тумана.</b> Для сварочных работ и&nbsp;кислых газов применяют модели с&nbsp;дополнительной защитой&nbsp;— FR&nbsp;3220 и&nbsp;FR&nbsp;3230. Участки в&nbsp;строках&nbsp;— примеры, а&nbsp;не&nbsp;правило.</p>
+      <p class="pick-rule">Фильтрующая полумаска предназначена для <b>аэрозолей: пыли, дыма и&nbsp;тумана.</b> Для сварочных работ и&nbsp;кислых газов применяют модели с&nbsp;дополнительной защитой&nbsp;— FR&nbsp;3220 и&nbsp;FR&nbsp;3230.</p>
       <table class="ptbl">
         <caption class="vh">Подбор класса защиты: что в воздухе на участке, класс полумаски, подходящие модели и цена за штуку на опте</caption>
         <thead class="vh">
@@ -1644,34 +1658,34 @@
         </thead>
         <tbody>
           <tr>
-            <td class="air"><b>Пыль и&nbsp;аэрозоли&nbsp;· до&nbsp;4&nbsp;ПДК</b><span>Превышение до&nbsp;четырёх раз. Склад, упаковка, сельхозработы.</span></td>
+            <td class="air"><b>Пыль и&nbsp;аэрозоли&nbsp;· до&nbsp;4&nbsp;ПДК</b><span>Превышение до&nbsp;четырёх раз.</span></td>
             <td class="cls"><i class="dot dot--1"></i><b>FFP1</b></td>
-            <td class="mdls"><a href="#models" aria-label="Модель FR 4100 - смотреть в модельном ряду">FR&nbsp;4100</a><a href="#models" aria-label="Модель FR 3100 - смотреть в модельном ряду">FR&nbsp;3100</a><a href="#models" aria-label="Модель FR 4110W - смотреть в модельном ряду">FR&nbsp;4110W</a><a href="#models" aria-label="Модель FR 3110 - смотреть в модельном ряду">FR&nbsp;3110</a></td>
-            <td class="prc"><b>от&nbsp;208&nbsp;₸</b><i>/шт на&nbsp;опте</i></td>
+            <td class="mdls"><a href="#models" aria-label="Модель FR 4100 - смотреть в модельном ряду">FR&nbsp;4100</a><a href="#models" aria-label="Модель FR 3100 - смотреть в модельном ряду">FR&nbsp;3100</a><a href="#models" aria-label="Модель FR 4110W - смотреть в модельном ряду">FR&nbsp;4110W</a><a href="#models" aria-label="Модель FR 3110 - смотреть в модельном ряду">FR&nbsp;3110</a><p class="use">применяют: склад, упаковка, сельхозработы</p></td>
+            <td class="prc"><span class="tag"><b>от&nbsp;208&nbsp;₸</b><i>/шт на&nbsp;опте</i></span></td>
           </tr>
           <tr>
-            <td class="air"><b>Пыль и&nbsp;аэрозоли&nbsp;· до&nbsp;12&nbsp;ПДК</b><span>Превышение до&nbsp;двенадцати раз. Цех, стройка, деревообработка.</span></td>
+            <td class="air"><b>Пыль и&nbsp;аэрозоли&nbsp;· до&nbsp;12&nbsp;ПДК</b><span>Превышение до&nbsp;двенадцати раз.</span></td>
             <td class="cls"><i class="dot dot--2"></i><b>FFP2</b></td>
-            <td class="mdls"><a href="#models" aria-label="Модель FR 4200 - смотреть в модельном ряду">FR&nbsp;4200</a><a href="#models" aria-label="Модель FR 3200 - смотреть в модельном ряду">FR&nbsp;3200</a><a href="#models" aria-label="Модель FR 4210W - смотреть в модельном ряду">FR&nbsp;4210W</a><a href="#models" aria-label="Модель FR 3210 - смотреть в модельном ряду">FR&nbsp;3210</a></td>
-            <td class="prc"><b>от&nbsp;284&nbsp;₸</b><i>/шт на&nbsp;опте</i></td>
+            <td class="mdls"><a href="#models" aria-label="Модель FR 4200 - смотреть в модельном ряду">FR&nbsp;4200</a><a href="#models" aria-label="Модель FR 3200 - смотреть в модельном ряду">FR&nbsp;3200</a><a href="#models" aria-label="Модель FR 4210W - смотреть в модельном ряду">FR&nbsp;4210W</a><a href="#models" aria-label="Модель FR 3210 - смотреть в модельном ряду">FR&nbsp;3210</a><p class="use">применяют: цех, стройка, деревообработка</p></td>
+            <td class="prc"><span class="tag"><b>от&nbsp;284&nbsp;₸</b><i>/шт на&nbsp;опте</i></span></td>
           </tr>
           <tr>
-            <td class="air"><b>Пыль и&nbsp;аэрозоли&nbsp;· до&nbsp;50&nbsp;ПДК</b><span>Выше класса в&nbsp;линейке нет. Литейное производство, обработка металлов, строительные смеси.</span></td>
+            <td class="air"><b>Пыль и&nbsp;аэрозоли&nbsp;· до&nbsp;50&nbsp;ПДК</b><span>Выше класса в&nbsp;линейке нет.</span></td>
             <td class="cls"><i class="dot dot--3"></i><b>FFP3</b></td>
-            <td class="mdls"><a href="#models" aria-label="Модель FR 4310W - смотреть в модельном ряду">FR&nbsp;4310W</a><a href="#models" aria-label="Модель FR 3310 - смотреть в модельном ряду">FR&nbsp;3310</a></td>
-            <td class="prc"><b>от&nbsp;421&nbsp;₸</b><i>/шт на&nbsp;опте</i></td>
+            <td class="mdls"><a href="#models" aria-label="Модель FR 4310W - смотреть в модельном ряду">FR&nbsp;4310W</a><a href="#models" aria-label="Модель FR 3310 - смотреть в модельном ряду">FR&nbsp;3310</a><p class="use">применяют: литейное производство, обработка металлов, строительные смеси</p></td>
+            <td class="prc"><span class="tag"><b>от&nbsp;421&nbsp;₸</b><i>/шт на&nbsp;опте</i></span></td>
           </tr>
           <tr>
-            <td class="air"><b>Сварочные аэрозоли, газы и&nbsp;пары</b><span>Угольный слой&nbsp;— от&nbsp;сварочных дымов, газов и&nbsp;паров до&nbsp;ПДК. Сварочные посты, судоремонт.</span></td>
+            <td class="air"><b>Сварочные аэрозоли, газы и&nbsp;пары</b><span>Угольный слой&nbsp;— от&nbsp;сварочных дымов, газов и&nbsp;паров до&nbsp;ПДК.</span></td>
             <td class="cls"><i class="dot dot--2"></i><b>FFP2&nbsp;+ доп. защита</b><span>противоаэрозольная&nbsp;— до&nbsp;12&nbsp;ПДК</span></td>
-            <td class="mdls"><a href="#models" aria-label="Модель FR 3220 - смотреть в модельном ряду">FR&nbsp;3220</a></td>
-            <td class="prc"><b>от&nbsp;1&nbsp;020&nbsp;₸</b><i>/шт на&nbsp;опте</i></td>
+            <td class="mdls"><a href="#models" aria-label="Модель FR 3220 - смотреть в модельном ряду">FR&nbsp;3220</a><p class="use">применяют: сварочные посты, судоремонт</p></td>
+            <td class="prc"><span class="tag"><b>от&nbsp;1&nbsp;020&nbsp;₸</b><i>/шт на&nbsp;опте</i></span></td>
           </tr>
           <tr>
-            <td class="air"><b>Кислые газы и&nbsp;пары</b><span>Угольный слой&nbsp;— от&nbsp;кислых газов и&nbsp;паров до&nbsp;ПДК. Аккумуляторные и&nbsp;гальванические участки.</span></td>
+            <td class="air"><b>Кислые газы и&nbsp;пары</b><span>Угольный слой&nbsp;— от&nbsp;кислых газов и&nbsp;паров до&nbsp;ПДК.</span></td>
             <td class="cls"><i class="dot dot--2"></i><b>FFP2&nbsp;+ доп. защита</b><span>противоаэрозольная&nbsp;— до&nbsp;12&nbsp;ПДК</span></td>
-            <td class="mdls"><a href="#models" aria-label="Модель FR 3230 - смотреть в модельном ряду">FR&nbsp;3230</a></td>
-            <td class="prc"><b>от&nbsp;1&nbsp;070&nbsp;₸</b><i>/шт на&nbsp;опте</i></td>
+            <td class="mdls"><a href="#models" aria-label="Модель FR 3230 - смотреть в модельном ряду">FR&nbsp;3230</a><p class="use">применяют: аккумуляторные и&nbsp;гальванические участки</p></td>
+            <td class="prc"><span class="tag"><b>от&nbsp;1&nbsp;070&nbsp;₸</b><i>/шт на&nbsp;опте</i></span></td>
           </tr>
         </tbody>
       </table>
