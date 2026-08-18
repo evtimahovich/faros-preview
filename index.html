@@ -1256,14 +1256,24 @@
   }
   .ptbl .prc{text-align:right;white-space:nowrap;width:1%;vertical-align:top}
   .ptbl .prc .tag{
-    display:inline-flex;flex-direction:column;align-items:flex-end;gap:3px;
-    background:var(--brand);color:#fff;border-radius:var(--r-m);padding:9px 13px;
+    display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;
+    width:clamp(92px,7.4vw,108px);height:clamp(92px,7.4vw,108px);border-radius:50%;
+    background:var(--brand);color:#fff;text-align:center;
   }
   .ptbl .prc b{
     font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;
-    font-size:clamp(1.05rem,1.55vw,1.35rem);font-variant-numeric:tabular-nums;display:block;
+    font-size:clamp(1.02rem,1.45vw,1.3rem);line-height:1;letter-spacing:-.01em;
+    font-variant-numeric:tabular-nums;display:block;white-space:nowrap;
   }
-  .ptbl .prc i{font-style:normal;display:block;margin-top:0;color:rgba(255,255,255,.72);font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.04em}
+  .ptbl .prc i{
+    font-style:normal;display:block;margin:0;color:rgba(255,255,255,.7);
+    font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:var(--ls-cap);text-transform:uppercase;
+  }
+  .ptbl .prc i.pre{margin-bottom:1px}
+  .pick-fine{
+    padding:0 clamp(18px,2.1vw,28px) clamp(14px,1.6vw,18px);margin:0;
+    color:var(--mute);font-size:10px;letter-spacing:var(--ls-cap);text-transform:uppercase;line-height:1.7;
+  }
   .pick-foot{
     display:flex;justify-content:space-between;align-items:center;gap:18px 40px;flex-wrap:wrap;
     padding:clamp(22px,2.6vw,36px) clamp(18px,2.1vw,28px);
@@ -1291,7 +1301,7 @@
     /* на телефоне строка - карточка, и ярлык с ценой стоит в её правом верхнем углу */
     .ptbl tr{position:relative}
     .ptbl .prc{position:absolute;top:clamp(12px,2.6vw,16px);right:clamp(14px,3.4vw,18px);margin:0;text-align:right}
-    .ptbl .air{padding-right:122px}
+    .ptbl .air{padding-right:108px}
     .pick-foot .pill{width:100%;justify-content:center}
   }
 
@@ -1661,34 +1671,35 @@
             <td class="air"><b>Пыль и&nbsp;аэрозоли&nbsp;· до&nbsp;4&nbsp;ПДК</b><span>Превышение до&nbsp;четырёх раз.</span></td>
             <td class="cls"><i class="dot dot--1"></i><b>FFP1</b></td>
             <td class="mdls"><a href="#models" aria-label="Модель FR 4100 - смотреть в модельном ряду">FR&nbsp;4100</a><a href="#models" aria-label="Модель FR 3100 - смотреть в модельном ряду">FR&nbsp;3100</a><a href="#models" aria-label="Модель FR 4110W - смотреть в модельном ряду">FR&nbsp;4110W</a><a href="#models" aria-label="Модель FR 3110 - смотреть в модельном ряду">FR&nbsp;3110</a><p class="use">применяют: склад, упаковка, сельхозработы</p></td>
-            <td class="prc"><span class="tag"><b>от&nbsp;208&nbsp;₸</b><i>/шт на&nbsp;опте</i></span></td>
+            <td class="prc"><span class="tag"><i class="pre">от</i><b>208&nbsp;₸</b><i>/шт</i></span></td>
           </tr>
           <tr>
             <td class="air"><b>Пыль и&nbsp;аэрозоли&nbsp;· до&nbsp;12&nbsp;ПДК</b><span>Превышение до&nbsp;двенадцати раз.</span></td>
             <td class="cls"><i class="dot dot--2"></i><b>FFP2</b></td>
             <td class="mdls"><a href="#models" aria-label="Модель FR 4200 - смотреть в модельном ряду">FR&nbsp;4200</a><a href="#models" aria-label="Модель FR 3200 - смотреть в модельном ряду">FR&nbsp;3200</a><a href="#models" aria-label="Модель FR 4210W - смотреть в модельном ряду">FR&nbsp;4210W</a><a href="#models" aria-label="Модель FR 3210 - смотреть в модельном ряду">FR&nbsp;3210</a><p class="use">применяют: цех, стройка, деревообработка</p></td>
-            <td class="prc"><span class="tag"><b>от&nbsp;284&nbsp;₸</b><i>/шт на&nbsp;опте</i></span></td>
+            <td class="prc"><span class="tag"><i class="pre">от</i><b>284&nbsp;₸</b><i>/шт</i></span></td>
           </tr>
           <tr>
             <td class="air"><b>Пыль и&nbsp;аэрозоли&nbsp;· до&nbsp;50&nbsp;ПДК</b><span>Выше класса в&nbsp;линейке нет.</span></td>
             <td class="cls"><i class="dot dot--3"></i><b>FFP3</b></td>
             <td class="mdls"><a href="#models" aria-label="Модель FR 4310W - смотреть в модельном ряду">FR&nbsp;4310W</a><a href="#models" aria-label="Модель FR 3310 - смотреть в модельном ряду">FR&nbsp;3310</a><p class="use">применяют: литейное производство, обработка металлов, строительные смеси</p></td>
-            <td class="prc"><span class="tag"><b>от&nbsp;421&nbsp;₸</b><i>/шт на&nbsp;опте</i></span></td>
+            <td class="prc"><span class="tag"><i class="pre">от</i><b>421&nbsp;₸</b><i>/шт</i></span></td>
           </tr>
           <tr>
             <td class="air"><b>Сварочные аэрозоли, газы и&nbsp;пары</b><span>Угольный слой&nbsp;— от&nbsp;сварочных дымов, газов и&nbsp;паров до&nbsp;ПДК.</span></td>
             <td class="cls"><i class="dot dot--2"></i><b>FFP2&nbsp;+ доп. защита</b><span>противоаэрозольная&nbsp;— до&nbsp;12&nbsp;ПДК</span></td>
             <td class="mdls"><a href="#models" aria-label="Модель FR 3220 - смотреть в модельном ряду">FR&nbsp;3220</a><p class="use">применяют: сварочные посты, судоремонт</p></td>
-            <td class="prc"><span class="tag"><b>от&nbsp;1&nbsp;020&nbsp;₸</b><i>/шт на&nbsp;опте</i></span></td>
+            <td class="prc"><span class="tag"><i class="pre">от</i><b>1&nbsp;020&nbsp;₸</b><i>/шт</i></span></td>
           </tr>
           <tr>
             <td class="air"><b>Кислые газы и&nbsp;пары</b><span>Угольный слой&nbsp;— от&nbsp;кислых газов и&nbsp;паров до&nbsp;ПДК.</span></td>
             <td class="cls"><i class="dot dot--2"></i><b>FFP2&nbsp;+ доп. защита</b><span>противоаэрозольная&nbsp;— до&nbsp;12&nbsp;ПДК</span></td>
             <td class="mdls"><a href="#models" aria-label="Модель FR 3230 - смотреть в модельном ряду">FR&nbsp;3230</a><p class="use">применяют: аккумуляторные и&nbsp;гальванические участки</p></td>
-            <td class="prc"><span class="tag"><b>от&nbsp;1&nbsp;070&nbsp;₸</b><i>/шт на&nbsp;опте</i></span></td>
+            <td class="prc"><span class="tag"><i class="pre">от</i><b>1&nbsp;070&nbsp;₸</b><i>/шт</i></span></td>
           </tr>
         </tbody>
       </table>
+      <p class="pick-fine mono">в&nbsp;кружках&nbsp;— цена на&nbsp;оптовой партии; розница и&nbsp;малый опт&nbsp;— в&nbsp;прайсе</p>
       <div class="pick-foot">
         <div>
           <b>Нужна модель под конкретный процесс?</b>
