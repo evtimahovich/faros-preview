@@ -449,7 +449,7 @@
   /* середина страницы: заголовок держит разворот, строка ломается вручную, а не по ширине.
      Разбивка на строки задана в разметке - clamp по ширине оставлен только телефону */
   #about .sec-head,#models .sec-head{margin-bottom:clamp(26px,3.4vw,48px)}
-  #about .sec-head h2,#models .sec-head h2{font-size:var(--t-h2-mid);max-width:none}
+  #about .sec-head h2,#models .sec-head h2,#price .sec-head h2,#docs .sec-head h2,#contact .ct-form h2{font-size:var(--t-h2-mid);max-width:none}
   #about .sec-side,#models .sec-side{max-width:34ch}
   /* моно-подпись сбоку - служебный слой, как на сайте поставщика */
   #about .sec-side .note,#models .sec-side .note{
@@ -990,7 +990,7 @@
     padding:clamp(28px,4vw,64px) calc(var(--pad) - var(--inset)) clamp(10px,1vw,14px);
     position:relative;overflow:hidden;
   }
-  .foot-title{font-size:var(--t-h2);color:#fff;margin-bottom:clamp(26px,4vw,52px);max-width:22ch}
+  .foot-title{font-size:var(--t-h2-mid);color:#fff;margin-bottom:clamp(26px,4vw,52px);max-width:22ch}
   .foot-title span{display:block}
   .foot-title em{font-style:normal;color:var(--brand-lift)}
   .foot-top{display:flex;justify-content:space-between;align-items:flex-end;gap:clamp(28px,4vw,72px);flex-wrap:wrap;margin-bottom:clamp(14px,1.8vw,22px)}
