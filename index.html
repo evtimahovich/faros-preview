@@ -552,21 +552,21 @@
 
   /* середина страницы: заголовок держит разворот, строка ломается вручную, а не по ширине.
      Разбивка на строки задана в разметке - clamp по ширине оставлен только телефону */
-  #about .sec-head,#models .sec-head,#price .sec-head,#docs .sec-head,#contact .sec-head{
+  #models .sec-head,#price .sec-head,#docs .sec-head,#contact .sec-head{
     margin-bottom:clamp(26px,3.4vw,48px);
   }
-  #about .sec-head h2,#models .sec-head h2,#price .sec-head h2,#docs .sec-head h2,#contact .sec-head h2{
+  #models .sec-head h2,#price .sec-head h2,#docs .sec-head h2,#contact .sec-head h2{
     font-size:var(--t-h2-mid);max-width:none;
   }
-  #about .sec-side,#models .sec-side,#price .sec-side,#docs .sec-side,#contact .sec-side{max-width:34ch}
+  #models .sec-side,#price .sec-side,#docs .sec-side,#contact .sec-side{max-width:34ch}
   /* моно-подпись сбоку - служебный слой, как на сайте поставщика */
-  #about .sec-side .note,#models .sec-side .note,
+  #models .sec-side .note,
   #price .sec-side .note,#docs .sec-side .note,#contact .sec-side .note{
     font-family:'IBM Plex Mono',monospace;font-size:11px;line-height:1.7;
     letter-spacing:var(--ls-cap);text-transform:uppercase;color:var(--mute);text-wrap:pretty;
   }
   @media (max-width:760px){
-    #about .sec-side .note,#models .sec-side .note,
+    #models .sec-side .note,
     #price .sec-side .note,#docs .sec-side .note,#contact .sec-side .note{font-size:10.5px;line-height:1.75}
     /* на телефоне ручной перенос оставил бы «ТРУДА.» одиноким третьей строкой */
     #docs .sec-head h2 br{display:none}
@@ -590,52 +590,6 @@
     }
   }
   .m:active{transform:translateY(-1px)}
-
-  /* ---------- линейка в цифрах: белые карточки на бумаге ---------- */
-  .stats-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
-  .stat{
-    grid-column:span 4;
-    background:var(--panel);border:1px solid var(--line);border-radius:var(--r-m);
-    box-shadow:0 1px 2px rgba(16,20,24,.06),0 12px 32px rgba(16,20,24,.10);
-    padding:clamp(20px,2.3vw,32px);
-    display:flex;flex-direction:column;gap:clamp(14px,1.6vw,22px);
-    min-height:clamp(150px,13vw,190px);
-  }
-  .stat .k{
-    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:var(--ls-key);
-    text-transform:uppercase;color:var(--mute);
-  }
-  .stat .n{
-    font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;
-    font-size:clamp(2.7rem,5.4vw,4.8rem);line-height:.84;letter-spacing:-.015em;
-    font-variant-numeric:tabular-nums;
-  }
-  .stat .n i{font-style:normal;font-size:.34em;letter-spacing:.02em;margin-left:.12em;white-space:nowrap}
-  /* «FFP1-FFP3» набрано без переносов: кегль идёт за шириной колонки, иначе строка режется краем */
-  .stat .n--cls{font-size:clamp(1.5rem,3.05vw,2.7rem);letter-spacing:.01em;line-height:1;white-space:nowrap}
-  .stat .l{color:var(--ink-soft);font-size:14.5px;line-height:1.5;margin-top:auto;text-wrap:pretty}
-  /* открытая нижняя цена - главное утверждение страницы, поэтому во всю ширину и фирменным */
-  .stat--wide{
-    grid-column:span 12;min-height:0;
-    flex-direction:row;align-items:flex-end;justify-content:space-between;gap:clamp(18px,3vw,56px);
-  }
-  .stat--wide .stat-hd{display:flex;flex-direction:column;gap:clamp(12px,1.4vw,18px)}
-  .stat--wide .n{font-size:clamp(3rem,6.6vw,6rem)}
-  .stat--wide .l{margin-top:0;padding-bottom:.5em;max-width:30ch}
-  .stat--brand{background:var(--brand);border-color:var(--brand);color:#fff}
-  .stat--brand .k{color:rgba(255,255,255,.78)}
-  .stat--brand .l{color:rgba(255,255,255,.9)}
-  @media (max-width:900px){
-    .stat{grid-column:span 6;min-height:0}
-    .stat .n{font-size:clamp(2.4rem,7vw,3.4rem)}
-    .stat .n--cls{font-size:clamp(1.35rem,4.4vw,2rem)}
-  }
-  @media (max-width:600px){
-    .stat{grid-column:span 12;padding:20px;gap:12px}
-    .stat .l{font-size:13.5px}
-    .stat--wide{flex-direction:column;align-items:flex-start;gap:14px}
-    .stat--wide .l{padding-bottom:0}
-  }
 
   /* ---------- кто отгружает: тёмный остров во всю ширину ---------- */
   #who{padding-block:0}
@@ -1590,35 +1544,6 @@
         </a>
       </div>
 
-    </div>
-  </section>
-
-  <!-- ЭКРАН 2: факты -->
-  <section id="about" aria-label="Линейка в цифрах">
-    <div class="sec-head rv">
-      <div>
-        <span class="kick">FAROS PROTECTION</span>
-        <h2 class="display">Линейка<br>в&nbsp;цифрах</h2>
-      </div>
-      <div class="sec-side"><span class="note">Двенадцать моделей закрывают превышение нормы от&nbsp;4 до&nbsp;50&nbsp;раз. Ниже&nbsp;— подбор класса под конкретный участок.</span></div>
-    </div>
-
-    <div class="stats-grid rv">
-      <article class="stat">
-
-        <p class="n">12</p>
-        <p class="l">моделей в&nbsp;линейке</p>
-      </article>
-      <article class="stat">
-
-        <p class="n">2</p>
-        <p class="l">исполнения: с&nbsp;носовым обтюратором и&nbsp;без</p>
-      </article>
-      <article class="stat">
-
-        <p class="n n--cls">FFP1-FFP3</p>
-        <p class="l">классы противоаэрозольной защиты</p>
-      </article>
     </div>
   </section>
 
