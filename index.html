@@ -458,10 +458,13 @@
 
   /* ---------- ЭКРАН 1 v2: одна сильная индустриальная обложка ---------- */
   .hero{
-    display:flex;align-items:center;
+    /* две строки: служебная подпись прижата к верху острова, заголовок с ценами
+       держит центр оставшейся высоты - раньше подпись ехала вместе с текстом */
+    display:grid;grid-template-rows:auto 1fr;align-items:center;
     min-height:min(calc(100svh - var(--navh)),920px);
     padding-top:clamp(32px,4vw,68px);padding-bottom:clamp(32px,4vw,64px);
   }
+  .hero > .hero-kicker{align-self:start;justify-self:start;position:relative;z-index:2;margin-bottom:0}
   .hero-fig{inset:0}
   .hero-fig img{
     object-position:78% 50%;
@@ -498,15 +501,19 @@
   .hp--price .k,.hp--price b i,.hp--price .l{color:rgba(255,255,255,.62)}
   .hero-foot{display:none}
   @media (max-width:980px){
-    .hero{display:flex;align-items:flex-end;padding-top:clamp(230px,43svh,390px)}
+    /* на телефоне остров - колонка: подпись поставщика прижата к верху,
+       заголовок с ценами остаётся внизу кадра */
+    .hero{display:flex;flex-direction:column;justify-content:space-between;align-items:stretch;padding-top:clamp(230px,43svh,390px)}
     .hero-fig{inset:0;height:auto}
     .hero-fig img{object-position:68% 36%;-webkit-mask-image:none;mask-image:none}
     .hero-fig::after{background:linear-gradient(0deg,#0A0C0B 3%,rgba(10,12,11,.95) 28%,rgba(10,12,11,.38) 65%,rgba(10,12,11,.14) 100%),linear-gradient(90deg,rgba(10,12,11,.68) 0%,rgba(10,12,11,.2) 64%,rgba(10,12,11,0) 100%)}
-    .hero-copy{align-self:end;max-width:min(94%,660px)}
+    .hero-copy{align-self:stretch;max-width:min(94%,660px)}
     .hero h1{font-size:clamp(3.6rem,10.5vw,6.4rem)}
   }
   @media (max-width:760px){
-    .hero{min-height:calc(100svh - var(--navh));padding:clamp(188px,34svh,320px) var(--pad) 26px}
+    /* верхний отступ больше не держит копию внизу - это делает justify-content:space-between,
+       поэтому подпись поставщика может стоять у самого верха кадра */
+    .hero{min-height:calc(100svh - var(--navh));padding:clamp(16px,3.4vw,24px) var(--pad) 26px}
     .hero-fig{inset:0;height:auto}
     .hero-fig img{object-position:62% 44%}
     .hero-copy{max-width:none}
@@ -525,7 +532,7 @@
     .hp .l{margin-top:4px;font-size:9.5px;line-height:1.25}
   }
   @media (max-width:380px){
-    .hero{padding-top:clamp(164px,31svh,240px)}
+    .hero{padding-top:clamp(14px,3vw,20px)}
     .hero h1{font-size:3.25rem}
     .hero-price{gap:8px}
     .hp{padding-left:9px}
@@ -1440,7 +1447,11 @@
   }
   /* мобильный первый экран: ни заголовок, ни три ценовые метки не расширяют страницу */
   @media (max-width:760px){
-    .hero,.hero-copy,.hero-price,.hp{min-width:0;max-width:100%}
+    /* max-width:100% на самом первом экране обрезал его: остров растянут отрицательными
+       полями за края колонки, а ограничение шириной колонки возвращало его обратно -
+       справа оставалась светлая полоса в 32 px. Ограничение нужно только содержимому. */
+    .hero{min-width:0}
+    .hero-copy,.hero-price,.hp{min-width:0;max-width:100%}
     .hero-fig img{transform:scale(1.12) translateY(-6%);transform-origin:62% 50%}
     .hero h1{font-size:clamp(2.05rem,9.6vw,3.7rem);letter-spacing:-.055em;overflow-wrap:break-word}
     .hero h1 .acc{margin-left:.28em}
@@ -1517,8 +1528,8 @@
       </picture>
     </figure>
 
-    <div class="hero-copy">
       <span class="hero-kicker"><i>ALLTRADE-LTD</i><i class="hk-sep">·</i><i class="hk-full">официальный дистрибьютор FAROS&nbsp;PROTECTION в&nbsp;Казахстане</i><i class="hk-min">дистрибьютор FAROS</i></span>
+    <div class="hero-copy">
       <h1 class="display">
         <span>FAROS</span>
         <span class="acc">Респираторы</span>
