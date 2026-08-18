@@ -721,10 +721,10 @@
   .m .form{color:var(--ink-soft);font-size:14px;line-height:1.45;min-height:2.6em}
   .seg--line{flex-wrap:wrap;max-width:100%}
   @media (max-width:760px){
-    /* на телефоне фильтр не переносится в три строки, а листается вбок одной лентой */
-    .seg--line{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none}
-    .seg--line::-webkit-scrollbar{display:none}
-    .seg--line .seg-b{flex:none}
+    /* на телефоне у ярлыков остаются только номера серий - фильтр умещается в две строки
+       целиком. Лента с боковой прокруткой срезала последний ярлык посреди слова и прятала
+       два фильтра из четырёх: на экране это читалось как обрыв блока */
+    .seg--line .sg-x{display:none}
   }
   .m-count{color:var(--ink-soft);font-variant-numeric:tabular-nums;white-space:nowrap}
   .m[hidden]{display:none}
@@ -1675,9 +1675,9 @@
     <div class="m-bar rv">
       <div class="seg seg--line" id="seg-series" role="group" aria-label="Серия">
         <button class="seg-b is-on" type="button" aria-pressed="true" data-series="all">Все серии</button>
-        <button class="seg-b" type="button" aria-pressed="false" data-series="4000">FR&nbsp;4000&nbsp;- складные</button>
-        <button class="seg-b" type="button" aria-pressed="false" data-series="3000">FR&nbsp;3000&nbsp;- формованные</button>
-        <button class="seg-b" type="button" aria-pressed="false" data-series="spec">Модели с&nbsp;угольным слоем</button>
+        <button class="seg-b" type="button" aria-pressed="false" data-series="4000">FR&nbsp;4000<span class="sg-x">&nbsp;- складные</span></button>
+        <button class="seg-b" type="button" aria-pressed="false" data-series="3000">FR&nbsp;3000<span class="sg-x">&nbsp;- формованные</span></button>
+        <button class="seg-b" type="button" aria-pressed="false" data-series="spec"><span class="sg-x">Модели </span>с&nbsp;угольным слоем</button>
       </div>
       <span class="m-count mono" id="m-count" role="status">12&nbsp;моделей</span>
     </div>
