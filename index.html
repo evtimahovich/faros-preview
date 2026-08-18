@@ -668,7 +668,7 @@
   /* ---------- модельный ряд ----------
      Один ряд управления на весь блок: серии слева, исполнение и счёт справа.
      Отдельной шкалы ПДК здесь нет - кратности объявлены манифестом выше, а не второй раз */
-  .m-bar{display:grid;grid-template-columns:minmax(0,1fr) max-content;align-items:center;gap:14px 28px}
+  .m-bar{display:flex;align-items:center;gap:10px 16px;flex-wrap:wrap}
   .m-bar-r{display:flex;align-items:center;gap:clamp(12px,1.4vw,18px);flex-wrap:wrap}
 
   /* метка класса внутри карточек и таблицы - тот же принцип, в миниатюре */
@@ -724,7 +724,8 @@
     .seg--line .sg-x{display:none}
   }
   .m-count{
-    justify-self:end;display:inline-flex;align-items:center;min-height:44px;
+    display:inline-flex;align-items:center;min-height:20px;margin-left:2px;padding-left:16px;
+    border-left:var(--hair) solid var(--line);
     color:var(--ink-soft);font-variant-numeric:tabular-nums;white-space:nowrap;
   }
   .m[hidden]{display:none}
@@ -766,9 +767,11 @@
   @media (hover:hover){.m--spec:hover{border-color:var(--brand-lift)}}
   @media (max-width:1080px){.grid-m{grid-template-columns:repeat(2,1fr)}}
   @media (max-width:820px){
-    .m-bar{grid-template-columns:1fr;align-items:start;gap:10px}
-    .m-count{justify-self:start;min-height:0}
+    .m-bar{align-items:flex-start}
     .m-bar-r{width:100%;justify-content:space-between}
+  }
+  @media (max-width:760px){
+    .m-count{flex-basis:100%;min-height:0;margin-left:0;padding-left:0;border-left:0}
   }
   @media (max-width:520px){
     .grid-m{gap:10px}
