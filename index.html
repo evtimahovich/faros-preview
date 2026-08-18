@@ -1209,37 +1209,12 @@
     background:var(--panel);border:1px solid var(--line);border-radius:var(--r-l);overflow:hidden;
     box-shadow:0 1px 2px rgba(16,20,24,.06),0 14px 36px rgba(16,20,24,.10);
   }
-  .pick-chips{
-    display:flex;flex-wrap:wrap;gap:8px;align-items:center;
-    padding:clamp(16px,1.9vw,24px) clamp(18px,2.1vw,28px);border-bottom:var(--hair) solid var(--line);
-  }
-  /* :not(.pick-count) - иначе счётчик наследует width:100% и срывается на свою строку */
-  .pick-chips > .mono:not(.pick-count){color:var(--mute);width:100%;margin-bottom:2px}
-  /* счётчик строк - служебный слой у правого края: видно, что чип отработал */
-  .pick-count{color:var(--mute);margin-left:auto;white-space:nowrap;font-variant-numeric:tabular-nums}
-  .chip{
-    border:1px solid var(--line);border-radius:999px;padding:9px 16px;min-height:44px;color:var(--ink-soft);
-    display:inline-flex;align-items:center;
-    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:var(--ls-cap);text-transform:uppercase;
-    transition:background var(--d-1) var(--e),color var(--d-1) var(--e),border-color var(--d-1) var(--e);
-  }
-  @media (hover:hover){.chip:not(.is-on):hover{background:rgba(17,19,21,.05);color:var(--ink);border-color:#C3CAD0}}
-  .chip.is-on{background:var(--ink);color:#fff;border-color:var(--ink)}
-  .chip:active{transform:translateY(1px)}
-  /* правило подбора - человеческим текстом, реестр отраслей - моно-капслоком:
-     первое читают, второе сверяют глазами, поэтому у них разный регистр */
+  /* правило подбора - человеческим текстом над таблицей */
   .pick-rule{
     padding:clamp(14px,1.6vw,20px) clamp(18px,2.1vw,28px);border-bottom:var(--hair) solid var(--line);
     background:rgba(17,19,21,.02);color:var(--ink-soft);font-size:14.5px;line-height:1.55;
   }
   .pick-rule b{color:var(--ink)}
-  .pick-areas{
-    padding:clamp(14px,1.6vw,20px) clamp(18px,2.1vw,28px);border-top:var(--hair) solid var(--line);
-    color:var(--mute);line-height:1.8;
-  }
-  .pick-areas > span{color:var(--ink-soft);margin-right:10px}
-  /* курсив на странице не используется нигде: источник данных - тем же тоном, что подпись */
-  .pick-areas i{font-style:normal}
   table.ptbl{width:100%;border-collapse:collapse}
   /* строку подбора прячет атрибут hidden, но ниже 820 px строки таблицы переопределены
      на display:block - без этого правила чипы перестают фильтровать на телефоне */
@@ -1648,19 +1623,11 @@
         <span class="kick">Подбор класса</span>
         <h2 class="display">Какой класс нужен <br><span class="acc">вашему участку<em>.</em></span></h2>
       </div>
-      <div class="sec-side"><span class="note">Класс выбирают по&nbsp;виду загрязнителя, его фактической концентрации и&nbsp;условиям работы на&nbsp;участке.</span></div>
+      <div class="sec-side"><span class="note">Смотрят не&nbsp;на&nbsp;отрасль, а&nbsp;на&nbsp;воздух: чем загрязнён, во&nbsp;сколько раз превышена норма и&nbsp;в&nbsp;каких условиях работают&nbsp;— нагрузка, жара, очки или щиток сварщика.</span></div>
     </div>
 
     <div class="pick rv" id="pick">
-      <div class="pick-chips" role="group" aria-label="Что в воздухе на участке">
-          <span class="mono">что в&nbsp;воздухе на&nbsp;участке</span>
-          <button class="chip is-on" type="button" data-air="all" aria-pressed="true">Показать всё</button>
-          <button class="chip" type="button" data-air="dust" aria-pressed="false">Пыль и&nbsp;аэрозоли</button>
-          <button class="chip" type="button" data-air="weld" aria-pressed="false">Сварочный дым</button>
-          <button class="chip" type="button" data-air="acid" aria-pressed="false">Кислые газы</button>
-          <span class="mono pick-count" id="pick-count" role="status">подходит 12&nbsp;моделей</span>
-        </div>
-      <p class="pick-rule">Фильтрующая полумаска предназначена для <b>аэрозолей: пыли, дыма и&nbsp;тумана.</b> Для сварочных работ и&nbsp;кислых газов применяют модели с&nbsp;дополнительной защитой&nbsp;— FR&nbsp;3220 и&nbsp;FR&nbsp;3230.</p>
+      <p class="pick-rule">Фильтрующая полумаска предназначена для <b>аэрозолей: пыли, дыма и&nbsp;тумана.</b> Для сварочных работ и&nbsp;кислых газов применяют модели с&nbsp;дополнительной защитой&nbsp;— FR&nbsp;3220 и&nbsp;FR&nbsp;3230. Участки в&nbsp;строках&nbsp;— примеры, а&nbsp;не&nbsp;правило.</p>
       <table class="ptbl">
         <caption class="vh">Подбор класса защиты: что в воздухе на участке, класс полумаски, подходящие модели и цена за штуку на опте</caption>
         <thead class="vh">
@@ -1672,39 +1639,38 @@
           </tr>
         </thead>
         <tbody>
-          <tr data-air="dust">
-            <td class="air"><b>Пыль и&nbsp;аэрозоли&nbsp;· до&nbsp;4&nbsp;ПДК</b><span>Норма превышена не&nbsp;больше чем в&nbsp;четыре раза.</span></td>
+          <tr>
+            <td class="air"><b>Пыль и&nbsp;аэрозоли&nbsp;· до&nbsp;4&nbsp;ПДК</b><span>Превышение до&nbsp;четырёх раз. Склад, упаковка, сельхозработы.</span></td>
             <td class="cls"><i class="dot dot--1"></i><b>FFP1</b><span>по&nbsp;каталогу FAROS</span></td>
             <td class="mdls"><a href="#models" aria-label="Модель FR 4100 - смотреть в модельном ряду">FR&nbsp;4100</a><a href="#models" aria-label="Модель FR 3100 - смотреть в модельном ряду">FR&nbsp;3100</a><a href="#models" aria-label="Модель FR 4110W - смотреть в модельном ряду">FR&nbsp;4110W</a><a href="#models" aria-label="Модель FR 3110 - смотреть в модельном ряду">FR&nbsp;3110</a></td>
             <td class="prc"><b>от&nbsp;208&nbsp;₸</b><i>/шт на&nbsp;опте</i></td>
           </tr>
-          <tr data-air="dust">
-            <td class="air"><b>Пыль и&nbsp;аэрозоли&nbsp;· до&nbsp;12&nbsp;ПДК</b><span>Превышение до&nbsp;двенадцати раз - рабочий диапазон цеха и&nbsp;стройки.</span></td>
+          <tr>
+            <td class="air"><b>Пыль и&nbsp;аэрозоли&nbsp;· до&nbsp;12&nbsp;ПДК</b><span>Превышение до&nbsp;двенадцати раз. Цех, стройка, деревообработка.</span></td>
             <td class="cls"><i class="dot dot--2"></i><b>FFP2</b><span>по&nbsp;каталогу FAROS</span></td>
             <td class="mdls"><a href="#models" aria-label="Модель FR 4200 - смотреть в модельном ряду">FR&nbsp;4200</a><a href="#models" aria-label="Модель FR 3200 - смотреть в модельном ряду">FR&nbsp;3200</a><a href="#models" aria-label="Модель FR 4210W - смотреть в модельном ряду">FR&nbsp;4210W</a><a href="#models" aria-label="Модель FR 3210 - смотреть в модельном ряду">FR&nbsp;3210</a></td>
             <td class="prc"><b>от&nbsp;284&nbsp;₸</b><i>/шт на&nbsp;опте</i></td>
           </tr>
-          <tr data-air="dust">
-            <td class="air"><b>Пыль и&nbsp;аэрозоли&nbsp;· до&nbsp;50&nbsp;ПДК</b><span>Превышение до&nbsp;пятидесяти раз - выше класса в&nbsp;линейке нет.</span></td>
+          <tr>
+            <td class="air"><b>Пыль и&nbsp;аэрозоли&nbsp;· до&nbsp;50&nbsp;ПДК</b><span>Выше класса в&nbsp;линейке нет. Литейное производство, обработка металлов, строительные смеси.</span></td>
             <td class="cls"><i class="dot dot--3"></i><b>FFP3</b><span>по&nbsp;каталогу FAROS</span></td>
             <td class="mdls"><a href="#models" aria-label="Модель FR 4310W - смотреть в модельном ряду">FR&nbsp;4310W</a><a href="#models" aria-label="Модель FR 3310 - смотреть в модельном ряду">FR&nbsp;3310</a></td>
             <td class="prc"><b>от&nbsp;421&nbsp;₸</b><i>/шт на&nbsp;опте</i></td>
           </tr>
-          <tr data-air="weld" id="svarka">
-            <td class="air"><b>Сварочные аэрозоли, газы и&nbsp;пары</b><span>FR&nbsp;3220: дополнительная защита от&nbsp;сварочных дымов, органических газов и&nbsp;паров до&nbsp;ПДК; угольный слой снижает воздействие озона и&nbsp;запахов.</span></td>
+          <tr>
+            <td class="air"><b>Сварочные аэрозоли, газы и&nbsp;пары</b><span>Угольный слой&nbsp;— от&nbsp;сварочных дымов, газов и&nbsp;паров до&nbsp;ПДК. Сварочные посты, судоремонт.</span></td>
             <td class="cls"><i class="dot dot--2"></i><b>FFP2&nbsp;+ доп. защита</b><span>противоаэрозольная&nbsp;— до&nbsp;12&nbsp;ПДК</span></td>
             <td class="mdls"><a href="#models" aria-label="Модель FR 3220 - смотреть в модельном ряду">FR&nbsp;3220</a></td>
             <td class="prc"><b>от&nbsp;1&nbsp;020&nbsp;₸</b><i>/шт на&nbsp;опте</i></td>
           </tr>
-          <tr data-air="acid" id="kisloty">
-            <td class="air"><b>Кислые газы и&nbsp;пары</b><span>FR&nbsp;3230: дополнительная защита от&nbsp;кислых газов и&nbsp;паров до&nbsp;ПДК; рекомендована для аккумуляторных и&nbsp;гальванических работ.</span></td>
+          <tr>
+            <td class="air"><b>Кислые газы и&nbsp;пары</b><span>Угольный слой&nbsp;— от&nbsp;кислых газов и&nbsp;паров до&nbsp;ПДК. Аккумуляторные и&nbsp;гальванические участки.</span></td>
             <td class="cls"><i class="dot dot--2"></i><b>FFP2&nbsp;+ доп. защита</b><span>противоаэрозольная&nbsp;— до&nbsp;12&nbsp;ПДК</span></td>
             <td class="mdls"><a href="#models" aria-label="Модель FR 3230 - смотреть в модельном ряду">FR&nbsp;3230</a></td>
             <td class="prc"><b>от&nbsp;1&nbsp;070&nbsp;₸</b><i>/шт на&nbsp;опте</i></td>
           </tr>
         </tbody>
       </table>
-      <p class="pick-areas mono"><span>где применяют</span> строительство · литейное производство · деревообработка · судостроение и&nbsp;ремонт · обработка металлов · сельское хозяйство · производство и&nbsp;упаковка продуктов питания · строительные смеси и&nbsp;порошкообразные химикаты&nbsp;· <i>по&nbsp;описанию производителя FAROS&nbsp;PROTECTION</i></p>
       <div class="pick-foot">
         <div>
           <b>Нужна модель под конкретный процесс?</b>
@@ -2415,45 +2381,6 @@ function farosCalmScroll(){ return matchMedia('(prefers-reduced-motion:reduce)')
     });
     applySeries('all');
   }
-})();
-
-/* ===== подбор класса: чем дышат на участке -> строки таблицы подбора ===== */
-(function(){
-  var box=document.querySelector('.pick-chips'); if(!box)return;
-  var tbl=document.querySelector('.ptbl');
-  var rows=[].slice.call(document.querySelectorAll('.ptbl tbody tr'));
-  var count=document.getElementById('pick-count');
-  function word(n){
-    var t=n%10,h=n%100;
-    if(t===1&&h!==11)return 'модель';
-    if(t>=2&&t<=4&&(h<12||h>14))return 'модели';
-    return 'моделей';
-  }
-  /* результат подбора должен попасть в кадр на телефоне: на узком экране таблица
-     уходит под сгиб, и без доводки кажется, что чип ничего не сделал */
-  function bringIntoView(){
-    if(!tbl||window.innerWidth>820)return;
-    var r=tbl.getBoundingClientRect();
-    if(r.top<=window.innerHeight*0.7 && r.bottom>=0)return;
-    window.scrollTo({top:window.scrollY+r.top-96,behavior:farosCalmScroll()});
-  }
-  function apply(btn){
-    var air=btn.dataset.air,shown=0;
-    box.querySelectorAll('.chip').forEach(function(b){ farosSetOn(b, b===btn); });
-    rows.forEach(function(r){
-      var on=(air==='all'||r.dataset.air===air);
-      r.hidden=!on;
-      /* считаем не строки таблицы, а сами модели: покупателю нужно знать, из чего выбирать */
-      if(on) shown+=r.querySelectorAll('.mdls a').length;
-    });
-    if(count) count.textContent='подходит '+shown+' '+word(shown);
-  }
-  box.addEventListener('click',function(e){
-    var b=e.target.closest('.chip');
-    if(!b || b.classList.contains('is-on'))return;
-    apply(b); bringIntoView();
-  });
-  apply(box.querySelector('.chip.is-on')||box.querySelector('.chip'));
 })();
 
 /* ===== прайс: фильтры по классу и клапану, группы серий, показ всех позиций =====
