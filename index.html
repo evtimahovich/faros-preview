@@ -625,18 +625,6 @@
   .stat--brand{background:var(--brand);border-color:var(--brand);color:#fff}
   .stat--brand .k{color:rgba(255,255,255,.78)}
   .stat--brand .l{color:rgba(255,255,255,.9)}
-  /* отгрузка и упаковки - служебный слой моно-подписей, а не ещё одна карточка */
-  .ship{
-    display:flex;gap:10px 12px;flex-wrap:wrap;align-items:center;
-    margin-top:clamp(20px,2.4vw,32px);padding-top:clamp(16px,1.8vw,22px);
-    border-top:var(--hair) solid var(--line);
-  }
-  .ship > .mono{color:var(--mute);margin-right:6px}
-  .spill{
-    border:1px solid var(--line);border-radius:999px;padding:8px 16px;background:var(--panel);
-    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:var(--ls-cap);
-    text-transform:uppercase;color:var(--ink-soft);font-variant-numeric:tabular-nums;
-  }
   @media (max-width:900px){
     .stat{grid-column:span 6;min-height:0}
     .stat .n{font-size:clamp(2.4rem,7vw,3.4rem)}
@@ -647,8 +635,6 @@
     .stat .l{font-size:13.5px}
     .stat--wide{flex-direction:column;align-items:flex-start;gap:14px}
     .stat--wide .l{padding-bottom:0}
-    .ship > .mono{width:100%;margin:0 0 2px}
-    .spill{padding:7px 13px;font-size:10px;letter-spacing:.05em}
   }
 
   /* ---------- кто отгружает: тёмный остров во всю ширину ---------- */
@@ -1507,6 +1493,19 @@
       display:inline-flex;align-items:center;min-height:44px;
     }
   }
+  /* мобильный первый экран: ни заголовок, ни три ценовые метки не расширяют страницу */
+  @media (max-width:760px){
+    .hero,.hero-copy,.hero-price,.hp{min-width:0;max-width:100%}
+    .hero h1{font-size:clamp(2.45rem,11.8vw,3.7rem);letter-spacing:-.055em;overflow-wrap:anywhere}
+    .hero h1 .acc{margin-left:.28em}
+    .hero-kicker{white-space:normal}
+    .hero-price{width:100%;grid-template-columns:repeat(3,minmax(0,1fr))}
+    .hp b{font-size:clamp(14px,4.2vw,17px)}
+  }
+  @media (max-width:380px){
+    .hero h1{font-size:2.35rem}
+    .hero h1 .acc{margin-left:.2em}
+  }
   @media (prefers-reduced-motion:reduce){
     html{scroll-behavior:auto}
     *,*::before,*::after{transition:none !important;animation:none !important;scroll-behavior:auto !important}
@@ -1617,7 +1616,7 @@
         <span class="kick">FAROS PROTECTION</span>
         <h2 class="display">Линейка<br>в&nbsp;цифрах</h2>
       </div>
-      <div class="sec-side"><span class="note">Вся линейка и&nbsp;цена каждой модели&nbsp;— сразу на&nbsp;странице. Прайс и&nbsp;документы доступны без запроса по&nbsp;почте.</span></div>
+      <div class="sec-side"><span class="note">Двенадцать моделей закрывают превышение нормы от&nbsp;4 до&nbsp;50&nbsp;раз. Ниже&nbsp;— подбор класса под конкретный участок.</span></div>
     </div>
 
     <div class="stats-grid rv">
@@ -1636,13 +1635,6 @@
         <p class="n n--cls">FFP1-FFP3</p>
         <p class="l">классы противоаэрозольной защиты</p>
       </article>
-    </div>
-
-    <div class="ship rv">
-      <span class="mono">как приходит на&nbsp;склад</span>
-      <span class="spill">пачка 10&nbsp;шт</span>
-      <span class="spill">короб 300&nbsp;шт&nbsp;· FR&nbsp;3000</span>
-      <span class="spill">короб 400&nbsp;шт&nbsp;· FR&nbsp;4000</span>
     </div>
   </section>
 
