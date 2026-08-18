@@ -719,10 +719,13 @@
        два фильтра из четырёх: на экране это читалось как обрыв блока */
     .seg--line .sg-x{display:none}
   }
+  /* счётчик - часть пилюли фильтра: он отвечает на нажатие чипа, а не живёт сам по себе */
   .m-count{
-    display:inline-flex;align-items:center;min-height:20px;margin-left:2px;padding-left:16px;
+    display:inline-flex;align-items:center;min-height:44px;padding:0 18px 0 16px;margin-left:auto;
     border-left:var(--hair) solid var(--line);
-    color:var(--ink-soft);font-variant-numeric:tabular-nums;white-space:nowrap;
+    color:var(--mute);font-family:'IBM Plex Mono',monospace;font-size:10.5px;
+    letter-spacing:var(--ls-cap);text-transform:uppercase;
+    font-variant-numeric:tabular-nums;white-space:nowrap;
   }
   .m[hidden]{display:none}
   .m .price{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin-top:auto;padding-top:14px;border-top:var(--hair) solid var(--line)}
@@ -767,7 +770,7 @@
     .m-bar-r{width:100%;justify-content:space-between}
   }
   @media (max-width:760px){
-    .m-count{flex-basis:100%;min-height:0;margin-left:0;padding-left:0;border-left:0}
+    .m-count{margin-left:0;padding:0 8px 0 12px;min-height:38px}
   }
   @media (max-width:520px){
     .grid-m{gap:10px}
@@ -1735,8 +1738,8 @@
         <button class="seg-b" type="button" aria-pressed="false" data-series="4000">FR&nbsp;4000<span class="sg-x">&nbsp;- складные</span></button>
         <button class="seg-b" type="button" aria-pressed="false" data-series="3000">FR&nbsp;3000<span class="sg-x">&nbsp;- формованные</span></button>
         <button class="seg-b" type="button" aria-pressed="false" data-series="spec"><span class="sg-x">Модели </span>с&nbsp;угольным слоем</button>
+        <span class="m-count mono" id="m-count" role="status">12&nbsp;моделей</span>
       </div>
-      <span class="m-count mono" id="m-count" role="status">12&nbsp;моделей</span>
     </div>
 
     <div class="grid-m">
