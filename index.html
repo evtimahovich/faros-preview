@@ -858,14 +858,13 @@
   }
   .ptable-head{
     display:flex;justify-content:space-between;align-items:baseline;gap:8px 18px;flex-wrap:wrap;
-    padding:clamp(16px,1.8vw,22px) clamp(16px,2vw,26px);border-bottom:1px solid rgba(255,255,255,.1);
-    border-radius:var(--r-m) var(--r-m) 0 0;
+    padding:clamp(16px,1.8vw,22px) clamp(16px,2vw,26px) 4px;
   }
   .ptable-head b{font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;font-size:clamp(16px,1.6vw,24px);letter-spacing:.04em;text-transform:uppercase}
   .ptable-head .mono{color:rgba(255,255,255,.66)}
   .ptable-scroll{overflow-x:visible;overscroll-behavior-x:contain}
   table.ptable{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
-  .ptable th,.ptable td{padding:13px clamp(10px,1.2vw,18px);text-align:left;white-space:nowrap}
+  .ptable th,.ptable td{padding:12px clamp(10px,1.2vw,18px);text-align:left;white-space:nowrap;vertical-align:middle}
   .ptable thead th{
     font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:var(--ls-ui);text-transform:uppercase;
     color:rgba(255,255,255,.68);font-weight:400;border-bottom:1px solid rgba(255,255,255,.14);
@@ -875,18 +874,21 @@
   .ptable tbody tr{border-bottom:var(--hair) solid rgba(255,255,255,.07)}
   .ptable tbody tr:last-child{border-bottom:0}
   .ptable tbody tr:hover{background:rgba(255,255,255,.04)}
-  /* смена серии внутри прайса - линия плотнее, 22 строки перестают быть сплошным полотном */
-  .ptable tbody tr.grp{border-top:1px solid rgba(255,255,255,.2)}
-  .ptable .idx{font-family:'IBM Plex Mono',monospace;font-size:11px;color:rgba(255,255,255,.58)}
-  .ptable .mdl{font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:800;font-size:14px;letter-spacing:.05em;text-transform:uppercase}
+  .ptable .mdl{font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:800;font-size:14.5px;letter-spacing:.05em;text-transform:uppercase}
+  .ptable tbody th.mdl{text-align:left}
   .ptable .cl{font-family:'IBM Plex Mono',monospace;font-size:11px;color:rgba(255,255,255,.78)}
   .ptable .cl .dot{display:inline-block;margin-right:8px;vertical-align:middle}
-  .ptable .gr,.ptable .pk{font-family:'IBM Plex Mono',monospace;font-size:11px;color:rgba(255,255,255,.64)}
-  .ptable td.p{font-variant-numeric:tabular-nums;color:rgba(255,255,255,.72);text-align:right}
+  .ptable .pk{font-family:'IBM Plex Mono',monospace;font-size:11px;color:rgba(255,255,255,.64)}
+  /* модель = одна строка; исполнения STANDART/PREMIUM - две выровненные линии внутри неё.
+     .ln с одинаковой минимальной высотой держит линии четырёх колонок на одном уровне */
+  .ptable .ln{display:flex;flex-direction:column;justify-content:center;min-height:47px}
+  .ptable .ln + .ln{border-top:var(--hair) solid rgba(255,255,255,.09)}
+  .ptable .gr{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:var(--ls-cap);text-transform:uppercase;color:rgba(255,255,255,.62)}
+  .ptable td.p{font-variant-numeric:tabular-nums;color:rgba(255,255,255,.82);text-align:right;font-size:14px}
+  .ptable td.p .ln{align-items:flex-end}
   /* колонка «Опт» подсвечена насквозь - открытая нижняя цена и есть предложение */
-  .ptable td.p--best{background:rgba(78,158,120,.09)}
+  .ptable td.p--best{background:rgba(78,158,120,.09);color:var(--brand-lift);font-weight:700}
   .ptable thead th.p--best{background:#131D19}   /* непрозрачно: шапка липкая, строки не просвечивают */
-  .ptable td.p--best{color:var(--brand-lift);font-weight:700}
   .ptable tbody tr:hover td.p--best{background:rgba(78,158,120,.15)}
   .ptable th.p{text-align:right}
   .ptable-foot{
@@ -900,75 +902,78 @@
     font-family:'IBM Plex Mono',monospace;font-size:10.5px;line-height:1.75;
     letter-spacing:var(--ls-cap);text-transform:uppercase;font-variant-numeric:tabular-nums;
   }
-  /* шапка прайса едет вместе со взглядом: 22 строки читаются без возврата наверх.
+  /* шапка прайса едет вместе со взглядом: длинная таблица читается без возврата наверх.
      липнет ровно к нижнему краю пилюли меню - между ними не остаётся щели со строками */
   @media (min-width:901px){
     .ptable thead th{position:sticky;top:var(--nav-stick);z-index:3}
   }
   @media (max-width:900px){
     .ptable-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
-    table.ptable{min-width:620px}
+    table.ptable{min-width:680px}
   }
-  /* шапка ценовых колонок: на телефоне подписи стоят один раз над таблицей,
-     а не повторяются в каждой из 22 строк */
+  /* подписи ценовых колонок на телефоне стоят один раз над таблицей */
   .plegend{display:none}
-  /* узкий экран: строка прайса разворачивается в карточку - цены видны без горизонтальной прокрутки */
+  /* узкий экран: строка-модель складывается в карточку с матрицей цен -
+     слева исполнение, дальше три порога; всё видно без горизонтальной прокрутки */
   @media (max-width:820px){
     .ptable-scroll{overflow-x:visible}
     table.ptable,.ptable tbody{display:block;min-width:0}
     .ptable thead{display:none}
     .ptable tbody tr{
-      display:grid;grid-template-columns:repeat(3,1fr);
-      grid-template-areas:"mdl mdl cls" "gr gr pk" "p1 p2 p3";
-      gap:9px 10px;padding:15px 16px;align-items:end;
+      display:grid;grid-template-columns:minmax(148px,1.15fr) 86px 1fr 1fr 1.08fr;
+      grid-template-areas:"mdl gr p1 p2 p3" "cls gr p1 p2 p3" "pk gr p1 p2 p3";
+      gap:2px 14px;padding:14px 16px;align-items:center;
     }
-    .ptable tbody tr.grp{border-top:1px solid rgba(255,255,255,.22)}
-    .ptable td{padding:0;white-space:normal}
-    .ptable .idx{display:none}
-    .ptable .mdl{grid-area:mdl;font-size:15px}
-    .ptable .cl{grid-area:cls;text-align:right}
-    .ptable .cl .dot{margin:0 8px 0 0}
-    .ptable .gr{grid-area:gr}
-    .ptable .pk{grid-area:pk;text-align:right}
-    .ptable td.p{text-align:left;padding-top:5px;border-top:var(--hair) solid rgba(255,255,255,.12);font-size:14px}
-    .ptable td.p:nth-child(6){grid-area:p1}
-    .ptable td.p:nth-child(7){grid-area:p2}
-    .ptable td.p:nth-child(8){grid-area:p3}
-    .ptable td.p--best{background:none;padding-left:0}
+    .ptable td,.ptable tbody th{padding:0;white-space:normal;border:0}
+    .ptable .mdl{grid-area:mdl;font-size:15px;align-self:end}
+    .ptable .cl{grid-area:cls;align-self:center}
+    .ptable .pk{grid-area:pk;align-self:start}
+    .ptable .gr{grid-area:gr;display:flex;flex-direction:column;justify-content:center}
+    .ptable td.p:nth-child(5){grid-area:p1}
+    .ptable td.p:nth-child(6){grid-area:p2}
+    .ptable td.p:nth-child(7){grid-area:p3}
+    .ptable td.p{display:flex;flex-direction:column;justify-content:center;text-align:right}
+    .ptable td.p--best{background:none}
     .ptable tbody tr:hover td.p--best{background:none}
-    .ptable td.p::before{
-      display:block;margin-bottom:3px;font-family:'IBM Plex Mono',monospace;font-size:9.5px;
-      letter-spacing:var(--ls-cap);text-transform:uppercase;color:rgba(255,255,255,.62);font-weight:400;
+    .ptable .ln{min-height:44px}
+    /* подписи порогов в каждой карточке; у колонки исполнений - пустой спейсер той же высоты,
+       чтобы линии STANDART/PREMIUM не съезжали относительно цен */
+    .ptable .gr::before,.ptable td.p::before{
+      content:"";display:block;height:15px;margin-bottom:2px;flex:none;
+      font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:var(--ls-cap);
+      text-transform:uppercase;color:rgba(255,255,255,.62);font-weight:400;text-align:right;
     }
-    .ptable td.p:nth-child(6)::before{content:"розница"}
-    .ptable td.p:nth-child(7)::before{content:"малый опт"}
-    .ptable td.p:nth-child(8)::before{content:"опт";color:var(--brand-lift)}
+    .ptable td.p:nth-child(5)::before{content:"розница"}
+    .ptable td.p:nth-child(6)::before{content:"малый опт"}
+    .ptable td.p:nth-child(7)::before{content:"опт";color:var(--brand-lift)}
     .ptable-head,.ptable-foot{padding:16px}
-    .ptable-foot .pill{width:100%;justify-content:center}
-  }
-  /* планшет: та же карточка-строка, но в две линии - ширину есть на что потратить */
-  @media (min-width:561px) and (max-width:820px){
-    .ptable tbody tr{
-      grid-template-columns:1.5fr .8fr 1fr 1fr 1fr;
-      grid-template-areas:"mdl cls p1 p2 p3" "gr pk p1 p2 p3";
-      gap:5px 16px;padding:13px 18px;align-items:center;
-    }
-    .ptable .cl,.ptable .pk{text-align:left}
-    .ptable td.p{border-top:0;padding-top:0;text-align:right}
-    .ptable td.p::before{text-align:right}
+    .ptable-head{padding-bottom:2px}
   }
   @media (max-width:820px){.ptable-foot .pill{width:auto}}
   @media (max-width:560px){.ptable-foot .pill{width:100%;justify-content:center}}
+  /* телефон: паспорт модели сверху, матрица цен снизу; подписи порогов один раз в .plegend */
   @media (max-width:560px){
     .plegend{
-      display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 16px 8px;
+      display:grid;grid-template-columns:64px 1fr 1fr 1.08fr;gap:10px;padding:0 16px 8px;
       font-size:9.5px;letter-spacing:var(--ls-cap);text-transform:uppercase;color:rgba(255,255,255,.62);
     }
+    .plegend span{text-align:right}
     .plegend span:last-child{color:var(--brand-lift)}
-    .ptable td.p::before{display:none}
-    .ptable td.p:nth-child(6) .pu,
-    .ptable td.p:nth-child(7) .pu{display:none}
-    .ptable tbody tr{gap:8px 10px;padding:14px 16px}
+    .ptable tbody tr{
+      grid-template-columns:64px 1fr 1fr 1.08fr;
+      grid-template-areas:"mdl mdl mdl cls" "mdl mdl mdl pk" "gr p1 p2 p3";
+      gap:2px 10px;padding:14px 16px;align-items:center;
+    }
+    .ptable .mdl{align-self:center}
+    .ptable .cl{text-align:right;align-self:start}
+    .ptable .pk{text-align:right;font-size:10px;align-self:end}
+    .ptable .gr{font-size:9px}
+    .ptable .gr::before,.ptable td.p::before{display:none}
+    .ptable td.p:nth-child(5) .pu,
+    .ptable td.p:nth-child(6) .pu{display:none}
+    /* «короб» остаётся только у опта, поэтому линии равняем по верху - все цены на одном уровне */
+    .ptable .ln{min-height:40px;justify-content:flex-start;padding-top:6px}
+    .ptable .gr .ln{padding-top:9px}   /* кегль подписи меньше кегля цены - ровняем по базовой линии */
   }
 
   /* ---------- документы ----------
@@ -1350,8 +1355,10 @@
   /* цена за упаковку: чистая арифметика от цены этой же колонки */
   .pu{display:block;margin-top:4px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.03em;color:rgba(255,255,255,.58);font-weight:400}
   .ptable td.p--best .pu{color:var(--brand-lift);opacity:.95}
+  /* подпись «короб»: на десктопе её объясняет шапка прайса - прячем визуально, оставляем скринридеру */
+  .pu-k{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
   .mdl-v{display:block;margin-top:4px;font-family:'IBM Plex Mono',monospace;font-weight:400;font-size:10px;letter-spacing:.03em;text-transform:none;color:rgba(255,255,255,.6)}
-  .ptable tr[hidden]{display:none}
+  .ptable tbody tr[hidden]{display:none}
   .p-more{
     display:flex;justify-content:center;align-items:center;gap:10px;width:100%;
     padding:16px;border-top:1px solid rgba(255,255,255,.1);color:#fff;
@@ -1384,15 +1391,11 @@
        из которой фильтр убрал все позиции, остаётся висеть пустой */
     .ptable tbody tr.pgrp[hidden]{display:none}
     .ptable tbody tr.pgrp td,.ptable tbody tr.pgrp th{width:100%;padding:13px 16px}
-    /* в узкой колонке подпись «короб» должна умещаться в одну строку с числом */
+    /* в карточке подпись «короб» видима и умещается в одну строку с числом */
     .pu{font-size:9.5px;letter-spacing:0}
-    .pu::before{content:"короб "}
+    .pu .pu-k{position:static;width:auto;height:auto;margin:0;overflow:visible;clip-path:none}
     .ptable-foot .p-file{width:100%}
     .ptable-foot .p-file .pill{flex:1}
-  }
-  /* поля шапки серии = поля строки прайса: у строки на планшете они шире, левый край один */
-  @media (min-width:561px) and (max-width:820px){
-    .ptable tbody tr.pgrp td,.ptable tbody tr.pgrp th{padding:13px 18px}
   }
 
   /* ---------- строка спецификации вместо плашек-сертификатов ---------- */
@@ -1872,7 +1875,12 @@
       </div>
     </div>
 
-    <div class="pfilt">
+    <div class="ptable-wrap rv">
+      <div class="ptable-head">
+        <b>Полный прайс</b>
+        <span class="mono"><span class="p-count" id="p-count">12&nbsp;моделей&nbsp;· 22&nbsp;позиции</span> · крупно&nbsp;- цена за&nbsp;штуку, мелко&nbsp;- за&nbsp;целый короб</span>
+      </div>
+      <div class="pfilt">
         <div class="pfilt-g" role="group" aria-label="Класс защиты">
           <span class="mono">класс</span>
           <button class="fchip is-on" type="button" aria-pressed="true" data-cls="all">Все</button>
@@ -1887,48 +1895,37 @@
           <button class="fchip" type="button" aria-pressed="false" data-valve="0">без клапана</button>
         </div>
       </div>
-      <div class="plegend mono" aria-hidden="true"><span>розница</span><span>малый опт</span><span>опт</span></div>
+      <div class="plegend mono" aria-hidden="true"><span></span><span>розница</span><span>малый опт</span><span>опт</span></div>
       <div class="ptable-scroll">
         <table class="ptable">
-          <caption class="vh">Полный прайс на респираторы FAROS: 22 позиции, цена за штуку по трём порогам - розница, малый опт от 110 000 ₸ и опт от 1 100 000 ₸</caption>
+          <caption class="vh">Полный прайс на респираторы FAROS: 12 моделей, 22 позиции. Для каждой модели - цена за штуку в исполнениях STANDART и PREMIUM по трём порогам: розница, малый опт от 110 000 ₸ и опт от 1 100 000 ₸, плюс цена за короб</caption>
           <thead>
             <tr>
-              <th scope="col">№</th>
               <th scope="col">Модель</th>
               <th scope="col">Класс</th>
-              <th scope="col">Вариант</th>
-              <th scope="col" class="pk-h">Упаковка</th>
+              <th scope="col">Упаковка</th>
+              <th scope="col">Исполнение</th>
               <th scope="col" class="p">Розница<small>любой объём</small></th>
               <th scope="col" class="p">Малый опт<small>от 110 000 ₸</small></th>
               <th scope="col" class="p p--best">Опт<small>от 1 100 000 ₸</small></th>
             </tr>
           </thead>
           <tbody id="ptable-body">
-            <tr class="pgrp" data-series="4000"><th colspan="8" scope="rowgroup"><div class="pg"><span class="pg-n">FR&nbsp;4000&nbsp;·&nbsp;складные</span><span class="pg-m mono">упаковка&nbsp;10&nbsp;шт&nbsp;·&nbsp;короб&nbsp;400&nbsp;шт</span><b class="pg-f">от&nbsp;<span class="pg-f-v">208&nbsp;₸</span><i>/шт&nbsp;на&nbsp;опте</i></b></div></th></tr>
-            <tr data-cls="1" data-valve="0" data-series="4000" data-opt="208"><td class="idx">01</td><td class="mdl">FR&nbsp;4100<span class="mdl-v">без&nbsp;клапана</span></td><td class="cl"><i class="dot dot--1"></i>FFP1</td><td class="gr">STANDART</td><td class="pk">10&nbsp;/&nbsp;400&nbsp;шт</td><td class="p">267&nbsp;₸<span class="pu">106&nbsp;800&nbsp;₸</span></td><td class="p">240&nbsp;₸<span class="pu">96&nbsp;000&nbsp;₸</span></td><td class="p p--best">208&nbsp;₸<span class="pu">83&nbsp;200&nbsp;₸</span></td></tr>
-            <tr data-cls="2" data-valve="0" data-series="4000" data-opt="284"><td class="idx">02</td><td class="mdl">FR&nbsp;4200<span class="mdl-v">без&nbsp;клапана</span></td><td class="cl"><i class="dot dot--2"></i>FFP2</td><td class="gr">STANDART</td><td class="pk">10&nbsp;/&nbsp;400&nbsp;шт</td><td class="p">364&nbsp;₸<span class="pu">145&nbsp;600&nbsp;₸</span></td><td class="p">328&nbsp;₸<span class="pu">131&nbsp;200&nbsp;₸</span></td><td class="p p--best">284&nbsp;₸<span class="pu">113&nbsp;600&nbsp;₸</span></td></tr>
-            <tr data-cls="1" data-valve="0" data-series="4000" data-opt="248"><td class="idx">03</td><td class="mdl">FR&nbsp;4100<span class="mdl-v">без&nbsp;клапана</span></td><td class="cl"><i class="dot dot--1"></i>FFP1</td><td class="gr">PREMIUM</td><td class="pk">10&nbsp;/&nbsp;400&nbsp;шт</td><td class="p">319&nbsp;₸<span class="pu">127&nbsp;600&nbsp;₸</span></td><td class="p">287&nbsp;₸<span class="pu">114&nbsp;800&nbsp;₸</span></td><td class="p p--best">248&nbsp;₸<span class="pu">99&nbsp;200&nbsp;₸</span></td></tr>
-            <tr data-cls="2" data-valve="0" data-series="4000" data-opt="330"><td class="idx">04</td><td class="mdl">FR&nbsp;4200<span class="mdl-v">без&nbsp;клапана</span></td><td class="cl"><i class="dot dot--2"></i>FFP2</td><td class="gr">PREMIUM</td><td class="pk">10&nbsp;/&nbsp;400&nbsp;шт</td><td class="p">423&nbsp;₸<span class="pu">169&nbsp;200&nbsp;₸</span></td><td class="p">380&nbsp;₸<span class="pu">152&nbsp;000&nbsp;₸</span></td><td class="p p--best">330&nbsp;₸<span class="pu">132&nbsp;000&nbsp;₸</span></td></tr>
-            <tr data-cls="1" data-valve="1" data-series="4000" data-opt="279"><td class="idx">05</td><td class="mdl">FR&nbsp;4110W<span class="mdl-v">клапан&nbsp;выдоха</span></td><td class="cl"><i class="dot dot--1"></i>FFP1</td><td class="gr">STANDART</td><td class="pk">10&nbsp;/&nbsp;400&nbsp;шт</td><td class="p">358&nbsp;₸<span class="pu">143&nbsp;200&nbsp;₸</span></td><td class="p">322&nbsp;₸<span class="pu">128&nbsp;800&nbsp;₸</span></td><td class="p p--best">279&nbsp;₸<span class="pu">111&nbsp;600&nbsp;₸</span></td></tr>
-            <tr data-cls="2" data-valve="1" data-series="4000" data-opt="355"><td class="idx">06</td><td class="mdl">FR&nbsp;4210W<span class="mdl-v">клапан&nbsp;выдоха</span></td><td class="cl"><i class="dot dot--2"></i>FFP2</td><td class="gr">STANDART</td><td class="pk">10&nbsp;/&nbsp;400&nbsp;шт</td><td class="p">455&nbsp;₸<span class="pu">182&nbsp;000&nbsp;₸</span></td><td class="p">410&nbsp;₸<span class="pu">164&nbsp;000&nbsp;₸</span></td><td class="p p--best">355&nbsp;₸<span class="pu">142&nbsp;000&nbsp;₸</span></td></tr>
-            <tr data-cls="3" data-valve="1" data-series="4000" data-opt="421"><td class="idx">07</td><td class="mdl">FR&nbsp;4310W<span class="mdl-v">клапан&nbsp;выдоха</span></td><td class="cl"><i class="dot dot--3"></i>FFP3</td><td class="gr">STANDART</td><td class="pk">10&nbsp;/&nbsp;400&nbsp;шт</td><td class="p">540&nbsp;₸<span class="pu">216&nbsp;000&nbsp;₸</span></td><td class="p">486&nbsp;₸<span class="pu">194&nbsp;400&nbsp;₸</span></td><td class="p p--best">421&nbsp;₸<span class="pu">168&nbsp;400&nbsp;₸</span></td></tr>
-            <tr data-cls="1" data-valve="1" data-series="4000" data-opt="324"><td class="idx">08</td><td class="mdl">FR&nbsp;4110W<span class="mdl-v">клапан&nbsp;выдоха</span></td><td class="cl"><i class="dot dot--1"></i>FFP1</td><td class="gr">PREMIUM</td><td class="pk">10&nbsp;/&nbsp;400&nbsp;шт</td><td class="p">416&nbsp;₸<span class="pu">166&nbsp;400&nbsp;₸</span></td><td class="p">374&nbsp;₸<span class="pu">149&nbsp;600&nbsp;₸</span></td><td class="p p--best">324&nbsp;₸<span class="pu">129&nbsp;600&nbsp;₸</span></td></tr>
-            <tr data-cls="2" data-valve="1" data-series="4000" data-opt="406"><td class="idx">09</td><td class="mdl">FR&nbsp;4210W<span class="mdl-v">клапан&nbsp;выдоха</span></td><td class="cl"><i class="dot dot--2"></i>FFP2</td><td class="gr">PREMIUM</td><td class="pk">10&nbsp;/&nbsp;400&nbsp;шт</td><td class="p">520&nbsp;₸<span class="pu">208&nbsp;000&nbsp;₸</span></td><td class="p">468&nbsp;₸<span class="pu">187&nbsp;200&nbsp;₸</span></td><td class="p p--best">406&nbsp;₸<span class="pu">162&nbsp;400&nbsp;₸</span></td></tr>
-            <tr data-cls="3" data-valve="1" data-series="4000" data-opt="472"><td class="idx">10</td><td class="mdl">FR&nbsp;4310W<span class="mdl-v">клапан&nbsp;выдоха</span></td><td class="cl"><i class="dot dot--3"></i>FFP3</td><td class="gr">PREMIUM</td><td class="pk">10&nbsp;/&nbsp;400&nbsp;шт</td><td class="p">605&nbsp;₸<span class="pu">242&nbsp;000&nbsp;₸</span></td><td class="p">544&nbsp;₸<span class="pu">217&nbsp;600&nbsp;₸</span></td><td class="p p--best">472&nbsp;₸<span class="pu">188&nbsp;800&nbsp;₸</span></td></tr>
-            <tr class="pgrp" data-series="3000"><th colspan="8" scope="rowgroup"><div class="pg"><span class="pg-n">FR&nbsp;3000&nbsp;·&nbsp;чашеобразные</span><span class="pg-m mono">упаковка&nbsp;10&nbsp;шт&nbsp;·&nbsp;короб&nbsp;300&nbsp;шт</span><b class="pg-f">от&nbsp;<span class="pg-f-v">208&nbsp;₸</span><i>/шт&nbsp;на&nbsp;опте</i></b></div></th></tr>
-            <tr data-cls="1" data-valve="0" data-series="3000" data-opt="208"><td class="idx">11</td><td class="mdl">FR&nbsp;3100<span class="mdl-v">без&nbsp;клапана</span></td><td class="cl"><i class="dot dot--1"></i>FFP1</td><td class="gr">STANDART</td><td class="pk">10&nbsp;/&nbsp;300&nbsp;шт</td><td class="p">267&nbsp;₸<span class="pu">80&nbsp;100&nbsp;₸</span></td><td class="p">240&nbsp;₸<span class="pu">72&nbsp;000&nbsp;₸</span></td><td class="p p--best">208&nbsp;₸<span class="pu">62&nbsp;400&nbsp;₸</span></td></tr>
-            <tr data-cls="2" data-valve="0" data-series="3000" data-opt="284"><td class="idx">12</td><td class="mdl">FR&nbsp;3200<span class="mdl-v">без&nbsp;клапана</span></td><td class="cl"><i class="dot dot--2"></i>FFP2</td><td class="gr">STANDART</td><td class="pk">10&nbsp;/&nbsp;300&nbsp;шт</td><td class="p">364&nbsp;₸<span class="pu">109&nbsp;200&nbsp;₸</span></td><td class="p">328&nbsp;₸<span class="pu">98&nbsp;400&nbsp;₸</span></td><td class="p p--best">284&nbsp;₸<span class="pu">85&nbsp;200&nbsp;₸</span></td></tr>
-            <tr data-cls="1" data-valve="0" data-series="3000" data-opt="248"><td class="idx">13</td><td class="mdl">FR&nbsp;3100<span class="mdl-v">без&nbsp;клапана</span></td><td class="cl"><i class="dot dot--1"></i>FFP1</td><td class="gr">PREMIUM</td><td class="pk">10&nbsp;/&nbsp;300&nbsp;шт</td><td class="p">319&nbsp;₸<span class="pu">95&nbsp;700&nbsp;₸</span></td><td class="p">287&nbsp;₸<span class="pu">86&nbsp;100&nbsp;₸</span></td><td class="p p--best">248&nbsp;₸<span class="pu">74&nbsp;400&nbsp;₸</span></td></tr>
-            <tr data-cls="2" data-valve="0" data-series="3000" data-opt="330"><td class="idx">14</td><td class="mdl">FR&nbsp;3200<span class="mdl-v">без&nbsp;клапана</span></td><td class="cl"><i class="dot dot--2"></i>FFP2</td><td class="gr">PREMIUM</td><td class="pk">10&nbsp;/&nbsp;300&nbsp;шт</td><td class="p">423&nbsp;₸<span class="pu">126&nbsp;900&nbsp;₸</span></td><td class="p">380&nbsp;₸<span class="pu">114&nbsp;000&nbsp;₸</span></td><td class="p p--best">330&nbsp;₸<span class="pu">99&nbsp;000&nbsp;₸</span></td></tr>
-            <tr data-cls="1" data-valve="1" data-series="3000" data-opt="279"><td class="idx">15</td><td class="mdl">FR&nbsp;3110<span class="mdl-v">клапан&nbsp;выдоха</span></td><td class="cl"><i class="dot dot--1"></i>FFP1</td><td class="gr">STANDART</td><td class="pk">10&nbsp;/&nbsp;300&nbsp;шт</td><td class="p">358&nbsp;₸<span class="pu">107&nbsp;400&nbsp;₸</span></td><td class="p">322&nbsp;₸<span class="pu">96&nbsp;600&nbsp;₸</span></td><td class="p p--best">279&nbsp;₸<span class="pu">83&nbsp;700&nbsp;₸</span></td></tr>
-            <tr data-cls="2" data-valve="1" data-series="3000" data-opt="355"><td class="idx">16</td><td class="mdl">FR&nbsp;3210<span class="mdl-v">клапан&nbsp;выдоха</span></td><td class="cl"><i class="dot dot--2"></i>FFP2</td><td class="gr">STANDART</td><td class="pk">10&nbsp;/&nbsp;300&nbsp;шт</td><td class="p">455&nbsp;₸<span class="pu">136&nbsp;500&nbsp;₸</span></td><td class="p">410&nbsp;₸<span class="pu">123&nbsp;000&nbsp;₸</span></td><td class="p p--best">355&nbsp;₸<span class="pu">106&nbsp;500&nbsp;₸</span></td></tr>
-            <tr data-cls="3" data-valve="1" data-series="3000" data-opt="421"><td class="idx">17</td><td class="mdl">FR&nbsp;3310<span class="mdl-v">клапан&nbsp;выдоха</span></td><td class="cl"><i class="dot dot--3"></i>FFP3</td><td class="gr">STANDART</td><td class="pk">10&nbsp;/&nbsp;300&nbsp;шт</td><td class="p">540&nbsp;₸<span class="pu">162&nbsp;000&nbsp;₸</span></td><td class="p">486&nbsp;₸<span class="pu">145&nbsp;800&nbsp;₸</span></td><td class="p p--best">421&nbsp;₸<span class="pu">126&nbsp;300&nbsp;₸</span></td></tr>
-            <tr data-cls="1" data-valve="1" data-series="3000" data-opt="324"><td class="idx">18</td><td class="mdl">FR&nbsp;3110<span class="mdl-v">клапан&nbsp;выдоха</span></td><td class="cl"><i class="dot dot--1"></i>FFP1</td><td class="gr">PREMIUM</td><td class="pk">10&nbsp;/&nbsp;300&nbsp;шт</td><td class="p">416&nbsp;₸<span class="pu">124&nbsp;800&nbsp;₸</span></td><td class="p">374&nbsp;₸<span class="pu">112&nbsp;200&nbsp;₸</span></td><td class="p p--best">324&nbsp;₸<span class="pu">97&nbsp;200&nbsp;₸</span></td></tr>
-            <tr data-cls="2" data-valve="1" data-series="3000" data-opt="406"><td class="idx">19</td><td class="mdl">FR&nbsp;3210<span class="mdl-v">клапан&nbsp;выдоха</span></td><td class="cl"><i class="dot dot--2"></i>FFP2</td><td class="gr">PREMIUM</td><td class="pk">10&nbsp;/&nbsp;300&nbsp;шт</td><td class="p">520&nbsp;₸<span class="pu">156&nbsp;000&nbsp;₸</span></td><td class="p">468&nbsp;₸<span class="pu">140&nbsp;400&nbsp;₸</span></td><td class="p p--best">406&nbsp;₸<span class="pu">121&nbsp;800&nbsp;₸</span></td></tr>
-            <tr data-cls="3" data-valve="1" data-series="3000" data-opt="472"><td class="idx">20</td><td class="mdl">FR&nbsp;3310<span class="mdl-v">клапан&nbsp;выдоха</span></td><td class="cl"><i class="dot dot--3"></i>FFP3</td><td class="gr">PREMIUM</td><td class="pk">10&nbsp;/&nbsp;300&nbsp;шт</td><td class="p">605&nbsp;₸<span class="pu">181&nbsp;500&nbsp;₸</span></td><td class="p">544&nbsp;₸<span class="pu">163&nbsp;200&nbsp;₸</span></td><td class="p p--best">472&nbsp;₸<span class="pu">141&nbsp;600&nbsp;₸</span></td></tr>
-            <tr class="pgrp" data-series="spec"><th colspan="8" scope="rowgroup"><div class="pg"><span class="pg-n">С&nbsp;угольным слоем</span><span class="pg-m mono">FFP2&nbsp;+&nbsp;угольный&nbsp;слой&nbsp;·&nbsp;короб&nbsp;300&nbsp;шт</span><b class="pg-f">от&nbsp;<span class="pg-f-v">1&nbsp;020&nbsp;₸</span><i>/шт&nbsp;на&nbsp;опте</i></b></div></th></tr>
-            <tr data-cls="2" data-valve="1" data-series="spec" data-opt="1070"><td class="idx">21</td><td class="mdl">FR&nbsp;3230<span class="mdl-v">клапан&nbsp;выдоха</span></td><td class="cl"><i class="dot dot--2"></i>FFP2</td><td class="gr">PREMIUM</td><td class="pk">10&nbsp;/&nbsp;300&nbsp;шт</td><td class="p">1&nbsp;300&nbsp;₸<span class="pu">390&nbsp;000&nbsp;₸</span></td><td class="p">1&nbsp;125&nbsp;₸<span class="pu">337&nbsp;500&nbsp;₸</span></td><td class="p p--best">1&nbsp;070&nbsp;₸<span class="pu">321&nbsp;000&nbsp;₸</span></td></tr>
-            <tr data-cls="2" data-valve="1" data-series="spec" data-opt="1020"><td class="idx">22</td><td class="mdl">FR&nbsp;3220<span class="mdl-v">клапан&nbsp;выдоха</span></td><td class="cl"><i class="dot dot--2"></i>FFP2</td><td class="gr">PREMIUM</td><td class="pk">10&nbsp;/&nbsp;300&nbsp;шт</td><td class="p">1&nbsp;160&nbsp;₸<span class="pu">348&nbsp;000&nbsp;₸</span></td><td class="p">1&nbsp;070&nbsp;₸<span class="pu">321&nbsp;000&nbsp;₸</span></td><td class="p p--best">1&nbsp;020&nbsp;₸<span class="pu">306&nbsp;000&nbsp;₸</span></td></tr>
+            <tr class="pgrp" data-series="4000"><th colspan="7" scope="rowgroup"><div class="pg"><span class="pg-n">FR&nbsp;4000&nbsp;·&nbsp;складные</span><span class="pg-m mono">упаковка&nbsp;10&nbsp;шт&nbsp;·&nbsp;короб&nbsp;400&nbsp;шт</span><b class="pg-f">от&nbsp;<span class="pg-f-v">208&nbsp;₸</span><i>/шт&nbsp;на&nbsp;опте</i></b></div></th></tr>
+            <tr data-cls="1" data-valve="0" data-series="4000" data-opt="208"><th class="mdl" scope="row">FR&nbsp;4100<span class="mdl-v">без&nbsp;клапана</span></th><td class="cl"><i class="dot dot--1"></i>FFP1</td><td class="pk">10&nbsp;/&nbsp;400&nbsp;шт</td><td class="gr"><span class="ln">STANDART</span><span class="ln">PREMIUM</span></td><td class="p"><span class="ln"><span class="vh">STANDART:&nbsp;</span>267&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>106&nbsp;800&nbsp;₸</span></span><span class="ln"><span class="vh">PREMIUM:&nbsp;</span>319&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>127&nbsp;600&nbsp;₸</span></span></td><td class="p"><span class="ln"><span class="vh">STANDART:&nbsp;</span>240&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>96&nbsp;000&nbsp;₸</span></span><span class="ln"><span class="vh">PREMIUM:&nbsp;</span>287&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>114&nbsp;800&nbsp;₸</span></span></td><td class="p p--best"><span class="ln"><span class="vh">STANDART:&nbsp;</span>208&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>83&nbsp;200&nbsp;₸</span></span><span class="ln"><span class="vh">PREMIUM:&nbsp;</span>248&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>99&nbsp;200&nbsp;₸</span></span></td></tr>
+            <tr data-cls="2" data-valve="0" data-series="4000" data-opt="284"><th class="mdl" scope="row">FR&nbsp;4200<span class="mdl-v">без&nbsp;клапана</span></th><td class="cl"><i class="dot dot--2"></i>FFP2</td><td class="pk">10&nbsp;/&nbsp;400&nbsp;шт</td><td class="gr"><span class="ln">STANDART</span><span class="ln">PREMIUM</span></td><td class="p"><span class="ln"><span class="vh">STANDART:&nbsp;</span>364&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>145&nbsp;600&nbsp;₸</span></span><span class="ln"><span class="vh">PREMIUM:&nbsp;</span>423&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>169&nbsp;200&nbsp;₸</span></span></td><td class="p"><span class="ln"><span class="vh">STANDART:&nbsp;</span>328&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>131&nbsp;200&nbsp;₸</span></span><span class="ln"><span class="vh">PREMIUM:&nbsp;</span>380&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>152&nbsp;000&nbsp;₸</span></span></td><td class="p p--best"><span class="ln"><span class="vh">STANDART:&nbsp;</span>284&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>113&nbsp;600&nbsp;₸</span></span><span class="ln"><span class="vh">PREMIUM:&nbsp;</span>330&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>132&nbsp;000&nbsp;₸</span></span></td></tr>
+            <tr data-cls="1" data-valve="1" data-series="4000" data-opt="279"><th class="mdl" scope="row">FR&nbsp;4110W<span class="mdl-v">клапан&nbsp;выдоха</span></th><td class="cl"><i class="dot dot--1"></i>FFP1</td><td class="pk">10&nbsp;/&nbsp;400&nbsp;шт</td><td class="gr"><span class="ln">STANDART</span><span class="ln">PREMIUM</span></td><td class="p"><span class="ln"><span class="vh">STANDART:&nbsp;</span>358&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>143&nbsp;200&nbsp;₸</span></span><span class="ln"><span class="vh">PREMIUM:&nbsp;</span>416&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>166&nbsp;400&nbsp;₸</span></span></td><td class="p"><span class="ln"><span class="vh">STANDART:&nbsp;</span>322&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>128&nbsp;800&nbsp;₸</span></span><span class="ln"><span class="vh">PREMIUM:&nbsp;</span>374&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>149&nbsp;600&nbsp;₸</span></span></td><td class="p p--best"><span class="ln"><span class="vh">STANDART:&nbsp;</span>279&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>111&nbsp;600&nbsp;₸</span></span><span class="ln"><span class="vh">PREMIUM:&nbsp;</span>324&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>129&nbsp;600&nbsp;₸</span></span></td></tr>
+            <tr data-cls="2" data-valve="1" data-series="4000" data-opt="355"><th class="mdl" scope="row">FR&nbsp;4210W<span class="mdl-v">клапан&nbsp;выдоха</span></th><td class="cl"><i class="dot dot--2"></i>FFP2</td><td class="pk">10&nbsp;/&nbsp;400&nbsp;шт</td><td class="gr"><span class="ln">STANDART</span><span class="ln">PREMIUM</span></td><td class="p"><span class="ln"><span class="vh">STANDART:&nbsp;</span>455&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>182&nbsp;000&nbsp;₸</span></span><span class="ln"><span class="vh">PREMIUM:&nbsp;</span>520&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>208&nbsp;000&nbsp;₸</span></span></td><td class="p"><span class="ln"><span class="vh">STANDART:&nbsp;</span>410&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>164&nbsp;000&nbsp;₸</span></span><span class="ln"><span class="vh">PREMIUM:&nbsp;</span>468&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>187&nbsp;200&nbsp;₸</span></span></td><td class="p p--best"><span class="ln"><span class="vh">STANDART:&nbsp;</span>355&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>142&nbsp;000&nbsp;₸</span></span><span class="ln"><span class="vh">PREMIUM:&nbsp;</span>406&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>162&nbsp;400&nbsp;₸</span></span></td></tr>
+            <tr data-cls="3" data-valve="1" data-series="4000" data-opt="421"><th class="mdl" scope="row">FR&nbsp;4310W<span class="mdl-v">клапан&nbsp;выдоха</span></th><td class="cl"><i class="dot dot--3"></i>FFP3</td><td class="pk">10&nbsp;/&nbsp;400&nbsp;шт</td><td class="gr"><span class="ln">STANDART</span><span class="ln">PREMIUM</span></td><td class="p"><span class="ln"><span class="vh">STANDART:&nbsp;</span>540&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>216&nbsp;000&nbsp;₸</span></span><span class="ln"><span class="vh">PREMIUM:&nbsp;</span>605&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>242&nbsp;000&nbsp;₸</span></span></td><td class="p"><span class="ln"><span class="vh">STANDART:&nbsp;</span>486&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>194&nbsp;400&nbsp;₸</span></span><span class="ln"><span class="vh">PREMIUM:&nbsp;</span>544&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>217&nbsp;600&nbsp;₸</span></span></td><td class="p p--best"><span class="ln"><span class="vh">STANDART:&nbsp;</span>421&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>168&nbsp;400&nbsp;₸</span></span><span class="ln"><span class="vh">PREMIUM:&nbsp;</span>472&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>188&nbsp;800&nbsp;₸</span></span></td></tr>
+            <tr class="pgrp" data-series="3000"><th colspan="7" scope="rowgroup"><div class="pg"><span class="pg-n">FR&nbsp;3000&nbsp;·&nbsp;чашеобразные</span><span class="pg-m mono">упаковка&nbsp;10&nbsp;шт&nbsp;·&nbsp;короб&nbsp;300&nbsp;шт</span><b class="pg-f">от&nbsp;<span class="pg-f-v">208&nbsp;₸</span><i>/шт&nbsp;на&nbsp;опте</i></b></div></th></tr>
+            <tr data-cls="1" data-valve="0" data-series="3000" data-opt="208"><th class="mdl" scope="row">FR&nbsp;3100<span class="mdl-v">без&nbsp;клапана</span></th><td class="cl"><i class="dot dot--1"></i>FFP1</td><td class="pk">10&nbsp;/&nbsp;300&nbsp;шт</td><td class="gr"><span class="ln">STANDART</span><span class="ln">PREMIUM</span></td><td class="p"><span class="ln"><span class="vh">STANDART:&nbsp;</span>267&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>80&nbsp;100&nbsp;₸</span></span><span class="ln"><span class="vh">PREMIUM:&nbsp;</span>319&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>95&nbsp;700&nbsp;₸</span></span></td><td class="p"><span class="ln"><span class="vh">STANDART:&nbsp;</span>240&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>72&nbsp;000&nbsp;₸</span></span><span class="ln"><span class="vh">PREMIUM:&nbsp;</span>287&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>86&nbsp;100&nbsp;₸</span></span></td><td class="p p--best"><span class="ln"><span class="vh">STANDART:&nbsp;</span>208&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>62&nbsp;400&nbsp;₸</span></span><span class="ln"><span class="vh">PREMIUM:&nbsp;</span>248&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>74&nbsp;400&nbsp;₸</span></span></td></tr>
+            <tr data-cls="2" data-valve="0" data-series="3000" data-opt="284"><th class="mdl" scope="row">FR&nbsp;3200<span class="mdl-v">без&nbsp;клапана</span></th><td class="cl"><i class="dot dot--2"></i>FFP2</td><td class="pk">10&nbsp;/&nbsp;300&nbsp;шт</td><td class="gr"><span class="ln">STANDART</span><span class="ln">PREMIUM</span></td><td class="p"><span class="ln"><span class="vh">STANDART:&nbsp;</span>364&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>109&nbsp;200&nbsp;₸</span></span><span class="ln"><span class="vh">PREMIUM:&nbsp;</span>423&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>126&nbsp;900&nbsp;₸</span></span></td><td class="p"><span class="ln"><span class="vh">STANDART:&nbsp;</span>328&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>98&nbsp;400&nbsp;₸</span></span><span class="ln"><span class="vh">PREMIUM:&nbsp;</span>380&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>114&nbsp;000&nbsp;₸</span></span></td><td class="p p--best"><span class="ln"><span class="vh">STANDART:&nbsp;</span>284&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>85&nbsp;200&nbsp;₸</span></span><span class="ln"><span class="vh">PREMIUM:&nbsp;</span>330&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>99&nbsp;000&nbsp;₸</span></span></td></tr>
+            <tr data-cls="1" data-valve="1" data-series="3000" data-opt="279"><th class="mdl" scope="row">FR&nbsp;3110<span class="mdl-v">клапан&nbsp;выдоха</span></th><td class="cl"><i class="dot dot--1"></i>FFP1</td><td class="pk">10&nbsp;/&nbsp;300&nbsp;шт</td><td class="gr"><span class="ln">STANDART</span><span class="ln">PREMIUM</span></td><td class="p"><span class="ln"><span class="vh">STANDART:&nbsp;</span>358&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>107&nbsp;400&nbsp;₸</span></span><span class="ln"><span class="vh">PREMIUM:&nbsp;</span>416&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>124&nbsp;800&nbsp;₸</span></span></td><td class="p"><span class="ln"><span class="vh">STANDART:&nbsp;</span>322&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>96&nbsp;600&nbsp;₸</span></span><span class="ln"><span class="vh">PREMIUM:&nbsp;</span>374&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>112&nbsp;200&nbsp;₸</span></span></td><td class="p p--best"><span class="ln"><span class="vh">STANDART:&nbsp;</span>279&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>83&nbsp;700&nbsp;₸</span></span><span class="ln"><span class="vh">PREMIUM:&nbsp;</span>324&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>97&nbsp;200&nbsp;₸</span></span></td></tr>
+            <tr data-cls="2" data-valve="1" data-series="3000" data-opt="355"><th class="mdl" scope="row">FR&nbsp;3210<span class="mdl-v">клапан&nbsp;выдоха</span></th><td class="cl"><i class="dot dot--2"></i>FFP2</td><td class="pk">10&nbsp;/&nbsp;300&nbsp;шт</td><td class="gr"><span class="ln">STANDART</span><span class="ln">PREMIUM</span></td><td class="p"><span class="ln"><span class="vh">STANDART:&nbsp;</span>455&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>136&nbsp;500&nbsp;₸</span></span><span class="ln"><span class="vh">PREMIUM:&nbsp;</span>520&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>156&nbsp;000&nbsp;₸</span></span></td><td class="p"><span class="ln"><span class="vh">STANDART:&nbsp;</span>410&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>123&nbsp;000&nbsp;₸</span></span><span class="ln"><span class="vh">PREMIUM:&nbsp;</span>468&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>140&nbsp;400&nbsp;₸</span></span></td><td class="p p--best"><span class="ln"><span class="vh">STANDART:&nbsp;</span>355&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>106&nbsp;500&nbsp;₸</span></span><span class="ln"><span class="vh">PREMIUM:&nbsp;</span>406&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>121&nbsp;800&nbsp;₸</span></span></td></tr>
+            <tr data-cls="3" data-valve="1" data-series="3000" data-opt="421"><th class="mdl" scope="row">FR&nbsp;3310<span class="mdl-v">клапан&nbsp;выдоха</span></th><td class="cl"><i class="dot dot--3"></i>FFP3</td><td class="pk">10&nbsp;/&nbsp;300&nbsp;шт</td><td class="gr"><span class="ln">STANDART</span><span class="ln">PREMIUM</span></td><td class="p"><span class="ln"><span class="vh">STANDART:&nbsp;</span>540&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>162&nbsp;000&nbsp;₸</span></span><span class="ln"><span class="vh">PREMIUM:&nbsp;</span>605&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>181&nbsp;500&nbsp;₸</span></span></td><td class="p"><span class="ln"><span class="vh">STANDART:&nbsp;</span>486&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>145&nbsp;800&nbsp;₸</span></span><span class="ln"><span class="vh">PREMIUM:&nbsp;</span>544&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>163&nbsp;200&nbsp;₸</span></span></td><td class="p p--best"><span class="ln"><span class="vh">STANDART:&nbsp;</span>421&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>126&nbsp;300&nbsp;₸</span></span><span class="ln"><span class="vh">PREMIUM:&nbsp;</span>472&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>141&nbsp;600&nbsp;₸</span></span></td></tr>
+            <tr class="pgrp" data-series="spec"><th colspan="7" scope="rowgroup"><div class="pg"><span class="pg-n">С&nbsp;угольным слоем</span><span class="pg-m mono">FFP2&nbsp;+&nbsp;угольный&nbsp;слой&nbsp;·&nbsp;короб&nbsp;300&nbsp;шт</span><b class="pg-f">от&nbsp;<span class="pg-f-v">1&nbsp;020&nbsp;₸</span><i>/шт&nbsp;на&nbsp;опте</i></b></div></th></tr>
+            <tr data-cls="2" data-valve="1" data-series="spec" data-opt="1070"><th class="mdl" scope="row">FR&nbsp;3230<span class="mdl-v">клапан&nbsp;выдоха</span></th><td class="cl"><i class="dot dot--2"></i>FFP2</td><td class="pk">10&nbsp;/&nbsp;300&nbsp;шт</td><td class="gr"><span class="ln">PREMIUM</span></td><td class="p"><span class="ln"><span class="vh">PREMIUM:&nbsp;</span>1&nbsp;300&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>390&nbsp;000&nbsp;₸</span></span></td><td class="p"><span class="ln"><span class="vh">PREMIUM:&nbsp;</span>1&nbsp;125&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>337&nbsp;500&nbsp;₸</span></span></td><td class="p p--best"><span class="ln"><span class="vh">PREMIUM:&nbsp;</span>1&nbsp;070&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>321&nbsp;000&nbsp;₸</span></span></td></tr>
+            <tr data-cls="2" data-valve="1" data-series="spec" data-opt="1020"><th class="mdl" scope="row">FR&nbsp;3220<span class="mdl-v">клапан&nbsp;выдоха</span></th><td class="cl"><i class="dot dot--2"></i>FFP2</td><td class="pk">10&nbsp;/&nbsp;300&nbsp;шт</td><td class="gr"><span class="ln">PREMIUM</span></td><td class="p"><span class="ln"><span class="vh">PREMIUM:&nbsp;</span>1&nbsp;160&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>348&nbsp;000&nbsp;₸</span></span></td><td class="p"><span class="ln"><span class="vh">PREMIUM:&nbsp;</span>1&nbsp;070&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>321&nbsp;000&nbsp;₸</span></span></td><td class="p p--best"><span class="ln"><span class="vh">PREMIUM:&nbsp;</span>1&nbsp;020&nbsp;₸<span class="pu"><span class="pu-k">короб&nbsp;</span>306&nbsp;000&nbsp;₸</span></span></td></tr>
           </tbody>
         </table>
       </div>
@@ -1937,7 +1934,7 @@
       <div class="ptable-foot">
         <p>* Проценты рассчитаны по&nbsp;основной линейке; у&nbsp;FR&nbsp;3220 и&nbsp;FR&nbsp;3230 шаг другой. Цена за&nbsp;короб&nbsp;— цена колонки, умноженная на&nbsp;количество в&nbsp;коробе. В&nbsp;пачке 10&nbsp;шт. Цены справочные; окончательную цену подтверждаем в&nbsp;счёте.</p>
         <div class="p-file">
-          <a class="pill pill--light" href="assets/faros-price.pdf" type="application/pdf" download data-place="прайс PDF" aria-label="Скачать полный прайс на респираторы FAROS, файл PDF, 137 КБ">Скачать прайс PDF</a>
+          <a class="pill pill--light" href="assets/faros-price.pdf" type="application/pdf" download data-place="прайс PDF" aria-label="Скачать полный прайс на респираторы FAROS, файл PDF, 138 КБ">Скачать прайс PDF</a>
           <a class="p-mail" href="#contact" data-place="прайс на почту">Прислать прайс на&nbsp;почту&nbsp;→</a>
         </div>
       </div>
@@ -2194,7 +2191,7 @@
     <a href="#models">Модельный ряд</a>
     <a href="#price">Открытый прайс</a>
     <a href="#docs">Документы</a>
-    <a href="assets/faros-price.pdf" type="application/pdf" download data-place="подвал" aria-label="Скачать прайс на респираторы FAROS, файл PDF, 137 КБ">Прайс PDF</a>
+    <a href="assets/faros-price.pdf" type="application/pdf" download data-place="подвал" aria-label="Скачать прайс на респираторы FAROS, файл PDF, 138 КБ">Прайс PDF</a>
   </nav>
   <div class="foot-bottom">
     <span class="mono">ТОО&nbsp;«ALLTRADE-LTD»&nbsp;· БИН&nbsp;160&nbsp;340&nbsp;027&nbsp;310&nbsp;· официальный дистрибьютор FAROS PROTECTION в&nbsp;Казахстане</span>
@@ -2407,7 +2404,8 @@ function farosCalmScroll(){ return matchMedia('(prefers-reduced-motion:reduce)')
 })();
 
 /* ===== прайс: фильтры по классу и клапану, группы серий, показ всех позиций =====
-   все 22 строки всегда остаются в разметке - прячется только их показ */
+   модель = одна строка с линиями STANDART/PREMIUM; фильтры прячут строку-модель целиком,
+   счётчик и кнопка «показать все» считают позиции (ценовые линии), как в шапке прайса */
 (function(){
   var body=document.getElementById('ptable-body'); if(!body)return;
   var more=document.getElementById('p-more');
@@ -2416,8 +2414,10 @@ function farosCalmScroll(){ return matchMedia('(prefers-reduced-motion:reduce)')
   var filt=document.querySelector('.pfilt');
   var rows=[].slice.call(body.querySelectorAll('tr[data-cls]'));
   var groups=[].slice.call(body.querySelectorAll('tr.pgrp'));
-  var TOTAL=rows.length;          /* 22 */
-  var PER_GROUP=3;                /* свёрнутый вид: до трёх строк в каждой серии = 8 строк */
+  var lnCache=rows.map(function(r){ return r.querySelectorAll('.gr .ln').length||1; });
+  function linesIn(list){ return list.reduce(function(s,r){ return s+lnCache[rows.indexOf(r)]; },0); }
+  var TOTAL=linesIn(rows);        /* 22 позиции в 12 строках-моделях */
+  var PER_GROUP=2;                /* свёрнутый вид: по две модели в каждой серии */
   var f={cls:'all',valve:'all'}, open=false;
 
   function word(n){
@@ -2426,11 +2426,18 @@ function farosCalmScroll(){ return matchMedia('(prefers-reduced-motion:reduce)')
     if(t>=2&&t<=4&&(h<12||h>14))return 'позиции';
     return 'позиций';
   }
+  function wordM(n){
+    var t=n%10,h=n%100;
+    if(t===1&&h!==11)return 'модель';
+    if(t>=2&&t<=4&&(h<12||h>14))return 'модели';
+    return 'моделей';
+  }
   function match(r){
     return (f.cls==='all'||r.dataset.cls===f.cls) && (f.valve==='all'||r.dataset.valve===f.valve);
   }
   function render(){
     var hit=rows.filter(match), perGroup={};
+    var hitLines=linesIn(hit);
     rows.forEach(function(r){
       var on=match(r);
       if(on && !open){
@@ -2465,18 +2472,20 @@ function farosCalmScroll(){ return matchMedia('(prefers-reduced-motion:reduce)')
         b.setAttribute('aria-disabled', b.disabled?'true':'false');
       });
     }
-    var visible=rows.filter(function(r){ return !r.hidden; }).length;
-    if(count) count.textContent=(hit.length===TOTAL)
-      ? TOTAL+' '+word(TOTAL)
-      : (hit.length ? hit.length+' '+word(hit.length)+' из '+TOTAL : TOTAL+' '+word(TOTAL));
-    if(empty) empty.hidden=hit.length>0;
+    var visLines=linesIn(rows.filter(function(r){ return !r.hidden; }));
+    if(count) count.textContent=(hitLines===TOTAL)
+      ? rows.length+' '+wordM(rows.length)+' · '+TOTAL+' '+word(TOTAL)
+      : (hitLines
+          ? hit.length+' '+wordM(hit.length)+' · '+hitLines+' '+word(hitLines)+' из '+TOTAL
+          : '0 позиций из '+TOTAL);
+    if(empty) empty.hidden=hitLines>0;
     if(more){
-      more.hidden=(!open && hit.length<=visible) || hit.length===0;
+      more.hidden=(!open && hitLines<=visLines) || hitLines===0;
       more.setAttribute('aria-expanded',open?'true':'false');
       more.dataset.open=open?'1':'0';
       more.textContent=open
         ? 'Свернуть прайс'
-        : 'Показать все '+hit.length+' '+word(hit.length);
+        : 'Показать все '+hitLines+' '+word(hitLines);
     }
   }
   if(filt) filt.addEventListener('click',function(e){

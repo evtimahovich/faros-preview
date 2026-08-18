@@ -20,21 +20,31 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const html = readFileSync(join(ROOT, 'index.html'), 'utf8').replace(/&nbsp;/g, ' ').replace(/ /g, ' ');
 const n = (s) => parseInt(String(s).replace(/[^\d]/g, ''), 10);
 
-// ---------- данные: строки прайса и группы из самой страницы
+// ---------- данные: строки прайса и группы из самой страницы.
+// В index.html модель - одна строка <tr>, внутри неё 1-2 ценовые линии (STANDART/PREMIUM):
+// исполнения лежат в td.gr как <span class="ln">, цены - в трёх td.p той же структурой.
+// Здесь модель разворачивается обратно в позиции, их обязано быть ровно 22.
 const rows = [];
 for (const m of html.matchAll(/<tr [^>]*data-cls="[^"]*"[^>]*>([\s\S]*?)<\/tr>/g)) {
   const b = m[1];
-  const cells = [...b.matchAll(/<td class="p[^"]*">([^<]*)<span class="pu">/g)].map((c) => n(c[1]));
-  rows.push({
-    idx: /<td class="idx">(\d+)/.exec(b)[1],
-    model: /<td class="mdl">([^<]+)/.exec(b)[1].trim(),
-    cls: /<td class="cl">[\s\S]*?<\/i>\s*([^<]+)/.exec(b)[1].trim(),
-    grade: /<td class="gr">([^<]+)/.exec(b)[1].trim(),
-    pack: /<td class="pk">([^<]+)/.exec(b)[1].trim(),
-    retail: cells[0], small: cells[1], opt: cells[2],
-  });
+  const model = /<th class="mdl"[^>]*>([^<]+)/.exec(b)[1].trim();
+  const variant = /<span class="mdl-v">([^<]+)/.exec(b)[1].trim();
+  const cls = /<td class="cl">[\s\S]*?<\/i>\s*([^<]+)/.exec(b)[1].trim();
+  const pack = /<td class="pk">([^<]+)/.exec(b)[1].trim();
+  const grades = [...(/<td class="gr">([\s\S]*?)<\/td>/.exec(b)[1])
+    .matchAll(/<span class="ln">([^<]+)<\/span>/g)].map((g) => g[1].trim());
+  const cells = [...b.matchAll(/<td class="p(?: p--best)?">([\s\S]*?)<\/td>/g)].map((c) =>
+    [...c[1].matchAll(/<span class="ln">(?:<span class="vh">[^<]*<\/span>)?([^<]+)<span class="pu">/g)].map((x) => n(x[1])));
+  if (cells.length !== 3 || cells.some((c) => c.length !== grades.length)) {
+    throw new Error(`у ${model} не сходится число ценовых линий с числом исполнений`);
+  }
+  grades.forEach((grade, i) => rows.push({
+    model, variant, cls, grade, pack,
+    retail: cells[0][i], small: cells[1][i], opt: cells[2][i],
+    lines: grades.length, first: i === 0,
+  }));
 }
-if (rows.length !== 22) throw new Error(`в index.html найдено ${rows.length} строк прайса, ожидалось 22`);
+if (rows.length !== 22) throw new Error(`в index.html найдено ${rows.length} позиций прайса, ожидалось 22`);
 
 const groups = [
   { title: 'FR 4000 — складные', test: (r) => r.model.startsWith('FR 4') },
@@ -50,19 +60,28 @@ const tiers = [
   { k: 'опт · партия от 1 100 000 ₸', v: min('opt'), best: true },
 ];
 
+// пары STANDART/PREMIUM одной модели идут подряд; модель, класс и упаковка
+// печатаются один раз на пару (rowspan) - прайс читается по моделям, как на сайте
+let num = 0;
 const body = groups.map((g) => {
   const rs = rows.filter(g.test);
-  return `<tr class="grp"><td colspan="8">${g.title}</td></tr>` + rs.map((r) => `
+  return `<tr class="grp"><td colspan="8">${g.title}</td></tr>` + rs.map((r) => {
+    num += 1;
+    const span = r.lines > 1 ? ` rowspan="${r.lines}"` : '';
+    const head = r.first ? `
+      <td class="mdl"${span}>${r.model.replace(/ /g, '&nbsp;')}<span class="mv">${r.variant}</span></td>
+      <td class="mono"${span}>${r.cls}</td>` : '';
+    const packCell = r.first ? `
+      <td class="mono"${span}>${r.pack.replace(/ /g, '&nbsp;')}</td>` : '';
+    return `
     <tr>
-      <td class="idx">${r.idx}</td>
-      <td class="mdl">${r.model.replace(/ /g, '&nbsp;')}</td>
-      <td class="mono">${r.cls}</td>
-      <td class="mono">${r.grade}</td>
-      <td class="mono">${r.pack.replace(/ /g, '&nbsp;')}</td>
+      <td class="idx">${String(num).padStart(2, '0')}</td>${head}
+      <td class="mono">${r.grade}</td>${packCell}
       <td class="p">${fmt(r.retail)}&nbsp;₸</td>
       <td class="p">${fmt(r.small)}&nbsp;₸</td>
       <td class="p p--best">${fmt(r.opt)}&nbsp;₸</td>
-    </tr>`).join('');
+    </tr>`;
+  }).join('');
 }).join('');
 
 const doc = `<!doctype html><html lang="ru"><head><meta charset="utf-8">
@@ -109,6 +128,7 @@ const doc = `<!doctype html><html lang="ru"><head><meta charset="utf-8">
   }
   td.idx{font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--mute);width:26px}
   td.mdl{font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:800;font-size:10.5px;letter-spacing:.03em;white-space:nowrap}
+  td.mdl .mv{display:block;margin-top:1px;font-family:'IBM Plex Mono',monospace;font-weight:400;font-size:7px;letter-spacing:.05em;color:var(--mute)}
   td.mono{font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--soft);letter-spacing:.04em;white-space:nowrap}
   td.p{text-align:right;font-size:10px;white-space:nowrap}
   td.p--best{color:var(--brand);font-weight:700}
