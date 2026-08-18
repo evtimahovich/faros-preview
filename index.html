@@ -501,21 +501,24 @@
   .hp--price .k,.hp--price b i,.hp--price .l{color:rgba(255,255,255,.62)}
   .hero-foot{display:none}
   @media (max-width:980px){
-    /* на телефоне остров - колонка: подпись поставщика прижата к верху,
-       заголовок с ценами остаётся внизу кадра */
-    .hero{display:flex;flex-direction:column;justify-content:space-between;align-items:stretch;padding-top:clamp(230px,43svh,390px)}
+    /* подпись поставщика стоит поверх кадра у верхнего края: в потоке она съедала бы
+       верхний отступ, а он задаёт кадрирование фотографии - каска рабочего срезалась */
+    .hero{display:flex;align-items:flex-end;padding-top:clamp(230px,43svh,390px)}
+    .hero > .hero-kicker{position:absolute;top:clamp(14px,3.2vw,22px);left:var(--pad);right:var(--pad);margin:0;z-index:2}
     .hero-fig{inset:0;height:auto}
-    .hero-fig img{object-position:68% 36%;-webkit-mask-image:none;mask-image:none}
+    .hero-fig img{object-position:68% 14%;-webkit-mask-image:none;mask-image:none}
     .hero-fig::after{background:linear-gradient(0deg,#0A0C0B 3%,rgba(10,12,11,.95) 28%,rgba(10,12,11,.38) 65%,rgba(10,12,11,.14) 100%),linear-gradient(90deg,rgba(10,12,11,.68) 0%,rgba(10,12,11,.2) 64%,rgba(10,12,11,0) 100%)}
-    .hero-copy{align-self:stretch;max-width:min(94%,660px)}
+    /* ширину колонки раньше держала длинная подпись внутри неё; она уехала наверх,
+       поэтому ширину задаём явно - иначе ценовая полоса сжимается по содержимому */
+    .hero-copy{align-self:end;width:100%;max-width:min(94%,660px)}
     .hero h1{font-size:clamp(3.6rem,10.5vw,6.4rem)}
   }
   @media (max-width:760px){
-    /* верхний отступ больше не держит копию внизу - это делает justify-content:space-between,
-       поэтому подпись поставщика может стоять у самого верха кадра */
-    .hero{min-height:calc(100svh - var(--navh));padding:clamp(16px,3.4vw,24px) var(--pad) 26px}
+    .hero{min-height:calc(100svh - var(--navh));padding:clamp(188px,34svh,320px) var(--pad) 26px}
     .hero-fig{inset:0;height:auto}
-    .hero-fig img{object-position:62% 44%}
+    /* остров теперь во всю ширину экрана, фотография масштабируется сильнее -
+       кадр поднят, иначе каска рабочего срезается верхним краем */
+    .hero-fig img{object-position:62% 12%}
     .hero-copy{max-width:none}
     .hero-kicker{margin-bottom:18px;font-size:9px;letter-spacing:var(--ls-cap)}
     .hero h1{font-size:clamp(3.45rem,15.8vw,5.5rem);line-height:.83;margin-bottom:18px}
@@ -532,7 +535,7 @@
     .hp .l{margin-top:4px;font-size:9.5px;line-height:1.25}
   }
   @media (max-width:380px){
-    .hero{padding-top:clamp(14px,3vw,20px)}
+    .hero{padding-top:clamp(164px,31svh,240px)}
     .hero h1{font-size:3.25rem}
     .hero-price{gap:8px}
     .hp{padding-left:9px}
@@ -846,6 +849,45 @@
     .thr .v{font-size:clamp(1.7rem,6.2vw,2.05rem)}
     .thr--mid .v{font-size:clamp(1.95rem,7.6vw,2.45rem)}
     .thr--best .v{font-size:clamp(2.3rem,10vw,2.9rem)}
+  }
+
+  /* Прайс — не набор тарифов: это одна коммерческая шкала.
+     Три уровня соединены в лестницу, где нижняя цена физически становится главным уровнем. */
+  #price{overflow:hidden}
+  #price .sec-head{margin-bottom:clamp(30px,4.2vw,58px)}
+  #price .sec-head h2{max-width:12ch}
+  .price-ladder{
+    grid-template-columns:.88fr 1fr 1.2fr;gap:1px;padding:1px;
+    background:rgba(255,255,255,.16);border:0;border-radius:var(--r-l);
+    align-items:end;overflow:hidden;
+  }
+  .price-ladder .thr{
+    min-height:262px;padding:clamp(22px,2.5vw,34px);border:0;border-radius:0;
+    background:linear-gradient(145deg,rgba(255,255,255,.09),rgba(255,255,255,.035));
+    position:relative;overflow:hidden;
+  }
+  .price-ladder .thr::before{
+    content:"";position:absolute;inset:0 0 auto;height:3px;background:rgba(255,255,255,.26);
+  }
+  .price-ladder .thr--mid{min-height:300px;background:linear-gradient(145deg,rgba(87,170,130,.13),rgba(255,255,255,.045))}
+  .price-ladder .thr--best{min-height:338px;background:var(--brand)}
+  .price-ladder .thr--best::before{background:#fff}
+  .price-ladder .thr .num{color:rgba(255,255,255,.58)}
+  .price-ladder .thr--mid .num{color:var(--brand-lift)}
+  .price-ladder .thr--best .num{color:rgba(255,255,255,.8)}
+  .price-ladder .thr b{margin-top:clamp(12px,1.6vw,20px)}
+  .price-ladder .thr .v{margin-top:auto;padding-top:clamp(24px,3vw,40px)}
+  .price-ladder .thr .delta{margin-top:6px}
+  .price-ladder .thr ul{margin-top:clamp(18px,2vw,28px)}
+  @media (max-width:900px){
+    .price-ladder{grid-template-columns:1fr}
+    .price-ladder .thr,.price-ladder .thr--mid,.price-ladder .thr--best{min-height:0}
+    .price-ladder .thr{padding:24px}
+    .price-ladder .thr .v{padding-top:24px}
+  }
+  @media (max-width:560px){
+    #price .sec-head h2{max-width:10ch}
+    .price-ladder .thr{padding:20px}
   }
 
   .ptable-wrap{
@@ -1519,7 +1561,7 @@
   <section class="hero" aria-label="Респираторы FAROS для промышленности Казахстана">
     <figure class="hero-fig">
       <picture>
-        <source media="(max-width:760px)" srcset="assets/hero-premium-v2-mob.webp" width="1086" height="1448">
+        <source media="(max-width:980px)" srcset="assets/hero-premium-v2-mob.webp" width="1086" height="1448">
         <img src="assets/hero-premium-v2.webp"
              srcset="assets/hero-premium-v2-1200.webp 1200w, assets/hero-premium-v2.webp 1672w"
              sizes="(max-width:980px) 100vw, 78vw"
@@ -1792,13 +1834,13 @@
   <!-- ЭКРАН 5: цена и прайс (тёмный остров) -->
   <section id="price" aria-label="Цена за штуку и полный прайс">
     <div class="sec-head rv">
-      <h2 class="display"><span class="kick">Цена за&nbsp;штуку</span>Три порога&nbsp;-<br>по&nbsp;сумме партии<em>.</em></h2>
+      <h2 class="display"><span class="kick">Прайс</span>Цена за&nbsp;штуку.<br>Выгода&nbsp;— за&nbsp;сумму заказа<em>.</em></h2>
       <div class="sec-side"><span class="note">Цена зависит от&nbsp;класса защиты, конструкции и&nbsp;исполнения. Колонку определяет сумма заказа, а&nbsp;не&nbsp;количество штук.</span></div>
     </div>
 
-    <div class="thr-grid">
+    <div class="thr-grid price-ladder">
       <div class="thr rv">
-        <span class="num">01&nbsp;· штучная закупка</span>
+        <span class="num">01&nbsp;· от&nbsp;1&nbsp;шт</span>
         <b>Розница</b>
         <span class="v">от&nbsp;267<i>₸ /шт</i></span>
         <ul>
@@ -1807,7 +1849,7 @@
         </ul>
       </div>
       <div class="thr thr--mid rv">
-        <span class="num">02&nbsp;· партия от&nbsp;110&nbsp;000&nbsp;₸</span>
+        <span class="num">02&nbsp;· от&nbsp;110&nbsp;000&nbsp;₸</span>
         <b>Малый опт</b>
         <span class="v">от&nbsp;240<i>₸ /шт</i></span>
         <span class="delta">−10&nbsp;% к&nbsp;рознице*</span>
@@ -1817,7 +1859,7 @@
         </ul>
       </div>
       <div class="thr thr--best rv">
-        <span class="num">03&nbsp;· партия от&nbsp;1&nbsp;100&nbsp;000&nbsp;₸</span>
+        <span class="num">03&nbsp;· от&nbsp;1&nbsp;100&nbsp;000&nbsp;₸</span>
         <b>Опт</b>
         <span class="v">от&nbsp;208<i>₸ /шт</i></span>
         <span class="delta">−22&nbsp;% к&nbsp;рознице*</span>
@@ -1831,7 +1873,7 @@
     <div class="ptable-wrap rv">
       <div class="ptable-head">
         <b>Прайс&nbsp;· <span class="p-count" id="p-count">22&nbsp;позиции</span></b>
-        <span class="mono">крупно - цена за&nbsp;штуку, мелко - за&nbsp;целый короб</span>
+        <span class="mono">цена за&nbsp;штуку&nbsp;· сумма короба&nbsp;— под&nbsp;ней</span>
       </div>
       <div class="pfilt">
         <div class="pfilt-g" role="group" aria-label="Класс защиты">
