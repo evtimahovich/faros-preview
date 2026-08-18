@@ -487,16 +487,17 @@
   .hero-act .pill--brand{padding:17px 26px}
   .hero-act .pill--ghost{display:none}
   .hero-price{
-    display:flex;flex-wrap:wrap;gap:18px clamp(22px,3vw,44px);
-    max-width:none;margin-top:clamp(28px,4vw,54px);
+    display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(20px,3vw,44px);
+    width:min(100%,820px);max-width:none;margin-top:clamp(28px,4vw,54px);
     background:transparent;color:#fff;border-radius:0;box-shadow:none;overflow:visible;
   }
-  .hp{position:relative;min-width:132px;padding:0 0 0 15px;border:0}
-  .hp::before{content:"";position:absolute;left:0;top:5px;width:7px;height:7px;border-radius:50%;background:var(--brand-lift)}
-  .hp .k{margin-bottom:5px;color:rgba(255,255,255,.54);font-size:9px;letter-spacing:var(--ls-cap)}
-  .hp b{font-size:clamp(20px,2vw,28px);line-height:1;color:#fff}
+  .hp{min-width:0;padding:0;border:0;display:grid;grid-template-columns:7px minmax(0,1fr);column-gap:8px;align-content:start}
+  .hp::before{content:"";grid-column:1;grid-row:1;align-self:start;margin-top:5px;width:7px;height:7px;border-radius:50%;background:var(--brand-lift)}
+  .hp .k,.hp b,.hp .l{grid-column:2}
+  .hp .k{grid-row:1;margin-bottom:5px;color:rgba(255,255,255,.54);font-size:9px;letter-spacing:var(--ls-cap)}
+  .hp b{grid-row:2;font-size:clamp(20px,2vw,28px);line-height:1;color:#fff}
   .hp b i{color:rgba(255,255,255,.62)}
-  .hp .l{margin-top:5px;color:rgba(255,255,255,.62);font-size:11px}
+  .hp .l{grid-row:3;margin-top:5px;color:rgba(255,255,255,.62);font-size:11px}
   .hp--price{background:transparent;color:#fff}
   .hp--price .k,.hp--price b i,.hp--price .l{color:rgba(255,255,255,.62)}
   .hero-foot{display:none}
@@ -526,9 +527,9 @@
     .hero-lead{font-size:14px;line-height:1.45}
     .hero-act{margin-top:22px;display:block}
     .hero-act .pill--brand{width:100%;justify-content:center;padding:16px 20px}
-    .hero-price{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:24px}
-    .hp{min-width:0;padding-left:11px}
-    .hp::before{top:4px;width:6px;height:6px}
+    .hero-price{gap:10px;margin-top:24px;width:100%}
+    .hp{grid-template-columns:6px minmax(0,1fr);column-gap:5px}
+    .hp::before{margin-top:4px;width:6px;height:6px}
     .hp .k{margin-bottom:5px;font-size:8px}
     .hp b{font-size:17px;white-space:normal}
     .hp b i{font-size:.4em;margin-left:3px}
@@ -538,7 +539,6 @@
     .hero{padding-top:clamp(164px,31svh,240px)}
     .hero h1{font-size:3.25rem}
     .hero-price{gap:8px}
-    .hp{padding-left:9px}
     .hp b{font-size:15px}
     .hp .l{font-size:8.5px}
   }
@@ -1473,6 +1473,80 @@
     .pill:hover,.m:hover,.chip:active,.fchip:active,.seg-b:active,.nav-cta:hover{transform:none}
   }
 
+
+  /* ---------- расчёт годовой потребности ---------- */
+  .calc{
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--r-l);
+    padding:clamp(20px,2.4vw,34px);box-shadow:0 1px 2px rgba(16,20,24,.06),0 12px 32px rgba(16,20,24,.10);
+  }
+  .calc-in{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,1.4vw,18px);align-items:end}
+  .cfield{display:flex;flex-direction:column;gap:8px}
+  .cfield span{
+    font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:var(--ls-cap);
+    text-transform:uppercase;color:var(--mute);
+  }
+  .cfield input{
+    width:100%;border:1px solid var(--line);border-radius:var(--r-s);background:#fff;color:var(--ink);
+    padding:12px 14px;font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:800;font-size:20px;
+    font-variant-numeric:tabular-nums;min-height:48px;
+  }
+  .cfield input:focus-visible{outline:2px solid var(--brand);outline-offset:1px}
+  .cfield input::-webkit-outer-spin-button,
+  .cfield input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+  .cclass{grid-column:1/-1;display:flex;align-items:center;gap:8px 12px;flex-wrap:wrap;margin-top:2px}
+  .cclass .mono{font-size:10px;letter-spacing:var(--ls-cap);text-transform:uppercase;color:var(--mute);margin-right:4px}
+  .calc-out{
+    display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,1.4vw,18px);
+    margin-top:clamp(18px,2vw,26px);padding-top:clamp(16px,1.8vw,22px);border-top:1px solid var(--line);
+  }
+  .cout{display:flex;flex-direction:column;gap:6px}
+  .cout .k{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:var(--ls-cap);text-transform:uppercase;color:var(--mute)}
+  .cout b{
+    font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;
+    font-size:clamp(1.6rem,3vw,2.4rem);line-height:1;font-variant-numeric:tabular-nums;
+  }
+  .cout .l{font-size:12px;color:var(--ink-soft)}
+  .cout--sum b{color:var(--brand)}
+  .calc-note{margin-top:14px;font-size:13px;line-height:1.5;color:var(--ink-soft);min-height:1.5em}
+  .calc-foot{
+    display:flex;justify-content:space-between;align-items:center;gap:14px 24px;flex-wrap:wrap;
+    margin-top:clamp(16px,1.8vw,24px);padding-top:clamp(14px,1.6vw,20px);border-top:1px solid var(--line);
+  }
+  .calc-foot .mono{
+    font-size:10.5px;letter-spacing:var(--ls-cap);text-transform:uppercase;
+    color:var(--mute);max-width:54ch;line-height:1.6;
+  }
+  @media (max-width:760px){
+    .calc-in,.calc-out{grid-template-columns:1fr 1fr}
+    .cfield:nth-of-type(3){grid-column:1/-1}
+    .cout--sum{grid-column:1/-1}
+    .calc-foot .pill{width:100%;justify-content:center}
+  }
+
+  /* ---------- вопросы перед заказом ---------- */
+  .faq-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(10px,1.2vw,14px);align-items:start}
+  .faq{
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--r-m);
+    padding:clamp(14px,1.4vw,20px) clamp(16px,1.6vw,24px);
+  }
+  .faq summary{
+    cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;
+    font-family:'Manrope',sans-serif;font-weight:700;font-size:15px;line-height:1.4;min-height:32px;
+  }
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"+";font-family:'IBM Plex Mono',monospace;font-size:18px;line-height:1;color:var(--brand);flex:none}
+  .faq[open] summary::after{content:"\2013"}
+  .faq p{margin-top:10px;font-size:14px;line-height:1.6;color:var(--ink-soft)}
+  @media (max-width:760px){.faq-grid{grid-template-columns:1fr}.faq summary{font-size:14.5px}}
+
+  /* ---------- как проходит заказ ---------- */
+  .how{margin-top:clamp(18px,2.2vw,28px);border-top:1px solid var(--line);padding-top:clamp(16px,1.8vw,22px)}
+  .how > .mono{display:block;font-size:10px;letter-spacing:var(--ls-cap);text-transform:uppercase;color:var(--mute);margin-bottom:12px}
+  .how ol{list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,1.4vw,18px);margin:0;padding:0}
+  .how li{display:flex;gap:12px;align-items:baseline}
+  .how li b{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--brand);letter-spacing:.08em}
+  .how li span{font-size:14px;line-height:1.5;color:var(--ink)}
+  @media (max-width:760px){.how ol{grid-template-columns:1fr;gap:10px}}
 </style>
 </head>
 <body id="top">
@@ -1487,10 +1561,12 @@
       </a>
     <nav aria-label="Разделы сайта">
       <ul class="nav-links">
-        <li><a href="#who">О поставщике</a></li><li><a href="#select">Подбор класса</a></li>
+        <li><a href="#select">Подбор класса</a></li>
         <li><a href="#models">Модельный ряд</a></li>
         <li><a href="#price">Открытый прайс</a></li>
+        <li><a href="#calc">Расчёт на&nbsp;год</a></li>
         <li><a href="#docs">Документы</a></li>
+        <li><a href="#who">О поставщике</a></li>
       </ul>
     </nav>
     <div class="nav-act">
@@ -1640,29 +1716,6 @@
           <span class="note">Класс и&nbsp;модель подтверждаем по&nbsp;виду загрязнителя, концентрации и&nbsp;условиям работы. Есть протокол замеров&nbsp;— отправьте его: сверим подбор по&nbsp;фактическим данным.</span>
         </div>
         <a class="pill pill--light" href="#contact" data-place="подбор класса">Получить подбор по&nbsp;участку</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- КТО ОТГРУЖАЕТ -->
-  <section id="who" aria-label="Кто поставляет респираторы FAROS">
-    <div class="who rv">
-      <div class="who-head">
-        <div>
-          <span class="kick">Поставка по&nbsp;Казахстану</span>
-          <h2 class="display">Официальный<br>дистрибьютор FAROS<br>PROTECTION в&nbsp;Казахстане<em>.</em></h2>
-        </div>
-        <p class="who-lead">ТОО&nbsp;«ALLTRADE-LTD» поставляет респираторы FAROS предприятиям по&nbsp;всему Казахстану. Счёт, договор, документы и&nbsp;отгрузка&nbsp;— от&nbsp;одного поставщика.</p>
-      </div>
-      <ul class="who-facts">
-        <li><b>10+</b><span>лет в&nbsp;поставках СИЗ и&nbsp;оборудования</span></li>
-        <li><b>4</b><span>филиала по&nbsp;Казахстану</span></li>
-        <li><b>9</b><span>категорий защиты с&nbsp;одного склада</span></li>
-        <li><b>1</b><span>поставщик: счёт, договор, документы и&nbsp;отгрузка</span></li>
-      </ul>
-      <div class="who-foot">
-        <span class="mono">Алматы&nbsp;· Усть-Каменогорск&nbsp;· Павлодар&nbsp;· Атырау&nbsp;· БИН&nbsp;160&nbsp;340&nbsp;027&nbsp;310</span>
-        <a class="mono who-more" href="https://alltrade-ltd.kz" target="_blank" rel="noopener">Все 9&nbsp;категорий защиты&nbsp;— на&nbsp;alltrade-ltd.kz&nbsp;→</a>
       </div>
     </div>
   </section>
@@ -1907,6 +1960,43 @@
     </div>
   </section>
 
+  <!-- ЭКРАН 6: расчёт годовой потребности -->
+  <section id="calc" aria-label="Расчёт годовой потребности">
+    <div class="sec-head rv">
+      <h2 class="display"><span class="kick">Расчёт потребности</span>Сколько нужно<br>на&nbsp;год<em>.</em></h2>
+      <div class="sec-side"><span class="note">Полумаска маркирована NR&nbsp;— она рассчитана на&nbsp;одну смену. Посчитайте по&nbsp;численности участка: сколько штук в&nbsp;год, сколько это коробов и&nbsp;в&nbsp;какой порог цены попадает партия.</span></div>
+    </div>
+
+    <div class="calc rv">
+      <div class="calc-in">
+        <label class="cfield"><span>Человек на&nbsp;участке</span><input id="c-people" type="number" min="1" max="100000" step="1" value="120" inputmode="numeric"></label>
+        <label class="cfield"><span>Рабочих смен в&nbsp;году</span><input id="c-shifts" type="number" min="1" max="366" step="1" value="250" inputmode="numeric"></label>
+        <label class="cfield"><span>Масок на&nbsp;человека в&nbsp;смену</span><input id="c-per" type="number" min="1" max="10" step="1" value="1" inputmode="numeric"></label>
+        <div class="cclass">
+          <span class="mono">класс защиты</span>
+          <div class="seg" role="group" aria-label="Класс защиты">
+            <button class="seg-b" type="button" data-ccls="1" aria-pressed="false">FFP1</button>
+            <button class="seg-b is-on" type="button" data-ccls="2" aria-pressed="true">FFP2</button>
+            <button class="seg-b" type="button" data-ccls="3" aria-pressed="false">FFP3</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="calc-out" aria-live="polite">
+        <div class="cout"><span class="k">штук в&nbsp;год</span><b id="c-qty">—</b></div>
+        <div class="cout"><span class="k">это коробов</span><b id="c-box">—</b><span class="l">по&nbsp;300 или по&nbsp;400&nbsp;шт</span></div>
+        <div class="cout cout--sum"><span class="k">бюджет на&nbsp;год</span><b id="c-sum">—</b><span class="l" id="c-tier">—</span></div>
+      </div>
+
+      <p class="calc-note" id="c-hint"></p>
+
+      <div class="calc-foot">
+        <span class="mono">расчёт по&nbsp;базовой модели без&nbsp;клапана, исполнение STANDART&nbsp;— точную смету соберём по&nbsp;вашему списку</span>
+        <a class="pill pill--brand" href="#contact" data-place="расчёт">Запросить счёт на&nbsp;этот объём</a>
+      </div>
+    </div>
+  </section>
+
   <!-- ЭКРАН 6: МАНИФЕСТ 2 - знаменатель подменяется на глазах -->
   <!-- ЭКРАН 7: документы -->
   <section id="docs" aria-label="Документы и стандарты">
@@ -1936,6 +2026,81 @@
         <span class="note">По&nbsp;выбранным моделям&nbsp;- для&nbsp;тендера и&nbsp;для&nbsp;охраны труда.</span>
       </div>
       <a class="pill pill--light" href="#contact" data-place="документы">Запросить документы</a>
+    </div>
+  </section>
+
+  <!-- КТО ОТГРУЖАЕТ -->
+  <section id="who" aria-label="Кто поставляет респираторы FAROS">
+    <div class="who rv">
+      <div class="who-head">
+        <div>
+          <span class="kick">Поставка по&nbsp;Казахстану</span>
+          <h2 class="display">Официальный<br>дистрибьютор FAROS<br>PROTECTION в&nbsp;Казахстане<em>.</em></h2>
+        </div>
+        <p class="who-lead">ТОО&nbsp;«ALLTRADE-LTD» поставляет респираторы FAROS предприятиям по&nbsp;всему Казахстану. Счёт, договор, документы и&nbsp;отгрузка&nbsp;— от&nbsp;одного поставщика.</p>
+      </div>
+      <ul class="who-facts">
+        <li><b>10+</b><span>лет в&nbsp;поставках СИЗ и&nbsp;оборудования</span></li>
+        <li><b>4</b><span>филиала по&nbsp;Казахстану</span></li>
+        <li><b>9</b><span>категорий защиты с&nbsp;одного склада</span></li>
+        <li><b>1</b><span>поставщик: счёт, договор, документы и&nbsp;отгрузка</span></li>
+      </ul>
+      <div class="who-foot">
+        <span class="mono">Алматы&nbsp;· Усть-Каменогорск&nbsp;· Павлодар&nbsp;· Атырау&nbsp;· БИН&nbsp;160&nbsp;340&nbsp;027&nbsp;310</span>
+        <a class="mono who-more" href="https://alltrade-ltd.kz" target="_blank" rel="noopener">Все 9&nbsp;категорий защиты&nbsp;— на&nbsp;alltrade-ltd.kz&nbsp;→</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ЭКРАН 9: вопросы и порядок заказа -->
+  <section id="faq" aria-label="Вопросы и ответы">
+    <div class="sec-head rv">
+      <h2 class="display"><span class="kick">Вопросы</span>Что спрашивают<br>перед заказом<em>.</em></h2>
+      <div class="sec-side"><span class="note">Коротко о&nbsp;том, что чаще всего уточняют снабженцы и&nbsp;служба охраны труда.</span></div>
+    </div>
+
+    <div class="faq-grid rv">
+      <details class="faq">
+        <summary>Чем FFP1 отличается от&nbsp;FFP2 и&nbsp;FFP3?</summary>
+        <p>Кратностью превышения нормы, с&nbsp;которой полумаска справляется: FFP1&nbsp;— до&nbsp;4&nbsp;ПДК, FFP2&nbsp;— до&nbsp;12&nbsp;ПДК, FFP3&nbsp;— до&nbsp;50&nbsp;ПДК. Класс выбирают не&nbsp;по&nbsp;бюджету, а&nbsp;по&nbsp;тому, что и&nbsp;в&nbsp;какой концентрации в&nbsp;воздухе на&nbsp;участке.</p>
+      </details>
+      <details class="faq">
+        <summary>Что означает маркировка NR&nbsp;D на&nbsp;изделии?</summary>
+        <p>NR&nbsp;— полумаска рассчитана на&nbsp;одну рабочую смену и&nbsp;не&nbsp;используется повторно. D&nbsp;— изделие прошло испытание на&nbsp;устойчивость к&nbsp;запылению: фильтрация не&nbsp;падает по&nbsp;мере набора пыли.</p>
+      </details>
+      <details class="faq">
+        <summary>Зачем нужен клапан выдоха?</summary>
+        <p>Он выпускает тёплый выдыхаемый воздух наружу. Под&nbsp;маской остаётся суше и&nbsp;прохладнее, дышать на&nbsp;нагрузке легче&nbsp;— рабочий реже сдвигает полумаску с&nbsp;лица. На&nbsp;класс защиты клапан не&nbsp;влияет.</p>
+      </details>
+      <details class="faq">
+        <summary>Что даёт носовой обтюратор в&nbsp;исполнении PREMIUM?</summary>
+        <p>Мягкая полоска на&nbsp;переносице прижимает маску к&nbsp;лицу, и&nbsp;выдыхаемый воздух не&nbsp;уходит в&nbsp;глаза. Очки и&nbsp;щиток сварщика не&nbsp;запотевают за&nbsp;смену. Две угольные модели выпускаются только с&nbsp;обтюратором.</p>
+      </details>
+      <details class="faq">
+        <summary>Можно ли работать в&nbsp;обычной полумаске на&nbsp;сварке?</summary>
+        <p>Обычная фильтрующая полумаска рассчитана на&nbsp;аэрозоли&nbsp;— пыль, дым и&nbsp;туман. Для&nbsp;сварочных дымов и&nbsp;запахов берут FR&nbsp;3220 с&nbsp;угольным слоем, для&nbsp;кислых газов и&nbsp;паров&nbsp;— FR&nbsp;3230.</p>
+      </details>
+      <details class="faq">
+        <summary>Чем отличаются серии FR&nbsp;4000 и&nbsp;FR&nbsp;3000?</summary>
+        <p>Формой и&nbsp;упаковкой. FR&nbsp;4000&nbsp;— складные трёхпанельные, компактно хранятся, короб 400&nbsp;шт. FR&nbsp;3000&nbsp;— формованные чашеобразные, короб 300&nbsp;шт. Классы защиты и&nbsp;цены в&nbsp;обеих сериях одинаковые.</p>
+      </details>
+      <details class="faq">
+        <summary>Как формируется цена?</summary>
+        <p>Тремя порогами по&nbsp;сумме заказа: розница&nbsp;— любой объём, малый опт&nbsp;— от&nbsp;110&nbsp;000&nbsp;₸, опт&nbsp;— от&nbsp;1&nbsp;100&nbsp;000&nbsp;₸. Внутри модели цена зависит от&nbsp;класса, клапана выдоха и&nbsp;исполнения. Весь прайс&nbsp;— 22&nbsp;позиции&nbsp;— открыт на&nbsp;странице и&nbsp;отдельным файлом.</p>
+      </details>
+      <details class="faq">
+        <summary>Какие документы дадите на&nbsp;поставку?</summary>
+        <p>По&nbsp;выбранным моделям&nbsp;— документы по&nbsp;ТР&nbsp;ТС&nbsp;019/2011 и&nbsp;ГОСТ&nbsp;12.4.294-2015, технические условия серии. Собираем пакет под&nbsp;конкретный лот&nbsp;— и&nbsp;для&nbsp;тендера, и&nbsp;для&nbsp;службы охраны труда.</p>
+      </details>
+    </div>
+
+    <div class="how rv">
+      <span class="mono">как проходит заказ</span>
+      <ol>
+        <li><b>01</b><span>Присылаете список: модели, класс, количество</span></li>
+        <li><b>02</b><span>Выставляем счёт и&nbsp;готовим договор поставки</span></li>
+        <li><b>03</b><span>Отгружаем и&nbsp;передаём документы на&nbsp;партию</span></li>
+      </ol>
     </div>
   </section>
 
@@ -2454,6 +2619,54 @@ function farosCalmScroll(){ return matchMedia('(prefers-reduced-motion:reduce)')
   });
   var ag=field('agree');
   if(ag) ag.addEventListener('change',function(){ setBad('agree',false); });
+})();
+</script>
+<script>
+/* расчёт годовой потребности: цены базовых моделей без клапана, исполнение STANDART,
+   те же три порога, что в прайсе. Ничего не хранится - только пересчёт на экране. */
+(function(){
+  var PRICE = { 1:[267,240,208], 2:[364,328,284], 3:[540,486,421] };
+  var STEP  = [0, 110000, 1100000];
+  var LABEL = ['розничная цена','малый опт','оптовая цена'];
+  var people = document.getElementById('c-people');
+  if (!people) return;
+  var shifts = document.getElementById('c-shifts'), per = document.getElementById('c-per');
+  var cls = 2;
+  function fmt(n){ return Math.round(n).toLocaleString('ru-RU').replace(/\u00A0/g,' '); }
+  function val(el, def, min, max){
+    var v = parseInt(el.value, 10);
+    if (!isFinite(v)) v = def;
+    return Math.min(max, Math.max(min, v));
+  }
+  function run(){
+    var qty = val(people,120,1,100000) * val(shifts,250,1,366) * val(per,1,1,10);
+    var price = PRICE[cls], tier = 0;
+    for (var i = 2; i >= 0; i--){ if (qty * price[i] >= STEP[i]) { tier = i; break; } }
+    document.getElementById('c-qty').textContent = fmt(qty);
+    document.getElementById('c-box').textContent = fmt(Math.ceil(qty/300)) + ' / ' + fmt(Math.ceil(qty/400));
+    document.getElementById('c-sum').textContent = fmt(qty * price[tier]) + ' \u20B8';
+    document.getElementById('c-tier').textContent = LABEL[tier] + ' \u00B7 ' + fmt(price[tier]) + ' \u20B8/шт';
+    var hint = '';
+    if (tier < 2){
+      var needQty = Math.ceil(STEP[2] / price[2]);
+      hint = 'До оптовой цены не хватает ' + fmt(needQty - qty) + ' шт: от ' + fmt(needQty) +
+             ' шт цена станет ' + fmt(price[2]) + ' \u20B8 за штуку.';
+    }
+    document.getElementById('c-hint').textContent = hint;
+  }
+  [people, shifts, per].forEach(function(el){ el.addEventListener('input', run); });
+  [].forEach.call(document.querySelectorAll('[data-ccls]'), function(b){
+    b.addEventListener('click', function(){
+      cls = parseInt(b.getAttribute('data-ccls'), 10);
+      [].forEach.call(document.querySelectorAll('[data-ccls]'), function(x){
+        var on = x === b;
+        x.classList.toggle('is-on', on);
+        x.setAttribute('aria-pressed', on ? 'true' : 'false');
+      });
+      run();
+    });
+  });
+  run();
 })();
 </script>
 </body>
