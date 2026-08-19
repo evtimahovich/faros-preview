@@ -42,15 +42,17 @@
   /* Начертания Google Fonts подключены правилами прямо в странице, а не отдельным
      файлом с fonts.googleapis.com: это снимает лишний поход в сеть перед первой отрисовкой.
      Оставлены только те подмножества символов, которые реально рисуются на странице:
-     Archivo - латиница (кириллицы у гарнитуры нет вообще), Manrope - латиница и кириллица,
-     IBM Plex Mono - латиница, кириллица и расширенная латиница (в ней живёт знак тенге ₸).
+     Unbounded - кириллица и латиница одним переменным файлом (заголовкам нужны оба алфавита,
+     знак тенге ₸ живёт в его расширенной латинице), Manrope - латиница и кириллица,
+     IBM Plex Mono - латиница, кириллица и расширенная латиница.
      font-display:swap - текст виден сразу, начертание подменяется по готовности. */
   @font-face{/* Manrope cyrillic */font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url(https://fonts.gstatic.com/s/manrope/v20/xn7gYHE41ni1AdIRggOxSvfedN62Zw.woff2) format('woff2');unicode-range:U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116}
   @font-face{/* Manrope latin */font-family:'Manrope';font-style:normal;font-weight:400;font-display:swap;src:url(https://fonts.gstatic.com/s/manrope/v20/xn7gYHE41ni1AdIRggexSvfedN4.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
   @font-face{/* Manrope cyrillic */font-family:'Manrope';font-style:normal;font-weight:700;font-display:swap;src:url(https://fonts.gstatic.com/s/manrope/v20/xn7gYHE41ni1AdIRggOxSvfedN62Zw.woff2) format('woff2');unicode-range:U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116}
   @font-face{/* Manrope latin */font-family:'Manrope';font-style:normal;font-weight:700;font-display:swap;src:url(https://fonts.gstatic.com/s/manrope/v20/xn7gYHE41ni1AdIRggexSvfedN4.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
-  @font-face{/* Archivo latin */font-family:'Archivo';font-style:normal;font-weight:800;font-stretch:125%;font-display:swap;src:url(https://fonts.gstatic.com/s/archivo/v25/k3kPo8UDI-1M0wlSV9XAw6lQkqWY8Q8EsLydOxKsv4Rn.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
-  @font-face{/* Archivo latin */font-family:'Archivo';font-style:normal;font-weight:900;font-stretch:125%;font-display:swap;src:url(https://fonts.gstatic.com/s/archivo/v25/k3kPo8UDI-1M0wlSV9XAw6lQkqWY8Q8EsLydOxKsv4Rn.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+  @font-face{/* Unbounded cyrillic (переменный, 200-900) */font-family:'Unbounded';font-style:normal;font-weight:200 900;font-display:swap;src:url(https://fonts.gstatic.com/s/unbounded/v12/Yq6W-LOTXCb04q32xlpwv8ZfvRIkSYZH.woff2) format('woff2');unicode-range:U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116}
+  @font-face{/* Unbounded latin-ext (знак тенге ₸) */font-family:'Unbounded';font-style:normal;font-weight:200 900;font-display:swap;src:url(https://fonts.gstatic.com/s/unbounded/v12/Yq6W-LOTXCb04q32xlpwtcZfvRIkSYZH.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+  @font-face{/* Unbounded latin */font-family:'Unbounded';font-style:normal;font-weight:200 900;font-display:swap;src:url(https://fonts.gstatic.com/s/unbounded/v12/Yq6W-LOTXCb04q32xlpwu8ZfvRIkSQ.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
   @font-face{/* IBM Plex Mono cyrillic */font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url(https://fonts.gstatic.com/s/ibmplexmono/v20/-F63fjptAgt5VM-kVkqdyU8n1isq131nj-otFQ.woff2) format('woff2');unicode-range:U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116}
   @font-face{/* IBM Plex Mono latin-ext */font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url(https://fonts.gstatic.com/s/ibmplexmono/v20/-F63fjptAgt5VM-kVkqdyU8n1iEq131nj-otFQ.woff2) format('woff2');unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
   @font-face{/* IBM Plex Mono latin */font-family:'IBM Plex Mono';font-style:normal;font-weight:400;font-display:swap;src:url(https://fonts.gstatic.com/s/ibmplexmono/v20/-F63fjptAgt5VM-kVkqdyU8n1i8q131nj-o.woff2) format('woff2');unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
@@ -101,7 +103,7 @@
     /* типографическая лестница: H1 первого экрана 92px - потолок страницы */
     --t-h2:clamp(1.75rem,3.7vw,3.35rem);   /* 53px @1440 - заголовки разделов */
     /* середина страницы набрана крупнее: кегль там работает как графика, а не как подпись */
-    --t-h2-mid:clamp(1.95rem,4.7vw,4.2rem);/* 67px @1440 - заголовки пересобранных блоков */
+    --t-h2-mid:clamp(1.7rem,4.7vw,4.2rem); /* 67px @1440 - заголовки пересобранных блоков */
     --t-h3:clamp(1.35rem,2.2vw,2rem);      /* 32px - ведущая карточка блока   */
     --t-h4:clamp(1.05rem,1.45vw,1.32rem);  /* 21px - обычная карточка         */
   }
@@ -134,7 +136,7 @@
   }
 
   .display{
-    font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;
+    font-family:'Unbounded',sans-serif;font-weight:900;
     /* .95 вместо .92: точки Ё и краткая Й со второй строки не садятся на первую */
     text-transform:uppercase;line-height:.95;letter-spacing:-.005em;
     font-variant-numeric:tabular-nums;
@@ -160,7 +162,7 @@
     display:inline-flex;align-items:center;gap:10px;
     background:var(--ink);color:#fff;border:1px solid transparent;border-radius:999px;
     padding:15px 26px;min-height:48px;
-    font-family:'Archivo',sans-serif;font-stretch:125%;
+    font-family:'Unbounded',sans-serif;
     font-weight:800;font-size:11.5px;letter-spacing:var(--ls-ui);text-transform:uppercase;
     transition:transform var(--d-1) var(--e),background var(--d-1) var(--e),
                color var(--d-1) var(--e),border-color var(--d-1) var(--e),box-shadow var(--d-2) var(--e);
@@ -241,7 +243,7 @@
   .nav-drawer a{
     display:flex;align-items:center;justify-content:space-between;gap:12px;
     padding:14px 12px;min-height:48px;border-radius:var(--r-m);
-    color:rgba(255,255,255,.88);font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:800;
+    color:rgba(255,255,255,.88);font-family:'Unbounded',sans-serif;font-weight:800;
     font-size:13px;letter-spacing:.06em;text-transform:uppercase;
     transition:background var(--d-1) var(--e),color var(--d-1) var(--e);
   }
@@ -258,40 +260,37 @@
   }
   @media (max-width:640px){.nav{gap:10px}.nav-act{gap:8px}.nav-cta{padding:9px 12px;font-size:10px;letter-spacing:var(--ls-cap)}.nav-cta span{display:none}}
 
-  /* ---------- ЭКРАН 1: тёмный остров-обложка + открытая цена ---------- */
+  /* ---------- ЭКРАН 1: одна сильная индустриальная обложка ---------- */
   .hero{
     position:relative;overflow:hidden;
     background:var(--stage);color:#fff;border-radius:var(--r-l);
     margin-inline:calc((var(--pad) - var(--inset)) * -1);
-    padding:clamp(26px,3.4vw,52px) calc(var(--pad) - var(--inset)) clamp(18px,2vw,30px);
-    min-height:min(calc(100svh - var(--navh)),900px);
-    /* сетка в две полосы: колонка занимает свободную высоту, служебная строка закрывает остров */
-    display:grid;grid-template-rows:1fr auto;
+    padding:clamp(32px,4vw,68px) calc(var(--pad) - var(--inset)) clamp(32px,4vw,64px);
+    min-height:min(calc(100svh - var(--navh)),920px);
+    /* сетка в две строки: служебная подпись прижата к верху острова,
+       заголовок с ценами держит центр оставшейся высоты */
+    display:grid;grid-template-rows:auto 1fr;align-items:center;
   }
-  /* фото держит правую часть кадра и растворяется в чёрное к центру */
-  .hero-fig{position:absolute;inset:0 0 0 28%;margin:0;z-index:0}
+  .hero > .hero-kicker{align-self:start;justify-self:start;position:relative;z-index:2}
+  /* фото занимает весь кадр и растворяется в чёрное к тексту */
+  .hero-fig{position:absolute;inset:0;margin:0;z-index:0}
   .hero-fig picture{display:block;width:100%;height:100%}
   .hero-fig img{
-    width:100%;height:100%;object-fit:cover;object-position:74% 46%;
-    /* кадр светлее исходного: рабочий и белая полумаска должны читаться, а не тонуть */
-    filter:saturate(.78) contrast(1.04) brightness(1.06);
-    -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 44%);
-            mask-image:linear-gradient(90deg,transparent 0,#000 44%);
+    width:100%;height:100%;object-fit:cover;object-position:78% 50%;
+    filter:saturate(.7) contrast(1.05) brightness(.96);
   }
   .hero-fig::after{
     content:"";position:absolute;inset:0;pointer-events:none;
-    background:linear-gradient(0deg,rgba(10,12,11,.92) 0,rgba(10,12,11,.35) 18%,rgba(10,12,11,0) 40%);
+    background:linear-gradient(90deg,#0A0C0B 0%,rgba(10,12,11,.94) 31%,rgba(10,12,11,.5) 53%,rgba(10,12,11,0) 76%),
+               linear-gradient(0deg,rgba(10,12,11,.88) 0%,rgba(10,12,11,.18) 36%,rgba(10,12,11,0) 66%);
   }
-  /* текстовая колонка: взгляд рабочего опущен влево и ведёт в заголовок */
-  .hero-copy{position:relative;z-index:2;align-self:center;max-width:min(62%,900px)}
+  .hero-copy{position:relative;z-index:2;align-self:center;max-width:min(64%,920px)}
   .hl-min{display:none}
   .hero-lead i{font-style:normal}
-  /* перенос идёт по границе предложения, а не по тире внутри фразы */
-  .hero-lead .nw{white-space:nowrap}
   .hero-kicker{
     /* строка не рвётся посередине слова: переносится целыми частями */
     display:inline-flex;align-items:center;flex-wrap:wrap;white-space:nowrap;gap:2px 10px;
-    margin-bottom:clamp(16px,1.7vw,24px);color:rgba(255,255,255,.7);
+    color:rgba(255,255,255,.65);
     font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:var(--ls-ui);
     text-transform:uppercase;line-height:1.3;
   }
@@ -299,253 +298,104 @@
   .hero-kicker i{font-style:normal}
   .hk-min{display:none}
   .hero h1{
-    margin:0 0 clamp(16px,1.8vw,26px) -.035em;color:#fff;
-    font-size:clamp(2.7rem,6.4vw,6.2rem);line-height:.88;letter-spacing:-.042em;
+    margin:0 0 clamp(22px,3vw,36px) -.035em;color:#fff;
+    font-size:clamp(3.6rem,7.6vw,8rem);line-height:.86;letter-spacing:-.035em;
   }
   .hero h1 span{display:block}
-  .hero h1 em{font-style:normal;color:var(--brand-lift);margin-left:-.14em}
-  .hero-lead{max-width:44ch;color:rgba(255,255,255,.78);font-size:clamp(15px,1.15vw,17px);line-height:1.6}
-  .hero-act{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:clamp(20px,2.2vw,30px)}
+  .hero h1 .acc{margin-left:clamp(.12em,2.5vw,.36em);font-size:.68em;color:var(--brand-lift)}
+  .hero-lead{max-width:38ch;color:rgba(255,255,255,.78);font-size:clamp(15px,1.15vw,17px);line-height:1.6}
+  .hero-act{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:clamp(22px,3vw,38px)}
+  .hero-act .pill--brand{padding:17px 26px}
   .hero .pill--ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.34)}
   .hero .pill--ghost svg{width:15px;height:15px;opacity:.8}
   @media (hover:hover){
     .hero .pill--ghost:hover{background:#fff;color:var(--ink);border-color:#fff}
   }
-  /* ценовая плашка: единственный светлый предмет в тёмном кадре */
+  /* ценовая полоса: три открытые метки прямо на тёмном кадре */
   .hero-price{
-    display:grid;grid-template-columns:repeat(3,1fr);
-    margin-top:clamp(22px,2.6vw,36px);max-width:min(100%,820px);
-    background:var(--panel);color:var(--ink);
-    border-radius:var(--r-m);overflow:hidden;
-    box-shadow:0 26px 60px rgba(0,0,0,.5);
+    display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(20px,3vw,44px);
+    width:min(100%,820px);margin-top:clamp(28px,4vw,54px);color:#fff;
   }
-  .hp{padding:clamp(13px,1.15vw,16px) clamp(15px,1.4vw,20px);border-left:var(--hair) solid var(--line)}
-  .hp:first-child{border-left:0}
+  .hp{min-width:0}
   .hp .k{
-    display:block;margin-bottom:9px;color:var(--mute);
-    font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:var(--ls-key);text-transform:uppercase;
+    display:block;margin-bottom:5px;color:rgba(255,255,255,.54);
+    font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:var(--ls-cap);text-transform:uppercase;
   }
   .hp b{
-    display:block;font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;
-    font-size:clamp(26px,2.5vw,36px);line-height:.94;letter-spacing:-.02em;
+    display:block;font-family:'Unbounded',sans-serif;font-weight:900;
+    font-size:clamp(18px,1.7vw,25px);line-height:1;letter-spacing:-.02em;color:#fff;
     font-variant-numeric:tabular-nums;white-space:nowrap;
   }
-  .hp b i{font-style:normal;font-size:.5em;margin-left:5px;color:var(--mute)}
-  .hp .l{display:block;margin-top:8px;font-size:12.5px;line-height:1.35;color:var(--ink-soft);font-variant-numeric:tabular-nums}
-  .hp .l i{font-style:normal}
-  .hp--price{background:var(--brand);color:#fff;border-left-color:var(--brand)}
-  .hp--price .k{color:rgba(255,255,255,.78)}
-  .hp--price b i,.hp--price .l{color:rgba(255,255,255,.86)}
-  /* нижняя служебная строка острова: тем же приёмом, что закрыт тёмный блок «кто отгружает» */
-  .hero-foot{
-    position:relative;z-index:2;margin-top:auto;
-    display:flex;justify-content:space-between;gap:6px 24px;flex-wrap:wrap;align-items:baseline;
-    padding-top:clamp(16px,1.8vw,22px);border-top:1px solid rgba(255,255,255,.14);
-    color:rgba(255,255,255,.62);
-  }
-  .hero-foot .mono{text-wrap:pretty}
-
-  @media (max-width:1200px){
-    .hero-fig{inset:0 0 0 22%}
-    .hero h1{font-size:clamp(2.7rem,6vw,4.6rem)}
-  }
+  .hp b i{font-style:normal;font-size:max(.5em,10px);margin-left:5px;color:rgba(255,255,255,.62)}
+  .hp .l{display:block;margin-top:5px;color:rgba(255,255,255,.62);font-size:11px;line-height:1.35;font-variant-numeric:tabular-nums}
+  .hp--price .k,.hp--price b i,.hp--price .l{color:rgba(255,255,255,.62)}
+  /* планшет: текст прижат к низу кадра; заранее занятая высота гасит скачок вёрстки,
+     пока браузер дочитывает страницу */
   @media (min-width:761px) and (max-width:980px){
-    /* Текстовая колонка прижата к низу кадра. Пока браузер дочитывает страницу, блок
-       растёт сверху вниз, а прижатый низ тянет уже нарисованный заголовок вверх - это
-       и есть скачок вёрстки. Заранее занятая высота держит верхний край блока на месте. */
     .hero-copy{min-height:430px}
   }
   @media (max-width:980px){
-    /* планшет: фото - весь кадр, текст садится на затемнённый низ */
-    .hero{
-      min-height:min(calc(100svh - var(--navh)),760px);
-      padding-top:clamp(150px,28svh,280px);
-      padding-bottom:clamp(20px,2.4vw,28px);
+    /* подпись поставщика стоит поверх кадра у верхнего края и держит тот же левый
+       край, что и остальной контент острова */
+    .hero{display:flex;align-items:flex-end;padding-top:clamp(230px,43svh,390px)}
+    .hero > .hero-kicker{
+      position:absolute;top:clamp(14px,3.2vw,22px);
+      left:calc(max(var(--pad), 50vw - 720px + var(--pad)) - var(--inset));
+      right:calc(max(var(--pad), 50vw - 720px + var(--pad)) - var(--inset));
+      margin:0;
     }
-    .hero-fig{inset:0}
-    .hero-fig img{object-position:64% 24%;-webkit-mask:none;mask:none}
-    .hero-fig::after{
-      background:linear-gradient(0deg,#0A0C0B 4%,rgba(10,12,11,.92) 28%,rgba(10,12,11,.45) 54%,rgba(10,12,11,.22) 100%),
-                 linear-gradient(90deg,rgba(10,12,11,.66) 0,rgba(10,12,11,.3) 44%,rgba(10,12,11,0) 70%);
-    }
-    .hero-copy{align-self:end;max-width:min(94%,620px)}
-    .hero h1{font-size:clamp(2.4rem,6.2vw,3.5rem)}
-    .hero-lead{max-width:40ch}
+    .hero-fig img{object-position:100% 14%}
+    .hero-fig::after{background:linear-gradient(0deg,#0A0C0B 3%,rgba(10,12,11,.95) 28%,rgba(10,12,11,.38) 65%,rgba(10,12,11,.14) 100%),linear-gradient(90deg,rgba(10,12,11,.68) 0%,rgba(10,12,11,.2) 64%,rgba(10,12,11,0) 100%)}
+    .hero-copy{align-self:end;width:100%;max-width:min(94%,660px)}
+    .hero h1{font-size:clamp(3rem,8.6vw,5.2rem)}
   }
-  /* низкий экран (ландшафтный планшет, нетбук): первый экран должен собираться целиком */
-  @media (min-width:761px) and (max-width:1100px) and (max-height:820px){
-    .hero{padding-top:clamp(96px,15svh,190px);padding-bottom:clamp(16px,1.8vw,22px)}
-    .hero h1{font-size:clamp(2.2rem,4.9vw,3.2rem)}
-    .hero-lead{font-size:15px;line-height:1.5;max-width:46ch}
-    .hero-act{margin-top:16px}
-    .hero-price{margin-top:16px}
-    .hp{padding:11px 14px}
-    .hp b{font-size:clamp(22px,2.2vw,28px)}
-    .hp .l{margin-top:6px}
-    .hero-foot{padding-top:12px}
-  }
-  /* ---------- телефон: портрет крупным планом, как на первом экране поставщика ----------
-     Остров начинается под пилюлей меню - каска и полумаска больше ничем не срезаны.
-     Полоса фото задана переменной: та же величина уходит в отступ колонки, поэтому
-     заголовок садится ровно под кадром, а сам кадр на 72 px длиннее и растворяется под ним. */
   @media (max-width:760px){
     .hero{
-      --hero-band:clamp(270px,38svh,336px);
-      margin-top:0;
+      min-width:0;
       min-height:calc(100svh - var(--navh));
-      padding-top:var(--hero-band);padding-bottom:14px;
+      padding:clamp(188px,34svh,320px) var(--pad) 26px;
     }
-    .hero-fig{inset:0 0 auto 0;height:calc(var(--hero-band) + 72px)}
-    .hero-fig img{
-      object-position:50% 0;
-      -webkit-mask-image:linear-gradient(180deg,#000 0 76%,transparent 100%);
-              mask-image:linear-gradient(180deg,#000 0 76%,transparent 100%);
-    }
-    .hero-fig::after{
-      background:linear-gradient(0deg,#0A0C0B 0,rgba(10,12,11,.72) 14%,rgba(10,12,11,0) 42%);
-    }
-    .hero-copy{align-self:end;max-width:none}
+    .hero > .hero-kicker{left:var(--pad);right:var(--pad)}
+    /* остров во всю ширину экрана, фотография масштабируется сильнее - кадр поднят,
+       иначе каска рабочего срезается верхним краем */
+    .hero-fig img{object-position:100% 12%;transform:scale(1.12) translateY(-6%);transform-origin:62% 50%}
+    .hero-copy{min-width:0;max-width:100%}
     .hk-full{display:none}.hk-min{display:inline}
     .hl-full{display:none}.hl-min{display:inline}
-    .hero-kicker{margin-bottom:8px;font-size:10px;letter-spacing:var(--ls-cap)}
-    .hero h1{font-size:clamp(2.35rem,10.4vw,3.1rem);line-height:.9;margin-bottom:10px}
-    .hero-lead{max-width:none;font-size:14px;line-height:1.5}
-    .hero-act{margin-top:12px;gap:2px;flex-direction:column;align-items:stretch}
-    .hero .pill--brand{width:100%;justify-content:center;padding:15px 20px}
+    .hero-kicker{white-space:normal;font-size:10px;letter-spacing:var(--ls-cap)}
+    .hero h1{font-size:clamp(2rem,9vw,3.4rem);line-height:.88;letter-spacing:-.03em;margin-bottom:18px;overflow-wrap:break-word}
+    .hero h1 .acc{margin-left:.28em}
+    .hero-lead{max-width:none;font-size:14px;line-height:1.45}
+    .hero-act{margin-top:22px;display:block}
+    .hero-act .pill--brand{width:100%;justify-content:center;padding:16px 20px}
     .hero .pill--ghost{
       width:100%;border:0;background:transparent;padding:10px 0;min-height:44px;justify-content:center;
       color:rgba(255,255,255,.78);
     }
     .hero .pill--ghost:hover{background:transparent;color:#fff}
-    /* плашка на телефоне - компактная строка спецификации */
-    .hero-price{margin-top:12px;max-width:none}
-    .hp{padding:11px 10px;min-width:0}
-    .hp .k{margin-bottom:6px;font-size:9px;letter-spacing:var(--ls-cap)}
-    .hp b{font-size:18px}
-    .hp b i{font-size:.44em;margin-left:3px}
-    .hp .l{margin-top:6px;font-size:10.5px}
-    .hp .l i{display:none}
-    .hero-foot{padding-top:10px;font-size:10px}
-    .hero-foot .mono{font-size:10px;letter-spacing:var(--ls-cap)}
-  }
-  /* Низкий телефон: полоса фото короче, поэтому кадрирование сдвигается вниз - в окно
-     попадают глаза и полумаска, а не одна каска. Плашка и кнопка остаются на экране. */
-  @media (max-width:760px) and (max-height:750px){
-    .hero{--hero-band:clamp(180px,25svh,240px);padding-bottom:12px}
-    .hero-fig img{object-position:50% 34%}
-    .hero-kicker{margin-bottom:7px}
-    .hero h1{font-size:clamp(1.95rem,8.4vw,2.4rem);margin-bottom:9px}
-    .hero-act{margin-top:10px}
-    .hero-price{margin-top:10px}
-    .hero-foot{padding-top:9px}
+    /* плашка на телефоне: подписи не мельче 10 px - это первые цены,
+       которые видит мобильный посетитель */
+    .hero-price{gap:10px;margin-top:24px;width:100%;grid-template-columns:repeat(3,minmax(0,1fr))}
+    .hp{max-width:100%}
+    .hp b{font-size:clamp(13px,3.9vw,15px);white-space:normal}
+    .hp b i{font-size:10px;margin-left:3px}
+    .hp .l{margin-top:4px;font-size:11px;line-height:1.3}
   }
   @media (max-width:380px){
-    /* кикер не влезает в строку: разделитель убран, две части встают двумя строками
-       и ни одна не заканчивается висящей точкой-разделителем */
+    /* кикер не влезает в строку: разделитель убран, две части встают двумя строками */
     .hk-sep{display:none}
-    .hero h1{font-size:2.05rem}
-    .hp{padding:10px 8px}
-    .hp b{font-size:16px}
-    .hp .k{font-size:8.5px}
-    .hp .l{font-size:10px}
-  }
-  @media (max-width:380px) and (max-height:620px){
-    .hero{--hero-band:clamp(132px,20svh,170px);padding-bottom:10px}
-    .hero-fig img{object-position:50% 46%}
-    .hero-kicker{margin-bottom:5px}
-    .hero h1{font-size:1.9rem;margin-bottom:7px}
-    .hero-act{margin-top:8px}
-    .hero-price{margin-top:8px}
-    .hero-foot{padding-top:8px}
-  }
-
-  /* ---------- ЭКРАН 1 v2: одна сильная индустриальная обложка ---------- */
-  .hero{
-    /* две строки: служебная подпись прижата к верху острова, заголовок с ценами
-       держит центр оставшейся высоты - раньше подпись ехала вместе с текстом */
-    display:grid;grid-template-rows:auto 1fr;align-items:center;
-    min-height:min(calc(100svh - var(--navh)),920px);
-    padding-top:clamp(32px,4vw,68px);padding-bottom:clamp(32px,4vw,64px);
-  }
-  .hero > .hero-kicker{align-self:start;justify-self:start;position:relative;z-index:2;margin-bottom:0}
-  .hero-fig{inset:0}
-  .hero-fig img{
-    object-position:78% 50%;
-    filter:saturate(.7) contrast(1.05) brightness(.96);
-    -webkit-mask-image:none;mask-image:none;
-  }
-  .hero-fig::after{
-    background:linear-gradient(90deg,#0A0C0B 0%,rgba(10,12,11,.94) 31%,rgba(10,12,11,.5) 53%,rgba(10,12,11,0) 76%),
-               linear-gradient(0deg,rgba(10,12,11,.88) 0%,rgba(10,12,11,.18) 36%,rgba(10,12,11,0) 66%);
-  }
-  .hero-copy{align-self:center;max-width:min(64%,920px)}
-  .hero-kicker{margin-bottom:clamp(22px,3vw,36px);color:rgba(255,255,255,.65)}
-  .hero h1{
-    margin-bottom:clamp(22px,3vw,36px);
-    font-size:clamp(4.4rem,9.2vw,9.8rem);line-height:.82;letter-spacing:-.06em;
-  }
-  .hero h1 .acc{margin-left:clamp(.12em,2.5vw,.36em);font-size:.68em;color:var(--brand-lift)}
-  .hero-lead{max-width:34ch;font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:500;font-size:clamp(15px,1.3vw,18px);line-height:1.55;letter-spacing:.01em}
-  .hero-act{margin-top:clamp(22px,3vw,38px)}
-  .hero-act .pill--brand{padding:17px 26px}
-  .hero-price{
-    display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(20px,3vw,44px);
-    width:min(100%,820px);max-width:none;margin-top:clamp(28px,4vw,54px);
-    background:transparent;color:#fff;border-radius:0;box-shadow:none;overflow:visible;
-  }
-  .hp{min-width:0;padding:0;border:0}
-  .hp .k{display:block;margin-bottom:5px;color:rgba(255,255,255,.54);font-size:9px;letter-spacing:var(--ls-cap)}
-  .hp b{display:block;font-size:clamp(20px,2vw,28px);line-height:1;color:#fff}
-  .hp b i{color:rgba(255,255,255,.62)}
-  .hp .l{display:block;margin-top:5px;color:rgba(255,255,255,.62);font-size:11px}
-  .hp--price{background:transparent;color:#fff}
-  .hp--price .k,.hp--price b i,.hp--price .l{color:rgba(255,255,255,.62)}
-  .hero-foot{display:none}
-  @media (max-width:980px){
-    /* подпись поставщика стоит поверх кадра у верхнего края: в потоке она съедала бы
-       верхний отступ, а он задаёт кадрирование фотографии - каска рабочего срезалась */
-    .hero{display:flex;align-items:flex-end;padding-top:clamp(230px,43svh,390px)}
-    .hero > .hero-kicker{position:absolute;top:clamp(14px,3.2vw,22px);left:var(--pad);right:var(--pad);margin:0;z-index:2}
-    .hero-fig{inset:0;height:auto}
-    .hero-fig img{object-position:100% 14%;-webkit-mask-image:none;mask-image:none}
-    .hero-fig::after{background:linear-gradient(0deg,#0A0C0B 3%,rgba(10,12,11,.95) 28%,rgba(10,12,11,.38) 65%,rgba(10,12,11,.14) 100%),linear-gradient(90deg,rgba(10,12,11,.68) 0%,rgba(10,12,11,.2) 64%,rgba(10,12,11,0) 100%)}
-    /* ширину колонки раньше держала длинная подпись внутри неё; она уехала наверх,
-       поэтому ширину задаём явно - иначе ценовая полоса сжимается по содержимому */
-    .hero-copy{align-self:end;width:100%;max-width:min(94%,660px)}
-    .hero h1{font-size:clamp(3.6rem,10.5vw,6.4rem)}
-  }
-  @media (max-width:760px){
-    .hero{min-height:calc(100svh - var(--navh));padding:clamp(188px,34svh,320px) var(--pad) 26px}
-    .hero-fig{inset:0;height:auto}
-    /* остров теперь во всю ширину экрана, фотография масштабируется сильнее -
-       кадр поднят, иначе каска рабочего срезается верхним краем */
-    .hero-fig img{object-position:100% 12%}
-    .hero-copy{max-width:none}
-    .hero-kicker{margin-bottom:18px;font-size:9px;letter-spacing:var(--ls-cap)}
-    .hero h1{font-size:clamp(3.45rem,15.8vw,5.5rem);line-height:.83;margin-bottom:18px}
-    .hero h1 .acc{margin-left:.42em}
-    .hero-lead{font-size:14px;line-height:1.45}
-    .hero-act{margin-top:22px;display:block}
-    .hero-act .pill--brand{width:100%;justify-content:center;padding:16px 20px}
-    .hero-price{gap:10px;margin-top:24px;width:100%}
-    .hp .k{margin-bottom:5px;font-size:8px}
-    .hp b{font-size:17px;white-space:normal}
-    .hp b i{font-size:.4em;margin-left:3px}
-    .hp .l{margin-top:4px;font-size:9.5px;line-height:1.25}
-  }
-  @media (max-width:380px){
     .hero{padding-top:clamp(164px,31svh,240px)}
-    .hero h1{font-size:3.25rem}
+    .hero h1{font-size:2rem}
+    .hero h1 .acc{margin-left:.2em}
     .hero-price{gap:8px}
-    .hp b{font-size:15px}
-    .hp .l{font-size:8.5px}
+    .hp .l{font-size:10px}
   }
 
   /* ---------- section head ---------- */
   section{padding-block:clamp(40px,6vw,var(--gap-m))}
   /* якорь останавливается под пилюлей меню, а не за ней: правило нужно всем целям
      ссылок, а не только секциям - иначе «#pick» и «Перейти к содержанию» уезжают под шапку */
-  section[id],#content,#pick{scroll-margin-top:calc(var(--nav-stick) + 22px)}
+  section[id],#content,#pick,#ptable{scroll-margin-top:calc(var(--nav-stick) + 22px)}
   #models{padding-bottom:clamp(28px,3.9vw,var(--gap-s))}  /* модели и прайс - одна мысль    */
   #price{padding-top:clamp(28px,3.9vw,var(--gap-s))}
   #contact{padding-top:clamp(56px,9vw,var(--gap-l))}      /* большой вдох перед заявкой     */
@@ -556,14 +406,14 @@
   .sec-side{max-width:38ch;padding-bottom:.35em}
   /* пояснение раздела - человеческим текстом, а не капслоком */
   .sec-side .note{display:block;color:var(--ink-soft);font-size:15px;line-height:1.5}
-  @media (max-width:760px){.sec-head{flex-direction:column;align-items:flex-start;gap:14px;margin-bottom:24px}.sec-head h2{overflow-wrap:break-word;max-width:none}.sec-side{padding-bottom:0;max-width:46ch}.sec-side .note{font-size:14px}}
+  @media (max-width:760px){.sec-head{flex-direction:column;align-items:flex-start;gap:14px;margin-bottom:24px}.sec-head > *{max-width:100%}.sec-head h2{overflow-wrap:break-word}.sec-side{padding-bottom:0;max-width:46ch}.sec-side .note{font-size:14px}}
 
   /* середина страницы: заголовок держит разворот, строка ломается вручную, а не по ширине.
      Разбивка на строки задана в разметке - clamp по ширине оставлен только телефону */
-  #models .sec-head,#price .sec-head,#calc .sec-head,#docs .sec-head,#faq .sec-head,#contact .sec-head{
+  #select .sec-head,#models .sec-head,#price .sec-head,#calc .sec-head,#docs .sec-head,#faq .sec-head,#contact .sec-head{
     margin-bottom:clamp(26px,3.4vw,48px);
   }
-  #models .sec-head h2,#price .sec-head h2,#calc .sec-head h2,#docs .sec-head h2,#faq .sec-head h2,#contact .sec-head h2{
+  #select .sec-head h2,#models .sec-head h2,#price .sec-head h2,#calc .sec-head h2,#docs .sec-head h2,#faq .sec-head h2,#contact .sec-head h2{
     font-size:var(--t-h2-mid);max-width:none;
   }
   #select .sec-side,#models .sec-side,#price .sec-side,#calc .sec-side,#docs .sec-side,#faq .sec-side,#contact .sec-side{max-width:34ch}
@@ -575,9 +425,10 @@
   }
   @media (max-width:760px){
     #select .sec-side .note,#models .sec-side .note,#calc .sec-side .note,#faq .sec-side .note,
-    #price .sec-side .note,#docs .sec-side .note,#contact .sec-side .note{font-size:10.5px;line-height:1.75}
-    /* на телефоне ручной перенос оставил бы «ТРУДА.» одиноким третьей строкой */
-    #docs .sec-head h2 br{display:none}
+    #price .sec-side .note,#docs .sec-side .note,#contact .sec-side .note{font-size:10px;line-height:1.75}
+    /* на телефоне ручной перенос оставил бы «ТРУДА.» одиноким третьей строкой,
+       а «и чашеобразные.» - строку шире экрана */
+    #docs .sec-head h2 br,#models .sec-head h2 br{display:none}
   }
 
   /* ---------- карточная база: одна ступень высоты на страницу ---------- */
@@ -588,7 +439,6 @@
   }
 
   /* ---------- кто отгружает: тёмный остров во всю ширину ---------- */
-  #who{padding-block:0}
   .who{
     background:var(--stage);color:#fff;border-radius:var(--r-l);
     margin-inline:calc((var(--pad) - var(--inset)) * -1);
@@ -618,7 +468,6 @@
     letter-spacing:var(--ls-cap);text-transform:uppercase;
     color:rgba(255,255,255,.62);max-width:36ch;padding-bottom:.35em;
   }
-  .hero h1 .acc{color:var(--brand-lift)}
   .sec-head h2 .acc{color:var(--brand)}
   .docs-grid{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:0 0 14px}
   .docs-grid li{
@@ -630,8 +479,8 @@
     color:var(--brand);font-variant-numeric:tabular-nums;
   }
   .docs-grid b{
-    font-family:'Manrope',sans-serif;font-weight:800;
-    font-size:1.02rem;text-transform:uppercase;letter-spacing:.06em;line-height:1.2;
+    font-family:'Unbounded',sans-serif;font-weight:800;
+    font-size:15px;text-transform:uppercase;letter-spacing:.02em;line-height:1.3;
   }
   .docs-grid p{color:var(--ink-soft);font-size:14px;line-height:1.55;margin-top:auto}
   .specline-top:last-child{border-bottom:0}
@@ -643,7 +492,7 @@
     padding:clamp(20px,2.2vw,30px);display:flex;flex-direction:column;gap:clamp(14px,1.8vw,26px);
   }
   .who-facts b{
-    display:block;font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;
+    display:block;font-family:'Unbounded',sans-serif;font-weight:900;
     font-size:clamp(2.6rem,4.4vw,4rem);line-height:.84;font-variant-numeric:tabular-nums;
   }
   .who-facts span{display:block;color:rgba(255,255,255,.68);font-size:14px;line-height:1.5;margin-top:auto}
@@ -660,6 +509,8 @@
   }
   @media (max-width:760px){
     .who-head{flex-direction:column;align-items:flex-start;gap:16px}
+    .who-head > *{max-width:100%}
+    .who-head h2{overflow-wrap:break-word}
     .who-lead{max-width:46ch;padding-bottom:0}
     .who-facts li{padding:18px;gap:12px}
     .who-facts span{font-size:13px}
@@ -694,11 +545,6 @@
   @media (hover:hover){.seg-b:not(.is-on):hover{background:rgba(17,19,21,.06);color:var(--ink)}}
   .seg-b:active{transform:translateY(1px)}
   .seg-b.is-on{background:var(--ink);color:#fff}
-  .seg-note{
-    display:block;color:var(--mute);
-    margin:clamp(14px,1.6vw,20px) 0 clamp(20px,2.4vw,32px);
-    padding-top:clamp(14px,1.6vw,18px);border-top:var(--hair) solid var(--line);
-  }
   .grid-m{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(12px,1.5vw,18px)}
   .m{
     background:var(--panel);border-radius:var(--r-m);padding:clamp(16px,1.8vw,24px);
@@ -715,16 +561,17 @@
     display:flex;align-items:center;justify-content:center;overflow:hidden;
   }
   .m-img img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:contain}
-  .m b,.m .m-name{font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;font-size:clamp(17px,1.7vw,24px);letter-spacing:.04em;text-transform:uppercase}
+  .m b,.m .m-name{font-family:'Unbounded',sans-serif;font-weight:900;font-size:clamp(17px,1.7vw,24px);letter-spacing:.04em;text-transform:uppercase}
   .m .form{color:var(--ink-soft);font-size:14px;line-height:1.45;min-height:2.6em}
   /* row-gap: на узком экране кнопки встают в две строки - без зазора активная заливка
      соседних строк слипалась в одно пятно */
   .seg--line{flex-wrap:wrap;max-width:100%;row-gap:4px}
-  /* счётчик - часть пилюли фильтра: он отвечает на нажатие чипа, а не живёт сам по себе */
+  /* счётчик - часть пилюли фильтра, но подпись, а не ещё одна кнопка:
+     тише кеглем, за разделителем, без кнопочной высоты */
   .m-count{
-    display:inline-flex;align-items:center;min-height:44px;padding:0 18px 0 16px;margin-left:auto;
+    display:inline-flex;align-items:center;align-self:stretch;padding:0 16px 0 18px;margin-left:auto;
     border-left:var(--hair) solid var(--line);
-    color:var(--mute);font-family:'IBM Plex Mono',monospace;font-size:10.5px;
+    color:var(--mute);font-family:'IBM Plex Mono',monospace;font-size:10px;
     letter-spacing:var(--ls-cap);text-transform:uppercase;
     font-variant-numeric:tabular-nums;white-space:nowrap;
   }
@@ -733,12 +580,12 @@
      (узкая карточка угольной серии) - вниз уходит целая единица, а не половина диапазона */
   .m .price{display:flex;align-items:baseline;gap:2px 8px;flex-wrap:wrap;margin-top:auto;padding-top:14px;border-top:var(--hair) solid var(--line)}
   .m .price .num{
-    font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;
+    font-family:'Unbounded',sans-serif;font-weight:900;
     font-size:clamp(1.25rem,2.1vw,1.8rem);font-variant-numeric:tabular-nums;
     white-space:nowrap;transition:opacity var(--d-1) var(--e);
   }
   .m .price .per{color:var(--mute);font-size:12.5px}
-  .m .grade{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:var(--ls-cap);text-transform:uppercase;color:var(--mute)}
+  .m .grade{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:var(--ls-cap);text-transform:uppercase;color:var(--mute)}
   /* ссылка в WhatsApp занимает карточку до линии цены: цифру под ней можно выделить мышью */
   @media (pointer:fine){
     .m .price,.m .grade{position:relative;z-index:3}
@@ -748,7 +595,6 @@
   .m--spec .m-cls{color:#fff}
   .m--spec .m-img{background:#07110e;border-color:rgba(255,255,255,.12)}
   .m--spec .form{color:rgba(255,255,255,.72)}
-  .m--spec b::after{color:var(--brand-lift);opacity:.75}
   .m--spec .price{border-top-color:rgba(255,255,255,.14)}
   .m--spec .price .num{color:var(--brand-lift)}
   .m--spec .price .per{color:rgba(255,255,255,.5)}
@@ -783,27 +629,26 @@
     .m-bar-r{width:100%;justify-content:space-between}
   }
   @media (max-width:760px){
-    .m-count{margin-left:0;padding:0 8px 0 12px;min-height:38px}
+    .m-count{margin-left:0;padding:0 8px 0 12px}
   }
   @media (max-width:520px){
     .grid-m{gap:10px}
     .m{padding:12px;gap:8px}
     .m-top{gap:6px}
-    .m-top .mono{font-size:9.5px;letter-spacing:.05em}
+    .m-top .mono{font-size:10px}
     .m-cls{font-size:10px;gap:5px}
     .m-cls .dot{width:16px}
-    .m b,.m .m-name{font-size:16px}
+    .m b,.m .m-name{font-size:14px}
     .m .form{font-size:12.5px;min-height:3.4em}
     .m .price{padding-top:10px;gap:2px 5px}
     .m .price .num{font-size:1.15rem}
     /* «опт - розница» не прячем: без этой подписи диапазон читается как подвох */
     .m .price .per{font-size:10.5px;line-height:1.35}
-    .m .grade{font-size:9.5px}
     .m-note{padding:20px}
   }
   /* узкий телефон: в половине карточки «1 020-1 160 ₸» не встаёт в строку крупнее 16px
      и рвётся посередине диапазона - кегль отдаём ширине колонки */
-  @media (max-width:420px){.m .price .num{font-size:1rem}}
+  @media (max-width:420px){.m .price .num{font-size:.95rem}}
 
   /* ---------- тёмный остров: цена и прайс ---------- */
   #price{
@@ -840,7 +685,7 @@
     text-transform:uppercase;color:rgba(255,255,255,.6);
   }
   .step b{
-    font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;
+    font-family:'Unbounded',sans-serif;font-weight:900;
     font-size:clamp(1.5rem,2.3vw,2.1rem);line-height:1;color:#fff;font-variant-numeric:tabular-nums;
   }
   .step b i{font-style:normal;font-size:.36em;color:rgba(255,255,255,.6);margin-left:.35em;letter-spacing:.04em}
@@ -856,14 +701,6 @@
     .step b{font-size:1.45rem}
     .step .l{margin-left:auto}
   }
-  .thr--best li::before{background:#fff}
-  @media (max-width:900px){
-    /* спуск цены сохраняется и в столбик: кегль растёт вместе с выгодой */
-    .thr-grid{grid-template-columns:1fr}
-    .thr .v{font-size:clamp(1.7rem,6.2vw,2.05rem)}
-    .thr--mid .v{font-size:clamp(1.95rem,7.6vw,2.45rem)}
-    .thr--best .v{font-size:clamp(2.3rem,10vw,2.9rem)}
-  }
 
   .ptable-wrap{
     margin-top:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
@@ -873,21 +710,21 @@
     display:flex;justify-content:space-between;align-items:baseline;gap:8px 18px;flex-wrap:wrap;
     padding:clamp(16px,1.8vw,22px) clamp(16px,2vw,26px) 4px;
   }
-  .ptable-head b{font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;font-size:clamp(16px,1.6vw,24px);letter-spacing:.04em;text-transform:uppercase}
+  .ptable-head b{font-family:'Unbounded',sans-serif;font-weight:900;font-size:clamp(16px,1.6vw,24px);letter-spacing:.04em;text-transform:uppercase}
   .ptable-head .mono{color:rgba(255,255,255,.66)}
   .ptable-scroll{overflow-x:visible;overscroll-behavior-x:contain}
   table.ptable{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
   .ptable th,.ptable td{padding:12px clamp(10px,1.2vw,18px);text-align:left;white-space:nowrap;vertical-align:middle}
   .ptable thead th{
-    font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:var(--ls-ui);text-transform:uppercase;
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:var(--ls-ui);text-transform:uppercase;
     color:rgba(255,255,255,.68);font-weight:400;border-bottom:1px solid rgba(255,255,255,.14);
     background:#0D100F;
   }
-  .ptable thead th small{display:block;font-size:11px;color:rgba(255,255,255,.75);letter-spacing:.04em;margin-top:4px;text-transform:none}
+  .ptable thead th small{display:block;font-size:10px;color:rgba(255,255,255,.75);letter-spacing:var(--ls-cap);margin-top:4px;text-transform:none}
   .ptable tbody tr{border-bottom:var(--hair) solid rgba(255,255,255,.07)}
   .ptable tbody tr:last-child{border-bottom:0}
   .ptable tbody tr:hover{background:rgba(255,255,255,.04)}
-  .ptable .mdl{font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:800;font-size:14.5px;letter-spacing:.05em;text-transform:uppercase}
+  .ptable .mdl{font-family:'Unbounded',sans-serif;font-weight:800;font-size:14.5px;letter-spacing:.05em;text-transform:uppercase}
   .ptable tbody th.mdl{text-align:left}
   .ptable .cl{font-family:'IBM Plex Mono',monospace;font-size:11px;color:rgba(255,255,255,.78)}
   .ptable .cl .dot{display:inline-block;margin-right:8px;vertical-align:middle}
@@ -912,7 +749,7 @@
   /* сноска прайса - служебный слой, а не второй абзац: тот же моно-капслок, что и подписи разделов */
   .ptable-foot p{
     color:rgba(255,255,255,.58);max-width:74ch;text-wrap:pretty;
-    font-family:'IBM Plex Mono',monospace;font-size:10.5px;line-height:1.75;
+    font-family:'IBM Plex Mono',monospace;font-size:10px;line-height:1.75;
     letter-spacing:var(--ls-cap);text-transform:uppercase;font-variant-numeric:tabular-nums;
   }
   /* шапка прайса едет вместе со взглядом: длинная таблица читается без возврата наверх.
@@ -951,7 +788,7 @@
        чтобы линии STANDART/PREMIUM не съезжали относительно цен */
     .ptable .gr::before,.ptable td.p::before{
       content:"";display:block;height:15px;margin-bottom:2px;flex:none;
-      font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:var(--ls-cap);
+      font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:var(--ls-cap);
       text-transform:uppercase;color:rgba(255,255,255,.62);font-weight:400;text-align:right;
     }
     .ptable td.p:nth-child(5)::before{content:"розница"}
@@ -977,7 +814,7 @@
     .ptable .pk{text-align:right;font-size:10px;align-self:start;margin-top:3px}
     /* шапка мини-прайса: пустой слот слева, имена исполнений над колонками цен */
     .ptable .gr{
-      flex-direction:row;align-items:baseline;justify-content:flex-start;gap:12px;font-size:9px;
+      flex-direction:row;align-items:baseline;justify-content:flex-start;gap:12px;font-size:10px;
       margin-top:12px;padding:8px 10px 2px;border-top:var(--hair) solid rgba(255,255,255,.09);
     }
     .ptable .gr::before,.ptable td.p::before{height:auto;flex:1 1 auto;margin:0;text-align:left;font-size:10px}
@@ -994,7 +831,8 @@
   /* узкий телефон: колонки цен чуть уже, цена короба мельче - ничего не упирается в край */
   @media (max-width:380px){
     .ptable .gr .ln,.ptable td.p .ln{width:82px}
-    .ptable td.p .pu{font-size:9.5px}
+    .ptable .pg-n{font-size:13px}
+    .ptable td.p .pu{font-size:10px}
   }
 
   /* ---------- документы ----------
@@ -1017,7 +855,7 @@
     text-transform:uppercase;color:var(--brand-lift);margin-bottom:14px;
   }
   .docs-cta b{
-    font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;
+    font-family:'Unbounded',sans-serif;font-weight:900;
     font-size:clamp(1.7rem,3.3vw,2.9rem);text-transform:uppercase;line-height:1.02;letter-spacing:-.02em;
     display:block;max-width:18ch;
   }
@@ -1027,11 +865,10 @@
     letter-spacing:var(--ls-cap);text-transform:uppercase;color:rgba(255,255,255,.62);
   }
   .docs-cta .pill{flex:none}
-  @media (max-width:760px){.docs-cta b{max-width:none}.docs-cta .note{max-width:none;font-size:10.5px}}
+  @media (max-width:760px){.docs-cta b{max-width:none}.docs-cta .note{max-width:none;font-size:10px}}
   @media (max-width:560px){.docs-cta .pill{width:100%;justify-content:center;margin-bottom:0}}
 
-  /* ---------- заявка ---------- */
-  .ct-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:14px;align-items:stretch}
+  /* ---------- заявка: форма во всю ширину, как на сайте поставщика ---------- */
   .ct-form{background:var(--panel);border-radius:var(--r-m);padding:clamp(24px,2.8vw,40px)}
   .ct-form .lead{color:var(--ink-soft);font-size:15.5px;line-height:1.55;margin-bottom:clamp(22px,2.6vw,30px);max-width:46ch;text-wrap:pretty}
   .f-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
@@ -1076,26 +913,20 @@
   .f-agree a{color:var(--brand);text-decoration:underline;text-underline-offset:2px}
   .field--check.is-bad .f-agree{color:var(--danger)}
   .field--check.is-bad .f-agree input{outline:2px solid var(--danger);outline-offset:2px;box-shadow:none}
-  .ct-side{
-    position:relative;border-radius:var(--r-m);overflow:hidden;background:var(--ink);
-    display:flex;flex-direction:column;justify-content:flex-end;min-height:clamp(340px,40vw,560px);
+  /* прямые контакты под формой: снабженцу, который звонит, а не заполняет поля */
+  .ct-direct{
+    display:flex;align-items:center;gap:8px 28px;flex-wrap:wrap;
+    margin-top:clamp(20px,2.4vw,30px);padding-top:clamp(16px,1.8vw,22px);
+    border-top:var(--hair) solid var(--line);
   }
-  .ct-side img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 22%}
-  .ct-cap{
-    position:relative;z-index:2;padding:clamp(20px,2.4vw,32px);color:#fff;
-    background:linear-gradient(180deg,transparent,rgba(8,10,9,.88) 46%);
+  .ct-direct .mono{color:var(--mute)}
+  .ct-direct a{
+    display:inline-flex;align-items:center;min-height:44px;
+    font-family:'Unbounded',sans-serif;font-weight:800;
+    font-size:clamp(14px,1.25vw,17px);letter-spacing:.02em;font-variant-numeric:tabular-nums;
+    transition:color var(--d-1) var(--e);
   }
-  .ct-cap b{font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;font-size:clamp(1.05rem,1.8vw,1.5rem);letter-spacing:.04em;text-transform:uppercase;display:block;margin-bottom:8px}
-  .ct-cap .mono{color:rgba(255,255,255,.72);display:block}
-  .ct-dir{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
-  .ct-dir a{
-    display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.3);border-radius:999px;
-    padding:11px 16px;min-height:44px;color:#fff;
-    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:var(--ls-ui);text-transform:uppercase;
-    transition:background var(--d-1) var(--e),color var(--d-1) var(--e),border-color var(--d-1) var(--e);
-  }
-  @media (hover:hover){.ct-dir a:hover{background:#fff;color:var(--ink);border-color:#fff}}
-  .ct-dir svg{width:15px;height:15px}
+  @media (hover:hover){.ct-direct a:hover{color:var(--brand)}}
   .f-ok{display:none;background:var(--ink);color:#fff;border-radius:var(--r-s);padding:18px 22px;margin-top:16px;gap:12px;align-items:center}
   .f-ok.is-on{display:flex}
   .f-ok svg{width:22px;height:22px;color:var(--brand-lift);flex:none}
@@ -1103,7 +934,7 @@
   .f-alt{display:none;background:var(--ink);color:#fff;border-radius:var(--r-s);padding:20px 22px;margin-top:16px}
   .f-alt.is-on{display:block}
   .f-alt b{
-    display:block;font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:800;
+    display:block;font-family:'Unbounded',sans-serif;font-weight:800;
     font-size:14px;letter-spacing:.05em;text-transform:uppercase;margin-bottom:8px;
   }
   .f-alt p{color:rgba(255,255,255,.72);font-size:13.5px;line-height:1.5;max-width:46ch}
@@ -1125,7 +956,7 @@
     transition:text-decoration-color var(--d-1) var(--e);
   }
   @media (hover:hover){.f-alt-dir a:hover{text-decoration-color:#fff}}
-  @media (max-width:900px){.ct-grid{grid-template-columns:1fr}.f-row{grid-template-columns:1fr}.ct-side{min-height:320px}}
+  @media (max-width:900px){.f-row{grid-template-columns:1fr}}
 
   /* ---------- футер ---------- */
   .foot{
@@ -1140,8 +971,10 @@
     background:radial-gradient(58% 62% at 82% 6%,rgba(87,170,130,.18),transparent 72%);
   }
   .foot > *{position:relative;z-index:1}
-  /* разбивка строк задана span'ами в разметке - ширину заголовку не ограничиваем */
-  .foot-title{font-size:var(--t-h2-mid);color:#fff;flex:1 1 min(100%,560px)}
+  /* разбивка строк задана span'ами в разметке - ширину заголовку не ограничиваем.
+     Кегль ниже заголовков разделов: в Unbounded строка «по всему Казахстану» на полном
+     кегле не встаёт в колонку рядом с контактами */
+  .foot-title{font-size:clamp(1.6rem,3vw,2.7rem);color:#fff;flex:1 1 min(100%,560px)}
   .foot-title span{display:block}
   .foot-title em{font-style:normal;color:var(--brand-lift)}
   .ft-dash{font-style:normal}
@@ -1149,7 +982,7 @@
   .foot-top{display:flex;justify-content:space-between;align-items:flex-end;gap:clamp(28px,4vw,72px);flex-wrap:wrap}
   .foot-contact{display:flex;flex-direction:column;align-items:flex-start;gap:10px}
   .foot-phone{
-    color:#fff;font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:800;
+    color:#fff;font-family:'Unbounded',sans-serif;font-weight:800;
     font-size:clamp(1.4rem,2.4vw,2.2rem);letter-spacing:.02em;line-height:1.1;
     font-variant-numeric:tabular-nums;transition:color var(--d-1) var(--e);
   }
@@ -1183,16 +1016,6 @@
     .ft-dash{display:none}
   }
 
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  @media (max-width:760px){}
 
   /* шаги заказа набраны манифестом: тот же приём, что у шкалы кратности -
      один кегль, растущий отступ слева как движение по этапам */
@@ -1207,7 +1030,7 @@
   .mf-k{display:block;color:var(--brand);letter-spacing:var(--ls-key);margin-bottom:clamp(22px,3vw,40px)}
   .mf-scale{display:flex;flex-direction:column;gap:clamp(4px,.7vw,10px)}
   .mf-row{
-    font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:800;text-transform:uppercase;
+    font-family:'Unbounded',sans-serif;font-weight:800;text-transform:uppercase;
     /* #7E858B, а не более светлый серый: на бумаге #EBEEF0 это 3.2:1 - крупный текст проходит AA */
     color:#7E858B;line-height:1.1;letter-spacing:.01em;
     font-size:clamp(1.35rem,3.7vw,3.3rem);text-wrap:balance;
@@ -1225,24 +1048,12 @@
     font-family:'IBM Plex Mono',monospace;font-size:11px;line-height:1.75;
     letter-spacing:var(--ls-cap);text-transform:uppercase;color:var(--mute);
   }
-  /* Второй манифест: знаменатель подменяется на глазах. Тот же приём, что у шкалы ПДК -
-     один кегль на обе строки, вторая со ступенькой, ключевое слово фирменным зелёным. */
-  .mf-u{
-    display:flex;align-items:baseline;flex-wrap:wrap;gap:0 .32em;
-    font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:800;text-transform:uppercase;
-    color:#7E858B;line-height:1.1;letter-spacing:.01em;font-size:clamp(1.35rem,3.7vw,3.3rem);
-  }
-  .mf-u b{font-weight:900;font-variant-numeric:tabular-nums;font-size:1.32em}
-  .mf-u s{text-decoration-thickness:.05em}
-  .mf-u--new{margin-left:clamp(.7em,4.4vw,2.2em);margin-top:clamp(4px,.7vw,10px)}
-  .mf-u--new b{color:var(--ink)}
-  .mf-u--new span{color:var(--brand)}
   /* реестр маркировки - белая карточка на бумаге: её сверяют глазами с самой маской */
   .mf-chk{
     margin-top:clamp(24px,3vw,40px);text-wrap:pretty;
     background:var(--panel);border:1px solid var(--line);border-radius:var(--r-m);
     padding:clamp(18px,2vw,28px);
-    font-family:'IBM Plex Mono',monospace;font-size:11.5px;line-height:1.9;
+    font-family:'IBM Plex Mono',monospace;font-size:11px;line-height:1.9;
     letter-spacing:var(--ls-cap);text-transform:uppercase;color:var(--mute);
   }
   /* коды ТУ не рвутся посередине: они читаются как одна метка на изделии */
@@ -1254,7 +1065,7 @@
     transition:color var(--d-1) var(--e),border-color var(--d-1) var(--e);
   }
   @media (hover:hover){.mf-link:hover{color:var(--ink);border-bottom-color:var(--ink)}}
-  @media (max-width:560px){.mf-chk{font-size:10.5px;line-height:1.85}}
+  @media (max-width:560px){.mf-chk{font-size:10px;line-height:1.85}}
 
   /* ---------- подбор класса под участок: регистр чертежа ---------- */
   .pick{
@@ -1277,17 +1088,17 @@
   }
   .ptbl tr:first-child td{border-top:0}
   .ptbl .air b{
-    display:block;font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;
+    display:block;font-family:'Unbounded',sans-serif;font-weight:900;
     font-size:clamp(16px,1.5vw,21px);text-transform:uppercase;letter-spacing:.02em;line-height:1.12;
   }
   .ptbl .air span{display:block;margin-top:8px;color:var(--ink-soft);font-size:14px;line-height:1.5;max-width:40ch}
   .ptbl .cls{width:20%;white-space:nowrap}
   .ptbl .cls .dot{display:block;width:34px;height:4px;margin-bottom:8px}
-  .ptbl .cls b{font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:13px;letter-spacing:var(--ls-cap);display:block}
-  .ptbl .cls span{display:block;margin-top:5px;color:var(--ink-soft);font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.04em}
+  .ptbl .cls b{font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:11px;letter-spacing:var(--ls-cap);display:block}
+  .ptbl .cls span{display:block;margin-top:5px;color:var(--ink-soft);font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:var(--ls-cap)}
   .ptbl .mdls{width:30%}
   .ptbl .mdls a{
-    position:relative;display:inline-block;font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:800;font-size:15px;
+    position:relative;display:inline-block;font-family:'Unbounded',sans-serif;font-weight:800;font-size:15px;
     letter-spacing:.05em;text-transform:uppercase;border-bottom:1px solid rgba(50,100,80,.3);
     padding-bottom:2px;margin:0 14px 18px 0;transition:color var(--d-1) var(--e),border-color var(--d-1) var(--e);
   }
@@ -1309,15 +1120,19 @@
     background:var(--brand);color:#fff;text-align:center;
   }
   .ptbl .prc b{
-    font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;
+    font-family:'Unbounded',sans-serif;font-weight:900;
     font-size:clamp(.95rem,1.28vw,1.16rem);line-height:1;letter-spacing:-.02em;
     font-variant-numeric:tabular-nums;display:block;white-space:nowrap;
   }
   .ptbl .prc b i{
     font-style:normal;font-family:'IBM Plex Mono',monospace;font-weight:400;
-    font-size:.62em;letter-spacing:var(--ls-cap);text-transform:uppercase;
+    font-size:10px;letter-spacing:var(--ls-cap);text-transform:uppercase;
     color:rgba(255,255,255,.72);margin-right:.34em;
   }
+  /* ценник - рабочая ссылка: ведёт в полный прайс и включает фильтр своего класса */
+  .ptbl .prc a.tag{transition:background var(--d-1) var(--e),transform var(--d-1) var(--e),box-shadow var(--d-2) var(--e)}
+  @media (hover:hover){.ptbl .prc a.tag:hover{background:var(--brand-deep);transform:translateY(-2px);box-shadow:0 10px 24px rgba(50,100,80,.35)}}
+  .ptbl .prc a.tag:active{transform:none;box-shadow:none}
 
   .pick-foot{
     display:flex;justify-content:space-between;align-items:center;gap:18px 40px;flex-wrap:wrap;
@@ -1329,7 +1144,7 @@
     background:radial-gradient(56% 120% at 84% 0%,rgba(87,170,130,.18),transparent 70%);
   }
   .pick-foot > *{position:relative;z-index:1}
-  .pick-foot b{font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;font-size:clamp(1.15rem,1.9vw,1.7rem);text-transform:uppercase;line-height:1.08;display:block;text-wrap:balance;max-width:30ch}
+  .pick-foot b{font-family:'Unbounded',sans-serif;font-weight:900;font-size:clamp(1.15rem,1.9vw,1.7rem);text-transform:uppercase;line-height:1.08;display:block;text-wrap:balance;max-width:30ch}
   .pick-foot .note{display:block;margin-top:10px;color:rgba(255,255,255,.66);font-size:14px;line-height:1.55;max-width:52ch}
   .pick-foot .pill{flex:none}
   @media (max-width:820px){
@@ -1372,20 +1187,22 @@
      иначе поля и переносы шапки живут по правилам обычной ячейки прайса */
   .ptable tbody tr.pgrp td,.ptable tbody tr.pgrp th{padding:13px clamp(10px,1.2vw,18px);white-space:normal}
   .pg{display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 16px}
-  .pg-n{font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;font-size:14px;letter-spacing:.05em;text-transform:uppercase}
-  .pg-m{color:rgba(255,255,255,.55);min-width:0;overflow-wrap:anywhere}
+  .pg-n{font-family:'Unbounded',sans-serif;font-weight:900;font-size:14px;letter-spacing:.05em;text-transform:uppercase}
+  .pg-m{font-weight:400;color:rgba(255,255,255,.55);min-width:0;overflow-wrap:anywhere}
   .pg-f{
-    margin-left:auto;font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;font-size:14px;
+    margin-left:auto;font-family:'Unbounded',sans-serif;font-weight:900;font-size:14px;
     letter-spacing:.03em;text-transform:uppercase;color:var(--brand-lift);font-variant-numeric:tabular-nums;
   }
-  .pg-f i{font-style:normal;font-family:'IBM Plex Mono',monospace;font-weight:400;font-size:10.5px;letter-spacing:var(--ls-cap);color:rgba(255,255,255,.55);margin-left:6px}
-  /* цена за упаковку: чистая арифметика от цены этой же колонки */
-  .pu{display:block;margin-top:4px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.03em;color:rgba(255,255,255,.58);font-weight:400}
+  .pg-f i{font-style:normal;font-family:'IBM Plex Mono',monospace;font-weight:400;font-size:10px;letter-spacing:var(--ls-cap);color:rgba(255,255,255,.55);margin-left:6px}
+  /* цена за короб: чистая арифметика от цены этой же колонки. Подпись «короб» видима
+     во всех режимах - без неё сумма читается как минимальный порог заказа */
+  .pu{display:block;margin-top:4px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:var(--ls-cap);color:rgba(255,255,255,.58);font-weight:400}
   .ptable td.p--best .pu{color:var(--brand-lift);opacity:.95}
-  /* подпись «короб»: на десктопе её объясняет шапка прайса - прячем визуально, оставляем скринридеру */
-  .pu-k{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
-  .mdl-v{display:block;margin-top:4px;font-family:'IBM Plex Mono',monospace;font-weight:400;font-size:10px;letter-spacing:.03em;text-transform:none;color:rgba(255,255,255,.6)}
+  .mdl-v{display:block;margin-top:4px;font-family:'IBM Plex Mono',monospace;font-weight:400;font-size:10px;letter-spacing:var(--ls-cap);text-transform:none;color:rgba(255,255,255,.6)}
   .ptable tbody tr[hidden]{display:none}
+  /* строка, к которой привёл клик по ценнику подбора, коротко подсвечивается */
+  .ptable tbody tr.is-hl{animation:hl-row 1.8s var(--e)}
+  @keyframes hl-row{0%,55%{background:rgba(87,170,130,.16)}100%{background:transparent}}
   .p-more{
     display:flex;justify-content:center;align-items:center;gap:10px;width:100%;
     padding:16px;border-top:1px solid rgba(255,255,255,.1);color:#fff;
@@ -1418,10 +1235,9 @@
        из которой фильтр убрал все позиции, остаётся висеть пустой */
     .ptable tbody tr.pgrp[hidden]{display:none}
     .ptable tbody tr.pgrp td,.ptable tbody tr.pgrp th{width:100%;padding:13px 16px}
-    /* в карточке подпись «короб» видима; цена за короб - тем же текстовым шрифтом,
-       что и цена за штуку: это тоже цена, а не служебная моно-метка */
+    /* в карточке цена за короб - тем же текстовым шрифтом, что и цена за штуку:
+       это тоже цена, а не служебная моно-метка */
     .pu{font-family:'Manrope',sans-serif;font-size:11px;letter-spacing:0}
-    .pu .pu-k{position:static;width:auto;height:auto;margin:0;overflow:visible;clip-path:none}
     .ptable-foot .p-file{width:100%}
     .ptable-foot .p-file .pill{flex:1}
   }
@@ -1430,24 +1246,11 @@
   .specline{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-m);overflow:hidden}
   .specline-top{padding:clamp(20px,2.4vw,30px) clamp(18px,2.2vw,28px);border-bottom:var(--hair) solid var(--line)}
   .specline-top .mono{display:block;color:var(--mute);margin-bottom:12px}
-  .specline-v{font-size:12.5px;
+  .specline-v{
     font-family:'IBM Plex Mono',monospace;font-weight:500;
     font-size:clamp(13px,1.35vw,17px);line-height:1.75;letter-spacing:.01em;color:var(--ink);
   }
   .specline-v i{font-style:normal;color:var(--mute)}
-  .specline-l{list-style:none}
-  .specline-l li{
-    display:grid;grid-template-columns:minmax(150px,.32fr) 1fr;gap:6px clamp(18px,2.4vw,36px);
-    padding:clamp(12px,1.3vw,16px) clamp(18px,2.2vw,28px);border-top:var(--hair) solid var(--line);
-  }
-  .specline-l li:first-child{border-top:0}
-  .specline-l dfn{
-    font-style:normal;font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:var(--ls-cap);
-    text-transform:uppercase;color:var(--brand);
-  }
-  .specline-l p{color:var(--ink-soft);font-size:14.5px;line-height:1.5;max-width:62ch}
-  .specline-l p b{color:var(--ink);font-weight:700}
-  @media (max-width:640px){.specline-l li{grid-template-columns:1fr;gap:5px}}
 
   /* ---------- появление при скролле ---------- */
   /* один приём на всю страницу: короткий подъём и проявление, соседи в группе - лесенкой */
@@ -1481,7 +1284,11 @@
     /* кнопки-переключатели: подбор, серии, исполнение, фильтры прайса - одна высота под палец */
     .seg-b,.chip,.fchip{min-height:44px}
     .seg-b{padding-inline:20px}
-    .ct-dir a{min-height:44px}
+    /* согласие: ссылке на политику - своя зона под палец, галочке - мишень крупнее */
+    .f-agree{gap:12px}
+    .f-agree input{width:24px;height:24px}
+    .f-agree a{display:inline-block;padding-block:13px;margin-block:-5px}
+    .ct-direct a{min-height:48px}
     .foot-contact{gap:0}
     .foot-phone{padding-block:10px}
     .f-agree{padding-block:4px}
@@ -1489,24 +1296,6 @@
     .ptbl .mdls a,.mf-link,.ptable-foot .p-mail,.foot-email,.f-note a,.foot-bottom a{
       display:inline-flex;align-items:center;min-height:44px;
     }
-  }
-  /* мобильный первый экран: ни заголовок, ни три ценовые метки не расширяют страницу */
-  @media (max-width:760px){
-    /* max-width:100% на самом первом экране обрезал его: остров растянут отрицательными
-       полями за края колонки, а ограничение шириной колонки возвращало его обратно -
-       справа оставалась светлая полоса в 32 px. Ограничение нужно только содержимому. */
-    .hero{min-width:0}
-    .hero-copy,.hero-price,.hp{min-width:0;max-width:100%}
-    .hero-fig img{transform:scale(1.12) translateY(-6%);transform-origin:62% 50%}
-    .hero h1{font-size:clamp(2.05rem,9.6vw,3.7rem);letter-spacing:-.055em;overflow-wrap:break-word}
-    .hero h1 .acc{margin-left:.28em}
-    .hero-kicker{white-space:normal}
-    .hero-price{width:100%;grid-template-columns:repeat(3,minmax(0,1fr))}
-    .hp b{font-size:clamp(14px,4.2vw,17px)}
-  }
-  @media (max-width:380px){
-    .hero h1{font-size:2.35rem}
-    .hero h1 .acc{margin-left:.2em}
   }
   @media (prefers-reduced-motion:reduce){
     html{scroll-behavior:auto}
@@ -1535,7 +1324,7 @@
   }
   .cfield input{
     width:100%;border:1px solid var(--line);border-radius:var(--r-s);background:#fff;color:var(--ink);
-    padding:11px 14px;font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:800;font-size:20px;
+    padding:11px 14px;font-family:'Unbounded',sans-serif;font-weight:800;font-size:20px;
     font-variant-numeric:tabular-nums;min-height:50px;
   }
   .cfield input:focus-visible{outline:2px solid var(--brand);outline-offset:1px}
@@ -1547,7 +1336,7 @@
   /* сноска прижата к низу формы: её базовая линия рифмуется с кнопкой в правой колонке */
   .calc-fine{
     grid-area:fine;align-self:end;color:var(--mute);max-width:54ch;
-    font-family:'IBM Plex Mono',monospace;font-size:10.5px;line-height:1.7;
+    font-family:'IBM Plex Mono',monospace;font-size:10px;line-height:1.7;
     letter-spacing:var(--ls-cap);text-transform:uppercase;
   }
   .calc-res{
@@ -1558,7 +1347,7 @@
   .cout{display:flex;flex-direction:column;gap:6px}
   .cout .k{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:var(--ls-cap);text-transform:uppercase;color:var(--mute)}
   .cout b{
-    font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;
+    font-family:'Unbounded',sans-serif;font-weight:900;
     font-size:clamp(1.25rem,1.8vw,1.7rem);line-height:1;font-variant-numeric:tabular-nums;
   }
   .cout .l{font-size:12px;color:var(--ink-soft)}
@@ -1586,7 +1375,7 @@
   }
   .faq summary{
     cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px;
-    font-family:'Manrope',sans-serif;font-weight:700;font-size:15px;line-height:1.4;min-height:32px;
+    font-family:'Manrope',sans-serif;font-weight:700;font-size:15px;line-height:1.4;min-height:44px;
   }
   .faq summary::-webkit-details-marker{display:none}
   .faq summary::after{content:"+";font-family:'IBM Plex Mono',monospace;font-size:18px;line-height:1;color:var(--brand);flex:none}
@@ -1720,31 +1509,31 @@
             <td class="air"><b>Пыль и&nbsp;аэрозоли&nbsp;· до&nbsp;4&nbsp;ПДК</b><span>Концентрация пыли выше предельно допустимой (ПДК) не&nbsp;более чем в&nbsp;четыре раза.</span><p class="use">применяют: склад, упаковка, сельхозработы</p></td>
             <td class="cls"><i class="dot dot--1"></i><b>FFP1</b></td>
             <td class="mdls"><a href="#models" aria-label="Модель FR 4100 - смотреть в модельном ряду">FR&nbsp;4100</a><a href="#models" aria-label="Модель FR 3100 - смотреть в модельном ряду">FR&nbsp;3100</a><a href="#models" aria-label="Модель FR 4110W - смотреть в модельном ряду">FR&nbsp;4110W</a><a href="#models" aria-label="Модель FR 3110 - смотреть в модельном ряду">FR&nbsp;3110</a></td>
-            <td class="prc"><span class="tag"><b><i>от</i>208&nbsp;₸</b></span></td>
+            <td class="prc"><a class="tag" href="#ptable" data-cls="1" data-place="подбор-ценник" aria-label="Открыть прайс: класс FFP1, от 208 ₸ за штуку на опте"><b><i>от</i>208&nbsp;₸</b></a></td>
           </tr>
           <tr>
             <td class="air"><b>Пыль и&nbsp;аэрозоли&nbsp;· до&nbsp;12&nbsp;ПДК</b><span>Концентрация выше нормы до&nbsp;двенадцати раз.</span><p class="use">применяют: цех, стройка, деревообработка</p></td>
             <td class="cls"><i class="dot dot--2"></i><b>FFP2</b></td>
             <td class="mdls"><a href="#models" aria-label="Модель FR 4200 - смотреть в модельном ряду">FR&nbsp;4200</a><a href="#models" aria-label="Модель FR 3200 - смотреть в модельном ряду">FR&nbsp;3200</a><a href="#models" aria-label="Модель FR 4210W - смотреть в модельном ряду">FR&nbsp;4210W</a><a href="#models" aria-label="Модель FR 3210 - смотреть в модельном ряду">FR&nbsp;3210</a></td>
-            <td class="prc"><span class="tag"><b><i>от</i>284&nbsp;₸</b></span></td>
+            <td class="prc"><a class="tag" href="#ptable" data-cls="2" data-place="подбор-ценник" aria-label="Открыть прайс: класс FFP2, от 284 ₸ за штуку на опте"><b><i>от</i>284&nbsp;₸</b></a></td>
           </tr>
           <tr>
             <td class="air"><b>Пыль и&nbsp;аэрозоли&nbsp;· до&nbsp;50&nbsp;ПДК</b><span>Концентрация выше нормы до&nbsp;пятидесяти раз&nbsp;- старший класс линейки.</span><p class="use">применяют: литейное производство, обработка металлов, строительные смеси</p></td>
             <td class="cls"><i class="dot dot--3"></i><b>FFP3</b></td>
             <td class="mdls"><a href="#models" aria-label="Модель FR 4310W - смотреть в модельном ряду">FR&nbsp;4310W</a><a href="#models" aria-label="Модель FR 3310 - смотреть в модельном ряду">FR&nbsp;3310</a></td>
-            <td class="prc"><span class="tag"><b><i>от</i>421&nbsp;₸</b></span></td>
+            <td class="prc"><a class="tag" href="#ptable" data-cls="3" data-place="подбор-ценник" aria-label="Открыть прайс: класс FFP3, от 421 ₸ за штуку на опте"><b><i>от</i>421&nbsp;₸</b></a></td>
           </tr>
           <tr>
             <td class="air"><b>Сварочные аэрозоли, газы и&nbsp;пары</b><span>Двойная защита: от&nbsp;пыли до&nbsp;12&nbsp;ПДК и&nbsp;от&nbsp;сварочных дымов, газов и&nbsp;паров&nbsp;- за&nbsp;счёт угольного слоя.</span><p class="use">применяют: сварочные посты, судоремонт</p></td>
             <td class="cls"><i class="dot dot--2"></i><b>FFP2</b></td>
             <td class="mdls"><a href="#models" aria-label="Модель FR 3220 - смотреть в модельном ряду">FR&nbsp;3220</a></td>
-            <td class="prc"><span class="tag"><b><i>от</i>1&nbsp;020&nbsp;₸</b></span></td>
+            <td class="prc"><a class="tag" href="#ptable" data-cls="2" data-hl="spec" data-place="подбор-ценник" aria-label="Открыть прайс: FR 3220 с угольным слоем, от 1 020 ₸ за штуку на опте"><b><i>от</i>1&nbsp;020&nbsp;₸</b></a></td>
           </tr>
           <tr>
             <td class="air"><b>Кислые газы и&nbsp;пары</b><span>Двойная защита: от&nbsp;пыли до&nbsp;12&nbsp;ПДК и&nbsp;от&nbsp;кислых газов и&nbsp;паров&nbsp;- за&nbsp;счёт угольного слоя.</span><p class="use">применяют: аккумуляторные и&nbsp;гальванические участки</p></td>
             <td class="cls"><i class="dot dot--2"></i><b>FFP2</b></td>
             <td class="mdls"><a href="#models" aria-label="Модель FR 3230 - смотреть в модельном ряду">FR&nbsp;3230</a></td>
-            <td class="prc"><span class="tag"><b><i>от</i>1&nbsp;070&nbsp;₸</b></span></td>
+            <td class="prc"><a class="tag" href="#ptable" data-cls="2" data-hl="spec" data-place="подбор-ценник" aria-label="Открыть прайс: FR 3230 с угольным слоем, от 1 070 ₸ за штуку на опте"><b><i>от</i>1&nbsp;070&nbsp;₸</b></a></td>
           </tr>
         </tbody>
       </table>
@@ -1917,7 +1706,7 @@
       </div>
     </div>
 
-    <div class="ptable-wrap rv">
+    <div class="ptable-wrap rv" id="ptable">
       <div class="ptable-head">
         <b>Полный прайс</b>
         <span class="mono"><span class="p-count" id="p-count">12&nbsp;моделей&nbsp;· 22&nbsp;позиции</span></span>
@@ -2131,8 +1920,7 @@
       <h2 class="display"><span class="kick">Оптовый отдел&nbsp;· Казахстан</span>Соберём партию<br>под&nbsp;ваш участок<em>.</em></h2>
       <div class="sec-side"><span class="note">Подготовим расчёт партии, цену по&nbsp;выбранному порогу и&nbsp;комплект документов&nbsp;- одним сообщением.</span></div>
     </div>
-    <div class="ct-grid">
-      <div class="ct-form rv">
+    <div class="ct-form rv">
         <p class="lead">Опишите участок и&nbsp;объём: что в&nbsp;воздухе, какой класс нужен, сколько человек в&nbsp;смене. Есть протокол замеров&nbsp;- пришлите, сверим подбор по&nbsp;фактическим данным.</p>
         <form id="lead" novalidate>
           <div class="f-row">
@@ -2196,7 +1984,11 @@
               <a href="mailto:sale@alltrade-ltd.kz" data-place="запасной блок формы">sale@alltrade-ltd.kz</a>
             </div>
           </div>
-        </form>
+      </form>
+      <div class="ct-direct">
+        <span class="mono">напрямую</span>
+        <a href="tel:+77710519449" data-place="форма-напрямую">+7&nbsp;771&nbsp;051&nbsp;94&nbsp;49</a>
+        <a href="mailto:sale@alltrade-ltd.kz" data-place="форма-напрямую">sale@alltrade-ltd.kz</a>
       </div>
     </div>
   </section>
@@ -2530,6 +2322,29 @@ function farosCalmScroll(){ return matchMedia('(prefers-reduced-motion:reduce)')
   });
   if(more) more.addEventListener('click',function(){ open=!open; render(); });
   render();
+})();
+
+/* ===== ценники подбора: переход в полный прайс с включённым фильтром класса ===== */
+(function(){
+  var tags=document.querySelectorAll('.ptbl .prc a.tag[data-cls]');
+  if(!tags.length)return;
+  [].forEach.call(tags,function(a){
+    a.addEventListener('click',function(){
+      var chip=document.querySelector('.pfilt .fchip[data-cls="'+a.dataset.cls+'"]');
+      /* класс, невозможный при текущем фильтре клапана, сначала освобождаем от него */
+      if(chip&&chip.disabled){
+        var v=document.querySelector('.pfilt .fchip[data-valve="all"]');
+        if(v&&!v.classList.contains('is-on')) v.click();
+      }
+      if(chip&&!chip.classList.contains('is-on')) chip.click();
+      /* угольные модели: фильтр класса шире их двух строк - подсвечиваем сами строки */
+      if(a.dataset.hl){
+        [].forEach.call(document.querySelectorAll('#ptable-body tr[data-series="'+a.dataset.hl+'"]:not(.pgrp)'),function(tr){
+          tr.classList.remove('is-hl'); void tr.offsetWidth; tr.classList.add('is-hl');
+        });
+      }
+    });
+  });
 })();
 
 /* ===== заявка: собираем сообщение и открываем WhatsApp ===== */
