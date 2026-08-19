@@ -1395,14 +1395,20 @@
   /* подсказка появляется только когда до опта не хватает объёма - пустой строки не остаётся */
   .calc-note:empty{display:none}
   .calc-res .pill{margin-top:auto;align-self:flex-start}
-  @media (max-width:900px){
+  /* формула узкая - двум регистрам хватает ширины уже на планшете */
+  @media (max-width:800px){
     .calc{grid-template-columns:1fr;grid-template-rows:auto;grid-template-areas:"in" "res" "fine"}
     .calc-res{border-left:0;padding-left:0;border-top:var(--hair) solid var(--line);padding-top:clamp(16px,2.6vw,22px)}
     .calc-res .pill{margin-top:4px}
   }
   @media (max-width:560px){
-    .cfield:nth-child(3),.cfield--cls{grid-column:1/-1}
-    .calc-res .pill{align-self:stretch;justify-content:center}
+    /* кнопка в одну строку: кегль как у кнопок первого экрана на этой же ширине */
+    .calc-res .pill{align-self:stretch;justify-content:center;font-size:10.5px;padding-inline:14px;white-space:nowrap}
+    .calc-res{gap:12px}
+    /* формула и переключатель занимают всю строку карточки - знаки × держат ряд вместе */
+    .ceq{align-self:stretch;justify-content:space-between;gap:6px}
+    .ceq-cls{align-self:stretch;justify-content:space-between;gap:10px}
+    .ceq-cls .seg-b{padding-inline:12px}
   }
 
   /* ---------- вопросы перед заказом ---------- */
@@ -1829,12 +1835,16 @@
 
     <div class="calc rv">
       <div class="calc-in">
-        <label class="cfield"><span>Человек на&nbsp;участке</span><input id="c-people" type="number" min="1" max="100000" step="1" value="120" inputmode="numeric"></label>
-        <label class="cfield"><span>Рабочих смен в&nbsp;году</span><input id="c-shifts" type="number" min="1" max="366" step="1" value="250" inputmode="numeric"></label>
-        <label class="cfield"><span>Масок на&nbsp;человека в&nbsp;смену</span><input id="c-per" type="number" min="1" max="10" step="1" value="1" inputmode="numeric"></label>
-        <div class="cfield cfield--cls">
-          <span>Класс защиты</span>
-          <div class="seg" role="group" aria-label="Класс защиты">
+        <div class="ceq" role="group" aria-label="Объём: человек, смен в году, масок на человека в смену">
+          <label class="ceq-f"><input id="c-people" type="number" min="1" max="100000" step="1" value="120" inputmode="numeric" aria-label="Человек на участке"><span>человек</span></label>
+          <span class="ceq-x" aria-hidden="true">&times;</span>
+          <label class="ceq-f"><input id="c-shifts" type="number" min="1" max="366" step="1" value="250" inputmode="numeric" aria-label="Рабочих смен в году"><span>смен в&nbsp;году</span></label>
+          <span class="ceq-x" aria-hidden="true">&times;</span>
+          <label class="ceq-f"><input id="c-per" type="number" min="1" max="10" step="1" value="1" inputmode="numeric" aria-label="Масок на человека в смену"><span>масок в&nbsp;смену</span></label>
+        </div>
+        <div class="ceq-cls">
+          <span id="c-cls-l">Класс защиты</span>
+          <div class="seg" role="group" aria-labelledby="c-cls-l">
             <button class="seg-b" type="button" data-ccls="1" aria-pressed="false">FFP1</button>
             <button class="seg-b is-on" type="button" data-ccls="2" aria-pressed="true">FFP2</button>
             <button class="seg-b" type="button" data-ccls="3" aria-pressed="false">FFP3</button>
@@ -2488,7 +2498,12 @@ function farosCalmScroll(){ return matchMedia('(prefers-reduced-motion:reduce)')
     if (!isFinite(v)) v = def;
     return Math.min(max, Math.max(min, v));
   }
+  /* поле-формула не шире самого числа: 26px - это паддинги и рамка поля */
+  function fit(el){
+    el.style.width = 'calc(' + Math.max(2, String(el.value || '').length) + 'ch + 26px)';
+  }
   function run(){
+    fit(people); fit(shifts); fit(per);
     var qty = val(people,120,1,100000) * val(shifts,250,1,366) * val(per,1,1,10);
     var price = PRICE[cls], tier = 0;
     for (var i = 2; i >= 0; i--){ if (qty * price[i] >= STEP[i]) { tier = i; break; } }
