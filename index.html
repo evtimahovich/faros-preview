@@ -906,8 +906,6 @@
   .f-err::before{content:"⚠ "}
   .field.is-bad .f-err{display:block}
   .f-submit{display:flex;align-items:center;gap:14px;margin-top:18px;flex-wrap:wrap}
-  .f-note{color:var(--mute);font-size:12px;line-height:1.45;max-width:320px}
-  .f-note a{color:var(--brand);text-decoration:underline}
   /* согласие: отдельное осознанное действие, без него отправки нет */
   .field--check{gap:8px;margin-top:4px}
   /* два класса: иначе моно-стиль обычных подписей .field label перебивает согласие.
@@ -923,20 +921,6 @@
   .f-agree a{color:var(--brand);text-decoration:underline;text-underline-offset:2px}
   .field--check.is-bad .f-agree{color:var(--danger)}
   .field--check.is-bad .f-agree input{outline:2px solid var(--danger);outline-offset:2px;box-shadow:none}
-  /* прямые контакты под формой: снабженцу, который звонит, а не заполняет поля */
-  .ct-direct{
-    display:flex;align-items:center;gap:8px 28px;flex-wrap:wrap;
-    margin-top:clamp(20px,2.4vw,30px);padding-top:clamp(16px,1.8vw,22px);
-    border-top:var(--hair) solid var(--line);
-  }
-  .ct-direct .mono{color:var(--mute)}
-  .ct-direct a{
-    display:inline-flex;align-items:center;min-height:44px;
-    font-family:'Unbounded',sans-serif;font-weight:800;
-    font-size:clamp(14px,1.25vw,17px);letter-spacing:.02em;font-variant-numeric:tabular-nums;
-    transition:color var(--d-1) var(--e);
-  }
-  @media (hover:hover){.ct-direct a:hover{color:var(--brand)}}
   .f-ok{display:none;background:var(--ink);color:#fff;border-radius:var(--r-s);padding:18px 22px;margin-top:16px;gap:12px;align-items:center}
   .f-ok.is-on{display:flex}
   .f-ok svg{width:22px;height:22px;color:var(--brand-lift);flex:none}
@@ -1301,12 +1285,11 @@
     .f-agree{gap:12px}
     .f-agree input{width:24px;height:24px}
     .f-agree a{display:inline-block;padding-block:13px;margin-block:-5px}
-    .ct-direct a{min-height:48px}
     .foot-contact{gap:0}
     .foot-phone{padding-block:10px}
     .f-agree{padding-block:4px}
     /* мелкие текстовые ссылки: коробка дорастает до 44 px, кегль и начертание не трогаем */
-    .ptbl .mdls a,.mf-link,.ptable-foot .p-mail,.foot-email,.f-note a,.foot-bottom a{
+    .ptbl .mdls a,.mf-link,.ptable-foot .p-mail,.foot-email,.foot-bottom a{
       display:inline-flex;align-items:center;min-height:44px;
     }
   }
@@ -2007,7 +1990,6 @@
               <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.5 14c-.2.6-1.2 1.2-1.7 1.2-.5.1-1 .1-1.6-.1-.4-.1-.9-.3-1.5-.6-2.6-1.1-4.3-3.8-4.4-4-.1-.2-1-1.4-1-2.6 0-1.2.6-1.8.9-2.1.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2 0 .4-.1.5l-.3.4-.3.3c-.1.1-.2.3-.1.5.1.2.6 1.1 1.4 1.8 1 .9 1.8 1.1 2 1.2.2.1.4.1.5-.1l.7-.8c.2-.2.3-.2.5-.1l1.8.9c.2.1.4.2.4.3.1.2.1.7-.1 1.3Z"/></svg>
               Подготовить заявку в&nbsp;WhatsApp
             </button>
-            <span class="f-note">Кнопка откроет WhatsApp с&nbsp;готовым текстом заявки&nbsp;- останется нажать «отправить».</span>
           </div>
           <div class="f-ok" id="f-ok" role="status">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
@@ -2029,11 +2011,6 @@
             </div>
           </div>
       </form>
-      <div class="ct-direct">
-        <span class="mono">напрямую</span>
-        <a href="tel:+77710519449" data-place="форма-напрямую">+7&nbsp;771&nbsp;051&nbsp;94&nbsp;49</a>
-        <a href="mailto:sale@alltrade-ltd.kz" data-place="форма-напрямую">sale@alltrade-ltd.kz</a>
-      </div>
     </div>
   </section>
 
