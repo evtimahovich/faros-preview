@@ -613,6 +613,14 @@
   .m--spec .price{border-top-color:rgba(255,255,255,.14)}
   .m--spec .price .num{color:var(--brand-lift)}
   .m--spec .price .per{color:rgba(255,255,255,.5)}
+  /* тёмная пара «уголь»: подписи разной длины переносятся по-разному, и фото
+     с ценой у соседних карточек съезжали по вертикали. Кикеру отдано ровно
+     две строки (3.3em = 2 × line-height 1.65), «кислые газы» не разрываются -
+     третьей строки не бывает, и обе карточки стоят на одной линии */
+  @media (max-width:560px){
+    .m--spec .m-top{align-items:flex-start}
+    .m--spec .m-top .mono{min-height:3.3em}
+  }
   /* ---------- обтюратор: STANDART или PREMIUM ----------
      Один голос на весь блок - манифест: строки-ситуации со ступенчатым отступом,
      крупный ответ, строка-оговорка про STANDART и факт-строка из трёх колонок
@@ -1658,7 +1666,7 @@
         <span class="grade">одно исполнение&nbsp;· с&nbsp;обтюратором</span>
       </article>
       <article class="m m--spec rv" data-series="spec" data-prr="1300" data-pr="1070">
-        <div class="m-top"><span class="mono">уголь&nbsp;· кислые газы</span><span class="m-cls"><i class="dot dot--2"></i>FFP2</span></div>
+        <div class="m-top"><span class="mono">уголь&nbsp;· кислые&nbsp;газы</span><span class="m-cls"><i class="dot dot--2"></i>FFP2</span></div>
         <div class="m-img"><img src="assets/fr3230.webp" width="1100" height="825" alt="FAROS FR 3230 - полумаска FFP2 с угольным слоем против паров кислот" loading="lazy" decoding="async"></div>
         <h3 class="m-name">FR&nbsp;3230</h3>
         <span class="form">FFP2&nbsp;· угольный&nbsp;слой&nbsp;· клапан&nbsp;выдоха&nbsp;· короб&nbsp;300&nbsp;шт</span>
