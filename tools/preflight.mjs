@@ -47,6 +47,14 @@ if (!red.some(r => r.startsWith('непроверенное'))) ok('непров
 const guard = /github\.io/.test(html) && /noindex/.test(html);
 guard ? ok('индексация: черновик закрыт, боевой домен открыт') : warn('индексация: нет защиты черновика от поисковиков');
 
+/* 3c. слипшиеся слова: ручной перенос в заголовке скрыт на телефоне, а пробела перед ним нет */
+const glued = [...html.matchAll(/<(h1|h2|h3)[^>]*>([\s\S]*?)<\/\1>/g)]
+  .filter(m => /[^ >;\u00A0]<br\s*\/?>/.test(m[2]))
+  .map(m => m[2].replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ').trim().slice(0, 40));
+glued.length === 0
+  ? ok('заголовки: слов не слипается при скрытом переносе')
+  : bad(`заголовки: слипнутся на телефоне (${glued.length}) - ${glued.slice(0, 3).join(' | ')}`);
+
 /* 4. цены: страница против таблицы прайса */
 const norm = html.replace(/&nbsp;/g, ' ').replace(/ /g, ' ');
 const rows = [...norm.matchAll(/<tr [^>]*data-cls="[^"]*"[^>]*>([\s\S]*?)<\/tr>/g)];

@@ -278,7 +278,7 @@
   .hero-fig img{
     /* 40% по вертикали: на широких пропорциях кадр режется по высоте, и окно
        смещено вверх - каска получает воздух, дорисованный запас дыма сверху виден */
-    width:100%;height:100%;object-fit:cover;object-position:78% 40%;
+    width:100%;height:100%;object-fit:cover;object-position:78% 0%;
     filter:saturate(.7) contrast(1.05) brightness(.96);
   }
   .hero-fig::after{
@@ -350,7 +350,7 @@
       right:calc(max(var(--pad), 50vw - 720px + var(--pad)) - var(--inset));
       margin:0;
     }
-    .hero-fig img{object-position:100% 14%}
+    .hero-fig img{object-position:100% 0%}
     .hero-fig::after{background:linear-gradient(0deg,#0A0C0B 3%,rgba(10,12,11,.95) 28%,rgba(10,12,11,.38) 65%,rgba(10,12,11,.14) 100%),linear-gradient(90deg,rgba(10,12,11,.68) 0%,rgba(10,12,11,.2) 64%,rgba(10,12,11,0) 100%)}
     .hero-copy{align-self:end;width:100%;max-width:min(94%,660px)}
     .hero h1{font-size:clamp(3rem,8.6vw,5.2rem)}
@@ -364,7 +364,7 @@
     .hero > .hero-kicker{left:var(--pad);right:var(--pad)}
     /* остров во всю ширину экрана, фотография масштабируется сильнее - кадр поднят,
        иначе каска рабочего срезается верхним краем */
-    .hero-fig img{object-position:100% 12%;transform:scale(1.12) translateY(-6%);transform-origin:62% 50%}
+    .hero-fig img{object-position:100% 0%;transform:scale(1.12);transform-origin:62% 12%}
     .hero-copy{min-width:0;max-width:100%}
     .hk-full{display:none}.hk-min{display:inline}
     .hl-full{display:none}.hl-min{display:inline}
