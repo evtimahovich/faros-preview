@@ -629,8 +629,9 @@
     font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:var(--ls-cap);
     text-transform:uppercase;color:var(--mute);
   }
+  /* два факта - две равные колонки; ширину строк держит max-width подписи */
   .ob-facts{
-    display:grid;grid-template-columns:repeat(3,1fr);gap:20px clamp(24px,3vw,56px);
+    display:grid;grid-template-columns:repeat(2,1fr);gap:20px clamp(24px,3vw,56px);
     margin-top:clamp(26px,3.2vw,46px);
   }
   .ob-facts > div{border-top:var(--hair) solid var(--line);padding-top:14px}
@@ -1697,9 +1698,6 @@
           <span class="k">без обтюратора</span>
           <b>Щиток потеет</b>
           <span class="l">Запотевший щиток сварщик снимает. Сдвинутая полумаска не&nbsp;защищает.</span>
-        </div>
-        <div>
-          <
         </div>
       </div>
     </div>
