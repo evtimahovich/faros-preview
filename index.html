@@ -123,7 +123,7 @@
   /* выделение - фирменное, и на светлом, и на тёмном острове */
   ::selection{background:rgba(50,100,80,.22);color:var(--ink)}
   .hero ::selection,#price ::selection,.foot ::selection,.nav ::selection,
-  .m--spec ::selection,.docs-cta ::selection,.who ::selection,.pick-foot ::selection{
+  .m--spec ::selection,.who ::selection,.pick-foot ::selection{
     background:rgba(87,170,130,.34);color:#fff;
   }
   /* фокус виден всегда: на светлом - фирменный, на тёмном острове - белый */
@@ -131,7 +131,7 @@
   /* main получает фокус только программно, рамку вокруг всей страницы рисовать не нужно */
   main:focus,main:focus-visible{outline:none}
   .hero :focus-visible,#price :focus-visible,.foot :focus-visible,.nav :focus-visible,
-  .m--spec:focus-visible,.docs-cta :focus-visible,.who :focus-visible,.pick-foot :focus-visible{
+  .m--spec:focus-visible,.who :focus-visible,.pick-foot :focus-visible{
     outline-color:#fff;
   }
 
@@ -276,7 +276,9 @@
   .hero-fig{position:absolute;inset:0;margin:0;z-index:0}
   .hero-fig picture{display:block;width:100%;height:100%}
   .hero-fig img{
-    width:100%;height:100%;object-fit:cover;object-position:78% 50%;
+    /* 40% по вертикали: на широких пропорциях кадр режется по высоте, и окно
+       смещено вверх - каска получает воздух, дорисованный запас дыма сверху виден */
+    width:100%;height:100%;object-fit:cover;object-position:78% 40%;
     filter:saturate(.7) contrast(1.05) brightness(.96);
   }
   .hero-fig::after{
@@ -305,7 +307,11 @@
   .hero h1 .acc{margin-left:clamp(.12em,2.5vw,.36em);font-size:.68em;color:var(--brand-lift)}
   .hero-lead{max-width:38ch;color:rgba(255,255,255,.78);font-size:clamp(15px,1.15vw,17px);line-height:1.6}
   .hero-act{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:clamp(22px,3vw,38px)}
-  .hero-act .pill--brand{padding:17px 26px}
+  /* обе кнопки героя - одна геометрия: высота, форма, поля и кегль совпадают,
+     разница читается только цветом (заливка против тонкой рамки) */
+  .hero-act .pill{padding:16px 26px;min-height:52px}
+  .hero-act .pill i{font-style:normal}
+  .ha-min{display:none}
   .hero .pill--ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.34)}
   .hero .pill--ghost svg{width:15px;height:15px;opacity:.8}
   @media (hover:hover){
@@ -366,13 +372,13 @@
     .hero h1{font-size:clamp(2rem,9vw,3.4rem);line-height:.88;letter-spacing:-.03em;margin-bottom:18px;overflow-wrap:break-word}
     .hero h1 .acc{margin-left:.28em}
     .hero-lead{max-width:none;font-size:14px;line-height:1.45}
-    .hero-act{margin-top:22px;display:block}
-    .hero-act .pill--brand{width:100%;justify-content:center;padding:16px 20px}
-    .hero .pill--ghost{
-      width:100%;border:0;background:transparent;padding:10px 0;min-height:44px;justify-content:center;
-      color:rgba(255,255,255,.78);
-    }
-    .hero .pill--ghost:hover{background:transparent;color:#fff}
+    /* кнопки в одну строку: зелёная приносит заявку - забирает всю свободную ширину,
+       якорь на модели сжат до содержимого; подписи короткие, полные вернутся на планшете */
+    .hero-act{margin-top:22px;display:flex;flex-wrap:nowrap;gap:10px}
+    .ha-full{display:none}.ha-min{display:inline}
+    .hero-act .pill{padding:15px 12px;min-height:50px}
+    .hero-act .pill--brand{flex:1 1 auto;min-width:0;justify-content:center}
+    .hero .pill--ghost{flex:0 0 auto;justify-content:center}
     /* плашка на телефоне: подписи не мельче 10 px - это первые цены,
        которые видит мобильный посетитель */
     .hero-price{gap:10px;margin-top:24px;width:100%;grid-template-columns:repeat(3,minmax(0,1fr))}
@@ -385,6 +391,11 @@
     /* кикер не влезает в строку: разделитель убран, две части встают двумя строками */
     .hk-sep{display:none}
     .hero{padding-top:clamp(164px,31svh,240px)}
+    /* на самых узких экранах строка кнопок ужимается: шрифт на ступень меньше,
+       поля тоньше, декоративная стрелка спрятана - иначе зелёная переносится на две строки */
+    .hero-act{gap:6px}
+    .hero-act .pill{font-size:10.5px;padding:15px 10px}
+    .hero .pill--ghost svg{display:none}
     .hero h1{font-size:2rem}
     .hero h1 .acc{margin-left:.2em}
     .hero-price{gap:8px}
@@ -427,7 +438,8 @@
     #select .sec-side .note,#models .sec-side .note,#calc .sec-side .note,#faq .sec-side .note,
     #price .sec-side .note,#docs .sec-side .note,#contact .sec-side .note{font-size:10px;line-height:1.75}
     /* на телефоне ручной перенос оставил бы «ТРУДА.» одиноким третьей строкой,
-       а «и чашеобразные.» - строку шире экрана */
+       а «и чашеобразные.» - строку шире экрана. Скрывать <br> безопасно только
+       потому, что в разметке перед каждым ручным переносом стоит обычный пробел */
     #docs .sec-head h2 br,#models .sec-head h2 br{display:none}
   }
 
@@ -521,7 +533,6 @@
   /* пилюля фильтра ближе к своей сетке, чем к заголовку: пауза сверху больше, снизу меньше,
      но карточки не липнут к пилюле вплотную - раньше между ними не было ни пикселя */
   .m-bar{display:flex;align-items:center;gap:10px 16px;flex-wrap:wrap;margin-bottom:clamp(14px,1.6vw,23px)}
-  .m-bar-r{display:flex;align-items:center;gap:clamp(12px,1.4vw,18px);flex-wrap:wrap}
 
   /* метка класса внутри карточек и таблицы - тот же принцип, в миниатюре */
   .dot{
@@ -566,11 +577,10 @@
   /* row-gap: на узком экране кнопки встают в две строки - без зазора активная заливка
      соседних строк слипалась в одно пятно */
   .seg--line{flex-wrap:wrap;max-width:100%;row-gap:4px}
-  /* счётчик - часть пилюли фильтра, но подпись, а не ещё одна кнопка:
-     тише кеглем, за разделителем, без кнопочной высоты */
+  /* счётчик - не кнопка и потому живёт вне пилюли: тихий статус выдачи
+     у правого края бара, прямо над сеткой моделей */
   .m-count{
-    display:inline-flex;align-items:center;align-self:stretch;padding:0 16px 0 18px;margin-left:auto;
-    border-left:var(--hair) solid var(--line);
+    margin-left:auto;
     color:var(--mute);font-family:'IBM Plex Mono',monospace;font-size:10px;
     letter-spacing:var(--ls-cap);text-transform:uppercase;
     font-variant-numeric:tabular-nums;white-space:nowrap;
@@ -598,38 +608,53 @@
   .m--spec .price{border-top-color:rgba(255,255,255,.14)}
   .m--spec .price .num{color:var(--brand-lift)}
   .m--spec .price .per{color:rgba(255,255,255,.5)}
-  .m-note{
-    margin-top:clamp(14px,1.6vw,20px);
-    background:var(--panel);border:1px solid var(--line);border-radius:var(--r-m);
-    box-shadow:0 1px 2px rgba(16,20,24,.06),0 12px 32px rgba(16,20,24,.10);
-    padding:clamp(22px,2.6vw,36px);
-    display:grid;grid-template-columns:1.15fr .85fr;gap:20px clamp(28px,4vw,72px);align-items:start;
-  }
-  .m-note p{color:var(--ink-soft);font-size:15px;line-height:1.55}
-  .m-note p b{color:var(--ink)}
-  .m-note .fine{
-    color:var(--mute);font-family:'IBM Plex Mono',monospace;
-    font-size:11px;line-height:1.75;letter-spacing:var(--ls-cap);text-transform:uppercase;
-  }
-  @media (max-width:760px){.m-note{grid-template-columns:1fr;gap:14px}}
   /* ---------- обтюратор: STANDART или PREMIUM ----------
-     Тот же манифест, что у шагов заказа: строки-ситуации со ступенчатым отступом,
-     крупный ответ, под ним белая карточка с фактом и ценами. Кегли на ступень ниже
-     заголовка раздела: блок живёт внутри модельного ряда, а не спорит с ним. */
+     Один голос на весь блок - манифест: строки-ситуации со ступенчатым отступом,
+     крупный ответ, строка-оговорка про STANDART и факт-строка из трёх колонок
+     (что даёт, что теряешь, доплата) тем же письмом - ключ моно, жирная мысль,
+     служебное пояснение. Кегли на ступень ниже заголовка раздела: блок живёт
+     внутри модельного ряда, а не спорит с ним. */
   .ob-mf{margin-top:clamp(28px,3.4vw,48px);border-top:1px solid var(--line);
     padding-top:clamp(26px,3vw,44px);padding-bottom:0}
   .ob-mf .mf-row{font-size:clamp(1.15rem,2.9vw,2.4rem)}
   .ob-mf .mf-row em{font-style:normal;color:var(--ink)}
   .ob-mf .mf-ans{max-width:19ch;font-size:clamp(1.75rem,4.2vw,3.35rem);margin-top:clamp(26px,3.4vw,44px)}
-  .ob-mf .m-note{margin-top:clamp(18px,2.2vw,32px)}
+  .ob-mf .mf-alt{
+    margin-top:clamp(12px,1.5vw,18px);
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:var(--ls-cap);
+    text-transform:uppercase;color:var(--mute);
+  }
+  .ob-facts{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:20px clamp(24px,3vw,56px);
+    margin-top:clamp(26px,3.2vw,46px);
+  }
+  .ob-facts > div{border-top:var(--hair) solid var(--line);padding-top:14px}
+  .ob-facts .k{
+    display:block;margin-bottom:10px;color:var(--mute);
+    font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:var(--ls-cap);text-transform:uppercase;
+  }
+  .ob-facts b{
+    display:block;font-family:'Unbounded',sans-serif;font-weight:800;
+    font-size:clamp(15px,1.4vw,19px);text-transform:uppercase;letter-spacing:.02em;line-height:1.25;
+  }
+  .ob-facts .l{display:block;margin-top:8px;color:var(--ink-soft);font-size:14px;line-height:1.55;max-width:36ch}
+  @media (max-width:760px){.ob-facts{grid-template-columns:1fr;gap:16px}}
   @media (hover:hover){.m--spec:hover{border-color:var(--brand-lift)}}
   @media (max-width:1080px){.grid-m{grid-template-columns:repeat(2,1fr)}}
-  @media (max-width:820px){
-    .m-bar{align-items:flex-start}
-    .m-bar-r{width:100%;justify-content:space-between}
-  }
   @media (max-width:760px){
-    .m-count{margin-left:0;padding:0 8px 0 12px}
+    /* телефон: пилюля - одна строка со свайпом, как системный segmented control;
+       обрезанная четвёртая кнопка сама подсказывает, что строка листается.
+       Счётчик встаёт строкой-статусом под пилюлей, над сеткой */
+    .m-bar{display:block}
+    .seg--line{display:flex;flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none}
+    .seg--line::-webkit-scrollbar{display:none}
+    .seg-b{flex:none;white-space:nowrap}
+    .m-count{display:block;width:max-content;margin:10px 2px 0 auto}
+  }
+  /* самые узкие экраны: поля кнопок тоньше, чтобы четвёртая кнопка выглядывала
+     из-за края - обрез и есть подсказка «строка листается» */
+  @media (max-width:380px){
+    .seg--line .seg-b{padding-inline:12px}
   }
   @media (max-width:520px){
     .grid-m{gap:10px}
@@ -644,7 +669,6 @@
     .m .price .num{font-size:1.15rem}
     /* «опт - розница» не прячем: без этой подписи диапазон читается как подвох */
     .m .price .per{font-size:10.5px;line-height:1.35}
-    .m-note{padding:20px}
   }
   /* узкий телефон: в половине карточки «1 020-1 160 ₸» не встаёт в строку крупнее 16px
      и рвётся посередине диапазона - кегль отдаём ширине колонки */
@@ -836,33 +860,28 @@
   }
 
   /* ---------- документы ----------
-     Нижняя плашка раздела - такой же тёмный остров во всю ширину, как «кто отгружает»:
-     тот же фон, то же скругление, то же зелёное свечение и осветлённый кикер. */
+     Нижняя плашка раздела - светлая карточка в ряду карточек документов: раздел
+     целиком светлый, тёмных блоков подряд нет (свод правил), и тёмный остров
+     поставщика ниже читается акцентом, а пауза между разделами - паузой. */
   .docs-cta{
-    margin-top:clamp(20px,2.6vw,36px);background:var(--stage);color:#fff;border-radius:var(--r-l);
-    margin-inline:calc((var(--pad) - var(--inset)) * -1);
-    padding:clamp(30px,4.4vw,72px) calc(var(--pad) - var(--inset));
+    margin-top:clamp(20px,2.6vw,36px);
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--r-m);
+    padding:clamp(24px,3vw,44px) clamp(20px,2.6vw,40px);
     display:flex;justify-content:space-between;align-items:center;gap:24px 48px;flex-wrap:wrap;
-    position:relative;overflow:hidden;
   }
-  .docs-cta::after{
-    content:"";position:absolute;inset:0;pointer-events:none;
-    background:radial-gradient(58% 62% at 82% 6%,rgba(87,170,130,.18),transparent 72%);
-  }
-  .docs-cta > *{position:relative;z-index:1}
   .docs-cta .kick{
     display:block;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:var(--ls-key);
-    text-transform:uppercase;color:var(--brand-lift);margin-bottom:14px;
+    text-transform:uppercase;color:var(--brand);margin-bottom:14px;
   }
   .docs-cta b{
     font-family:'Unbounded',sans-serif;font-weight:900;
-    font-size:clamp(1.7rem,3.3vw,2.9rem);text-transform:uppercase;line-height:1.02;letter-spacing:-.02em;
-    display:block;max-width:18ch;
+    font-size:clamp(1.3rem,2.2vw,2rem);text-transform:uppercase;line-height:1.08;letter-spacing:-.02em;
+    display:block;max-width:24ch;
   }
   .docs-cta .note{
-    display:block;margin-top:clamp(14px,1.6vw,20px);max-width:48ch;text-wrap:balance;
+    display:block;margin-top:clamp(12px,1.4vw,16px);max-width:48ch;text-wrap:balance;
     font-family:'IBM Plex Mono',monospace;font-size:11px;line-height:1.7;
-    letter-spacing:var(--ls-cap);text-transform:uppercase;color:rgba(255,255,255,.62);
+    letter-spacing:var(--ls-cap);text-transform:uppercase;color:var(--mute);
   }
   .docs-cta .pill{flex:none}
   @media (max-width:760px){.docs-cta b{max-width:none}.docs-cta .note{max-width:none;font-size:10px}}
@@ -1108,10 +1127,18 @@
   @media (hover:hover){.ptbl .mdls a:hover{color:var(--brand);border-bottom-color:var(--brand)}}
   /* цена строки - ярлык у правого края: снабженец ищет её глазом первой,
      и она же работает акцентом в спокойной таблице */
-  /* где применяют - подпись под моделями: «вот маски, вот для чего они» */
+  /* где применяют - бирки участков под списком моделей: «вот маски - вот участки»;
+     рисунок повторяет чипы «Географии» на сайте ALLTRADE. Отдельный верхний отступ
+     не нужен: свои 18px уже даёт нижнее поле ссылок-моделей */
   .ptbl .use{
-    margin:2px 0 0;color:var(--mute);font-family:'IBM Plex Mono',monospace;
-    font-size:10px;letter-spacing:var(--ls-cap);text-transform:uppercase;line-height:1.7;
+    display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;margin:0;
+    font-family:'IBM Plex Mono',monospace;font-size:10px;
+    letter-spacing:var(--ls-cap);text-transform:uppercase;line-height:1.4;
+  }
+  .ptbl .use .use-k{color:var(--mute)}
+  .ptbl .use .use-t{
+    border:var(--hair) solid var(--line);border-radius:999px;padding:5px 10px;
+    color:var(--ink-soft);
   }
   .ptbl .prc{text-align:right;white-space:nowrap;width:1%;vertical-align:top}
   .ptbl .prc .tag{
@@ -1264,13 +1291,13 @@
   /* большие мониторы: острова во всю ширину, контент на центральной сетке */
   /* все тёмные острова живут по одному правилу: на широком мониторе они идут во всю ширину,
      а текст внутри остаётся на центральной сетке страницы */
-  .nav,.hero,#price,.who,.docs-cta{
+  .nav,.hero,#price,.who{
     margin-inline:calc(50% - 50vw + var(--inset));
     padding-inline:calc(max(var(--pad), 50vw - 720px + var(--pad)) - var(--inset));
   }
   .foot{padding-inline:calc(max(var(--pad), 50vw - 720px + var(--pad)) - var(--inset))}
   @media (max-width:760px){
-    .hero,#price,.who,.docs-cta{margin-inline:calc(var(--pad) * -1);padding-inline:var(--pad);border-radius:0}
+    .hero,#price,.who{margin-inline:calc(var(--pad) * -1);padding-inline:var(--pad);border-radius:0}
     .foot{padding-inline:var(--pad)}
     .nav{margin-inline:0}
   }
@@ -1438,7 +1465,7 @@
         <img src="assets/hero-premium-v2.webp"
              srcset="assets/hero-premium-v2-1200.webp 1200w, assets/hero-premium-v2.webp 1672w"
              sizes="(max-width:980px) 100vw, 78vw"
-             width="1672" height="1016"
+             width="1672" height="941"
              alt="Рабочий в каске и фильтрующей полумаске с клапаном выдоха" fetchpriority="high" decoding="async">
       </picture>
     </figure>
@@ -1453,10 +1480,10 @@
       <div class="hero-act">
         <a class="pill pill--brand" href="https://wa.me/77710519449?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%9D%D1%83%D0%B6%D0%B5%D0%BD%20%D1%80%D0%B0%D1%81%D1%87%D1%91%D1%82%20%D0%BF%D0%B0%D1%80%D1%82%D0%B8%D0%B8%20%D1%80%D0%B5%D1%81%D0%BF%D0%B8%D1%80%D0%B0%D1%82%D0%BE%D1%80%D0%BE%D0%B2%20FAROS.%20%D0%98%D1%81%D1%82%D0%BE%D1%87%D0%BD%D0%B8%D0%BA%3A%20%D1%81%D0%B0%D0%B9%D1%82%20farospro.kz" target="_blank" rel="noopener" data-place="хиро-заявка">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.5 14c-.2.6-1.2 1.2-1.7 1.2-.5.1-1 .1-1.6-.1-.4-.1-.9-.3-1.5-.6-2.6-1.1-4.3-3.8-4.4-4-.1-.2-1-1.4-1-2.6 0-1.2.6-1.8.9-2.1.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2 0 .4-.1.5l-.3.4-.3.3c-.1.1-.2.3-.1.5.1.2.6 1.1 1.4 1.8 1 .9 1.8 1.1 2 1.2.2.1.4.1.5-.1l.7-.8c.2-.2.3-.2.5-.1l1.8.9c.2.1.4.2.4.3.1.2.1.7-.1 1.3Z"/></svg>
-          Запросить расчёт партии
+          <i class="ha-full">Запросить расчёт партии</i><i class="ha-min">Расчёт партии</i>
         </a>
         <a class="pill pill--ghost" href="#models" data-place="хиро-модели">
-          Смотреть модели
+          <i class="ha-full">Смотреть модели</i><i class="ha-min">Модели</i>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M12 4v15m0 0-6-6m6 6 6-6"/></svg>
         </a>
       </div>
@@ -1506,33 +1533,33 @@
         </thead>
         <tbody>
           <tr>
-            <td class="air"><b>Пыль и&nbsp;аэрозоли&nbsp;· до&nbsp;4&nbsp;ПДК</b><span>Концентрация пыли выше предельно допустимой (ПДК) не&nbsp;более чем в&nbsp;четыре раза.</span><p class="use">применяют: склад, упаковка, сельхозработы</p></td>
+            <td class="air"><b>Пыль и&nbsp;аэрозоли&nbsp;· до&nbsp;4&nbsp;ПДК</b><span>Концентрация пыли выше предельно допустимой (ПДК) не&nbsp;более чем в&nbsp;четыре раза.</span></td>
             <td class="cls"><i class="dot dot--1"></i><b>FFP1</b></td>
-            <td class="mdls"><a href="#models" aria-label="Модель FR 4100 - смотреть в модельном ряду">FR&nbsp;4100</a><a href="#models" aria-label="Модель FR 3100 - смотреть в модельном ряду">FR&nbsp;3100</a><a href="#models" aria-label="Модель FR 4110W - смотреть в модельном ряду">FR&nbsp;4110W</a><a href="#models" aria-label="Модель FR 3110 - смотреть в модельном ряду">FR&nbsp;3110</a></td>
+            <td class="mdls"><a href="#models" aria-label="Модель FR 4100 - смотреть в модельном ряду">FR&nbsp;4100</a><a href="#models" aria-label="Модель FR 3100 - смотреть в модельном ряду">FR&nbsp;3100</a><a href="#models" aria-label="Модель FR 4110W - смотреть в модельном ряду">FR&nbsp;4110W</a><a href="#models" aria-label="Модель FR 3110 - смотреть в модельном ряду">FR&nbsp;3110</a><p class="use"><span class="use-k">применяют:</span><span class="use-t">склад</span><span class="use-t">упаковка</span><span class="use-t">сельхозработы</span></p></td>
             <td class="prc"><a class="tag" href="#ptable" data-cls="1" data-place="подбор-ценник" aria-label="Открыть прайс: класс FFP1, от 208 ₸ за штуку на опте"><b><i>от</i>208&nbsp;₸</b></a></td>
           </tr>
           <tr>
-            <td class="air"><b>Пыль и&nbsp;аэрозоли&nbsp;· до&nbsp;12&nbsp;ПДК</b><span>Концентрация выше нормы до&nbsp;двенадцати раз.</span><p class="use">применяют: цех, стройка, деревообработка</p></td>
+            <td class="air"><b>Пыль и&nbsp;аэрозоли&nbsp;· до&nbsp;12&nbsp;ПДК</b><span>Концентрация выше нормы до&nbsp;двенадцати раз.</span></td>
             <td class="cls"><i class="dot dot--2"></i><b>FFP2</b></td>
-            <td class="mdls"><a href="#models" aria-label="Модель FR 4200 - смотреть в модельном ряду">FR&nbsp;4200</a><a href="#models" aria-label="Модель FR 3200 - смотреть в модельном ряду">FR&nbsp;3200</a><a href="#models" aria-label="Модель FR 4210W - смотреть в модельном ряду">FR&nbsp;4210W</a><a href="#models" aria-label="Модель FR 3210 - смотреть в модельном ряду">FR&nbsp;3210</a></td>
+            <td class="mdls"><a href="#models" aria-label="Модель FR 4200 - смотреть в модельном ряду">FR&nbsp;4200</a><a href="#models" aria-label="Модель FR 3200 - смотреть в модельном ряду">FR&nbsp;3200</a><a href="#models" aria-label="Модель FR 4210W - смотреть в модельном ряду">FR&nbsp;4210W</a><a href="#models" aria-label="Модель FR 3210 - смотреть в модельном ряду">FR&nbsp;3210</a><p class="use"><span class="use-k">применяют:</span><span class="use-t">цех</span><span class="use-t">стройка</span><span class="use-t">деревообработка</span></p></td>
             <td class="prc"><a class="tag" href="#ptable" data-cls="2" data-place="подбор-ценник" aria-label="Открыть прайс: класс FFP2, от 284 ₸ за штуку на опте"><b><i>от</i>284&nbsp;₸</b></a></td>
           </tr>
           <tr>
-            <td class="air"><b>Пыль и&nbsp;аэрозоли&nbsp;· до&nbsp;50&nbsp;ПДК</b><span>Концентрация выше нормы до&nbsp;пятидесяти раз&nbsp;- старший класс линейки.</span><p class="use">применяют: литейное производство, обработка металлов, строительные смеси</p></td>
+            <td class="air"><b>Пыль и&nbsp;аэрозоли&nbsp;· до&nbsp;50&nbsp;ПДК</b><span>Концентрация выше нормы до&nbsp;пятидесяти раз&nbsp;- старший класс линейки.</span></td>
             <td class="cls"><i class="dot dot--3"></i><b>FFP3</b></td>
-            <td class="mdls"><a href="#models" aria-label="Модель FR 4310W - смотреть в модельном ряду">FR&nbsp;4310W</a><a href="#models" aria-label="Модель FR 3310 - смотреть в модельном ряду">FR&nbsp;3310</a></td>
+            <td class="mdls"><a href="#models" aria-label="Модель FR 4310W - смотреть в модельном ряду">FR&nbsp;4310W</a><a href="#models" aria-label="Модель FR 3310 - смотреть в модельном ряду">FR&nbsp;3310</a><p class="use"><span class="use-k">применяют:</span><span class="use-t">литейное производство</span><span class="use-t">обработка металлов</span><span class="use-t">строительные смеси</span></p></td>
             <td class="prc"><a class="tag" href="#ptable" data-cls="3" data-place="подбор-ценник" aria-label="Открыть прайс: класс FFP3, от 421 ₸ за штуку на опте"><b><i>от</i>421&nbsp;₸</b></a></td>
           </tr>
           <tr>
-            <td class="air"><b>Сварочные аэрозоли, газы и&nbsp;пары</b><span>Двойная защита: от&nbsp;пыли до&nbsp;12&nbsp;ПДК и&nbsp;от&nbsp;сварочных дымов, газов и&nbsp;паров&nbsp;- за&nbsp;счёт угольного слоя.</span><p class="use">применяют: сварочные посты, судоремонт</p></td>
+            <td class="air"><b>Сварочные аэрозоли, газы и&nbsp;пары</b><span>Двойная защита: от&nbsp;пыли до&nbsp;12&nbsp;ПДК и&nbsp;от&nbsp;сварочных дымов, газов и&nbsp;паров&nbsp;- за&nbsp;счёт угольного слоя.</span></td>
             <td class="cls"><i class="dot dot--2"></i><b>FFP2</b></td>
-            <td class="mdls"><a href="#models" aria-label="Модель FR 3220 - смотреть в модельном ряду">FR&nbsp;3220</a></td>
+            <td class="mdls"><a href="#models" aria-label="Модель FR 3220 - смотреть в модельном ряду">FR&nbsp;3220</a><p class="use"><span class="use-k">применяют:</span><span class="use-t">сварочные посты</span><span class="use-t">судоремонт</span></p></td>
             <td class="prc"><a class="tag" href="#ptable" data-cls="2" data-hl="spec" data-place="подбор-ценник" aria-label="Открыть прайс: FR 3220 с угольным слоем, от 1 020 ₸ за штуку на опте"><b><i>от</i>1&nbsp;020&nbsp;₸</b></a></td>
           </tr>
           <tr>
-            <td class="air"><b>Кислые газы и&nbsp;пары</b><span>Двойная защита: от&nbsp;пыли до&nbsp;12&nbsp;ПДК и&nbsp;от&nbsp;кислых газов и&nbsp;паров&nbsp;- за&nbsp;счёт угольного слоя.</span><p class="use">применяют: аккумуляторные и&nbsp;гальванические участки</p></td>
+            <td class="air"><b>Кислые газы и&nbsp;пары</b><span>Двойная защита: от&nbsp;пыли до&nbsp;12&nbsp;ПДК и&nbsp;от&nbsp;кислых газов и&nbsp;паров&nbsp;- за&nbsp;счёт угольного слоя.</span></td>
             <td class="cls"><i class="dot dot--2"></i><b>FFP2</b></td>
-            <td class="mdls"><a href="#models" aria-label="Модель FR 3230 - смотреть в модельном ряду">FR&nbsp;3230</a></td>
+            <td class="mdls"><a href="#models" aria-label="Модель FR 3230 - смотреть в модельном ряду">FR&nbsp;3230</a><p class="use"><span class="use-k">применяют:</span><span class="use-t">аккумуляторные и&nbsp;гальванические участки</span></p></td>
             <td class="prc"><a class="tag" href="#ptable" data-cls="2" data-hl="spec" data-place="подбор-ценник" aria-label="Открыть прайс: FR 3230 с угольным слоем, от 1 070 ₸ за штуку на опте"><b><i>от</i>1&nbsp;070&nbsp;₸</b></a></td>
           </tr>
         </tbody>
@@ -1552,7 +1579,7 @@
     <div class="sec-head rv">
       <div>
         <span class="kick">Модельный ряд</span>
-        <h2 class="display">Складные<br>и&nbsp;чашеобразные<em>.</em></h2>
+        <h2 class="display">Складные <br>и&nbsp;чашеобразные<em>.</em></h2>
       </div>
       <div class="sec-side"><span class="note">FR&nbsp;4000 складываются: компактно хранить и&nbsp;носить с&nbsp;собой, в&nbsp;коробе 400&nbsp;шт. FR&nbsp;3000 держат жёсткую форму: надел и&nbsp;пошёл, разворачивать не&nbsp;нужно, в&nbsp;коробе 300&nbsp;шт.</span></div>
     </div>
@@ -1563,8 +1590,8 @@
         <button class="seg-b" type="button" aria-pressed="false" data-series="4000">FR&nbsp;4000</button>
         <button class="seg-b" type="button" aria-pressed="false" data-series="3000">FR&nbsp;3000</button>
         <button class="seg-b" type="button" aria-pressed="false" data-series="spec">С&nbsp;угольным слоем</button>
-        <span class="m-count mono" id="m-count" role="status">12&nbsp;моделей</span>
       </div>
+      <span class="m-count mono" id="m-count" role="status">12&nbsp;моделей</span>
     </div>
 
     <div class="grid-m">
@@ -1675,9 +1702,23 @@
         <p class="mf-row mf-row--3">Смена <em>на&nbsp;холоде и&nbsp;при&nbsp;высокой влажности</em></p>
       </div>
       <p class="mf-ans display">На&nbsp;такие участки подбираем <em>PREMIUM.</em></p>
-      <div class="m-note">
-        <p><b>Обтюратор&nbsp;- мягкая полоска на&nbsp;переносице.</b> Прижимает полумаску к&nbsp;лицу, и&nbsp;выдох не&nbsp;уходит вверх: очки и&nbsp;щиток не&nbsp;потеют за&nbsp;смену. Запотевший щиток сварщик снимает, сдвинутая полумаска не&nbsp;защищает. В&nbsp;PREMIUM обтюратор есть, в&nbsp;STANDART нет.</p>
-        <p class="fine">Нет очков и&nbsp;щитка&nbsp;- хватит STANDART. Доплата за&nbsp;PREMIUM на&nbsp;опте&nbsp;- от&nbsp;40&nbsp;₸ на&nbsp;штуке: FR&nbsp;4100&nbsp;- 208&nbsp;и&nbsp;248&nbsp;₸, FR&nbsp;4200&nbsp;- 284&nbsp;и&nbsp;330&nbsp;₸. FR&nbsp;3220 и&nbsp;FR&nbsp;3230&nbsp;- только PREMIUM.</p>
+      <p class="mf-alt">Нет очков и&nbsp;щитка&nbsp;- хватит STANDART.</p>
+      <div class="ob-facts">
+        <div>
+          <span class="k">что даёт обтюратор</span>
+          <b>Полоска на&nbsp;переносице</b>
+          <span class="l">Прижимает полумаску к&nbsp;лицу. Выдох не&nbsp;уходит вверх&nbsp;- очки и&nbsp;щиток не&nbsp;потеют за&nbsp;смену.</span>
+        </div>
+        <div>
+          <span class="k">без обтюратора</span>
+          <b>Щиток потеет</b>
+          <span class="l">Запотевший щиток сварщик снимает. Сдвинутая полумаска не&nbsp;защищает.</span>
+        </div>
+        <div>
+          <span class="k">доплата на&nbsp;опте</span>
+          <b>от&nbsp;40&nbsp;₸ на&nbsp;штуке</b>
+          <span class="l">FR&nbsp;4100&nbsp;- 208 против 248&nbsp;₸, FR&nbsp;4200&nbsp;- 284 против 330&nbsp;₸. FR&nbsp;3220 и&nbsp;FR&nbsp;3230&nbsp;- только PREMIUM.</span>
+        </div>
       </div>
     </div>
   </section>
@@ -1685,7 +1726,7 @@
   <!-- ЭКРАН 5: цена и прайс (тёмный остров) -->
   <section id="price" aria-label="Цена за штуку и полный прайс">
     <div class="sec-head rv">
-      <h2 class="display"><span class="kick">Цена за&nbsp;штуку</span>Три порога&nbsp;-<br>по&nbsp;сумме партии<em>.</em></h2>
+      <h2 class="display"><span class="kick">Цена за&nbsp;штуку</span> Три порога&nbsp;- <br>по&nbsp;сумме партии<em>.</em></h2>
     </div>
 
     <div class="steps rv">
@@ -1774,7 +1815,7 @@
   <!-- ЭКРАН 6: расчёт годовой потребности -->
   <section id="calc" aria-label="Расчёт годовой потребности">
     <div class="sec-head rv">
-      <h2 class="display"><span class="kick">Расчёт потребности</span>Сколько нужно<br>на&nbsp;год<em>.</em></h2>
+      <h2 class="display"><span class="kick">Расчёт потребности</span> Сколько нужно <br>на&nbsp;год<em>.</em></h2>
       <div class="sec-side"><span class="note">Полумаска маркирована NR&nbsp;-&nbsp;рассчитана на&nbsp;одну смену. Считаем по&nbsp;численности: сколько штук в&nbsp;год, сколько это коробов и&nbsp;в&nbsp;какой порог цены попадает партия.</span></div>
     </div>
 
@@ -1811,7 +1852,7 @@
   <!-- ЭКРАН 7: документы -->
   <section id="docs" aria-label="Документы и стандарты">
     <div class="sec-head rv">
-      <h2 class="display"><span class="kick">Документы</span>Для тендера <br>и&nbsp;охраны труда<em>.</em></h2>
+      <h2 class="display"><span class="kick">Документы</span> Для тендера <br>и&nbsp;охраны труда<em>.</em></h2>
       <div class="sec-side"><span class="note">ТР&nbsp;ТС, ГОСТ, ТУ и&nbsp;маркировка NR&nbsp;D: пакет по&nbsp;выбранной модели и&nbsp;исполнению пришлём вместе со&nbsp;счётом.</span></div>
     </div>
 
@@ -1835,7 +1876,7 @@
         <b>Пришлём под&nbsp;ваш лот</b>
         <span class="note">По&nbsp;моделям и&nbsp;исполнениям из&nbsp;вашей заявки.</span>
       </div>
-      <a class="pill pill--light" href="#contact" data-place="документы">Запросить документы</a>
+      <a class="pill pill--brand" href="#contact" data-place="документы">Запросить документы</a>
     </div>
   </section>
 
@@ -1845,7 +1886,7 @@
       <div class="who-head">
         <div>
           <span class="kick">О&nbsp;поставщике</span>
-          <h2 class="display">Официальный<br>дистрибьютор FAROS<br>PROTECTION в&nbsp;Казахстане<em>.</em></h2>
+          <h2 class="display">Официальный <br>дистрибьютор FAROS <br>PROTECTION в&nbsp;Казахстане<em>.</em></h2>
         </div>
         <p class="who-lead">ТОО&nbsp;«ALLTRADE-LTD» поставляет респираторы FAROS предприятиям по&nbsp;всему Казахстану. Счёт, договор, документы и&nbsp;отгрузка&nbsp;- от&nbsp;одного поставщика.</p>
       </div>
@@ -1865,7 +1906,7 @@
   <!-- ЭКРАН 9: вопросы и порядок заказа -->
   <section id="faq" aria-label="Вопросы и ответы">
     <div class="sec-head rv">
-      <h2 class="display"><span class="kick">Вопросы</span>Что спрашивают<br>перед заказом<em>.</em></h2>
+      <h2 class="display"><span class="kick">Вопросы</span> Что спрашивают <br>перед заказом<em>.</em></h2>
       <div class="sec-side"><span class="note">Если вопроса нет в&nbsp;списке&nbsp;- оптовый отдел отвечает в&nbsp;WhatsApp и&nbsp;по&nbsp;телефону.</span></div>
     </div>
 
@@ -1917,7 +1958,7 @@
   <!-- ЭКРАН 8: заявка -->
   <section id="contact" aria-label="Заявка на оптовый прайс">
     <div class="sec-head rv">
-      <h2 class="display"><span class="kick">Оптовый отдел&nbsp;· Казахстан</span>Соберём партию<br>под&nbsp;ваш участок<em>.</em></h2>
+      <h2 class="display"><span class="kick">Оптовый отдел&nbsp;· Казахстан</span> Соберём партию <br>под&nbsp;ваш участок<em>.</em></h2>
       <div class="sec-side"><span class="note">Подготовим расчёт партии, цену по&nbsp;выбранному порогу и&nbsp;комплект документов&nbsp;- одним сообщением.</span></div>
     </div>
     <div class="ct-form rv">
