@@ -34,7 +34,7 @@ for (const m of html.matchAll(/<tr [^>]*data-cls="[^"]*"[^>]*>([\s\S]*?)<\/tr>/g
   const grades = [...(/<td class="gr">([\s\S]*?)<\/td>/.exec(b)[1])
     .matchAll(/<span class="ln">([^<]+)<\/span>/g)].map((g) => g[1].trim());
   const cells = [...b.matchAll(/<td class="p(?: p--best)?">([\s\S]*?)<\/td>/g)].map((c) =>
-    [...c[1].matchAll(/<span class="ln">(?:<span class="vh">[^<]*<\/span>)?([^<]+)<span class="pu">/g)].map((x) => n(x[1])));
+    [...c[1].matchAll(/<span class="ln">(?:<span class="vh">[^<]*<\/span>)?([^<]+)<\/span>/g)].map((x) => n(x[1])));
   if (cells.length !== 3 || cells.some((c) => c.length !== grades.length)) {
     throw new Error(`у ${model} не сходится число ценовых линий с числом исполнений`);
   }
