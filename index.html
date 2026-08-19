@@ -1791,7 +1791,7 @@
         <div class="ceq" role="group" aria-label="Объём: человек, смен в году, масок на человека в смену">
           <label class="ceq-f"><input id="c-people" type="number" min="1" max="100000" step="1" value="120" inputmode="numeric" aria-label="Человек на участке"><span>человек</span></label>
           <span class="ceq-x" aria-hidden="true">&times;</span>
-          <label class="ceq-f"><input id="c-shifts" type="number" min="1" max="366" step="1" value="250" inputmode="numeric" aria-label="Рабочих смен в году"><span>смен в&nbsp;году</span></label>
+          <label class="ceq-f"><input id="c-shifts" type="number" min="1" max="365" step="1" value="250" inputmode="numeric" aria-label="Рабочих смен в году"><span>смен в&nbsp;году</span></label>
           <span class="ceq-x" aria-hidden="true">&times;</span>
           <label class="ceq-f"><input id="c-per" type="number" min="1" max="10" step="1" value="1" inputmode="numeric" aria-label="Масок на человека в смену"><span>масок в&nbsp;смену</span></label>
         </div>
@@ -2440,18 +2440,32 @@ function farosCalmScroll(){ return matchMedia('(prefers-reduced-motion:reduce)')
   var shifts = document.getElementById('c-shifts'), per = document.getElementById('c-per');
   var cls = 2;
   function fmt(n){ return Math.round(n).toLocaleString('ru-RU').replace(/\u00A0/g,' '); }
-  function val(el, def, min, max){
-    var v = parseInt(el.value, 10);
-    if (!isFinite(v)) v = def;
-    return Math.min(max, Math.max(min, v));
+  /* браузер соблюдает min/max только у стрелок, ручной ввод и вставка проходят мимо.
+     Раньше расчёт тихо резал число у себя, а в поле оставалось двадцатизначное -
+     человек видел одно, считалось по другому. Теперь диапазон наводится прямо в поле:
+     на экране всегда ровно то число, по которому посчитан результат, а скрипт ширины
+     не получает чисел длиннее потолка. Диапазоны берём из атрибутов min/max поля -
+     один источник правды и для стрелок, и для расчёта. */
+  function clamp(el){
+    var v = el.valueAsNumber; /* не parseInt: понимает «1e5» и прочие числовые формы */
+    if (!isFinite(v)) return null; /* пусто или мусор из буфера - дорешаем на blur */
+    v = Math.min(parseInt(el.max, 10), Math.max(parseInt(el.min, 10), Math.round(v)));
+    if (el.value !== String(v)) el.value = String(v);
+    return v;
+  }
+  /* пока поле пустое (человек стёр и думает), считаем по исходному значению поля;
+     blur впишет это число в поле, чтобы экран и расчёт снова совпали */
+  function num(el){
+    var v = clamp(el);
+    return v === null ? parseInt(el.defaultValue, 10) : v;
   }
   /* поле-формула не шире самого числа: 26px - это паддинги и рамка поля */
   function fit(el){
     el.style.width = 'calc(' + Math.max(2, String(el.value || '').length) + 'ch + 26px)';
   }
   function run(){
+    var qty = num(people) * num(shifts) * num(per);
     fit(people); fit(shifts); fit(per);
-    var qty = val(people,120,1,100000) * val(shifts,250,1,366) * val(per,1,1,10);
     var price = PRICE[cls], tier = 0;
     for (var i = 2; i >= 0; i--){ if (qty * price[i] >= STEP[i]) { tier = i; break; } }
     document.getElementById('c-qty').textContent = fmt(qty);
@@ -2466,7 +2480,14 @@ function farosCalmScroll(){ return matchMedia('(prefers-reduced-motion:reduce)')
     }
     document.getElementById('c-hint').textContent = hint;
   }
-  [people, shifts, per].forEach(function(el){ el.addEventListener('input', run); });
+  [people, shifts, per].forEach(function(el){
+    el.addEventListener('input', run);
+    /* уход из пустого поля возвращает в него число, по которому шёл расчёт */
+    el.addEventListener('blur', function(){
+      if (clamp(el) === null) el.value = el.defaultValue;
+      run();
+    });
+  });
   [].forEach.call(document.querySelectorAll('[data-ccls]'), function(b){
     b.addEventListener('click', function(){
       cls = parseInt(b.getAttribute('data-ccls'), 10);
