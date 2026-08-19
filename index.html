@@ -96,10 +96,9 @@
     --pad:clamp(16px,3.4vw,48px);
     --inset:clamp(10px,1.4vw,20px);
     --card-pad:clamp(20px,2.2vw,28px);
-    /* вертикальный ритм: связка / пауза / смена регистра */
+    /* вертикальный ритм: связка / пауза */
     --gap-s:56px;
     --gap-m:96px;
-    --gap-l:144px;
     /* типографическая лестница: H1 первого экрана 92px - потолок страницы */
     --t-h2:clamp(1.75rem,3.7vw,3.35rem);   /* 53px @1440 - заголовки разделов */
     /* середина страницы набрана крупнее: кегль там работает как графика, а не как подпись */
@@ -414,7 +413,6 @@
   section[id],#content,#pick,#ptable{scroll-margin-top:calc(var(--nav-stick) + 22px)}
   #models{padding-bottom:clamp(28px,3.9vw,var(--gap-s))}  /* модели и прайс - одна мысль    */
   #price{padding-top:clamp(28px,3.9vw,var(--gap-s))}
-  #contact{padding-top:clamp(56px,9vw,var(--gap-l))}      /* большой вдох перед заявкой     */
   .sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:clamp(24px,4vw,64px);margin-bottom:clamp(22px,2.8vw,38px)}
   .sec-head h2{font-size:var(--t-h2);max-width:20ch;text-wrap:balance}
   .sec-head h2 em{font-style:normal;color:var(--brand)}
