@@ -504,7 +504,7 @@
     .hero{display:flex;align-items:flex-end;padding-top:clamp(230px,43svh,390px)}
     .hero > .hero-kicker{position:absolute;top:clamp(14px,3.2vw,22px);left:var(--pad);right:var(--pad);margin:0;z-index:2}
     .hero-fig{inset:0;height:auto}
-    .hero-fig img{object-position:68% 14%;-webkit-mask-image:none;mask-image:none}
+    .hero-fig img{object-position:100% 14%;-webkit-mask-image:none;mask-image:none}
     .hero-fig::after{background:linear-gradient(0deg,#0A0C0B 3%,rgba(10,12,11,.95) 28%,rgba(10,12,11,.38) 65%,rgba(10,12,11,.14) 100%),linear-gradient(90deg,rgba(10,12,11,.68) 0%,rgba(10,12,11,.2) 64%,rgba(10,12,11,0) 100%)}
     /* ширину колонки раньше держала длинная подпись внутри неё; она уехала наверх,
        поэтому ширину задаём явно - иначе ценовая полоса сжимается по содержимому */
@@ -516,7 +516,7 @@
     .hero-fig{inset:0;height:auto}
     /* остров теперь во всю ширину экрана, фотография масштабируется сильнее -
        кадр поднят, иначе каска рабочего срезается верхним краем */
-    .hero-fig img{object-position:62% 12%}
+    .hero-fig img{object-position:100% 12%}
     .hero-copy{max-width:none}
     .hero-kicker{margin-bottom:18px;font-size:9px;letter-spacing:var(--ls-cap)}
     .hero h1{font-size:clamp(3.45rem,15.8vw,5.5rem);line-height:.83;margin-bottom:18px}
@@ -726,11 +726,13 @@
     font-variant-numeric:tabular-nums;white-space:nowrap;
   }
   .m[hidden]{display:none}
-  .m .price{display:flex;align-items:baseline;gap:8px;flex-wrap:nowrap;margin-top:auto;padding-top:14px;border-top:var(--hair) solid var(--line)}
+  /* wrap + nowrap на числе: «/шт» стоит в строке с ценой, а когда диапазон не влезает
+     (узкая карточка угольной серии) - вниз уходит целая единица, а не половина диапазона */
+  .m .price{display:flex;align-items:baseline;gap:2px 8px;flex-wrap:wrap;margin-top:auto;padding-top:14px;border-top:var(--hair) solid var(--line)}
   .m .price .num{
     font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;
     font-size:clamp(1.25rem,2.1vw,1.8rem);font-variant-numeric:tabular-nums;
-    transition:opacity var(--d-1) var(--e);
+    white-space:nowrap;transition:opacity var(--d-1) var(--e);
   }
   .m .price .per{color:var(--mute);font-size:12.5px}
   .m .grade{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:var(--ls-cap);text-transform:uppercase;color:var(--mute)}
@@ -1684,7 +1686,7 @@
     <div class="sec-head rv">
       <div>
         <span class="kick">Подбор класса</span>
-        <h2 class="display">С&nbsp;чего начинается <br><span class="acc">выбор<em>.</em></span></h2>
+        <h2 class="display">FFP1, FFP2 <br><span class="acc">или FFP3<em>.</em></span></h2>
       </div>
       <div class="sec-side"><span class="note">Подбираем по&nbsp;воздуху на&nbsp;участке: вид загрязнителя, кратность превышения нормы и&nbsp;условия смены&nbsp;- нагрузка, жара, очки или щиток сварщика.</span></div>
     </div>
@@ -2009,8 +2011,8 @@
   <!-- ЭКРАН 7: документы -->
   <section id="docs" aria-label="Документы и стандарты">
     <div class="sec-head rv">
-      <h2 class="display"><span class="kick">Документы</span>Чем подтверждаем<br>защиту<em>.</em></h2>
-      <div class="sec-side"><span class="note">Маркировку проверяет служба охраны труда; документы по&nbsp;выбранной модели и&nbsp;исполнению пришлём вместе со&nbsp;счётом.</span></div>
+      <h2 class="display"><span class="kick">Документы</span>Для тендера <br>и&nbsp;охраны труда<em>.</em></h2>
+      <div class="sec-side"><span class="note">ТР&nbsp;ТС, ГОСТ, ТУ и&nbsp;маркировка NR&nbsp;D: пакет по&nbsp;выбранной модели и&nbsp;исполнению пришлём вместе со&nbsp;счётом.</span></div>
     </div>
 
     <ul class="docs-grid rv">
@@ -2031,7 +2033,7 @@
       <div>
         <span class="kick">Пакет документов</span>
         <b>Пришлём под&nbsp;ваш лот</b>
-        <span class="note">По&nbsp;выбранным моделям&nbsp;- для&nbsp;тендера и&nbsp;для&nbsp;охраны труда.</span>
+        <span class="note">По&nbsp;моделям и&nbsp;исполнениям из&nbsp;вашей заявки.</span>
       </div>
       <a class="pill pill--light" href="#contact" data-place="документы">Запросить документы</a>
     </div>
@@ -2051,7 +2053,7 @@
         <li><b>10+</b><span>лет в&nbsp;поставках СИЗ и&nbsp;оборудования</span></li>
         <li><b>4</b><span>филиала по&nbsp;Казахстану</span></li>
         <li><b>9</b><span>категорий защиты с&nbsp;одного склада</span></li>
-        <li><b>1</b><span>поставщик вместо нескольких: одна заявка, один счёт, одна отгрузка</span></li>
+        <li><b>1</b><span>договор на&nbsp;всё обеспечение защитой: респираторы&nbsp;- вместе с&nbsp;касками, перчатками и&nbsp;обувью</span></li>
       </ul>
       <div class="who-foot">
         <span class="mono">Алматы&nbsp;· Усть-Каменогорск&nbsp;· Павлодар&nbsp;· Атырау&nbsp;· БИН&nbsp;160&nbsp;340&nbsp;027&nbsp;310</span>
