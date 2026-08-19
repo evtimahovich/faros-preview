@@ -1522,7 +1522,9 @@
   }
   .cout .l{font-size:12px;color:var(--ink-soft)}
   .cout--sum b{color:var(--brand)}
-  .calc-note{margin-top:14px;font-size:13px;line-height:1.5;color:var(--ink-soft);min-height:1.5em}
+  .calc-note{margin-top:14px;font-size:13px;line-height:1.5;color:var(--ink-soft)}
+  /* подсказка появляется только когда до опта не хватает объёма - пустой строки не остаётся */
+  .calc-note:empty{display:none}
   .calc-foot{
     display:flex;justify-content:space-between;align-items:center;gap:14px 24px;flex-wrap:wrap;
     margin-top:clamp(16px,1.8vw,24px);padding-top:clamp(14px,1.6vw,20px);border-top:1px solid var(--line);
