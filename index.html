@@ -1946,7 +1946,7 @@
             </div>
             <div class="field">
               <label for="f-phone">Телефон</label>
-              <input id="f-phone" name="phone" type="tel" autocomplete="tel" placeholder="+7 ___ ___ __ __">
+              <input id="f-phone" name="phone" type="tel" autocomplete="tel" maxlength="18" placeholder="+7 ___ ___ __ __">
               <span class="f-err">Укажите телефон для связи</span>
             </div>
           </div>
@@ -2376,7 +2376,12 @@ function farosCalmScroll(){ return matchMedia('(prefers-reduced-motion:reduce)')
     var name=val('name'), phone=val('phone'), email=val('email');
     var company=val('company'), need=val('need');
     var agree=field('agree').checked;
-    var badName=!name, badPhone=phone.replace(/\D/g,'').length<10, badAgree=!agree;
+    /* правдоподобный номер: от 10 цифр (местный без кода страны) до 15 (максимум
+       международного формата). Иностранные закупщики проходят, случайный набор - нет */
+    var digits=phone.replace(/\D/g,'');
+    var badName=!name, badPhone=digits.length<10||digits.length>15, badAgree=!agree;
+    var phoneErr=field('phone').closest('.field').querySelector('.f-err');
+    if(phoneErr) phoneErr.textContent=digits?'В номере должно быть от 10 до 15 цифр':'Укажите телефон для связи';
     setBad('name',badName); setBad('phone',badPhone); setBad('agree',badAgree);
     if(badName||badPhone||badAgree){
       (badName?field('name'):badPhone?field('phone'):field('agree')).focus();
@@ -2426,6 +2431,28 @@ function farosCalmScroll(){ return matchMedia('(prefers-reduced-motion:reduce)')
   });
   ['name','phone','email','company','need'].forEach(function(n){
     var el=field(n); if(el) el.addEventListener('input',function(){ setBad(n,false); });
+  });
+  /* телефон: оставляем цифры, плюс, скобки, дефисы и пробелы; плюс - только первым
+     знаком. Чистка идёт на каждый ввод, длину держит maxlength - двадцать цифр
+     в поле не помещаются */
+  var ph=field('phone');
+  function phoneClean(s){
+    var c=String(s).replace(/[^\d+() -]/g,'');
+    return (c.charAt(0)==='+'?'+':'')+c.replace(/\+/g,'').replace(/^\s+/,'');
+  }
+  if(ph) ph.addEventListener('input',function(){
+    var c=phoneClean(ph.value);
+    if(c!==ph.value) ph.value=c;
+  });
+  /* вставку чистим до того, как браузер обрежет её по maxlength: иначе номер,
+     скопированный с подписью «тел: ...», терял последние цифры, а не мусор */
+  if(ph) ph.addEventListener('paste',function(ev){
+    if(!ev.clipboardData) return; /* старый браузер: вставку почистит обработчик input */
+    ev.preventDefault();
+    var t=phoneClean(ev.clipboardData.getData('text'));
+    var a=ph.selectionStart||0, b=ph.selectionEnd||0;
+    ph.value=phoneClean(ph.value.slice(0,a)+t+ph.value.slice(b)).slice(0,18);
+    ph.dispatchEvent(new Event('input',{bubbles:true})); /* снять подсветку ошибки */
   });
   var ag=field('agree');
   if(ag) ag.addEventListener('change',function(){ setBad('agree',false); });
