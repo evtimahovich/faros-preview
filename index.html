@@ -281,7 +281,7 @@
     width:100%;height:100%;object-fit:cover;object-position:78% 0%;
     /* у исходного кадра над каской всего 2 % запаса: опускаем фигуру внутри острова,
        сверху остаётся собственный тёмный фон острова - шва не видно, пиксели не дорисованы */
-    transform:translateY(clamp(18px,2.6vw,38px));
+    transform:none;
     filter:saturate(.7) contrast(1.05) brightness(.96);
   }
   .hero-fig::after{
@@ -367,7 +367,7 @@
     .hero > .hero-kicker{left:var(--pad);right:var(--pad)}
     /* остров во всю ширину экрана, фотография масштабируется сильнее - кадр поднят,
        иначе каска рабочего срезается верхним краем */
-    .hero-fig img{object-position:100% 0%;transform:scale(1.12);transform-origin:62% 12%}
+    .hero-fig img{object-position:100% 0%;transform:scale(1.06);transform-origin:70% 20%}
     .hero-copy{min-width:0;max-width:100%}
     .hk-full{display:none}.hk-min{display:inline}
     .hl-full{display:none}.hl-min{display:inline}
