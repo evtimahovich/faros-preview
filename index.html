@@ -1098,11 +1098,6 @@
     box-shadow:0 1px 2px rgba(16,20,24,.06),0 14px 36px rgba(16,20,24,.10);
   }
   /* правило подбора - человеческим текстом над таблицей */
-  .pick-rule{
-    padding:clamp(14px,1.6vw,20px) clamp(18px,2.1vw,28px);border-bottom:var(--hair) solid var(--line);
-    background:rgba(17,19,21,.02);color:var(--ink-soft);font-size:14.5px;line-height:1.55;
-  }
-  .pick-rule b{color:var(--ink)}
   table.ptbl{width:100%;border-collapse:collapse}
   /* строку подбора прячет атрибут hidden, но ниже 820 px строки таблицы переопределены
      на display:block - без этого правила чипы перестают фильтровать на телефоне */
@@ -1344,28 +1339,38 @@
      этажами во всю ширину - карточка была вдвое выше без единой причины. */
   .calc{
     background:var(--panel);border:1px solid var(--line);border-radius:var(--r-l);
-    padding:clamp(20px,2.4vw,34px);box-shadow:0 1px 2px rgba(16,20,24,.06),0 12px 32px rgba(16,20,24,.10);
+    padding:clamp(16px,2.2vw,30px);box-shadow:0 1px 2px rgba(16,20,24,.06),0 12px 32px rgba(16,20,24,.10);
     display:grid;grid-template-columns:1.04fr .96fr;grid-template-rows:auto 1fr;
     grid-template-areas:"in res" "fine res";
-    gap:clamp(16px,2vw,26px) clamp(24px,3.2vw,52px);
+    gap:clamp(14px,1.8vw,24px) clamp(24px,3.2vw,52px);
   }
-  .calc-in{grid-area:in;display:grid;grid-template-columns:1fr 1fr;gap:clamp(12px,1.4vw,18px)}
-  .cfield{display:flex;flex-direction:column;gap:8px}
-  .cfield > span{
+  .calc-in{grid-area:in;display:flex;flex-direction:column;align-items:flex-start;gap:clamp(14px,1.8vw,22px)}
+  /* формула объёма: поле не шире самого числа (ширину держит скрипт), подпись под полем */
+  .ceq{display:flex;align-items:flex-start;gap:clamp(8px,1.1vw,14px)}
+  .ceq-f{display:flex;flex-direction:column;align-items:center;gap:6px}
+  .ceq-f input{
+    border:1px solid var(--line);border-radius:var(--r-s);background:#fff;color:var(--ink);
+    min-height:44px;padding:8px 12px;text-align:center;width:calc(3ch + 26px);
+    font-family:'Unbounded',sans-serif;font-weight:800;font-size:clamp(16px,1.3vw,19px);
+    font-variant-numeric:tabular-nums;
+  }
+  .ceq-f input:focus-visible{outline:2px solid var(--brand);outline-offset:1px}
+  .ceq-f input::-webkit-outer-spin-button,
+  .ceq-f input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+  .ceq-f > span{
+    font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:var(--ls-cap);
+    text-transform:uppercase;color:var(--mute);white-space:nowrap;
+  }
+  /* знак умножения стоит по центру поля, не колонки */
+  .ceq-x{display:flex;align-items:center;min-height:46px;color:var(--mute);font-size:15px}
+  /* класс защиты - строка под формулой: подпись и компактный переключатель */
+  .ceq-cls{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .ceq-cls > span{
     font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:var(--ls-cap);
     text-transform:uppercase;color:var(--mute);
   }
-  .cfield input{
-    width:100%;border:1px solid var(--line);border-radius:var(--r-s);background:#fff;color:var(--ink);
-    padding:11px 14px;font-family:'Unbounded',sans-serif;font-weight:800;font-size:20px;
-    font-variant-numeric:tabular-nums;min-height:50px;
-  }
-  .cfield input:focus-visible{outline:2px solid var(--brand);outline-offset:1px}
-  .cfield input::-webkit-outer-spin-button,
-  .cfield input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-  /* класс защиты - четвёртая клетка формы: переключатель одной высоты и ширины с полями */
-  .cfield .seg{display:flex;width:100%;padding:2px}
-  .cfield .seg-b{flex:1;min-height:44px;padding-inline:8px}
+  .ceq-cls .seg{padding:2px}
+  .ceq-cls .seg-b{padding-inline:14px}
   /* сноска прижата к низу формы: её базовая линия рифмуется с кнопкой в правой колонке */
   .calc-fine{
     grid-area:fine;align-self:end;color:var(--mute);max-width:54ch;
@@ -1526,7 +1531,6 @@
     </div>
 
     <div class="pick rv" id="pick">
-      <p class="pick-rule">Вся линейка&nbsp;- фильтрующие полумаски: держат <b>аэрозоли, то&nbsp;есть пыль, дым и&nbsp;туман.</b> FFP&nbsp;- класс такой полумаски по&nbsp;ГОСТ&nbsp;12.4.294-2015: цифра показывает превышение нормы, с&nbsp;которым она справляется. Две модели с&nbsp;угольным слоем, FR&nbsp;3220 и&nbsp;FR&nbsp;3230, дополнительно закрывают сварочные дымы и&nbsp;кислые газы.</p>
       <table class="ptbl">
         <caption class="vh">Подбор класса защиты: что в воздухе на участке, класс полумаски, подходящие модели и цена за штуку на опте</caption>
         <thead class="vh">
@@ -1587,7 +1591,7 @@
         <span class="kick">Модельный ряд</span>
         <h2 class="display">Складные <br>и&nbsp;чашеобразные<em>.</em></h2>
       </div>
-      <div class="sec-side"><span class="note">FR&nbsp;4000 подгоняются под&nbsp;лицо: ленты с&nbsp;фиксатором, сложенная полумаска помещается в&nbsp;карман. FR&nbsp;3000&nbsp;- жёсткая чашка: надел и&nbsp;пошёл, вариант для&nbsp;массовой выдачи.</span></div>
+      <div class="sec-side"><span class="note">FR&nbsp;4000&nbsp;- складные: ленты с&nbsp;фиксатором подгоняются под&nbsp;лицо, в&nbsp;сложенном виде помещаются в&nbsp;карман. FR&nbsp;3000&nbsp;- формованные: держат жёсткую форму и&nbsp;надеваются без&nbsp;подгонки.</span></div>
     </div>
 
     <div class="m-bar rv">
