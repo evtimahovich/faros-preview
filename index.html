@@ -1220,13 +1220,6 @@
   .p-empty[hidden]{display:none}
   .p-more[hidden]{display:none}
   .ptable-foot .p-file{display:flex;align-items:center;gap:16px 20px;flex-wrap:wrap}
-  .ptable-foot .p-mail{
-    color:rgba(255,255,255,.82);font-family:'IBM Plex Mono',monospace;font-size:11px;
-    letter-spacing:var(--ls-ui);text-transform:uppercase;
-    border-bottom:1px solid rgba(255,255,255,.28);padding-bottom:3px;
-    transition:color var(--d-1) var(--e),border-color var(--d-1) var(--e);
-  }
-  @media (hover:hover){.ptable-foot .p-mail:hover{color:#fff;border-bottom-color:#fff}}
   @media (max-width:820px){
     .ptable tbody tr.pgrp{display:flex;padding:0}
     /* display:flex у .pgrp сильнее атрибута hidden - без этой строки шапка серии,
@@ -1287,7 +1280,7 @@
     .foot-phone{padding-block:10px}
     .f-agree{padding-block:4px}
     /* мелкие текстовые ссылки: коробка дорастает до 44 px, кегль и начертание не трогаем */
-    .ptbl .mdls a,.mf-link,.ptable-foot .p-mail,.foot-email,.foot-bottom a{
+    .ptbl .mdls a,.mf-link,.foot-email,.foot-bottom a{
       display:inline-flex;align-items:center;min-height:44px;
     }
   }
@@ -1783,7 +1776,6 @@
         <p>Цены справочные. Окончательную цену подтверждает менеджер.</p>
         <div class="p-file">
           <a class="pill pill--light" href="assets/faros-price.pdf" type="application/pdf" download data-place="прайс PDF" aria-label="Скачать полный прайс на респираторы FAROS, файл PDF, 138 КБ">Скачать прайс PDF</a>
-          <a class="p-mail" href="#contact" data-place="прайс на почту">Прислать прайс на&nbsp;почту&nbsp;→</a>
         </div>
       </div>
     </div>
