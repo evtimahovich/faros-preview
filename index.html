@@ -1168,6 +1168,12 @@
   
   @media (max-width:760px){}
 
+  /* шаги заказа набраны манифестом: тот же приём, что у шкалы кратности -
+     один кегль, растущий отступ слева как движение по этапам */
+  .how-mf{padding-top:clamp(26px,3vw,44px);padding-bottom:0;border-top:1px solid var(--line);margin-top:clamp(22px,2.6vw,34px)}
+  .how-mf .mf-n{margin-right:.5em}
+  .how-mf .mf-row{font-size:clamp(1.15rem,2.9vw,2.4rem)}
+  .how-mf .mf-row em{font-style:normal;color:var(--ink)}
   /* ---------- манифест: ступенчатая шкала кратности ПДК ----------
      Один кегль на все три строки, растущий отступ слева = рост кратности 4 -> 12 -> 50.
      Разнокегельные числа сталкивались строками и читались как сбой вёрстки. */
@@ -1548,14 +1554,6 @@
   .faq p{margin-top:10px;font-size:14px;line-height:1.6;color:var(--ink-soft)}
   @media (max-width:760px){.faq-grid{grid-template-columns:1fr}.faq summary{font-size:14.5px}}
 
-  /* ---------- как проходит заказ ---------- */
-  .how{margin-top:clamp(18px,2.2vw,28px);border-top:1px solid var(--line);padding-top:clamp(16px,1.8vw,22px)}
-  .how > .mono{display:block;font-size:10px;letter-spacing:var(--ls-cap);text-transform:uppercase;color:var(--mute);margin-bottom:12px}
-  .how ol{list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,1.4vw,18px);margin:0;padding:0}
-  .how li{display:flex;gap:12px;align-items:baseline}
-  .how li b{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--brand);letter-spacing:.08em}
-  .how li span{font-size:14px;line-height:1.5;color:var(--ink)}
-  @media (max-width:760px){.how ol{grid-template-columns:1fr;gap:10px}}
 </style>
 </head>
 <body id="top">
@@ -2070,13 +2068,13 @@
       </details>
     </div>
 
-    <div class="how rv">
-      <span class="mono">как проходит заказ</span>
-      <ol>
-        <li><b>01</b><span>Присылаете список: модели, класс, количество</span></li>
-        <li><b>02</b><span>Выставляем счёт и&nbsp;готовим договор поставки</span></li>
-        <li><b>03</b><span>Отгружаем и&nbsp;передаём документы на&nbsp;партию</span></li>
-      </ol>
+    <div class="mf how-mf rv">
+      <span class="mf-k mono">как проходит заказ</span>
+      <div class="mf-scale">
+        <p class="mf-row"><span class="mf-n">01</span> Присылаете список: <em>модели, класс, количество</em></p>
+        <p class="mf-row mf-row--2"><span class="mf-n">02</span> Выставляем счёт и&nbsp;<em>договор поставки</em></p>
+        <p class="mf-row mf-row--3"><span class="mf-n">03</span> Отгружаем и&nbsp;передаём <em>документы на&nbsp;партию</em></p>
+      </div>
     </div>
   </section>
 
