@@ -557,21 +557,21 @@
 
   /* середина страницы: заголовок держит разворот, строка ломается вручную, а не по ширине.
      Разбивка на строки задана в разметке - clamp по ширине оставлен только телефону */
-  #models .sec-head,#price .sec-head,#docs .sec-head,#contact .sec-head{
+  #models .sec-head,#price .sec-head,#calc .sec-head,#docs .sec-head,#faq .sec-head,#contact .sec-head{
     margin-bottom:clamp(26px,3.4vw,48px);
   }
-  #models .sec-head h2,#price .sec-head h2,#docs .sec-head h2,#contact .sec-head h2{
+  #models .sec-head h2,#price .sec-head h2,#calc .sec-head h2,#docs .sec-head h2,#faq .sec-head h2,#contact .sec-head h2{
     font-size:var(--t-h2-mid);max-width:none;
   }
-  #select .sec-side,#models .sec-side,#price .sec-side,#docs .sec-side,#contact .sec-side{max-width:34ch}
+  #select .sec-side,#models .sec-side,#price .sec-side,#calc .sec-side,#docs .sec-side,#faq .sec-side,#contact .sec-side{max-width:34ch}
   /* моно-подпись сбоку - служебный слой, как на сайте поставщика */
-  #select .sec-side .note,#models .sec-side .note,
+  #select .sec-side .note,#models .sec-side .note,#calc .sec-side .note,#faq .sec-side .note,
   #price .sec-side .note,#docs .sec-side .note,#contact .sec-side .note{
     font-family:'IBM Plex Mono',monospace;font-size:11px;line-height:1.7;
     letter-spacing:var(--ls-cap);text-transform:uppercase;color:var(--mute);text-wrap:pretty;
   }
   @media (max-width:760px){
-    #select .sec-side .note,#models .sec-side .note,
+    #select .sec-side .note,#models .sec-side .note,#calc .sec-side .note,#faq .sec-side .note,
     #price .sec-side .note,#docs .sec-side .note,#contact .sec-side .note{font-size:10.5px;line-height:1.75}
     /* на телефоне ручной перенос оставил бы «ТРУДА.» одиноким третьей строкой */
     #docs .sec-head h2 br{display:none}
@@ -714,11 +714,6 @@
   .m .form{color:var(--ink-soft);font-size:14px;line-height:1.45;min-height:2.6em}
   .seg--line{flex-wrap:wrap;max-width:100%}
   @media (max-width:760px){
-    /* на телефоне у ярлыков остаются только номера серий - фильтр умещается в две строки
-       целиком. Лента с боковой прокруткой срезала последний ярлык посреди слова и прятала
-       два фильтра из четырёх: на экране это читалось как обрыв блока */
-    .seg--line .sg-x{display:none}
-  }
   /* счётчик - часть пилюли фильтра: он отвечает на нажатие чипа, а не живёт сам по себе */
   .m-count{
     display:inline-flex;align-items:center;min-height:44px;padding:0 18px 0 16px;margin-left:auto;
@@ -1730,17 +1725,17 @@
     <div class="sec-head rv">
       <div>
         <span class="kick">Модельный ряд</span>
-        <h2 class="display">12&nbsp;моделей,<br>22&nbsp;позиции<em>.</em></h2>
+        <h2 class="display">Складные<br>и&nbsp;чашеобразные<em>.</em></h2>
       </div>
-      <div class="sec-side"><span class="note">Две серии: FR&nbsp;4000&nbsp;— складные трёхпанельные, FR&nbsp;3000&nbsp;— формованные чашеобразные.</span></div>
+      <div class="sec-side"><span class="note">FR&nbsp;4000 складываются&nbsp;— занимают меньше места на&nbsp;складе. FR&nbsp;3000 держат форму&nbsp;— быстрее выдавать в&nbsp;смену.</span></div>
     </div>
 
     <div class="m-bar rv">
       <div class="seg seg--line" id="seg-series" role="group" aria-label="Серия">
         <button class="seg-b is-on" type="button" aria-pressed="true" data-series="all">Все серии</button>
-        <button class="seg-b" type="button" aria-pressed="false" data-series="4000">FR&nbsp;4000<span class="sg-x">&nbsp;- складные</span></button>
-        <button class="seg-b" type="button" aria-pressed="false" data-series="3000">FR&nbsp;3000<span class="sg-x">&nbsp;- формованные</span></button>
-        <button class="seg-b" type="button" aria-pressed="false" data-series="spec"><span class="sg-x">Модели </span>с&nbsp;угольным слоем</button>
+        <button class="seg-b" type="button" aria-pressed="false" data-series="4000">FR&nbsp;4000</button>
+        <button class="seg-b" type="button" aria-pressed="false" data-series="3000">FR&nbsp;3000</button>
+        <button class="seg-b" type="button" aria-pressed="false" data-series="spec">С&nbsp;угольным слоем</button>
         <span class="m-count mono" id="m-count" role="status">12&nbsp;моделей</span>
       </div>
     </div>
