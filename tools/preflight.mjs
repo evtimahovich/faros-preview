@@ -44,7 +44,7 @@ claims.forEach(([re, name]) => { if (re.test(text)) bad(`непроверенн�
 if (!red.some(r => r.startsWith('непроверенное'))) ok('непроверенных утверждений не найдено');
 
 /* 3b. черновик не должен индексироваться, боевой домен - должен */
-const guard = /github\.io/.test(html) && /noindex/.test(html);
+const guard = /<meta name="robots" content="noindex,nofollow">/.test(html);
 guard ? ok('индексация: черновик закрыт, боевой домен открыт') : warn('индексация: нет защиты черновика от поисковиков');
 
 /* 3c. слипшиеся слова: ручной перенос в заголовке скрыт на телефоне, а пробела перед ним нет */
