@@ -866,32 +866,17 @@
   }
 
   /* ---------- документы ----------
-     Нижняя плашка раздела - светлая карточка в ряду карточек документов: раздел
-     целиком светлый, тёмных блоков подряд нет (свод правил), и тёмный остров
-     поставщика ниже читается акцентом, а пауза между разделами - паузой. */
-  .docs-cta{
-    margin-top:clamp(20px,2.6vw,36px);
-    background:var(--panel);border:1px solid var(--line);border-radius:var(--r-m);
-    padding:clamp(24px,3vw,44px) clamp(20px,2.6vw,40px);
-    display:flex;justify-content:space-between;align-items:center;gap:24px 48px;flex-wrap:wrap;
+     Нижняя плашка раздела набрана манифестом - тем же приёмом, что шаги заказа
+     и блок про обтюратор: крупные строки с растущим отступом, кнопка под ними.
+     Раздел остаётся светлым - тёмный остров поставщика ниже читается акцентом. */
+  .docs-mf{
+    padding-top:clamp(26px,3vw,44px);padding-bottom:0;
+    border-top:1px solid var(--line);margin-top:clamp(22px,2.6vw,34px);
   }
-  .docs-cta .kick{
-    display:block;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:var(--ls-key);
-    text-transform:uppercase;color:var(--brand);margin-bottom:14px;
-  }
-  .docs-cta b{
-    font-family:'Unbounded',sans-serif;font-weight:900;
-    font-size:clamp(1.3rem,2.2vw,2rem);text-transform:uppercase;line-height:1.08;letter-spacing:-.02em;
-    display:block;max-width:24ch;
-  }
-  .docs-cta .note{
-    display:block;margin-top:clamp(12px,1.4vw,16px);max-width:48ch;text-wrap:balance;
-    font-family:'IBM Plex Mono',monospace;font-size:11px;line-height:1.7;
-    letter-spacing:var(--ls-cap);text-transform:uppercase;color:var(--mute);
-  }
-  .docs-cta .pill{flex:none}
-  @media (max-width:760px){.docs-cta b{max-width:none}.docs-cta .note{max-width:none;font-size:10px}}
-  @media (max-width:560px){.docs-cta .pill{width:100%;justify-content:center;margin-bottom:0}}
+  .docs-mf .mf-row{font-size:clamp(1.15rem,2.9vw,2.4rem)}
+  .docs-mf .mf-row em{font-style:normal;color:var(--ink)}
+  .docs-mf .pill{margin-top:clamp(22px,3vw,36px)}
+  @media (max-width:560px){.docs-mf .pill{width:100%;justify-content:center}}
 
   /* ---------- заявка: форма во всю ширину, как на сайте поставщика ---------- */
   .ct-form{background:var(--panel);border-radius:var(--r-m);padding:clamp(24px,2.8vw,40px)}
@@ -1888,11 +1873,11 @@
       </div>
     </div>
 
-    <div class="docs-cta rv">
-      <div>
-        <span class="kick">Пакет документов</span>
-        <b>Пришлём под&nbsp;ваш лот</b>
-        <span class="note">По&nbsp;моделям и&nbsp;исполнениям из&nbsp;вашей заявки.</span>
+    <div class="mf docs-mf rv">
+      <span class="mf-k mono">Пакет документов</span>
+      <div class="mf-scale">
+        <p class="mf-row">Пришлём <em>под&nbsp;ваш лот</em></p>
+        <p class="mf-row mf-row--2">По&nbsp;моделям и&nbsp;исполнениям <em>из&nbsp;вашей заявки</em></p>
       </div>
       <a class="pill pill--brand" href="#contact" data-place="документы">Запросить документы</a>
     </div>
