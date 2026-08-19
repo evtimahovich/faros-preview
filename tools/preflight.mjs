@@ -43,6 +43,10 @@ const text = html.replace(/<script[\s\S]*?<\/script>/g, '').replace(/<style[\s\S
 claims.forEach(([re, name]) => { if (re.test(text)) bad(`непроверенное утверждение: ${name}`); });
 if (!red.some(r => r.startsWith('непроверенное'))) ok('непроверенных утверждений не найдено');
 
+/* 3b. черновик не должен индексироваться, боевой домен - должен */
+const guard = /github\.io/.test(html) && /noindex/.test(html);
+guard ? ok('индексация: черновик закрыт, боевой домен открыт') : warn('индексация: нет защиты черновика от поисковиков');
+
 /* 4. цены: страница против таблицы прайса */
 const norm = html.replace(/&nbsp;/g, ' ').replace(/ /g, ' ');
 const rows = [...norm.matchAll(/<tr [^>]*data-cls="[^"]*"[^>]*>([\s\S]*?)<\/tr>/g)];
