@@ -1502,55 +1502,66 @@
   }
 
 
-  /* ---------- расчёт годовой потребности ---------- */
+  /* ---------- расчёт годовой потребности ----------
+     Карточка в два регистра: слева форма 2×2 со сноской, справа за волосяной линией -
+     итог с крупным бюджетом и кнопкой. Раньше поля, результаты и подвал шли тремя
+     этажами во всю ширину - карточка была вдвое выше без единой причины. */
   .calc{
     background:var(--panel);border:1px solid var(--line);border-radius:var(--r-l);
     padding:clamp(20px,2.4vw,34px);box-shadow:0 1px 2px rgba(16,20,24,.06),0 12px 32px rgba(16,20,24,.10);
+    display:grid;grid-template-columns:1.04fr .96fr;grid-template-rows:auto 1fr;
+    grid-template-areas:"in res" "fine res";
+    gap:clamp(16px,2vw,26px) clamp(24px,3.2vw,52px);
   }
-  .calc-in{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,1.4vw,18px);align-items:end}
+  .calc-in{grid-area:in;display:grid;grid-template-columns:1fr 1fr;gap:clamp(12px,1.4vw,18px)}
   .cfield{display:flex;flex-direction:column;gap:8px}
-  .cfield span{
+  .cfield > span{
     font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:var(--ls-cap);
     text-transform:uppercase;color:var(--mute);
   }
   .cfield input{
     width:100%;border:1px solid var(--line);border-radius:var(--r-s);background:#fff;color:var(--ink);
-    padding:12px 14px;font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:800;font-size:20px;
-    font-variant-numeric:tabular-nums;min-height:48px;
+    padding:11px 14px;font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:800;font-size:20px;
+    font-variant-numeric:tabular-nums;min-height:50px;
   }
   .cfield input:focus-visible{outline:2px solid var(--brand);outline-offset:1px}
   .cfield input::-webkit-outer-spin-button,
   .cfield input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-  .cclass{grid-column:1/-1;display:flex;align-items:center;gap:8px 12px;flex-wrap:wrap;margin-top:2px}
-  .cclass .mono{font-size:10px;letter-spacing:var(--ls-cap);text-transform:uppercase;color:var(--mute);margin-right:4px}
-  .calc-out{
-    display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,1.4vw,18px);
-    margin-top:clamp(18px,2vw,26px);padding-top:clamp(16px,1.8vw,22px);border-top:1px solid var(--line);
+  /* класс защиты - четвёртая клетка формы: переключатель одной высоты и ширины с полями */
+  .cfield .seg{display:flex;width:100%;padding:2px}
+  .cfield .seg-b{flex:1;min-height:44px;padding-inline:8px}
+  /* сноска прижата к низу формы: её базовая линия рифмуется с кнопкой в правой колонке */
+  .calc-fine{
+    grid-area:fine;align-self:end;color:var(--mute);max-width:54ch;
+    font-family:'IBM Plex Mono',monospace;font-size:10.5px;line-height:1.7;
+    letter-spacing:var(--ls-cap);text-transform:uppercase;
   }
+  .calc-res{
+    grid-area:res;display:flex;flex-direction:column;gap:clamp(14px,1.6vw,20px);
+    border-left:var(--hair) solid var(--line);padding-left:clamp(24px,3.2vw,52px);
+  }
+  .calc-mini{display:grid;grid-template-columns:1fr 1fr;gap:clamp(12px,1.4vw,18px)}
   .cout{display:flex;flex-direction:column;gap:6px}
   .cout .k{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:var(--ls-cap);text-transform:uppercase;color:var(--mute)}
   .cout b{
     font-family:'Archivo',sans-serif;font-stretch:125%;font-weight:900;
-    font-size:clamp(1.6rem,3vw,2.4rem);line-height:1;font-variant-numeric:tabular-nums;
+    font-size:clamp(1.25rem,1.8vw,1.7rem);line-height:1;font-variant-numeric:tabular-nums;
   }
   .cout .l{font-size:12px;color:var(--ink-soft)}
-  .cout--sum b{color:var(--brand)}
-  .calc-note{margin-top:14px;font-size:13px;line-height:1.5;color:var(--ink-soft)}
+  /* бюджет - главное число карточки: один крупный фирменный акцент, остальное служебное */
+  .cout--sum b{color:var(--brand);font-size:clamp(1.9rem,3.2vw,3.1rem);letter-spacing:-.01em}
+  .calc-note{font-size:13px;line-height:1.5;color:var(--ink-soft);max-width:46ch}
   /* подсказка появляется только когда до опта не хватает объёма - пустой строки не остаётся */
   .calc-note:empty{display:none}
-  .calc-foot{
-    display:flex;justify-content:space-between;align-items:center;gap:14px 24px;flex-wrap:wrap;
-    margin-top:clamp(16px,1.8vw,24px);padding-top:clamp(14px,1.6vw,20px);border-top:1px solid var(--line);
+  .calc-res .pill{margin-top:auto;align-self:flex-start}
+  @media (max-width:900px){
+    .calc{grid-template-columns:1fr;grid-template-rows:auto;grid-template-areas:"in" "res" "fine"}
+    .calc-res{border-left:0;padding-left:0;border-top:var(--hair) solid var(--line);padding-top:clamp(16px,2.6vw,22px)}
+    .calc-res .pill{margin-top:4px}
   }
-  .calc-foot .mono{
-    font-size:10.5px;letter-spacing:var(--ls-cap);text-transform:uppercase;
-    color:var(--mute);max-width:54ch;line-height:1.6;
-  }
-  @media (max-width:760px){
-    .calc-in,.calc-out{grid-template-columns:1fr 1fr}
-    .cfield:nth-of-type(3){grid-column:1/-1}
-    .cout--sum{grid-column:1/-1}
-    .calc-foot .pill{width:100%;justify-content:center}
+  @media (max-width:560px){
+    .cfield:nth-child(3),.cfield--cls{grid-column:1/-1}
+    .calc-res .pill{align-self:stretch;justify-content:center}
   }
 
   /* ---------- вопросы перед заказом ---------- */
@@ -1624,7 +1635,7 @@
         <img src="assets/hero-premium-v2.webp"
              srcset="assets/hero-premium-v2-1200.webp 1200w, assets/hero-premium-v2.webp 1672w"
              sizes="(max-width:980px) 100vw, 78vw"
-             width="1672" height="1091"
+             width="1672" height="1016"
              alt="Рабочий в каске и фильтрующей полумаске с клапаном выдоха" fetchpriority="high" decoding="async">
       </picture>
     </figure>
@@ -1971,8 +1982,8 @@
         <label class="cfield"><span>Человек на&nbsp;участке</span><input id="c-people" type="number" min="1" max="100000" step="1" value="120" inputmode="numeric"></label>
         <label class="cfield"><span>Рабочих смен в&nbsp;году</span><input id="c-shifts" type="number" min="1" max="366" step="1" value="250" inputmode="numeric"></label>
         <label class="cfield"><span>Масок на&nbsp;человека в&nbsp;смену</span><input id="c-per" type="number" min="1" max="10" step="1" value="1" inputmode="numeric"></label>
-        <div class="cclass">
-          <span class="mono">класс защиты</span>
+        <div class="cfield cfield--cls">
+          <span>Класс защиты</span>
           <div class="seg" role="group" aria-label="Класс защиты">
             <button class="seg-b" type="button" data-ccls="1" aria-pressed="false">FFP1</button>
             <button class="seg-b is-on" type="button" data-ccls="2" aria-pressed="true">FFP2</button>
@@ -1981,16 +1992,15 @@
         </div>
       </div>
 
-      <div class="calc-out" aria-live="polite">
-        <div class="cout"><span class="k">штук в&nbsp;год</span><b id="c-qty">-</b></div>
-        <div class="cout"><span class="k">это коробов</span><b id="c-box">-</b><span class="l">по&nbsp;300 или по&nbsp;400&nbsp;шт</span></div>
+      <p class="calc-fine">расчёт по&nbsp;базовой модели без&nbsp;клапана, STANDART&nbsp;- точную смету соберём по&nbsp;вашему списку</p>
+
+      <div class="calc-res" aria-live="polite">
+        <div class="calc-mini">
+          <div class="cout"><span class="k">штук в&nbsp;год</span><b id="c-qty">-</b></div>
+          <div class="cout"><span class="k">это коробов</span><b id="c-box">-</b><span class="l">по&nbsp;300 или по&nbsp;400&nbsp;шт</span></div>
+        </div>
         <div class="cout cout--sum"><span class="k">бюджет на&nbsp;год</span><b id="c-sum">-</b><span class="l" id="c-tier">-</span></div>
-      </div>
-
-      <p class="calc-note" id="c-hint"></p>
-
-      <div class="calc-foot">
-        <span class="mono">расчёт по&nbsp;базовой модели без&nbsp;клапана, исполнение STANDART&nbsp;- точную смету соберём по&nbsp;вашему списку</span>
+        <p class="calc-note" id="c-hint"></p>
         <a class="pill pill--brand" href="#contact" data-place="расчёт">Запросить счёт на&nbsp;этот объём</a>
       </div>
     </div>
@@ -2000,7 +2010,7 @@
   <!-- ЭКРАН 7: документы -->
   <section id="docs" aria-label="Документы и стандарты">
     <div class="sec-head rv">
-      <h2 class="display"><span class="kick">Документы</span>Что спросит <br>охрана труда<em>.</em></h2>
+      <h2 class="display"><span class="kick">Документы</span>Чем подтверждаем<br>защиту<em>.</em></h2>
       <div class="sec-side"><span class="note">Маркировку проверяет служба охраны труда; документы по&nbsp;выбранной модели и&nbsp;исполнению пришлём вместе со&nbsp;счётом.</span></div>
     </div>
 
@@ -2153,7 +2163,7 @@
               <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.5 14c-.2.6-1.2 1.2-1.7 1.2-.5.1-1 .1-1.6-.1-.4-.1-.9-.3-1.5-.6-2.6-1.1-4.3-3.8-4.4-4-.1-.2-1-1.4-1-2.6 0-1.2.6-1.8.9-2.1.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2 0 .4-.1.5l-.3.4-.3.3c-.1.1-.2.3-.1.5.1.2.6 1.1 1.4 1.8 1 .9 1.8 1.1 2 1.2.2.1.4.1.5-.1l.7-.8c.2-.2.3-.2.5-.1l1.8.9c.2.1.4.2.4.3.1.2.1.7-.1 1.3Z"/></svg>
               Подготовить заявку в&nbsp;WhatsApp
             </button>
-            <span class="f-note">Соберём готовое сообщение из&nbsp;формы. Вы&nbsp;проверите его и&nbsp;отправите сами.</span>
+            <span class="f-note">Кнопка откроет WhatsApp с&nbsp;готовым текстом заявки&nbsp;- останется нажать «отправить».</span>
           </div>
           <div class="f-ok" id="f-ok" role="status">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
@@ -2176,14 +2186,6 @@
           </div>
         </form>
       </div>
-
-      <figure class="ct-side rv">
-        <img src="assets/final.webp" width="896" height="1200" alt="Рабочий в каске, очках и полумаске FAROS FR 4310W FFP3" loading="lazy" decoding="async">
-        <figcaption class="ct-cap">
-          <b>FR&nbsp;4310W&nbsp;· FFP3</b>
-          <span class="mono">клапан выдоха&nbsp;· до&nbsp;50&nbsp;ПДК&nbsp;· NR&nbsp;D</span>
-        </figcaption>
-      </figure>
     </div>
   </section>
 
@@ -2193,7 +2195,7 @@
 
 <footer class="foot" aria-label="Контакты">
   <div class="foot-top">
-      <h2 class="foot-title display"><span>Респираторы FAROS</span><span>оптом<i class="ft-dash">&nbsp;-</i> <em>по&nbsp;Казахстану</em></span></h2>
+      <h2 class="foot-title display"><span>Респираторы FAROS</span><span><em>по&nbsp;всему Казахстану</em></span></h2>
     <div class="foot-contact">
       <a class="foot-phone" href="tel:+77710519449">+7&nbsp;771&nbsp;051&nbsp;94&nbsp;49</a>
       <a class="foot-email" href="mailto:sale@alltrade-ltd.kz">sale@alltrade-ltd.kz</a>
@@ -2294,7 +2296,7 @@ window.FAROS_CONFIG = {
   window.farosMessage=function(head,place){
     var lines=(head&&head.length?head.slice():[HELLO]);
     lines.push(SITE);
-    if(place) lines.push('Блок: '+place);
+    /* служебная метка блока в текст клиенту не попадает - она только в аналитике */
     if(window.farosAds&&window.farosAds.line) lines.push(window.farosAds.line);
     return lines.join('\n');
   };
